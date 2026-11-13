@@ -1,5 +1,7 @@
 import {
   createGame,
+  expandGame,
+  loadExpansionRuntime,
   resolveAction,
   getActions,
   getClock,
@@ -68,8 +70,11 @@ import {
 import {
   loadGameLocked,
   saveGameLocked,
+  loadExpansionLocked,
+  saveExpansionLocked,
   exportGame,
   importGame,
+  isExpansionSave,
   SAVE_KEY,
   BACKUP_KEY,
 } from "./persistence.mjs";
@@ -131,6 +136,7 @@ const tabDefs = [
   ["work", "Kariyer", "▤"],
   ["enterprise", "İşletme", "▧"],
   ["life", "Yaşam", "⌂"],
+  ["expansion", "Nesiller", "♧"],
   ["people", "Telefon", "◎"],
   ["study", "Gelişim", "↗"],
   ["wallet", "Cüzdan", "₺"],
@@ -170,15 +176,34 @@ const embedded = window.self !== window.top;
 if (embedded) document.documentElement.classList.add("embedded");
 let noticeTimer;
 let saveToken = null,
+  expansionToken = null,
+  expansionProblem = "",
+  restartFrom = null,
   unsaved = false,
   recoverySaves = [];
 async function saveCurrent(current, expected = saveToken) {
-  const result = await saveGameLocked(current, undefined, expected);
+  const result = current.expansion
+    ? await saveExpansionLocked(current, undefined, expansionToken)
+    : await saveGameLocked(current, undefined, expected);
   recoverySaves = result.recoverySaves ?? recoverySaves;
   unsaved = !result.ok;
-  if (result.ok) saveToken = result.token;
+  if (result.ok) {
+    if (current.expansion) expansionToken = result.token;
+    else saveToken = result.token;
+  }
   return result;
 }
+let expansionUi, expansionPreview;
+async function prepareExpansionPreview() {
+  expansionPreview ??= await import("./expansion-preview.mjs");
+}
+async function prepareExpansion() {
+  const [runtime, ui] = await Promise.all([
+    loadExpansionRuntime(), import("./expansion-ui.mjs"), prepareExpansionPreview(),
+  ]);
+  expansionUi = { ...ui, getExpansionView: runtime.getExpansionView };
+}
+const EXPANSION_LOAD_ERROR = "Nesiller yüklenemedi. Mevcut kayıt korundu.";
 let initialLoad;
 try {
   initialLoad = await loadGameLocked();
@@ -186,6 +211,21 @@ try {
   saveToken = initialLoad.token;
   recoverySaves = initialLoad.recoverySaves ?? [];
   saveStatus = initialLoad.message || "";
+  const expansion = await loadExpansionLocked();
+  expansionToken = expansion.token;
+  if (expansion.state) {
+    try {
+      await prepareExpansion();
+      state = expansion.state;
+      tab = "expansion";
+      saveStatus = expansion.message;
+    } catch {
+      expansionProblem = saveStatus = EXPANSION_LOAD_ERROR;
+    }
+  } else if (expansion.saved) {
+    expansionProblem = expansion.message;
+    saveStatus = expansion.message;
+  }
 } catch {
   initialLoad = {
     message: "Tarayıcı kaydına ulaşılamadı. Oyunu oynayabilir, kaydını dosyaya indirebilirsin.",
@@ -216,6 +256,13 @@ function badge(text, kind = "") {
 function sectionHeader(eyebrow, heading, copy = "") {
   return `<header class="section-heading"><span class="eyebrow">${esc(eyebrow)}</span><h2 tabindex="-1" id="panel-heading">${esc(heading)}</h2>${copy ? `<p>${esc(copy)}</p>` : ""}</header>`;
 }
+function renderGenerations() {
+  return expansionPreview.renderGenerations(
+    state, expansionUi, cachedView, actions, actionCard, sectionHeader,
+    money, esc, getLanguage(), expansionProblem,
+  );
+}
+
 function meter(label, value, inverse = false) {
   const v = Math.max(0, Math.min(100, Math.round(value || 0)));
   return `<div class="meter ${inverse ? "inverse" : ""} ${inverse ? (v > 70 ? "low" : "") : v < 30 ? "low" : ""}"><span>${esc(label)} <b>${v}</b></span><meter min="0" max="100" value="${v}" aria-label="${esc(label)}">${v}</meter></div>`;
@@ -547,6 +594,7 @@ function renderGame() {
       stories: renderStories,
       work: renderWork,
       life: renderLife,
+      expansion: renderGenerations,
       people: renderPeople,
       study: renderStudy,
       wallet: renderWallet,
@@ -656,6 +704,30 @@ function openDialog(kind) {
   showLocalizedDialog();
 }
 async function handleUi(id) {
+  if (id === "expand" && state && !state.expansion) {
+    busy = true;
+    try {
+      const saved = await expansionPreview.activateExpansion(state, saveToken, prepareExpansion);
+      recoverySaves = saved.recoverySaves ?? recoverySaves;
+      if (!saved.ok) {
+        announce(saved.message, true);
+        return;
+      }
+      unsaved = false;
+      expansionToken = saved.token;
+      state = saved.state;
+      expansionProblem = "";
+      saveStatus = saved.message;
+      tab = "expansion";
+      render();
+      announce(saved.message);
+    } catch {
+      announce(EXPANSION_LOAD_ERROR, true);
+    } finally {
+      busy = false;
+    }
+    return;
+  }
   if (id.startsWith("recovery:")) {
     const copy = recoverySaves[Number(id.slice(9))];
     if (!copy) return;
@@ -707,6 +779,7 @@ async function handleUi(id) {
   }
   if (id === "confirm-restart") {
     dialog.close();
+    restartFrom = state;
     state = null;
     lastOutcome = null;
     render();
@@ -899,10 +972,18 @@ document.addEventListener("click", async (event) => {
     return;
   }
   if (button.dataset.tab) {
-    tab = button.dataset.tab;
-    render();
-    $("#panel-heading")?.focus({ preventScroll: true });
-    $("#panel-heading")?.scrollIntoView({ block: "start" });
+    busy = true;
+    try {
+      if (button.dataset.tab === "expansion") await prepareExpansionPreview();
+      tab = button.dataset.tab;
+      render();
+      $("#panel-heading")?.focus({ preventScroll: true });
+      $("#panel-heading")?.scrollIntoView({ block: "start" });
+    } catch {
+      announce(EXPANSION_LOAD_ERROR, true);
+    } finally {
+      busy = false;
+    }
     return;
   }
   if (button.dataset.district) {
@@ -965,15 +1046,16 @@ document.addEventListener("submit", async (event) => {
     return;
   }
   busy = true;
-  const previousLife = state;
+  const previousLife = restartFrom;
   state = createGame({
     name,
     scenario: String(data.get("scenario")),
     education: String(data.get("education")),
     trait: String(data.get("trait")),
     seed: 2026,
+    expansion: Boolean(previousLife?.expansion),
   });
-  tab = "board";
+  tab = state.expansion ? "expansion" : "board";
   calendarDay = null;
   appointmentDraft = null;
   editingEntry = "";
@@ -983,10 +1065,12 @@ document.addEventListener("submit", async (event) => {
   saveStatus = saved.message;
   if (saved.conflict) {
     state = previousLife;
+    restartFrom = null;
     render();
     announce(saved.message, true);
     return;
   }
+  restartFrom = null;
   render();
   announce(
     "Hayatın başladı. Önce başlangıç olay kartından bir seçim yap; sonra Kariyer bölümündeki işleri incele.",
@@ -1051,17 +1135,23 @@ $("#import-file").addEventListener("change", async (event) => {
       return;
     }
     const importToken = saveToken;
-    const imported = importGame(await file.text());
+    const bytes = await file.text();
+    if (isExpansionSave(bytes)) await prepareExpansion();
+    const imported = importGame(bytes);
     if (!imported.state) {
       announce(imported.message || "Kayıt geçersiz. Mevcut oyun korundu.", true);
       return;
     }
-    const saved = await saveCurrent(imported.state, importToken);
+    const restored =
+      state?.expansion && !imported.state.expansion ? expandGame(imported.state) : imported.state;
+    const saved = await saveCurrent(restored, importToken);
     if (!saved.ok) {
       announce(saved.message || "Kayıt saklanamadı. Mevcut oyun korundu.", true);
       return;
     }
-    state = imported.state;
+    state = restored;
+    restartFrom = null;
+    if (state.expansion) expansionProblem = "";
     calendarDay = null;
     appointmentDraft = null;
     editingEntry = "";
@@ -1069,7 +1159,7 @@ $("#import-file").addEventListener("change", async (event) => {
     saveStatus = saved.message;
     lastOutcome = null;
     selectedDistrict = state.location;
-    tab = "board";
+    tab = state.expansion ? "expansion" : "board";
     dialog.close();
     render();
     announce(imported.message || "Kayıt yüklendi; kaldığın yerden devam edebilirsin.");
@@ -1094,7 +1184,7 @@ dialog.addEventListener("click", (event) => {
 // Read-only diagnostics: browser acceptance can inspect the same state rendered by the UI.
 window.boardworldInspect = () => (state ? structuredClone(state) : null);
 window.addEventListener("storage", async (event) => {
-  if (![SAVE_KEY, BACKUP_KEY].includes(event.key) || busy || unsaved) return;
+  if (![SAVE_KEY, BACKUP_KEY].includes(event.key) || busy || unsaved || state?.expansion) return;
   busy = true;
   try {
     const loaded = await loadGameLocked();

@@ -1,5 +1,9 @@
 import { packSave, unpackSave } from "./save-codec.mjs";
-import { migrateState, validateState } from "./engine.mjs";
+import {
+  EXPANSION_SAVE_VERSION,
+  migrateState,
+  validateState,
+} from "./engine.mjs";
 
 export const SAVE_KEY = "tariklab.boardworld.v6";
 export const LEGACY_V5_SAVE_KEY = "tariklab.boardworld.v5";
@@ -19,6 +23,8 @@ export const LEGACY_SAVE_KEY = "tariklab.boardworld.v1";
 export const LEGACY_BACKUP_KEY = `${LEGACY_SAVE_KEY}.backup`;
 export const ORIGINAL_V1_BACKUP_KEY = `${LEGACY_SAVE_KEY}.original-v1`;
 const CURRENT_VERSION = 6;
+const EXPANSION_KEY = "tariklab.boardworld.v7";
+const EXPANSION_BACKUP_KEY = `${EXPANSION_KEY}.backup`;
 const LEGACY_SLOTS = [
   [LEGACY_V5_SAVE_KEY, [5]],
   [LEGACY_V5_BACKUP_KEY, [5]],
@@ -114,6 +120,7 @@ function encode(state, version, compact = false) {
 }
 export function exportGame(state) {
   if (!valid(state)) throw new Error("Oyun durumu doğrulanamadı; mevcut kayıt korundu.");
+  if (state.version === EXPANSION_SAVE_VERSION) return encode(state, EXPANSION_SAVE_VERSION, true);
   const migrated = state.version < CURRENT_VERSION;
   const current = migrated ? migrateState(state) : state;
   // A current state was just validated above. Validate again only when migration
@@ -126,9 +133,9 @@ export function exportGame(state) {
 export function exportCompactGame(state) {
   const verified = importGame(exportGame(state));
   if (!verified.state) throw new Error("Compact export validation failed");
-  return encode(verified.state, CURRENT_VERSION, true);
+  return encode(verified.state, verified.state.version, true);
 }
-function decode(text) {
+function readEnvelope(text) {
   if (typeof text !== "string" || text.length > MAX_BYTES) throw new Error("size");
   const envelope = JSON.parse(text);
   if (
@@ -140,11 +147,22 @@ function decode(text) {
       ["format", "version", "checksum", "payload"].includes(key),
     ) ||
     ![FORMAT, `${FORMAT}-dictionary-1`].includes(envelope.format) ||
-    ![1, 2, 3, 4, 5, CURRENT_VERSION].includes(envelope.version) ||
+    ![1, 2, 3, 4, 5, CURRENT_VERSION, EXPANSION_SAVE_VERSION].includes(envelope.version) ||
     typeof envelope.payload !== "string" ||
     envelope.checksum !== checksum(envelope.payload)
   )
     throw new Error("envelope");
+  return envelope;
+}
+export function isExpansionSave(text) {
+  try {
+    return readEnvelope(text).version === EXPANSION_SAVE_VERSION;
+  } catch {
+    return false;
+  }
+}
+function decode(text) {
+  const envelope = readEnvelope(text);
   // Verify original bytes and original schema before any migration. A damaged
   // legacy record must never gain legitimacy from new-schema defaults.
   const parsed = JSON.parse(envelope.payload);
@@ -152,7 +170,10 @@ function decode(text) {
   if (!valid(original) || original.version !== envelope.version) throw new Error("state");
   const migrated = envelope.version < CURRENT_VERSION;
   const state = migrated ? migrateState(original) : original;
-  if (state.version !== CURRENT_VERSION || (migrated && !valid(state)))
+  if (
+    (state.version !== CURRENT_VERSION && state.version !== EXPANSION_SAVE_VERSION) ||
+    (migrated && !valid(state))
+  )
     throw new Error("migration");
   if (migrated) importedLegacy.set(state, { version: envelope.version, bytes: text });
   return { state, sourceVersion: envelope.version, migrated };
@@ -249,6 +270,7 @@ export function readSaveToken(storage = globalThis.localStorage) {
 }
 export function saveGame(state, storage, expectedToken) {
   try {
+    if (state?.version === EXPANSION_SAVE_VERSION) throw new Error("expansion-slot-required");
     storage ??= globalThis.localStorage;
     const encoded = exportGame(state);
     const previous = storage.getItem(SAVE_KEY);
@@ -542,5 +564,71 @@ export async function loadGameLocked(
         message: LOCK_WARNING,
       };
     return read(false);
+  }
+}
+
+function expansionToken(storage) {
+  return {
+    primary: storage.getItem(EXPANSION_KEY),
+    backup: storage.getItem(EXPANSION_BACKUP_KEY),
+  };
+}
+
+const EXPANSION_READ_ERROR = "Nesiller kaydı okunamadı; kayıt dosyasıyla kurtarabilirsin.";
+
+function probeExpansion(storage) {
+  const token = expansionToken(storage);
+  return { token, saved: Boolean(token.primary || token.backup), state: null };
+}
+
+// Only the neutral authoritative-slot probe belongs to the Gold bootstrap.
+// Expansion transaction handlers are imported after opt-in or a valid v7 envelope.
+const expansionPersistence = () => import("./expansion-persistence.mjs");
+// Private adapter tuple shared only with expansion-persistence.mjs.
+const expansionIo = [
+  probeExpansion, importGame, exportGame, browserTransaction, writeChecked, conflict,
+  SAVE_LOCK, LOCK_WARNING,
+];
+
+export async function loadExpansionLocked(
+  storage,
+  locks = globalThis.navigator?.locks,
+  transact = browserTransaction,
+) {
+  if (!locks?.request) return { state: null, token: null, message: LOCK_WARNING };
+  let probe;
+  try {
+    probe = await locks.request(SAVE_LOCK, () => transact(storage, probeExpansion));
+    if (!probe.saved) return probe;
+    if ([probe.token.primary, probe.token.backup].some(isExpansionSave))
+      return await (await expansionPersistence()).loadExpansion(expansionIo, storage, locks, transact);
+    return { ...probe, message: EXPANSION_READ_ERROR };
+  } catch (error) {
+    if (error.snapshot) {
+      const snapshot = memoryStorage(new Map(error.snapshot.slots));
+      const saved = probeExpansion(snapshot);
+      try {
+        if (saved.saved && [saved.token.primary, saved.token.backup].some(isExpansionSave)) {
+          return await (await expansionPersistence()).recoverExpansion(expansionIo, snapshot);
+        }
+      } catch {
+        // Keep the authoritative bytes intact if runtime loading fails.
+      }
+      probe = saved;
+    }
+    return {
+      ...probe,
+      state: null,
+      token: null,
+      message: probe?.saved ? EXPANSION_READ_ERROR : LOCK_WARNING,
+    };
+  }
+}
+
+export async function saveExpansionLocked(...args) {
+  try {
+    return await (await expansionPersistence()).saveExpansionLocked(expansionIo, ...args);
+  } catch {
+    return { ok: false, message: LOCK_WARNING };
   }
 }

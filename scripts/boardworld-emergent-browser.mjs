@@ -229,7 +229,27 @@ try {
     if (await surface.locator('[data-ui="dismiss-outcome"]').count())
       await surface.locator('[data-ui="dismiss-outcome"]').click();
     assert.equal(await surface.locator(".city-node").count(), 3);
-    assert.equal(await surface.locator(".game-tabs [data-tab]").count(), 13);
+    assert.deepEqual(
+      await surface
+        .locator(".game-tabs [data-tab]")
+        .evaluateAll((buttons) => buttons.map((button) => button.dataset.tab)),
+      [
+        "board",
+        "plan",
+        "projects",
+        "work",
+        "enterprise",
+        "life",
+        "expansion",
+        "people",
+        "study",
+        "wallet",
+        "bag",
+        "stories",
+        "goals",
+        "log",
+      ],
+    );
     await h.layout("compact map");
     const contrast = await surface.evaluate(() => {
       const css = getComputedStyle(document.querySelector(".edition-four"));

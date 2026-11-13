@@ -222,6 +222,26 @@ function count(s, key, amount = 1) {
   s.flags[key] = Number(s.flags[key] || 0) + amount;
 }
 
+export const EXPANSION_SAVE_VERSION = 7;
+let expansionRuntime;
+
+export async function loadExpansionRuntime() {
+  const runtime = await import("./expansion.mjs");
+  // A tab may retain its hashed core while fetching expansion files after a
+  // deployment. Refuse another core instance before installing any adapters.
+  if (runtime.createGame !== createGame) throw new Error("Reload Boardworld");
+  if (!expansionRuntime) {
+    runtime.attachExpansion(API);
+    expansionRuntime = runtime;
+  }
+  return expansionRuntime;
+}
+
+function requireExpansionRuntime() {
+  if (!expansionRuntime) throw new Error("Boardworld expansion runtime is not loaded.");
+  return expansionRuntime;
+}
+
 const API = {
   log,
   record,
@@ -258,7 +278,7 @@ const API = {
 export function migrateState(value) {
   if (!validateState(value)) throw new Error("Geçersiz Boardworld kaydı; yükseltme uygulanmadı.");
   const s = structuredClone(value);
-  if (s.version === 6) return s;
+  if (s.version >= 6) return s;
   if (s.version === 1) {
     initDeep(s);
     initStories(s);
@@ -281,6 +301,13 @@ export function migrateState(value) {
   }
   s.version = 6;
   if (!validateState(s)) throw new Error("Boardworld 6.0 yükseltme doğrulaması başarısız.");
+  return s;
+}
+
+export function expandGame(value) {
+  const s = migrateState(value);
+  if (s.version < EXPANSION_SAVE_VERSION) requireExpansionRuntime().initExpansion(s);
+  if (!validateState(s)) throw new Error("Boardworld genişletilmiş kayıt doğrulaması başarısız.");
   return s;
 }
 
@@ -452,6 +479,7 @@ export function createGame(options = {}) {
   initSociety(s);
   initFlow(s);
   updateLocations(s);
+  if (options.expansion) requireExpansionRuntime().initExpansion(s);
   return s;
 }
 
@@ -628,6 +656,10 @@ function advance(s, minutes, { sleeping = false } = {}) {
       if (s.version >= 5) tickSociety(s, API);
       tickEmergent(s, API);
     }
+    if (next === boundary && s.expansion) {
+      requireExpansionRuntime().tickExpansion(s, API);
+      if (!requireExpansionRuntime().familyCanAct(s)) break;
+    }
   }
   if (s.version < 3)
     for (const appointment of s.appointments) {
@@ -758,7 +790,8 @@ function qualification(s, j) {
   if (
     j.credential &&
     s.player.education !== "university" &&
-    !s.documents.some((d) => d.id === `certificate-${j.credential}`)
+    !s.documents.some((d) => d.id === `certificate-${j.credential}`) &&
+    !s.expansion?.institutions.qualifications?.some((q) => q.course === j.credential)
   )
     return "Üniversite diploması veya ilgili kurs sertifikası gerekir.";
   return "";
@@ -1748,6 +1781,9 @@ function makeBaseActions(s) {
 }
 
 function makeActions(s) {
+  const expansion =
+    s.version === EXPANSION_SAVE_VERSION || s.expansion ? requireExpansionRuntime() : null;
+  if (expansion && !expansion.familyCanAct(s)) return expansion.expansionActions(s, [], API);
   let actions = makeBaseActions(s);
   if (s.version < 3 || s.pendingEvents.length) return actions;
   actions = actions.filter(
@@ -1823,6 +1859,7 @@ function makeActions(s) {
           action.reason = blocker.reason;
         }
   }
+  if (expansion) actions = expansion.expansionActions(s, actions, API);
   for (const a of actions) {
     if (a.disabled) continue;
     let reason = actionCalendarConflict(s, a);
@@ -2022,7 +2059,12 @@ export function resolveAction(state, actionId, payload) {
     (actionId === "calendar:propose" || actionId.startsWith("calendar:reschedule:"))
       ? calendarCommand(state, actionId, payload, API)
       : makeActions(state).find((a) => a.id === actionId);
-  if (!action)
+  if (
+    !action ||
+    (state.expansion &&
+      !requireExpansionRuntime().familyCanAct(state) &&
+      !actionId.startsWith("family:"))
+  )
     return {
       state: original,
       ok: false,
@@ -2058,14 +2100,17 @@ export function resolveAction(state, actionId, payload) {
   if (action.category === "travel") s._transit = true;
   if (action.calendarEntry) s._attendance = action.calendarEntry;
   advance(s, action.minutes, { sleeping: Boolean(action.sleeping) });
+  const active = !s.expansion || requireExpansionRuntime().familyCanAct(s);
   if (action.category === "travel") {
     delete s._transit;
-    s.location = action.destination;
-    s.city.venue = action.venue || "";
-    updateLocations(s);
+    if (active) {
+      s.location = action.destination;
+      s.city.venue = action.venue || "";
+      updateLocations(s);
+    }
   }
   if (action.calendarEntry) {
-    completeCalendarAttendance(s, action.calendarEntry);
+    if (active) completeCalendarAttendance(s, action.calendarEntry);
     delete s._attendance;
   }
   const effectiveId = action.effectId || actionId;
@@ -2079,6 +2124,8 @@ export function resolveAction(state, actionId, payload) {
     afterSocietyAction(s, effectiveId, state, API, action);
     afterFlowAction(s, effectiveId, state);
   }
+  if (s.expansion)
+    requireExpansionRuntime().afterExpansionAction(s, effectiveId, state, API, action);
   if (s.version >= 2) tickStories(s, API);
   log(s, message);
   achievements(s);
@@ -2100,7 +2147,8 @@ export function validateState(s) {
       !obj(s) ||
       Object.hasOwn(s, "_transit") ||
       Object.hasOwn(s, "_attendance") ||
-      ![1, 2, 3, 4, 5, 6].includes(s.version) ||
+      ![1, 2, 3, 4, 5, 6, EXPANSION_SAVE_VERSION].includes(s.version) ||
+      (s.version === EXPANSION_SAVE_VERSION ? !expansionRuntime : Object.hasOwn(s, "expansion")) ||
       (s.version < 5 && ["society", "flow"].some((k) => Object.hasOwn(s, k))) ||
       (s.version < 4 && ["life", "emergent"].some((k) => Object.hasOwn(s, k))) ||
       (s.version < 3 && ["calendar", "city", "living"].some((k) => Object.hasOwn(s, k))) ||
@@ -2341,7 +2389,8 @@ export function validateState(s) {
         validateStories(s) &&
         (s.version < 3 || (validateCity(s) && validateCalendar(s) && validateLiving(s))) &&
         (s.version < 4 || (validateLife(s) && validateEmergent(s))) &&
-        (s.version < 5 || (validateSociety(s) && validateFlow(s))))
+        (s.version < 5 || (validateSociety(s) && validateFlow(s))) &&
+        (s.version < EXPANSION_SAVE_VERSION || expansionRuntime.validateExpansion(s)))
     );
   } catch {
     return false;
@@ -2352,6 +2401,8 @@ export function validateState(s) {
 export function runUntilNext(original) {
   if (!validateState(original))
     return { state: original, ok: false, message: "Geçersiz oyun durumu." };
+  if (original.expansion && !requireExpansionRuntime().familyCanAct(original))
+    return { state: original, ok: false, message: "Önce aileden bir ardıl seç." };
   let s = original.version < 6 ? migrateState(original) : structuredClone(original);
   const initial = routineBlocker(s, { care: true, useRecorded: false }) || recordedStop(s, "wait");
   if (initial) return { state: original, ok: false, message: initial.reason };
@@ -2450,6 +2501,11 @@ export function runUntilNext(original) {
       s.life.lease.stage !== candidate.life.lease.stage ||
       s.flags.partner !== candidate.flags.partner;
     s = candidate;
+    if (s.expansion && !requireExpansionRuntime().familyCanAct(s)) {
+      stop = "Önce aileden bir ardıl seç.";
+      code = "event";
+      break;
+    }
     if (changed) {
       stop = "İş, ilişki veya ev sözleşmesinin koşulları değişti; devam etmeden incele.";
       code = "contract";
@@ -2469,6 +2525,8 @@ export function runUntilNext(original) {
 export function runCare(original) {
   if (!validateState(original))
     return { state: original, ok: false, message: "Geçersiz oyun durumu.", actions: [] };
+  if (original.expansion && !requireExpansionRuntime().familyCanAct(original))
+    return { state: original, ok: false, message: "Önce aileden bir ardıl seç.", actions: [] };
   let s = original.version < 6 ? migrateState(original) : structuredClone(original);
   const blocker = routineBlocker(s, { care: true });
   if (blocker) return { state: original, ok: false, message: blocker.reason, actions: [] };
@@ -2478,6 +2536,7 @@ export function runCare(original) {
     code = "complete",
     blocked = false;
   for (let step = 0; step < 8; step++) {
+    if (s.expansion && !requireExpansionRuntime().familyCanAct(s)) break;
     const currentBlocker = routineBlocker(s, { care: true, useRecorded: false });
     if (currentBlocker) {
       reason = currentBlocker.reason;
@@ -2617,6 +2676,12 @@ const sumFunds = (s) => s.cash + s.bank;
 export function runRoutine(original, days = 1) {
   if (![1, 7].includes(days) || !validateState(original))
     return { state: original, ok: false, message: "Geçersiz rutin." };
+  if (
+    original.expansion &&
+    (!requireExpansionRuntime().familyCanAct(original) ||
+      original.expansion.world.region !== "istanbul")
+  )
+    return { state: original, ok: false, message: "Bu rutin şu anda kullanılamıyor.", actions: [] };
   let s = original.version < 6 ? migrateState(original) : structuredClone(original);
   const initialBlocker = routineBlocker(s);
   if (initialBlocker)
@@ -2631,6 +2696,7 @@ export function runRoutine(original, days = 1) {
     if (!skipped.includes(text)) skipped.push(text);
   };
   for (let step = 0; step < 96 && s.time < end; step++) {
+    if (s.expansion && !requireExpansionRuntime().familyCanAct(s)) break;
     const policy = s.emergent.policy,
       clock = getClock(s),
       settings = s.deep.routine.settings;

@@ -55,8 +55,10 @@ export async function packModules(packed, keys) {
         !(ts.isCallExpression(p) && p.expression.kind === ts.SyntaxKind.ImportKeyword)
       ) {
         nodes.push(n);
-        if (!occurrences.has(n.text)) occurrences.set(n.text, new Set());
-        occurrences.get(n.text).add(file);
+        if (!file.startsWith("expansion")) {
+          if (!occurrences.has(n.text)) occurrences.set(n.text, new Set());
+          occurrences.get(n.text).add(file);
+        }
       }
       ts.forEachChild(n, visit);
     }
@@ -82,7 +84,7 @@ export async function packModules(packed, keys) {
   for (const key of keys.filter((k) => k.length >= 12)) {
     if (!occurrences.has(key)) occurrences.set(key, new Set());
     for (const [file, { nodes }] of parsed)
-      if (nodes.some((n) => n.text.includes(key))) occurrences.get(key).add(file);
+      if (!file.startsWith("expansion") && nodes.some((n) => n.text.includes(key))) occurrences.get(key).add(file);
   }
   const strings = [...occurrences]
     .filter(([, files]) => files.size >= 2)
@@ -144,7 +146,7 @@ export async function packModules(packed, keys) {
   packed.set("app.mjs", `${imports}\nexport async function startBoardworld(){${body}}`);
   const exports = new Map(
     [...parsed]
-      .filter(([f]) => f !== "app.mjs" && !f.startsWith("locale-"))
+      .filter(([f]) => f !== "app.mjs" && !f.startsWith("locale-") && !f.startsWith("expansion"))
       .map(([file, data]) => [file, data.exports]),
   );
   exports.set("shared-strings.mjs", ["s"]);
@@ -172,7 +174,7 @@ export async function packModules(packed, keys) {
         name: "boardworld-memory",
         setup(b) {
           b.onResolve({ filter: /^\.\// }, (args) => {
-            if (args.path.startsWith("./locale-")) return { path: args.path, external: true };
+            if (args.path.startsWith("./locale-") || args.path.startsWith("./expansion")) return { path: args.path, external: true };
             return { path: args.path.slice(2), namespace: "boardworld" };
           });
           b.onLoad({ filter: /.*/, namespace: "boardworld" }, (args) => {
@@ -200,6 +202,20 @@ export async function packModules(packed, keys) {
       (_, local) => `import{${dictionaryExport} as ${local}}from'./${name}';`,
     );
     packed.set(file, await compact(text));
+  }
+  // Store dictionary-backed keys as compact numeric indices while preserving
+  // their public array order and values. Literal keys remain strings.
+  const encodedKeys = keys.map((key) => ids.has(key) ? ids.get(key) : key);
+  packed.set("locale-keys.mjs", await compact(
+    `import{${dictionaryExport} as s}from'./${name}';export default ${JSON.stringify(encodedKeys)}.map(v=>typeof v==="number"?s[v]:v);`,
+  ));
+  // Expansion modules remain independent and use the same hashed dictionary/runtime.
+  for (const file of packed.keys()) {
+    if (!file.startsWith("expansion") || !file.endsWith(".mjs")) continue;
+    packed.set(file, (await compact(packed.get(file).replace(
+      /import\{s as ([\w$]+)\}from["']\.\/shared-strings\.mjs["'];?/g,
+      (_, local) => `import{${dictionaryExport} as ${local}}from'./${name}';`,
+    ))));
   }
   packed.delete("shared-strings.mjs");
   packed.set(name, code);

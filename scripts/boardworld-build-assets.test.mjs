@@ -1,9 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import ts from "typescript";
 import { packGameAssets } from "./boardworld-build-assets.mjs";
 import * as sourceEngine from "../public/games/tc-sim-boardworld/engine.mjs";
 import { chooseLanguage } from "../public/games/tc-sim-boardworld/i18n.mjs";
@@ -20,7 +21,28 @@ test("production packing preserves every translation, template precedence and de
       report.before.assets.map((a) => a.file),
     );
     assert.equal(report.after.assets.filter((a) => a.file.startsWith("bw-runtime-")).length, 1);
-    assert.ok(report.after.gzipBytes <= 301836, `Gold aggregate gzip: ${report.after.gzipBytes}`);
+    assert.equal(report.after.gzipBytes, report.after.goldGzipBytes + report.after.expansionGzipBytes);
+    // Traverse static ESM imports and re-exports starting at the HTML entry. A
+    // dynamic import is deliberately not traversed: it is the opt-in boundary.
+    const visited = new Set();
+    async function visit(file) {
+      if (visited.has(file)) return;
+      visited.add(file);
+      const text = await readFile(join(directory, file), "utf8");
+      const ast = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true, ts.ScriptKind.JS);
+      for (const node of ast.statements) {
+        if ((ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) && node.moduleSpecifier && ts.isStringLiteral(node.moduleSpecifier)) {
+          const specifier = node.moduleSpecifier.text;
+          if (specifier.startsWith("./")) await visit(specifier.slice(2));
+        }
+      }
+    }
+    await visit("app.mjs");
+    assert.ok(![...visited].some((file) => file.startsWith("expansion")), `Initial graph: ${[...visited]}`);
+    const runtime = report.modules.runtime;
+    const runtimeText = await readFile(join(directory, runtime), "utf8");
+    assert.match(runtimeText, /import\(["']\.\/expansion\.mjs["']\)/);
+    assert.match(runtimeText, /import\(["']\.\/expansion-ui\.mjs["']\)/);
     assert.ok(
       report.after.initialTrGzipBytes <= 205874,
       `Gold initial TR gzip: ${report.after.initialTrGzipBytes}`,
@@ -91,6 +113,40 @@ test("production packing preserves every translation, template precedence and de
         packed = b.state;
       }
     }
+    await Promise.all([sourceEngine.loadExpansionRuntime(), engine.loadExpansionRuntime()]);
+    let original = sourceEngine.expandGame(sourceEngine.createGame({ name: "Deniz", seed: 613 }));
+    let packed = engine.expandGame(engine.createGame({ name: "Deniz", seed: 613 }));
+    for (let turn = 0; turn < 36; turn++) {
+      assert.deepEqual(packed, original, `Deferred expansion replay turn ${turn}`);
+      const available = sourceEngine.getActions(original).filter((action) => !action.disabled);
+      const action = available.find((a) => a.category === "event") ||
+        available.find((a) => a.id === "wait:15") || available[0];
+      assert.ok(action);
+      const a = sourceEngine.resolveAction(original, action.id);
+      const b = engine.resolveAction(packed, action.id);
+      assert.equal(a.ok, true);
+      assert.equal(b.ok, true);
+      original = a.state;
+      packed = b.state;
+    }
+    assert.deepEqual(packed, original);
+    // A cached core must never attach an expansion imported against another
+    // core instance after a deployment, even when both expose the same schema.
+    const mixedDirectory = join(directory, "mixed");
+    await mkdir(mixedDirectory);
+    await copyFile(join(directory, runtime), join(mixedDirectory, runtime));
+    await copyFile(join(directory, "engine.mjs"), join(mixedDirectory, "engine.mjs"));
+    await writeFile(join(mixedDirectory, "expansion.mjs"),
+      `export * from ${JSON.stringify(pathToFileURL(join(directory, "expansion.mjs")).href)};`);
+    const mixed = await import(pathToFileURL(join(mixedDirectory, "engine.mjs")).href);
+    const gold = mixed.createGame({ seed: 613 });
+    const bytes = JSON.stringify(gold);
+    await assert.rejects(mixed.loadExpansionRuntime(), /Reload Boardworld/);
+    assert.equal(JSON.stringify(gold), bytes);
+    assert.ok(mixed.validateState(gold));
+    assert.ok(report.after.goldGzipBytes <= 301836, `Gold aggregate gzip: ${report.after.goldGzipBytes}`);
+    assert.ok(report.after.expansionGzipBytes <= 40217, `Expansion gzip: ${report.after.expansionGzipBytes}`);
+    assert.ok(report.after.gzipBytes <= 342048, `Combined gzip: ${report.after.gzipBytes}`);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
