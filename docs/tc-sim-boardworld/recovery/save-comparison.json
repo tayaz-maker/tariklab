@@ -1,0 +1,944 @@
+{
+  "kind": "paired-authentic-v5-v6-save-codec",
+  "generatedAt": "2026-11-03T15:55:49.038Z",
+  "timing": true,
+  "methodology": "The same six authentic released day366 states, unchanged except schema version. Exact released v5 module graph versus current v6 graph. Three timed repeats of ten exports/imports per state, alternating version order. Three warmups per operation. GC before each timed batch when --expose-gc is supplied. Assertions and gzip are outside timed intervals. This isolates persistence cost; it is not new-v6 endurance or browser interaction latency.",
+  "baselineCommit": "78ec4ee339051840037e48e80f4b07518d5a1424",
+  "currentCommit": "12b519c58b61e9de5074de5849e8a8c857f26646",
+  "runtimeChanges": "",
+  "runtimeSha256": {
+    "engine.mjs": "0118e642e0b6a90ca1ad0a48e5e01370c3ab36a854d95e8a9457e0c5d0e6ef7d",
+    "persistence.mjs": "c1841f054808aa8c90e28938f329883b383f7c1c00e17b085e55711e04909572",
+    "save-codec.mjs": "e0337c3ea7107a69c8f37a28fa3ed77ed1c449722dc3e64af48433e225955926",
+    "world-life.mjs": "bee89347469535bfb5057f296ca1cc6ed180dd1a18fc56fe0604d779488eca1f"
+  },
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "darwin",
+    "release": "25.6.0",
+    "architecture": "arm64",
+    "cpu": "Apple M2",
+    "logicalCpus": 8,
+    "explicitGc": true,
+    "loadBefore": [
+      18.3427734375,
+      15.76904296875,
+      14.671875
+    ],
+    "loadAfter": [
+      17.43408203125,
+      15.623046875,
+      14.62646484375
+    ]
+  },
+  "repeats": 3,
+  "iterationsPerRepeat": 10,
+  "fixtures": [
+    {
+      "file": "v5-career-2026-day366.json",
+      "fixtureSha256": "96fbc1124221da90454e73c6d74fb086dff47ddf3f0c4750fa9e674ddbca6b7c",
+      "day": 366,
+      "revision": 2611,
+      "originalFixtureBytes": 417005,
+      "v5": {
+        "serializedBytes": 417004,
+        "storageUtf16Bytes": 808950,
+        "gzip9Bytes": 33315,
+        "timing": {
+          "export": {
+            "samples": 30,
+            "medianMs": 4.767084000000068,
+            "p95Ms": 6.106583999999998,
+            "minMs": 4.408083000000033,
+            "maxMs": 6.497208999999998
+          },
+          "import": {
+            "samples": 30,
+            "medianMs": 4.3582079999999905,
+            "p95Ms": 6.456083999999976,
+            "minMs": 3.8478329999999232,
+            "maxMs": 6.4883330000000115
+          }
+        }
+      },
+      "v6": {
+        "serializedBytes": 288471,
+        "storageUtf16Bytes": 572044,
+        "gzip9Bytes": 32108,
+        "timing": {
+          "export": {
+            "samples": 30,
+            "medianMs": 5.47645799999998,
+            "p95Ms": 8.699917000000028,
+            "minMs": 4.7710839999999735,
+            "maxMs": 8.888416000000007
+          },
+          "import": {
+            "samples": 30,
+            "medianMs": 7.477624999999989,
+            "p95Ms": 12.990916000000027,
+            "minMs": 6.764499999999998,
+            "maxMs": 13.541916000000015
+          }
+        }
+      },
+      "roundTripExact": true,
+      "trials": [
+        {
+          "repeat": 1,
+          "operations": {
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 5.265958000000012,
+              "p95Ms": 6.497208999999998,
+              "minMs": 4.659041000000002,
+              "maxMs": 6.497208999999998
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.515874999999994,
+              "p95Ms": 6.4883330000000115,
+              "minMs": 4.07691699999998,
+              "maxMs": 6.4883330000000115
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 5.69745800000004,
+              "p95Ms": 8.888416000000007,
+              "minMs": 5.295500000000004,
+              "maxMs": 8.888416000000007
+            },
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 7.525208999999904,
+              "p95Ms": 12.990916000000027,
+              "minMs": 6.860457999999994,
+              "maxMs": 12.990916000000027
+            }
+          }
+        },
+        {
+          "repeat": 2,
+          "operations": {
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 7.523458000000005,
+              "p95Ms": 13.541916000000015,
+              "minMs": 6.873666999999955,
+              "maxMs": 13.541916000000015
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 5.330625000000055,
+              "p95Ms": 8.699917000000028,
+              "minMs": 5.030124999999998,
+              "maxMs": 8.699917000000028
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.321332999999981,
+              "p95Ms": 5.746792000000028,
+              "minMs": 3.8478329999999232,
+              "maxMs": 5.746792000000028
+            },
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.614584000000036,
+              "p95Ms": 6.077916999999957,
+              "minMs": 4.408083000000033,
+              "maxMs": 6.077916999999957
+            }
+          }
+        },
+        {
+          "repeat": 3,
+          "operations": {
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.767084000000068,
+              "p95Ms": 6.106583999999998,
+              "minMs": 4.43100000000004,
+              "maxMs": 6.106583999999998
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.044125000000008,
+              "p95Ms": 5.487374999999929,
+              "minMs": 3.938083000000006,
+              "maxMs": 5.487374999999929
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 5.2807920000000195,
+              "p95Ms": 8.603207999999995,
+              "minMs": 4.7710839999999735,
+              "maxMs": 8.603207999999995
+            },
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 7.477249999999913,
+              "p95Ms": 12.653832999999963,
+              "minMs": 6.764499999999998,
+              "maxMs": 12.653832999999963
+            }
+          }
+        }
+      ]
+    },
+    {
+      "file": "v5-career-91373-day366.json",
+      "fixtureSha256": "42a54311370dc7e6cf88f277b8a5f98a6ab5d2d7d5503d3d990d835a0ae16de1",
+      "day": 366,
+      "revision": 2631,
+      "originalFixtureBytes": 418797,
+      "v5": {
+        "serializedBytes": 418796,
+        "storageUtf16Bytes": 812560,
+        "gzip9Bytes": 33308,
+        "timing": {
+          "export": {
+            "samples": 30,
+            "medianMs": 4.606375000000071,
+            "p95Ms": 6.12433400000009,
+            "minMs": 4.481207999999924,
+            "maxMs": 6.146833000000015
+          },
+          "import": {
+            "samples": 30,
+            "medianMs": 4.233375000000024,
+            "p95Ms": 5.544165999999905,
+            "minMs": 3.829041999999845,
+            "maxMs": 5.742416000000048
+          }
+        }
+      },
+      "v6": {
+        "serializedBytes": 289865,
+        "storageUtf16Bytes": 574852,
+        "gzip9Bytes": 32205,
+        "timing": {
+          "export": {
+            "samples": 30,
+            "medianMs": 5.10608400000001,
+            "p95Ms": 8.598749999999882,
+            "minMs": 4.85004200000003,
+            "maxMs": 8.776124999999865
+          },
+          "import": {
+            "samples": 30,
+            "medianMs": 6.860875000000078,
+            "p95Ms": 12.717874999999822,
+            "minMs": 6.55920900000001,
+            "maxMs": 12.896082999999862
+          }
+        }
+      },
+      "roundTripExact": true,
+      "trials": [
+        {
+          "repeat": 1,
+          "operations": {
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.755916999999954,
+              "p95Ms": 6.12433400000009,
+              "minMs": 4.481207999999924,
+              "maxMs": 6.12433400000009
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.418083000000024,
+              "p95Ms": 5.444917000000032,
+              "minMs": 4.039667000000009,
+              "maxMs": 5.444917000000032
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 5.25220800000011,
+              "p95Ms": 8.776124999999865,
+              "minMs": 5.0591249999999945,
+              "maxMs": 8.776124999999865
+            },
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 7.029166000000032,
+              "p95Ms": 12.896082999999862,
+              "minMs": 6.649375000000191,
+              "maxMs": 12.896082999999862
+            }
+          }
+        },
+        {
+          "repeat": 2,
+          "operations": {
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 6.777000000000044,
+              "p95Ms": 11.85041699999988,
+              "minMs": 6.55920900000001,
+              "maxMs": 11.85041699999988
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 5.014374999999973,
+              "p95Ms": 8.515916000000061,
+              "minMs": 4.85004200000003,
+              "maxMs": 8.515916000000061
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.037959000000001,
+              "p95Ms": 5.544165999999905,
+              "minMs": 3.8632500000001073,
+              "maxMs": 5.544165999999905
+            },
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.82508299999995,
+              "p95Ms": 6.146833000000015,
+              "minMs": 4.497250000000122,
+              "maxMs": 6.146833000000015
+            }
+          }
+        },
+        {
+          "repeat": 3,
+          "operations": {
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.593166999999994,
+              "p95Ms": 6.064249999999902,
+              "minMs": 4.5037499999998545,
+              "maxMs": 6.064249999999902
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.299125000000004,
+              "p95Ms": 5.742416000000048,
+              "minMs": 3.829041999999845,
+              "maxMs": 5.742416000000048
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 5.064292000000023,
+              "p95Ms": 8.598749999999882,
+              "minMs": 4.929124999999885,
+              "maxMs": 8.598749999999882
+            },
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 6.738624999999956,
+              "p95Ms": 12.717874999999822,
+              "minMs": 6.618667000000187,
+              "maxMs": 12.717874999999822
+            }
+          }
+        }
+      ]
+    },
+    {
+      "file": "v5-social-2026-day366.json",
+      "fixtureSha256": "ec3428c4f0ba6e239a2ecebb82aca7b985a1b0d0068f55a99f2eacbcb2c203d5",
+      "day": 366,
+      "revision": 3769,
+      "originalFixtureBytes": 433286,
+      "v5": {
+        "serializedBytes": 433285,
+        "storageUtf16Bytes": 840682,
+        "gzip9Bytes": 34949,
+        "timing": {
+          "export": {
+            "samples": 30,
+            "medianMs": 4.741083000000344,
+            "p95Ms": 6.212208000000373,
+            "minMs": 4.48541699999987,
+            "maxMs": 6.260082999999668
+          },
+          "import": {
+            "samples": 30,
+            "medianMs": 4.261082999999871,
+            "p95Ms": 5.758832999999868,
+            "minMs": 3.98508400000037,
+            "maxMs": 5.82833299999993
+          }
+        }
+      },
+      "v6": {
+        "serializedBytes": 303264,
+        "storageUtf16Bytes": 601092,
+        "gzip9Bytes": 33875,
+        "timing": {
+          "export": {
+            "samples": 30,
+            "medianMs": 5.098875000000135,
+            "p95Ms": 8.732084000000214,
+            "minMs": 4.87829099999999,
+            "maxMs": 8.770708999999897
+          },
+          "import": {
+            "samples": 30,
+            "medianMs": 6.9122080000001915,
+            "p95Ms": 12.961624999999913,
+            "minMs": 6.746375000000171,
+            "maxMs": 13.014666999999918
+          }
+        }
+      },
+      "roundTripExact": true,
+      "trials": [
+        {
+          "repeat": 1,
+          "operations": {
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.7247080000001915,
+              "p95Ms": 6.260082999999668,
+              "minMs": 4.48541699999987,
+              "maxMs": 6.260082999999668
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.412042000000383,
+              "p95Ms": 5.758832999999868,
+              "minMs": 4.053875000000062,
+              "maxMs": 5.758832999999868
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 5.192833000000064,
+              "p95Ms": 8.732084000000214,
+              "minMs": 4.93991700000015,
+              "maxMs": 8.732084000000214
+            },
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 6.896541999999954,
+              "p95Ms": 12.961624999999913,
+              "minMs": 6.822457999999642,
+              "maxMs": 12.961624999999913
+            }
+          }
+        },
+        {
+          "repeat": 2,
+          "operations": {
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 6.969040999999834,
+              "p95Ms": 13.014666999999918,
+              "minMs": 6.7742920000000595,
+              "maxMs": 13.014666999999918
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 4.991416999999728,
+              "p95Ms": 8.18545800000038,
+              "minMs": 4.87829099999999,
+              "maxMs": 8.18545800000038
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.190208999999868,
+              "p95Ms": 5.691583000000264,
+              "minMs": 4.080167000000074,
+              "maxMs": 5.691583000000264
+            },
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.951040999999805,
+              "p95Ms": 6.212208000000373,
+              "minMs": 4.565540999999939,
+              "maxMs": 6.212208000000373
+            }
+          }
+        },
+        {
+          "repeat": 3,
+          "operations": {
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.741083000000344,
+              "p95Ms": 6.139749999999822,
+              "minMs": 4.571249999999964,
+              "maxMs": 6.139749999999822
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.33075000000008,
+              "p95Ms": 5.82833299999993,
+              "minMs": 3.98508400000037,
+              "maxMs": 5.82833299999993
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 5.185541999999714,
+              "p95Ms": 8.770708999999897,
+              "minMs": 4.960000000000036,
+              "maxMs": 8.770708999999897
+            },
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 6.914040999999997,
+              "p95Ms": 11.997083000000202,
+              "minMs": 6.746375000000171,
+              "maxMs": 11.997083000000202
+            }
+          }
+        }
+      ]
+    },
+    {
+      "file": "v5-social-91373-day366.json",
+      "fixtureSha256": "fa127d7e0c875fbf549f5c714091b5a94efec07a04855ecd624c12fdc08551a2",
+      "day": 366,
+      "revision": 3733,
+      "originalFixtureBytes": 434999,
+      "v5": {
+        "serializedBytes": 434998,
+        "storageUtf16Bytes": 843950,
+        "gzip9Bytes": 35109,
+        "timing": {
+          "export": {
+            "samples": 30,
+            "medianMs": 4.7960000000002765,
+            "p95Ms": 6.220458000000235,
+            "minMs": 4.474542000000383,
+            "maxMs": 6.603375000000142
+          },
+          "import": {
+            "samples": 30,
+            "medianMs": 4.300499999999829,
+            "p95Ms": 5.723500000000058,
+            "minMs": 4.046542000000045,
+            "maxMs": 5.945791000000099
+          }
+        }
+      },
+      "v6": {
+        "serializedBytes": 304168,
+        "storageUtf16Bytes": 602864,
+        "gzip9Bytes": 34014,
+        "timing": {
+          "export": {
+            "samples": 30,
+            "medianMs": 5.158042000000023,
+            "p95Ms": 8.57879099999991,
+            "minMs": 4.878415999999561,
+            "maxMs": 8.742457999999715
+          },
+          "import": {
+            "samples": 30,
+            "medianMs": 7.058208999999806,
+            "p95Ms": 12.974583000000166,
+            "minMs": 6.806749999999738,
+            "maxMs": 13.182749999999942
+          }
+        }
+      },
+      "roundTripExact": true,
+      "trials": [
+        {
+          "repeat": 1,
+          "operations": {
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.978292000000238,
+              "p95Ms": 6.603375000000142,
+              "minMs": 4.667000000000371,
+              "maxMs": 6.603375000000142
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.604874999999993,
+              "p95Ms": 5.945791000000099,
+              "minMs": 4.199291999999787,
+              "maxMs": 5.945791000000099
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 5.39587500000016,
+              "p95Ms": 8.57879099999991,
+              "minMs": 5.093249999999898,
+              "maxMs": 8.57879099999991
+            },
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 7.171208000000206,
+              "p95Ms": 13.182749999999942,
+              "minMs": 6.806749999999738,
+              "maxMs": 13.182749999999942
+            }
+          }
+        },
+        {
+          "repeat": 2,
+          "operations": {
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 7.047542000000249,
+              "p95Ms": 12.974583000000166,
+              "minMs": 6.930917000000136,
+              "maxMs": 12.974583000000166
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 5.0727499999998145,
+              "p95Ms": 8.2392090000003,
+              "minMs": 4.878415999999561,
+              "maxMs": 8.2392090000003
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.269750000000386,
+              "p95Ms": 5.703125,
+              "minMs": 4.046542000000045,
+              "maxMs": 5.703125
+            },
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.752290999999786,
+              "p95Ms": 6.220458000000235,
+              "minMs": 4.573333999999704,
+              "maxMs": 6.220458000000235
+            }
+          }
+        },
+        {
+          "repeat": 3,
+          "operations": {
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.805957999999919,
+              "p95Ms": 6.128375000000233,
+              "minMs": 4.474542000000383,
+              "maxMs": 6.128375000000233
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.402833999999984,
+              "p95Ms": 5.723500000000058,
+              "minMs": 4.0790420000003,
+              "maxMs": 5.723500000000058
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 5.189542000000074,
+              "p95Ms": 8.742457999999715,
+              "minMs": 4.917916999999761,
+              "maxMs": 8.742457999999715
+            },
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 6.9648339999998825,
+              "p95Ms": 12.1059580000001,
+              "minMs": 6.817208999999821,
+              "maxMs": 12.1059580000001
+            }
+          }
+        }
+      ]
+    },
+    {
+      "file": "v5-entrepreneur-2026-day366.json",
+      "fixtureSha256": "89433086e297cbdb2a1bbe0803e34a4c251172d230aac72c49eeb87bf5304427",
+      "day": 366,
+      "revision": 3706,
+      "originalFixtureBytes": 401115,
+      "v5": {
+        "serializedBytes": 401114,
+        "storageUtf16Bytes": 777714,
+        "gzip9Bytes": 31317,
+        "timing": {
+          "export": {
+            "samples": 30,
+            "medianMs": 4.496792000000369,
+            "p95Ms": 5.905166999999892,
+            "minMs": 4.228375000000597,
+            "maxMs": 6.123625000000175
+          },
+          "import": {
+            "samples": 30,
+            "medianMs": 3.9510840000002645,
+            "p95Ms": 5.5248750000000655,
+            "minMs": 3.7862089999998716,
+            "maxMs": 5.527124999999614
+          }
+        }
+      },
+      "v6": {
+        "serializedBytes": 278229,
+        "storageUtf16Bytes": 551268,
+        "gzip9Bytes": 30512,
+        "timing": {
+          "export": {
+            "samples": 30,
+            "medianMs": 4.854792000000089,
+            "p95Ms": 8.202291999999943,
+            "minMs": 4.583083999999872,
+            "maxMs": 8.386500000000524
+          },
+          "import": {
+            "samples": 30,
+            "medianMs": 6.513707999999951,
+            "p95Ms": 12.280665999999655,
+            "minMs": 6.250208000000384,
+            "maxMs": 12.33316700000023
+          }
+        }
+      },
+      "roundTripExact": true,
+      "trials": [
+        {
+          "repeat": 1,
+          "operations": {
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.571124999999938,
+              "p95Ms": 6.123625000000175,
+              "minMs": 4.3709170000001905,
+              "maxMs": 6.123625000000175
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 3.918416999999863,
+              "p95Ms": 5.5248750000000655,
+              "minMs": 3.8236249999999927,
+              "maxMs": 5.5248750000000655
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 4.846457999999984,
+              "p95Ms": 8.192583000000013,
+              "minMs": 4.735541000000012,
+              "maxMs": 8.192583000000013
+            },
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 6.53650000000016,
+              "p95Ms": 12.33316700000023,
+              "minMs": 6.268125000000055,
+              "maxMs": 12.33316700000023
+            }
+          }
+        },
+        {
+          "repeat": 2,
+          "operations": {
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 6.535958999999821,
+              "p95Ms": 9.460000000000036,
+              "minMs": 6.392959000000701,
+              "maxMs": 9.460000000000036
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 4.854792000000089,
+              "p95Ms": 8.386500000000524,
+              "minMs": 4.657334000000446,
+              "maxMs": 8.386500000000524
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.201209000000745,
+              "p95Ms": 5.527124999999614,
+              "minMs": 3.841374999999971,
+              "maxMs": 5.527124999999614
+            },
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.397165999999743,
+              "p95Ms": 5.905166999999892,
+              "minMs": 4.3107499999996435,
+              "maxMs": 5.905166999999892
+            }
+          }
+        },
+        {
+          "repeat": 3,
+          "operations": {
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.515041999999994,
+              "p95Ms": 5.808917000000292,
+              "minMs": 4.228375000000597,
+              "maxMs": 5.808917000000292
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 3.9096669999998994,
+              "p95Ms": 5.405499999999847,
+              "minMs": 3.7862089999998716,
+              "maxMs": 5.405499999999847
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 4.923291000000063,
+              "p95Ms": 8.202291999999943,
+              "minMs": 4.583083999999872,
+              "maxMs": 8.202291999999943
+            },
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 6.395000000000437,
+              "p95Ms": 12.280665999999655,
+              "minMs": 6.250208000000384,
+              "maxMs": 12.280665999999655
+            }
+          }
+        }
+      ]
+    },
+    {
+      "file": "v5-entrepreneur-91373-day366.json",
+      "fixtureSha256": "a57878ecbb4c4c13e9c99d9edae4df4dbe41b0b22c87ccb44e3411b674ad52d4",
+      "day": 366,
+      "revision": 3737,
+      "originalFixtureBytes": 402094,
+      "v5": {
+        "serializedBytes": 402093,
+        "storageUtf16Bytes": 779504,
+        "gzip9Bytes": 31290,
+        "timing": {
+          "export": {
+            "samples": 30,
+            "medianMs": 4.435333000000355,
+            "p95Ms": 5.954000000000633,
+            "minMs": 4.180333999999675,
+            "maxMs": 6.057832999999846
+          },
+          "import": {
+            "samples": 30,
+            "medianMs": 4.0095830000000205,
+            "p95Ms": 5.460917000000336,
+            "minMs": 3.7354169999998703,
+            "maxMs": 5.586333000000195
+          }
+        }
+      },
+      "v6": {
+        "serializedBytes": 278902,
+        "storageUtf16Bytes": 552620,
+        "gzip9Bytes": 30633,
+        "timing": {
+          "export": {
+            "samples": 30,
+            "medianMs": 4.6143330000004426,
+            "p95Ms": 7.704916000000594,
+            "minMs": 4.468250000000808,
+            "maxMs": 8.257709000000432
+          },
+          "import": {
+            "samples": 30,
+            "medianMs": 6.41595899999993,
+            "p95Ms": 9.524625000000015,
+            "minMs": 6.162540999999692,
+            "maxMs": 11.398666999999477
+          }
+        }
+      },
+      "roundTripExact": true,
+      "trials": [
+        {
+          "repeat": 1,
+          "operations": {
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.364916999999878,
+              "p95Ms": 6.057832999999846,
+              "minMs": 4.180333999999675,
+              "maxMs": 6.057832999999846
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.223041000000194,
+              "p95Ms": 5.586333000000195,
+              "minMs": 3.8971670000000813,
+              "maxMs": 5.586333000000195
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 4.722125000000233,
+              "p95Ms": 8.257709000000432,
+              "minMs": 4.540958000000501,
+              "maxMs": 8.257709000000432
+            },
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 6.394459000000097,
+              "p95Ms": 9.48162499999944,
+              "minMs": 6.217999999999847,
+              "maxMs": 9.48162499999944
+            }
+          }
+        },
+        {
+          "repeat": 2,
+          "operations": {
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 6.426124999999956,
+              "p95Ms": 11.398666999999477,
+              "minMs": 6.194583000000421,
+              "maxMs": 11.398666999999477
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 4.598374999999578,
+              "p95Ms": 7.61766599999919,
+              "minMs": 4.507292000000234,
+              "maxMs": 7.61766599999919
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 3.9929169999995793,
+              "p95Ms": 5.460917000000336,
+              "minMs": 3.7354169999998703,
+              "maxMs": 5.460917000000336
+            },
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.651541000000179,
+              "p95Ms": 5.954000000000633,
+              "minMs": 4.310667000000649,
+              "maxMs": 5.954000000000633
+            }
+          }
+        },
+        {
+          "repeat": 3,
+          "operations": {
+            "v5.export": {
+              "samples": 10,
+              "medianMs": 4.484207999999853,
+              "p95Ms": 5.943999999999505,
+              "minMs": 4.32141700000011,
+              "maxMs": 5.943999999999505
+            },
+            "v5.import": {
+              "samples": 10,
+              "medianMs": 4.065542000000278,
+              "p95Ms": 5.303875000000517,
+              "minMs": 3.826000000000022,
+              "maxMs": 5.303875000000517
+            },
+            "v6.export": {
+              "samples": 10,
+              "medianMs": 4.6143330000004426,
+              "p95Ms": 7.704916000000594,
+              "minMs": 4.468250000000808,
+              "maxMs": 7.704916000000594
+            },
+            "v6.import": {
+              "samples": 10,
+              "medianMs": 6.449500000000626,
+              "p95Ms": 9.524625000000015,
+              "minMs": 6.162540999999692,
+              "maxMs": 9.524625000000015
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

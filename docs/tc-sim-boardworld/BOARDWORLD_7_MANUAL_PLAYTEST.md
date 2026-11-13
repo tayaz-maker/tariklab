@@ -1,0 +1,11 @@
+# Owner physical acceptance — not yet performed
+
+Use the production Gold candidate only after automated release gates pass; integrated acceptance and these owner checks are still pending. Export important saves and download preserved recovery copies before reload, keeping the files unchanged. Reloading/closing old6.0 tabs is useful safety advice; it does not waive the automated requirement that Gold preserve its winner and observed old-tab forks. Never clear localStorage, IndexedDB or quarantined copies.
+
+1. At 390 or 320 px, create a life, choose the opening event, find a job and travel using the visible time/cost preview. Verify the board, money, needs, consequence strip and keyboard focus remain understandable.
+2. Schedule, preview, reschedule and deliberately miss an appointment. Check that travel and conflicts are visible, promises have understandable consequences, and a routine pauses for a real decision.
+3. Using disposable copies, load an old exported life, perform a meaningful action, export it, reload and import again. When a different save is preserved, check the warning and Save-menu recovery label, download the preserved copy and verify downloading leaves the current life unchanged. Explicitly import the selected recovery file, reload, and confirm the chosen continuation persists with the previous Gold winner retained as backup. Check balances, day, person names, historical prose, pending events and memories. Gold must not automatically select an old6 continuation. Never use the only copy of an important save.
+4. Switch TR→EN→PL while playing. Inspect calendar, finances, enterprise, projects, social chronology and save dialogs. Check original Turkish history is labeled and new controls are translated; use keyboard and reduced motion.
+5. Play a 30/90/365-day checkpoint for 10–15 minutes. Judge whether choices are meaningful, maintenance is tolerable, recovery from debt/unemployment is understandable, and NPC reactions only reference known events. Record confusing or repetitive interactions. Then open original TC SIM and continue its existing save.
+
+Record device/browser, language, viewport, save origin, steps and observed result. These are human checks, not previously completed automated tests.

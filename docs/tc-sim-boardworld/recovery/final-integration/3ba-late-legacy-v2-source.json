@@ -1,0 +1,130 @@
+{
+  "status": "PASS",
+  "startedAt": "2026-11-03T20:00:35.728Z",
+  "command": [
+    "/usr/local/bin/node",
+    "/private/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/boardworld7-parallel-84tvtxo3/late-legacy-check-v2.mjs",
+    "--repo",
+    "/private/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/boardworld7-parallel-84tvtxo3/bootstrap-3ba9630",
+    "--commit",
+    "3ba963028c7e5cfa2a70445a390414571dab0ac6",
+    "--out",
+    "/private/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/boardworld7-parallel-84tvtxo3/evidence/sol-final-review/3ba-late-legacy-v2-source.json"
+  ],
+  "commit": "3ba963028c7e5cfa2a70445a390414571dab0ac6",
+  "tree": "d537e0cf9b7d1401325fd492e4af07f436f2b550",
+  "mode": "frozen-source",
+  "runnerSha256": "972b398a31d435c54b7aa166afa9da128113b422f0332a63748df8db3b9690b1",
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "browser": "156.0.8078.80"
+  },
+  "results": [
+    {
+      "scenario": "preexisting-v2-under-v1",
+      "status": "PASS",
+      "checks": {
+        "originalLegacyBytesUnchanged": true,
+        "originalTcUnchanged": true,
+        "fullUiStateExact": true,
+        "fullLoadedStateExact": true,
+        "originalV2ArchiveExact": true,
+        "saveSucceeded": true,
+        "reloadStateExact": true
+      },
+      "pageErrors": [],
+      "expectedStateSha256": "2f6031196d90c2f150c606d61aa80ac33b0f93f20a07048ab05605a5d9179cf9",
+      "actualStateSha256": "2f6031196d90c2f150c606d61aa80ac33b0f93f20a07048ab05605a5d9179cf9"
+    },
+    {
+      "scenario": "late-v2-after-empty-head",
+      "status": "PASS",
+      "checks": {
+        "originalLegacyBytesUnchanged": true,
+        "originalTcUnchanged": true,
+        "fullUiStateExact": true,
+        "fullLoadedStateExact": true,
+        "originalV2ArchiveExact": true,
+        "saveSucceeded": true,
+        "reloadStateExact": true
+      },
+      "pageErrors": [],
+      "expectedStateSha256": "2f6031196d90c2f150c606d61aa80ac33b0f93f20a07048ab05605a5d9179cf9",
+      "actualStateSha256": "2f6031196d90c2f150c606d61aa80ac33b0f93f20a07048ab05605a5d9179cf9"
+    },
+    {
+      "scenario": "foreign-v2-after-populated-head",
+      "status": "PASS",
+      "checks": {
+        "originalLegacyBytesUnchanged": true,
+        "originalTcUnchanged": true,
+        "fullUiStateExact": true,
+        "fullLoadedStateExact": true,
+        "saveSucceeded": true,
+        "reloadStateExact": true
+      },
+      "pageErrors": [],
+      "expectedStateSha256": "c31c02390b2d21f720185bfcdc332837746239352bc30838d00d599291f0fd5b",
+      "actualStateSha256": "c31c02390b2d21f720185bfcdc332837746239352bc30838d00d599291f0fd5b"
+    },
+    {
+      "scenario": "late-v2-after-prior843-empty-head",
+      "status": "PASS",
+      "checks": {
+        "exactPrior843EmptyHeadCreated": true,
+        "originalLegacyBytesUnchanged": true,
+        "originalTcUnchanged": true,
+        "fullUiStateExact": true,
+        "fullLoadedStateExact": true,
+        "originalV2ArchiveExact": true,
+        "saveSucceeded": true,
+        "reloadStateExact": true
+      },
+      "pageErrors": [],
+      "expectedStateSha256": "2f6031196d90c2f150c606d61aa80ac33b0f93f20a07048ab05605a5d9179cf9",
+      "actualStateSha256": "2f6031196d90c2f150c606d61aa80ac33b0f93f20a07048ab05605a5d9179cf9"
+    }
+  ],
+  "priorEmptyHeadSourceCommit": "843bc0c36de611ed2b200566645aa0d614d9feaf",
+  "priorEmptyHeadSourceTree": "15dea71e8cc9763cd576a16cbefd81ef18bcce40",
+  "priorEmptyHeadArchiveSha256": "83679764ee382b8565a9f41088c79f4905a20934381c44a058a61dae9b9a7ed5",
+  "sourceArchiveSha256": "0091d9fec90a6310ebe44fb4074093d4fb4bbe5617d9155a2b06cc63185a629e",
+  "serving": "/var/folders/k1/zprsgklx4xqbs2wb4cq59bsr0000gn/T/bw-late-legacy-buPHuV/public",
+  "servedModules": {
+    "app.mjs": "2f2f2384730518da17194d2bd0b1968571b2d037036d52743f2f9a2cd3880473",
+    "calendar.mjs": "a43906f83ac7f595263d7ac5043c3c434851afe48b7a6e694549bddd6df1babd",
+    "city.mjs": "5189e9e6ae1d2845f773764fb7f248923ef2c5b1d243a4af845c94b673736071",
+    "content.mjs": "d98f97bb986fe19a7dd78a165338af92dc00c6edc2330637789beb9b4a33c4d6",
+    "daily-flow.mjs": "3bfa2f9c05b6b953799a59c51bb008f4c76b882ba70882ed00b9e82573201547",
+    "deep-content.mjs": "6b28e716326078c6469d30c99c54615e930c397e0decf5699605202d4c916a88",
+    "deep-life.mjs": "a5b5fe81c7507ad6af6bce0f07768dec038fe7a13f76c4bef2f1d8656e82cd87",
+    "deep-ui.mjs": "3bbbbdd1a5a3cd6c9829049cfae377648761b68244b3d07e99db9a1efe095eb6",
+    "emergent-content.mjs": "105767bd8253b0da7872c865411660970654d3a1f13964a6c109871e5b79b354",
+    "emergent-life.mjs": "f76d666edd07e3e7988b82d749ab17cf79ace49de060945dc071e9009cb5ff43",
+    "emergent-ui.mjs": "8aa4684d64d525b924e3ffd025dfe86472fb2e7f492ee7de889b60958f2b5164",
+    "engine.mjs": "0118e642e0b6a90ca1ad0a48e5e01370c3ab36a854d95e8a9457e0c5d0e6ef7d",
+    "i18n.mjs": "22f4f2945a5732bb4dcc27de53f8b61c37ac3aff15b6042a9771d9c311fcfb8c",
+    "life-chains.mjs": "ed8a822df0fac3ae7a26e5e89344caf5eb209e2afca7c8bf3eebf640448fa4f5",
+    "life-content.mjs": "19f2dc162d9dafcdc6bde21bbe706aaaf40dc88c595f8a219dd0258fb79b9c2f",
+    "life-systems.mjs": "64c9c987a5aef5a01019a4c65e38b3b44c0f409e83e598bea2531494c630acda",
+    "living-ui.mjs": "a42dcf665036354c59b2b1251bf480a9d5ad8379ff03efcafa4cc77e07576398",
+    "locale-en.mjs": "764e8f66afcb4224851cd9dac0bbe389e01fcb7e662840618a5563a6138f7245",
+    "locale-keys.mjs": "6c6b90df7e504bfc12d9065e46113495fdabc47a968140d6ce9a5e495b552428",
+    "locale-pl.mjs": "bdacaf2cd5195d691c8b3cd863b87d68ffa5936a4020e7f52b90cb32f29c1306",
+    "persistence.mjs": "1639083e9ee9648cf9bb4365b5a4fa3e637596c563dd40f0a7a62c8adf3debe9",
+    "save-codec.mjs": "e0337c3ea7107a69c8f37a28fa3ed77ed1c449722dc3e64af48433e225955926",
+    "society-content.mjs": "4e675e3b24ec784e6f98e28276ff7fd31ad638269e7330b1cc8c505f30a274e5",
+    "society-systems.mjs": "c6522745016b49c41ba3e77b8c2a713fede513e43bc8f15728378f0ad5dd3933",
+    "society-ui.mjs": "610840844f8e4fdf9cd4eb4db38e90dc77b552dcf918f38a5ba296cf78c8f2ef",
+    "world-content.mjs": "8d527a10333b51ad2e62d5c120f2b80decd3b435733bdfd69bc438b4b4b7250f",
+    "world-life.mjs": "bee89347469535bfb5057f296ca1cc6ed180dd1a18fc56fe0604d779488eca1f"
+  },
+  "fixture": {
+    "file": "scripts/fixtures/boardworld/v2-progressed-restart-day46.json",
+    "sha256": "fbddec285b1d84ae2da86ac781ee51d954de599d0aca1b8f2aafe0498f40c4f4"
+  },
+  "finishedAt": "2026-11-03T20:00:43.811Z",
+  "exitCode": 0
+}

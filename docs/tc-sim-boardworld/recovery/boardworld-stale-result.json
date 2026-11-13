@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "origin": "http://127.0.0.1:61652",
+  "results": [
+    {
+      "case": "same-origin native tabs; storage events suppressed; stale manual save",
+      "pass": true,
+      "persistedRevision": 1,
+      "offlineExport": true
+    },
+    {
+      "case": "async file import races newer native tab save",
+      "pass": true
+    },
+    {
+      "case": "genuine simultaneous native UI writes queued behind held Web Lock; exactly one saves and one conflicts",
+      "pass": true
+    },
+    {
+      "case": "unsupported Web Locks remains export-only with explicit warning and no storage writes",
+      "pass": true
+    },
+    {
+      "case": "console/page exceptions",
+      "pass": true,
+      "count": 0
+    }
+  ]
+}

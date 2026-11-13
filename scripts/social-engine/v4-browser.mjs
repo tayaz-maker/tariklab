@@ -24,7 +24,7 @@ const report = {
   manifestSha256: sha(manifestBytes),
   sourceDigest: manifest.sourceDigest,
   setupPolicy:
-    "Fresh isolated browser storage. Movement/time setup uses public commands and QA STEP; each claimed UI action uses actual DOM/keyboard. Family precondition is an explicitly generated validated fixture, imported through the save API, not earned gameplay.",
+    "Fresh isolated browser storage. Movement/time setup uses public commands and QA STEP; claimed UI actions use actual DOM/keyboard. Social checks import a validated freshly generated world; custody places one adult witness in that fixture. Family and custody fixtures are setup, not evidence of emergent behavior.",
   results: [],
   errors: [],
   loadedAssets: [],
@@ -73,6 +73,27 @@ async function fresh() {
     report.softwareRenderer = await verifySoftwareRenderer(page);
   await page.locator("#intro").waitFor({ state: "hidden" });
   await page.locator('[data-panel="phone"]').waitFor({ state: "visible" });
+}
+async function socialFixture({ witness = false } = {}) {
+  const fixture = createWorld(20261103);
+  if (witness) {
+    const adult = fixture.npcs.find((n) => n.id === "n1");
+    assert.ok(adult && adult.age >= 18);
+    adult.location = { x: 22, y: 13.5, scene: "outside" };
+    adult.path = [];
+    adult.destination = null;
+    adult.goal = "idle";
+    adult.lastDecision = 100000;
+    assert.ok(hasLineOfSight(fixture.npcs[0].location, adult.location, "outside"));
+  }
+  assert.deepEqual(validateState(fixture), []);
+  const text = JSON.stringify(await encodeSave("slot-3", fixture));
+  await page.evaluate(async (value) => {
+    await window.__socialEngine.import("slot-3", value);
+    await window.__socialEngine.load("slot-3");
+  }, text);
+  assert.equal((await cmd("SET_TIME_SPEED", { speed: 0.5 })).ok, true);
+  return sha(text);
 }
 async function close() {
   if (await page.locator("#panel").isVisible()) {
@@ -130,6 +151,7 @@ try {
     "travel",
     "DOM time speed and bus ticket move one authoritative player and debit fare",
     async () => {
+      await move({ x: 27, y: 15.5 });
       await phone("travel");
       await page.locator("#time-speed").selectOption("2");
       await wait();
@@ -151,7 +173,7 @@ try {
     },
   );
   await check("rental", "DOM rental fee and escrow refund preserve money", async () => {
-    await move({ x: 31, y: 16 }, 40);
+    await move({ x: 31, y: 16 });
     await phone("travel");
     const before = await state();
     await page.locator('[data-rental="v-rental-0"]').click();
@@ -188,6 +210,7 @@ try {
     "faction",
     "DOM join and contribution transfer to owned faction treasury",
     async () => {
+      const fixtureSha256 = await socialFixture();
       assert.equal((await cmd("TALK", { npcId: "n0", topic: "help" })).ok, true);
       await step(25);
       assert.equal((await cmd("TALK", { npcId: "n0", topic: "help" })).ok, true);
@@ -204,7 +227,7 @@ try {
       s = await state();
       assert.equal(before - s.accounts.player, 10000);
       assert.equal(s.accounts["faction:dock"], 10000);
-      return { membership: s.flags.faction, treasury: s.accounts["faction:dock"] };
+      return { fixtureSha256, membership: s.flags.faction, treasury: s.accounts["faction:dock"] };
     },
   );
   await check(
@@ -264,6 +287,7 @@ try {
     "person-reach",
     "Moving NPC leaves live dialog range without stopping the world",
     async () => {
+      const fixtureSha256 = await socialFixture();
       assert.equal((await cmd("RETIRE")).ok, true);
       assert.equal((await cmd("RESUME_CAREER")).ok, true);
       await step(1);
@@ -285,7 +309,7 @@ try {
           );
         },
         null,
-        { timeout: 30000 },
+        { timeout: 60000 },
       );
       const after = await state();
       const target = after.npcs.find((n) => n.id === npc.id);
@@ -312,6 +336,7 @@ try {
         "disabled control sends no action",
       );
       return {
+        fixtureSha256,
         npcId: npc.id,
         beforeTick: before.tick,
         afterTick: after.tick,
@@ -321,6 +346,7 @@ try {
     },
   );
   await check("rumor", "DOM rumor preserves provenance and attenuates confidence", async () => {
+    const fixtureSha256 = await socialFixture();
     // A supported game setting gives a real moving NPC enough time for a human-paced dialog.
     assert.equal((await cmd("SET_TIME_SPEED", { speed: 0.5 })).ok, true);
     assert.equal((await cmd("RETIRE")).ok, true);
@@ -385,6 +411,7 @@ try {
     assert.ok(learned.confidence < event.confidence);
     return {
       ...learned,
+      fixtureSha256,
       actionDistance,
       actionTick: s.tick,
       actionCursor: rumor.operation.cursor,
@@ -395,8 +422,13 @@ try {
     "custody",
     "DOM police attendance creates real custody, blocks motion, resolves one fine",
     async () => {
+      const fixtureSha256 = await socialFixture({ witness: true });
       assert.equal((await cmd("ATTACK", { npcId: "n0" })).ok, true);
       await step(90);
+      const crime = (await state()).crimes.find(
+        (c) => c.offender === "player" && c.victim === "n0",
+      );
+      assert.ok(crime?.witnesses.includes("n1"), "the actual assault recorded the fixture witness");
       await building("b-police");
       const before = await state();
       assert.ok(before.social.police.cases.some((c) => c.knownSuspectId === "player"));
@@ -410,7 +442,12 @@ try {
       assert.equal(after.social.police.custody, null);
       assert.ok(after.social.police.cases.some((c) => c.status === "fined"));
       assert.ok(after.accounts.player < before.accounts.player);
-      return { custody: detained.social.police.custody, cases: after.social.police.cases };
+      return {
+        fixtureSha256,
+        crime,
+        custody: detained.social.police.custody,
+        cases: after.social.police.cases,
+      };
     },
   );
   await check(

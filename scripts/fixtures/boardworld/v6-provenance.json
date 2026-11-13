@@ -1,0 +1,147 @@
+{
+  "sourceCommit": "d695119186cad42c079a911a60c372f201b3b64b",
+  "sourceTree": "2350d4eb908d260fee1919e97ec27278c30bafb1",
+  "sourceArchiveSha256": "8ec2b346c223f6d5dead45cdadcf39d3da48344f7e6751dcd53bbb084971b0b7",
+  "sourceFiles": {
+    "public/games/tc-sim-boardworld/app.mjs": "3dac14bd55f94d0ec70571d8839748b94e61ba312314fe76ebc0e2eabe366fbf",
+    "public/games/tc-sim-boardworld/calendar.mjs": "a43906f83ac7f595263d7ac5043c3c434851afe48b7a6e694549bddd6df1babd",
+    "public/games/tc-sim-boardworld/city.mjs": "5189e9e6ae1d2845f773764fb7f248923ef2c5b1d243a4af845c94b673736071",
+    "public/games/tc-sim-boardworld/content.mjs": "d98f97bb986fe19a7dd78a165338af92dc00c6edc2330637789beb9b4a33c4d6",
+    "public/games/tc-sim-boardworld/daily-flow.mjs": "3bfa2f9c05b6b953799a59c51bb008f4c76b882ba70882ed00b9e82573201547",
+    "public/games/tc-sim-boardworld/deep-content.mjs": "6b28e716326078c6469d30c99c54615e930c397e0decf5699605202d4c916a88",
+    "public/games/tc-sim-boardworld/deep-life.mjs": "a5b5fe81c7507ad6af6bce0f07768dec038fe7a13f76c4bef2f1d8656e82cd87",
+    "public/games/tc-sim-boardworld/deep-ui.mjs": "3bbbbdd1a5a3cd6c9829049cfae377648761b68244b3d07e99db9a1efe095eb6",
+    "public/games/tc-sim-boardworld/emergent-content.mjs": "105767bd8253b0da7872c865411660970654d3a1f13964a6c109871e5b79b354",
+    "public/games/tc-sim-boardworld/emergent-life.mjs": "f76d666edd07e3e7988b82d749ab17cf79ace49de060945dc071e9009cb5ff43",
+    "public/games/tc-sim-boardworld/emergent-ui.mjs": "8aa4684d64d525b924e3ffd025dfe86472fb2e7f492ee7de889b60958f2b5164",
+    "public/games/tc-sim-boardworld/engine.mjs": "0118e642e0b6a90ca1ad0a48e5e01370c3ab36a854d95e8a9457e0c5d0e6ef7d",
+    "public/games/tc-sim-boardworld/i18n.mjs": "22f4f2945a5732bb4dcc27de53f8b61c37ac3aff15b6042a9771d9c311fcfb8c",
+    "public/games/tc-sim-boardworld/life-chains.mjs": "ed8a822df0fac3ae7a26e5e89344caf5eb209e2afca7c8bf3eebf640448fa4f5",
+    "public/games/tc-sim-boardworld/life-content.mjs": "19f2dc162d9dafcdc6bde21bbe706aaaf40dc88c595f8a219dd0258fb79b9c2f",
+    "public/games/tc-sim-boardworld/life-systems.mjs": "64c9c987a5aef5a01019a4c65e38b3b44c0f409e83e598bea2531494c630acda",
+    "public/games/tc-sim-boardworld/living-ui.mjs": "268e78a27068d92fd956ef7c7a6f75fab1d51b7243ab9f6d8d9072e9767f8cc0",
+    "public/games/tc-sim-boardworld/locale-en.mjs": "2f4ed4c16453532f0fe506ec51f233f4c1c92ddd08a3fcd0d5b9bd02feff72ef",
+    "public/games/tc-sim-boardworld/locale-keys.mjs": "ba87d845ff9921fc0f47e9b9395ab002bc3bad8f4178c08f4af64f7bf5df0b0a",
+    "public/games/tc-sim-boardworld/locale-pl.mjs": "2cf485e77027679c2a7c41e6098336ae41b4353d8fc71d5b3c0b3e1aed25d3fd",
+    "public/games/tc-sim-boardworld/persistence.mjs": "c2417cad4eea113c1e2cb28c28383ef49e3ca7faa24d6547dc8d99756d4d3e31",
+    "public/games/tc-sim-boardworld/save-codec.mjs": "ca9b6ef8ccafcd7aabc4a6980dc6dfc71c09a7b68d708f896b63d938bfcf14bd",
+    "public/games/tc-sim-boardworld/society-content.mjs": "4e675e3b24ec784e6f98e28276ff7fd31ad638269e7330b1cc8c505f30a274e5",
+    "public/games/tc-sim-boardworld/society-systems.mjs": "c6522745016b49c41ba3e77b8c2a713fede513e43bc8f15728378f0ad5dd3933",
+    "public/games/tc-sim-boardworld/society-ui.mjs": "610840844f8e4fdf9cd4eb4db38e90dc77b552dcf918f38a5ba296cf78c8f2ef",
+    "public/games/tc-sim-boardworld/world-content.mjs": "8d527a10333b51ad2e62d5c120f2b80decd3b435733bdfd69bc438b4b4b7250f",
+    "public/games/tc-sim-boardworld/world-life.mjs": "bee89347469535bfb5057f296ca1cc6ed180dd1a18fc56fe0604d779488eca1f"
+  },
+  "classification": "Generated authentic released-v6 runtime/writer output; not captured owner production saves and not patched synthetic state.",
+  "method": "Exact git archive of released merge. Fresh createGame plus released save/export; mature authentic v5 day366 fixtures loaded/promoted by released6 writer, followed by one valid public released6 resolveAction, then released6 save/export. No clock/cash/skill/state patches.",
+  "reproduce": "node scripts/fixtures/boardworld/v6-generate.mjs",
+  "fixtures": [
+    {
+      "file": "v6-fresh-newcomer.json",
+      "kind": "fresh released6 createGame",
+      "options": {
+        "name": "Released6 compatibility",
+        "scenario": "newcomer",
+        "seed": 2026
+      },
+      "actions": [],
+      "version": 6,
+      "day": 1,
+      "revision": 0,
+      "byteLength": 48223,
+      "sha256": "76123258fb0f95574ab63eadc0c50054814691562211292c6c283fef1dd78a2d",
+      "stateSha256": "b16120175c516fc505b2ae0478ba01d7fca76967e26be904a235866a8928b1fb"
+    },
+    {
+      "file": "v6-fresh-graduate.json",
+      "kind": "fresh released6 createGame",
+      "options": {
+        "name": "Released6 compatibility",
+        "scenario": "graduate",
+        "seed": 2026
+      },
+      "actions": [],
+      "version": 6,
+      "day": 1,
+      "revision": 0,
+      "byteLength": 48230,
+      "sha256": "3fa1707d82b6aff0af7c7b5141b43be36b116a50aa694b15703983859f5e03d9",
+      "stateSha256": "afb1143c908d3ddbdde685f01f619fcf1600b4c77de9821fb26e0ec02d3db4b9"
+    },
+    {
+      "file": "v6-fresh-restart.json",
+      "kind": "fresh released6 createGame",
+      "options": {
+        "name": "Released6 compatibility",
+        "scenario": "restart",
+        "seed": 2026
+      },
+      "actions": [],
+      "version": 6,
+      "day": 1,
+      "revision": 0,
+      "byteLength": 48594,
+      "sha256": "0cbd3524c53005d631e23fa6e85bd281027edff70761998e915e71c11044f0c9",
+      "stateSha256": "9209b18f9296f3db25d7aa51f11233672e0ad1daff21d4c2c9b17c8a887a538a"
+    },
+    {
+      "file": "v6-mature-career-day366.json",
+      "kind": "authentic v5 day366 input promoted and advanced by frozen released6 public resolver",
+      "input": {
+        "file": "v5-career-2026-day366.json",
+        "sha256": "96fbc1124221da90454e73c6d74fb086dff47ddf3f0c4750fa9e674ddbca6b7c"
+      },
+      "actions": [
+        {
+          "id": "wait:15"
+        }
+      ],
+      "originalArchivePreserved": true,
+      "version": 6,
+      "day": 366,
+      "revision": 2612,
+      "byteLength": 288511,
+      "sha256": "8265d470af36d2ca120ff4e5cba060cd84a5b9b937556a9a933afd9daad1e353",
+      "stateSha256": "2bb4c5ca03a82ca31adc0b4b8be765ba0f2c71fa9e0fb5ffba33e7f3e5dd72b9"
+    },
+    {
+      "file": "v6-mature-social-day366.json",
+      "kind": "authentic v5 day366 input promoted and advanced by frozen released6 public resolver",
+      "input": {
+        "file": "v5-social-2026-day366.json",
+        "sha256": "ec3428c4f0ba6e239a2ecebb82aca7b985a1b0d0068f55a99f2eacbcb2c203d5"
+      },
+      "actions": [
+        {
+          "id": "wait:15"
+        }
+      ],
+      "originalArchivePreserved": true,
+      "version": 6,
+      "day": 366,
+      "revision": 3770,
+      "byteLength": 303299,
+      "sha256": "0a49c6df803eae1fa8494dbe74bbbd1158b2fb68b7ea811a4b7cb9c895b2b727",
+      "stateSha256": "761b5075cf25eee335471965d8cdfba70fc6fb6ee81c8f82665cde2532171ec8"
+    },
+    {
+      "file": "v6-mature-entrepreneur-day366.json",
+      "kind": "authentic v5 day366 input promoted and advanced by frozen released6 public resolver",
+      "input": {
+        "file": "v5-entrepreneur-2026-day366.json",
+        "sha256": "89433086e297cbdb2a1bbe0803e34a4c251172d230aac72c49eeb87bf5304427"
+      },
+      "actions": [
+        {
+          "id": "wait:15"
+        }
+      ],
+      "originalArchivePreserved": true,
+      "version": 6,
+      "day": 366,
+      "revision": 3707,
+      "byteLength": 278267,
+      "sha256": "13061e38153a33c09198fa05d95ea49e2a2cf222851674a9282b14d51c16dbc1",
+      "stateSha256": "03e3ec387448f698cc3582592eef8402029538e7aa603fb733c5b2689ff45133"
+    }
+  ]
+}

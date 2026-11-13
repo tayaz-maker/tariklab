@@ -33,7 +33,7 @@ test("SOCIAL ENGINE pure domain boundaries and isolated storage remain enforced"
 });
 test("SOCIAL ENGINE immutable bundle manifest matches every runtime byte and package budget", () => {
   const root = "public/games/social-engine";
-  const maxRuntimeGzip = 280 * 1024;
+  const maxRuntimeGzip = 256000;
   const manifest = JSON.parse(readFileSync(root + "/build-manifest.json", "utf8"));
   let gzip = 0;
   for (const asset of manifest.assets) {

@@ -1,0 +1,101 @@
+{
+  "phase": "PRE-FREEZE FINDING REGISTER; final release decision is external exact-commit evidence",
+  "issues": [
+    {
+      "status": "CORRECTED_IN_CANDIDATE_PENDING_FINAL_GATES",
+      "severity": "high",
+      "id": "BW7-CONCURRENT-WRITER-003",
+      "observedAt": "2026-11-03T17:39:35.939548+00:00",
+      "productCommit": "12b519c58b61e9de5074de5849e8a8c857f26646",
+      "testedPrHead": "af5b3e1664d6edf0ce5391126838a92ca4aaf135",
+      "ciRun": 41678963526,
+      "ciJob": 126067147084,
+      "ciObservation": "19-life simulation and all five Boardworld browser suites passed; stale-browser simultaneous-writer assertion failed:0 conflict notices instead of1.",
+      "localReproduction": "A stronger harness suppresses storage events in both tabs, observes two pending writer locks, checks storage is unchanged while held, and captures notices at action completion. Repeat1 passed; repeat2 reproduced two successful notices for the same travel action, violating the required one-success/one-conflict guarantee.",
+      "sameActionEvidence": "stale-queue-recovery/repeat-2/run.log",
+      "differentActionControl": "Ten additional distinct-action runs passed. Actual loss of different-action progress was not reproduced in that control; this does not resolve the observed writer-serialization acceptance failure.",
+      "cause": "Web Locks alone did not guarantee cross-renderer localStorage visibility. The integrated candidate uses an authoritative IndexedDB head/generation and atomic transaction fencing.",
+      "fixStatus": "Integrated reviewed Sol fix through66bc904d; current-client writes compare and commit authoritative generation atomically, with explicit stale-writer conflict.",
+      "releaseDecision": "Pending independent verification and complete acceptance on the frozen integration; no merge-to-main or publication approval.",
+      "productionChange": false,
+      "socialEngineChange": false,
+      "evidenceScope": "All existing observations in this issue are historical; they are not fresh integrated acceptance."
+    },
+    {
+      "id": "BW7-LATENCY",
+      "status": "FAIL_ON_038_NEW_IMPLEMENTATION_AWAITS_MATCHED_ACCEPTANCE",
+      "description": "Fixed limits remain23.4/23.4/24.0ms. 038de709 medians29.6/26.9/27.8 fail. The new bounded-byte cache changes the measured product; its first batch was interrupted after6retained runs under abruptly changed host load and is not acceptance. Final clean matched evidence is required; no threshold is relaxed."
+    },
+    {
+      "id": "BW7-DEPENDENCIES",
+      "status": "HISTORICAL_CRITICAL_HIGH_RESOLVED_FINAL_AUDIT_PENDING",
+      "description": "038 exact-head all-dependency audit:0critical/0high/14moderate; actual-handler broker identity/PKCE/state/session tests pass. Final integrated audit/auth checks remain mandatory. In-flight pre-upgrade OAuth flows must restart; existing valid sessions remain supported.",
+      "advisory": "https://github.com/advisories/GHSA-965c-763c-88jm"
+    },
+    {
+      "id": "BW7-OLD6-TAB",
+      "status": "CORRECTED_IN_CANDIDATE_PENDING_FINAL_GATES",
+      "scope": "Already-open released6 tabs sharing the same origin and v6 compatibility slots",
+      "description": "Historical71006639/5a0721dc silently replaced a saved Gold winner with a divergent old6 fork. The integrated candidate never auto-adopts that fork: it keeps the authoritative Gold head and preserves foreign valid copies for download and explicit file import. Old6 coexistence must pass the mandatory real released6 regression; requesting users close tabs is not a waiver.",
+      "releaseAssessment": "Correction awaits fresh source/built stale-tab, exact-copy recovery, explicit import and winner-backup verification on the final integration.",
+      "severity": "critical"
+    },
+    {
+      "id": "BW7-RECOVERY-SLOTS-AND-LOCALES",
+      "severity": "high",
+      "status": "CORRECTED_IN_CANDIDATE_PENDING_FINAL_GATES",
+      "description": "Revision2 could discard a divergent backup behind a known/same primary and show untranslated Turkish in combined EN/PL manual-save feedback. Revision3 independently quarantines every valid divergent primary, backup and original slot before mirror repair and adds whole-message translations. Original archives remain immutable; downloading does not select a fork, while explicit import retains the Gold winner as backup.",
+      "implementationEvidence": "Independent b0c25495 source backup check passed eight assertions; Sol revision3 reports304 passing cases. These are implementation proofs, not final integrated acceptance.",
+      "requiredFinalEvidence": "Independent source+built backup quarantine, per-slot regression and real TR/EN/PL manual-save notice/HUD, menu, reload, exact download and explicit import."
+    },
+    {
+      "id": "BW7-NO-WEB-LOCKS",
+      "status": "EXPECTED_LIMITATION",
+      "description": "Without required Web Locks or usable IndexedDB protection, the game fails closed to validated load/export-only behavior with an explanation; failed/aborted protected writes must not report save success. Final fallback and abort cases require integrated verification."
+    },
+    {
+      "id": "BW7-LOCAL-STORAGE-BOUNDARIES",
+      "status": "EXPECTED_LIMITATIONS",
+      "description": "Browser quota, user clearing or eviction can remove local data; preserve offline exports. Recovery-copy growth has no claimed infinite capacity and can consume quota. Independent origins have independent storage and do not synchronize. Two old6 tabs still use the released unpatched writer and can collide with each other; Gold protects its own durable head and preserves foreign copies it observes, but cannot recover bytes already overwritten before observation. These boundaries do not excuse Gold silently replacing its winner or discarding a valid observed foreign slot."
+    },
+    {
+      "id": "BW7-OWNER",
+      "status": "NOT_RUN",
+      "description": "Owner physical playtesting and entertainment assessment remain outstanding."
+    },
+    {
+      "id": "BW7-LINT",
+      "status": "INHERITED",
+      "description": "038 integrated lint passed with62 inherited warnings and zero errors. New browser-global qualifications preserve normalized test AST/assertions. Final integrated lint remains mandatory."
+    },
+    {
+      "id": "BW7-HARNESS-LABELS",
+      "status": "LOW",
+      "description": "Some legacy browser artifact labels still say 5.0/current5 although actual native save assertions use schema 6. The migration matrix and final evidence identify schema 6 explicitly."
+    },
+    {
+      "id": "BW7-OAUTH-INFLIGHT",
+      "status": "EXPECTED_LIMITATION",
+      "description": "OAuth/account-link attempts initiated before Better Auth upgrade must be restarted. Existing valid session cookie compatibility is tested; no real owner Google/X sign-in was performed."
+    },
+    {
+      "id": "BW7-LATE-LEGACY-EMPTY-HEAD",
+      "severity": "high",
+      "status": "IMPLEMENTATION_CORRECTED_FINAL_INTEGRATION_GATES_REQUIRED",
+      "observedCommit": "038de709cfc6385710b05f1fa743cf44e9217ce7",
+      "ciRun": 41702206427,
+      "description": "A prior empty Gold boot hid later authenticv2 bytes and returned onboarding. Sol b2ba2ce3 (local3ba9630, same tree) keeps an empty origin unclaimed and permits only a bounded no-winner bootstrap. Independent unchanged source+built4-case checks pass; claimed winners and exact original bytes remain protected."
+    },
+    {
+      "id": "BW7-LIVE-OUTCOME-LABELS",
+      "severity": "low",
+      "status": "IMPLEMENTATION_CORRECTED_FINAL_INTEGRATION_GATES_REQUIRED",
+      "description": "Current EN/PL cash/need deltas leaked Turkish labels. The presentation-only correction at68a732b3 passed8i18n tests and all3built Society viewport/language journeys; formatted amounts and original saved prose remain unchanged."
+    }
+  ],
+  "productionVersion": "6.0 observed before final acceptance; see PR #254 for subsequent verified deployment",
+  "releaseAccepted": false,
+  "integrationEvidencePolicy": "This pre-freeze snapshot never certifies a future commit. Exact-head/main CI, final matched timing and live delivery must pass; physical checks remain assigned to the owner.",
+  "snapshotAt": "2026-11-03T20:04:53.517684+00:00",
+  "releaseDecisionSource": "https://github.com/tayaz-maker/tariklab/pull/254"
+}

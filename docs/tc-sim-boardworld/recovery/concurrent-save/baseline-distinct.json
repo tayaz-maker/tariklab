@@ -1,0 +1,521 @@
+{
+  "status": "FAIL",
+  "results": [
+    {
+      "iteration": 1,
+      "mode": "different-actions",
+      "queuedWriters": 2,
+      "writers": [
+        {
+          "writer": 0,
+          "revision": 0,
+          "action": "event:welcome:work",
+          "ok": true,
+          "conflict": false,
+          "message": "Bu tarayıcıya kaydedildi.",
+          "trace": [
+            {
+              "at": 1793728833997.7998,
+              "event": "queued",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728833999.9,
+              "event": "acquired",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834001.9,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "136f98d5"
+            },
+            {
+              "at": 1793728834002,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "136f98d5"
+            },
+            {
+              "at": 1793728834004.5,
+              "event": "setItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "136f98d5"
+            },
+            {
+              "at": 1793728834004.5999,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "136f98d5"
+            },
+            {
+              "at": 1793728834004.9,
+              "event": "setItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "b3ba0581"
+            },
+            {
+              "at": 1793728834004.9,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "b3ba0581"
+            },
+            {
+              "at": 1793728834005,
+              "event": "completed",
+              "ok": true
+            },
+            {
+              "at": 1793728834005,
+              "event": "released",
+              "name": "tariklab.boardworld.v6.transaction"
+            }
+          ]
+        },
+        {
+          "writer": 1,
+          "revision": 0,
+          "action": "event:welcome:learn",
+          "ok": false,
+          "conflict": true,
+          "message": "Başka bir sekme kaydı değiştirdi. Bu sekmedeki ilerlemeni dosyaya aktar, sonra sayfayı yenile.",
+          "trace": [
+            {
+              "at": 1793728833997.9,
+              "event": "queued",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834007,
+              "event": "acquired",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834008.9,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "b3ba0581"
+            },
+            {
+              "at": 1793728834008.9,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "136f98d5"
+            },
+            {
+              "at": 1793728834008.9,
+              "event": "completed",
+              "ok": false,
+              "conflict": true
+            },
+            {
+              "at": 1793728834008.9,
+              "event": "released",
+              "name": "tariklab.boardworld.v6.transaction"
+            }
+          ]
+        }
+      ],
+      "persisted": {
+        "revision": 1,
+        "token": {
+          "primary": "b3ba0581",
+          "backup": "136f98d5"
+        }
+      }
+    },
+    {
+      "iteration": 2,
+      "mode": "different-actions",
+      "queuedWriters": 2,
+      "writers": [
+        {
+          "writer": 0,
+          "revision": 0,
+          "action": "event:welcome:work",
+          "ok": true,
+          "conflict": false,
+          "message": "Bu tarayıcıya kaydedildi.",
+          "trace": [
+            {
+              "at": 1793728834151.7998,
+              "event": "queued",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834154.2,
+              "event": "acquired",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834156,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "c27e4c87"
+            },
+            {
+              "at": 1793728834156,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "c27e4c87"
+            },
+            {
+              "at": 1793728834157.7998,
+              "event": "setItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "c27e4c87"
+            },
+            {
+              "at": 1793728834157.9,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "c27e4c87"
+            },
+            {
+              "at": 1793728834158.0999,
+              "event": "setItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "6097dc6d"
+            },
+            {
+              "at": 1793728834158.2,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "6097dc6d"
+            },
+            {
+              "at": 1793728834158.2998,
+              "event": "completed",
+              "ok": true
+            },
+            {
+              "at": 1793728834158.2998,
+              "event": "released",
+              "name": "tariklab.boardworld.v6.transaction"
+            }
+          ]
+        },
+        {
+          "writer": 1,
+          "revision": 0,
+          "action": "event:welcome:learn",
+          "ok": false,
+          "conflict": true,
+          "message": "Başka bir sekme kaydı değiştirdi. Bu sekmedeki ilerlemeni dosyaya aktar, sonra sayfayı yenile.",
+          "trace": [
+            {
+              "at": 1793728834151.9,
+              "event": "queued",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834158.5999,
+              "event": "acquired",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834160,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "6097dc6d"
+            },
+            {
+              "at": 1793728834160.0999,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "c27e4c87"
+            },
+            {
+              "at": 1793728834160.0999,
+              "event": "completed",
+              "ok": false,
+              "conflict": true
+            },
+            {
+              "at": 1793728834160.0999,
+              "event": "released",
+              "name": "tariklab.boardworld.v6.transaction"
+            }
+          ]
+        }
+      ],
+      "persisted": {
+        "revision": 1,
+        "token": {
+          "primary": "6097dc6d",
+          "backup": "c27e4c87"
+        }
+      }
+    },
+    {
+      "iteration": 3,
+      "mode": "different-actions",
+      "queuedWriters": 2,
+      "writers": [
+        {
+          "writer": 0,
+          "revision": 0,
+          "action": "event:welcome:work",
+          "ok": true,
+          "conflict": false,
+          "message": "Bu tarayıcıya kaydedildi.",
+          "trace": [
+            {
+              "at": 1793728834273.2,
+              "event": "queued",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834275.2,
+              "event": "acquired",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834276.7,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "e8cca80f"
+            },
+            {
+              "at": 1793728834276.9,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "e8cca80f"
+            },
+            {
+              "at": 1793728834279,
+              "event": "setItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "e8cca80f"
+            },
+            {
+              "at": 1793728834279.0999,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "e8cca80f"
+            },
+            {
+              "at": 1793728834279.2998,
+              "event": "setItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "6d501ea5"
+            },
+            {
+              "at": 1793728834279.5,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "6d501ea5"
+            },
+            {
+              "at": 1793728834279.5,
+              "event": "completed",
+              "ok": true
+            },
+            {
+              "at": 1793728834279.5,
+              "event": "released",
+              "name": "tariklab.boardworld.v6.transaction"
+            }
+          ]
+        },
+        {
+          "writer": 1,
+          "revision": 0,
+          "action": "event:welcome:learn",
+          "ok": false,
+          "conflict": true,
+          "message": "Başka bir sekme kaydı değiştirdi. Bu sekmedeki ilerlemeni dosyaya aktar, sonra sayfayı yenile.",
+          "trace": [
+            {
+              "at": 1793728834273.2998,
+              "event": "queued",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834280.4,
+              "event": "acquired",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834282.2998,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "6d501ea5"
+            },
+            {
+              "at": 1793728834282.5,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "e8cca80f"
+            },
+            {
+              "at": 1793728834282.5,
+              "event": "completed",
+              "ok": false,
+              "conflict": true
+            },
+            {
+              "at": 1793728834282.5,
+              "event": "released",
+              "name": "tariklab.boardworld.v6.transaction"
+            }
+          ]
+        }
+      ],
+      "persisted": {
+        "revision": 1,
+        "token": {
+          "primary": "6d501ea5",
+          "backup": "e8cca80f"
+        }
+      }
+    },
+    {
+      "iteration": 4,
+      "mode": "different-actions",
+      "queuedWriters": 2,
+      "writers": [
+        {
+          "writer": 0,
+          "revision": 0,
+          "action": "event:welcome:work",
+          "ok": true,
+          "conflict": false,
+          "message": "Bu tarayıcıya kaydedildi.",
+          "trace": [
+            {
+              "at": 1793728834391.2,
+              "event": "queued",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834392.4,
+              "event": "acquired",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834393.5999,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "d99f0da9"
+            },
+            {
+              "at": 1793728834393.5999,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "d99f0da9"
+            },
+            {
+              "at": 1793728834395.2,
+              "event": "setItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "d99f0da9"
+            },
+            {
+              "at": 1793728834395.4,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "d99f0da9"
+            },
+            {
+              "at": 1793728834395.5,
+              "event": "setItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "a1f9c5d5"
+            },
+            {
+              "at": 1793728834395.7,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "a1f9c5d5"
+            },
+            {
+              "at": 1793728834395.7,
+              "event": "completed",
+              "ok": true
+            },
+            {
+              "at": 1793728834395.7,
+              "event": "released",
+              "name": "tariklab.boardworld.v6.transaction"
+            }
+          ]
+        },
+        {
+          "writer": 1,
+          "revision": 0,
+          "action": "event:welcome:learn",
+          "ok": true,
+          "conflict": false,
+          "message": "Bu tarayıcıya kaydedildi.",
+          "trace": [
+            {
+              "at": 1793728834391.2,
+              "event": "queued",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834395.9,
+              "event": "acquired",
+              "name": "tariklab.boardworld.v6.transaction"
+            },
+            {
+              "at": 1793728834397.7,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "d99f0da9"
+            },
+            {
+              "at": 1793728834397.7998,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "d99f0da9"
+            },
+            {
+              "at": 1793728834399.7,
+              "event": "setItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "d99f0da9"
+            },
+            {
+              "at": 1793728834399.9,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6.backup",
+              "value": "d99f0da9"
+            },
+            {
+              "at": 1793728834400.0999,
+              "event": "setItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "4a462e1c"
+            },
+            {
+              "at": 1793728834400.2,
+              "event": "getItem",
+              "key": "tariklab.boardworld.v6",
+              "value": "4a462e1c"
+            },
+            {
+              "at": 1793728834400.2,
+              "event": "completed",
+              "ok": true
+            },
+            {
+              "at": 1793728834400.2,
+              "event": "released",
+              "name": "tariklab.boardworld.v6.transaction"
+            }
+          ]
+        }
+      ],
+      "persisted": {
+        "revision": 1,
+        "token": {
+          "primary": "4a462e1c",
+          "backup": "d99f0da9"
+        }
+      }
+    }
+  ],
+  "error": "[{\"writer\":0,\"revision\":0,\"action\":\"event:welcome:work\",\"ok\":true,\"conflict\":false,\"message\":\"Bu tarayıcıya kaydedildi.\",\"trace\":[{\"at\":1793728834391.2,\"event\":\"queued\",\"name\":\"tariklab.boardworld.v6.transaction\"},{\"at\":1793728834392.4,\"event\":\"acquired\",\"name\":\"tariklab.boardworld.v6.transaction\"},{\"at\":1793728834393.5999,\"event\":\"getItem\",\"key\":\"tariklab.boardworld.v6\",\"value\":\"d99f0da9\"},{\"at\":1793728834393.5999,\"event\":\"getItem\",\"key\":\"tariklab.boardworld.v6.backup\",\"value\":\"d99f0da9\"},{\"at\":1793728834395.2,\"event\":\"setItem\",\"key\":\"tariklab.boardworld.v6.backup\",\"value\":\"d99f0da9\"},{\"at\":1793728834395.4,\"event\":\"getItem\",\"key\":\"tariklab.boardworld.v6.backup\",\"value\":\"d99f0da9\"},{\"at\":1793728834395.5,\"event\":\"setItem\",\"key\":\"tariklab.boardworld.v6\",\"value\":\"a1f9c5d5\"},{\"at\":1793728834395.7,\"event\":\"getItem\",\"key\":\"tariklab.boardworld.v6\",\"value\":\"a1f9c5d5\"},{\"at\":1793728834395.7,\"event\":\"completed\",\"ok\":true},{\"at\":1793728834395.7,\"event\":\"released\",\"name\":\"tariklab.boardworld.v6.transaction\"}]},{\"writer\":1,\"revision\":0,\"action\":\"event:welcome:learn\",\"ok\":true,\"conflict\":false,\"message\":\"Bu tarayıcıya kaydedildi.\",\"trace\":[{\"at\":1793728834391.2,\"event\":\"queued\",\"name\":\"tariklab.boardworld.v6.transaction\"},{\"at\":1793728834395.9,\"event\":\"acquired\",\"name\":\"tariklab.boardworld.v6.transaction\"},{\"at\":1793728834397.7,\"event\":\"getItem\",\"key\":\"tariklab.boardworld.v6\",\"value\":\"d99f0da9\"},{\"at\":1793728834397.7998,\"event\":\"getItem\",\"key\":\"tariklab.boardworld.v6.backup\",\"value\":\"d99f0da9\"},{\"at\":1793728834399.7,\"event\":\"setItem\",\"key\":\"tariklab.boardworld.v6.backup\",\"value\":\"d99f0da9\"},{\"at\":1793728834399.9,\"event\":\"getItem\",\"key\":\"tariklab.boardworld.v6.backup\",\"value\":\"d99f0da9\"},{\"at\":1793728834400.0999,\"event\":\"setItem\",\"key\":\"tariklab.boardworld.v6\",\"value\":\"4a462e1c\"},{\"at\":1793728834400.2,\"event\":\"getItem\",\"key\":\"tariklab.boardworld.v6\",\"value\":\"4a462e1c\"},{\"at\":1793728834400.2,\"event\":\"completed\",\"ok\":true},{\"at\":1793728834400.2,\"event\":\"released\",\"name\":\"tariklab.boardworld.v6.transaction\"}]}]\n\n2 !== 1\n"
+}

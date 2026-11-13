@@ -1,0 +1,334 @@
+{
+  "ok": true,
+  "origin": "http://127.0.0.1:61571",
+  "results": [
+    {
+      "width": 1440,
+      "directTravel": true,
+      "policyChanges": 22,
+      "locationVisible": true,
+      "board": {
+        "mapDocumentY": 601.5,
+        "mapHeight": 565.390625,
+        "viewportHeight": 1000,
+        "locationVisible": true
+      },
+      "contrast": {
+        "--ink": 12.18839390936234,
+        "--muted": 4.918185803289479,
+        "--coral": 4.750941407396361,
+        "--ochre": 4.71183306970615,
+        "--teal": 5.291063078592514
+      },
+      "keyboardCalendar": true,
+      "calendarShortcut": true,
+      "saveReload": true,
+      "allExistingTabs": 13
+    },
+    {
+      "width": 390,
+      "directTravel": true,
+      "policyChanges": 22,
+      "locationVisible": true,
+      "board": {
+        "mapDocumentY": 630.125,
+        "mapHeight": 482.15625,
+        "viewportHeight": 844,
+        "locationVisible": true
+      },
+      "contrast": {
+        "--ink": 12.18839390936234,
+        "--muted": 4.918185803289479,
+        "--coral": 4.750941407396361,
+        "--ochre": 4.71183306970615,
+        "--teal": 5.291063078592514
+      },
+      "keyboardCalendar": true,
+      "calendarShortcut": true,
+      "saveReload": true,
+      "allExistingTabs": 13
+    },
+    {
+      "width": 320,
+      "directTravel": true,
+      "policyChanges": 22,
+      "locationVisible": true,
+      "board": {
+        "mapDocumentY": 632.125,
+        "mapHeight": 506.34375,
+        "viewportHeight": 844,
+        "locationVisible": true
+      },
+      "contrast": {
+        "--ink": 12.18839390936234,
+        "--muted": 4.918185803289479,
+        "--coral": 4.750941407396361,
+        "--ochre": 4.71183306970615,
+        "--teal": 5.291063078592514
+      },
+      "keyboardCalendar": true,
+      "calendarShortcut": true,
+      "saveReload": true,
+      "allExistingTabs": 13
+    },
+    {
+      "householdInvitation": true,
+      "separateEscrow": true,
+      "householdSaveReload": true,
+      "explicitExit": true,
+      "secondaryPromotion": true,
+      "secondaryPhone": true,
+      "generatedCausalEvent": "employment",
+      "causalHistory": true,
+      "routineDecisionStop": true
+    },
+    {
+      "v3MigrationDay": 91,
+      "immutableOriginal": true,
+      "staleV3Events": 2,
+      "canonicalPreserved": true,
+      "currentV4Sync": true
+    }
+  ],
+  "errors": [],
+  "performance": {
+    "rawBytes": 937763,
+    "gzipBytes": 300100,
+    "assets": [
+      {
+        "file": "index.html",
+        "bytes": 1139,
+        "gzipBytes": 680,
+        "sha256": "24b9c1544c4f59c09ac122e6117cc1b98580f9f8282bddd82c763ea4795a011c"
+      },
+      {
+        "file": "app.mjs",
+        "bytes": 73,
+        "gzipBytes": 89,
+        "sha256": "5a927362a55a00d2369f4ee253ec8d9f76296012acfbd21f156c648148d95421"
+      },
+      {
+        "file": "style.css",
+        "bytes": 121942,
+        "gzipBytes": 21421,
+        "sha256": "bb524d257a7880bdc1e2e35e02d862cdf43d9fc46831087d408821fce4355ae8"
+      },
+      {
+        "file": "favicon.svg",
+        "bytes": 199,
+        "gzipBytes": 180,
+        "sha256": "f56714a4b795e087d52dece6b9ca5113d1a7fe9aa1cf2edb82ec5d87c46fca12"
+      },
+      {
+        "file": "engine.mjs",
+        "bytes": 495,
+        "gzipBytes": 290,
+        "sha256": "94bc8fc9dab3b67d9ab3725f3c52a6c82fd1d0b03e8269a9bdcfaa2777eef1f8"
+      },
+      {
+        "file": "content.mjs",
+        "bytes": 187,
+        "gzipBytes": 167,
+        "sha256": "a5eac1f56f9abd796fcd3bc9918d0b6fc226334c73eff9a70b43c741bb566389"
+      },
+      {
+        "file": "persistence.mjs",
+        "bytes": 647,
+        "gzipBytes": 265,
+        "sha256": "0f7e93b1ac2325fff6d4b8c56b4cf439e3116681e22d7c51fd12565cb7978373"
+      },
+      {
+        "file": "save-codec.mjs",
+        "bytes": 82,
+        "gzipBytes": 93,
+        "sha256": "b6a3689fbb9a9bf27898776dd8b06d3256f46f11eb4cbdd2d3edd67e3d2616a5"
+      },
+      {
+        "file": "deep-content.mjs",
+        "bytes": 145,
+        "gzipBytes": 153,
+        "sha256": "f7116cd5f26854ce4e0cac38f4627f1609f7f8f2873fa4859c52736694530e2c"
+      },
+      {
+        "file": "deep-life.mjs",
+        "bytes": 228,
+        "gzipBytes": 180,
+        "sha256": "1c4b3c89b0aa4720f280b0f3f1d6450f7a655107d6482fa0ac4326a2da2245ee"
+      },
+      {
+        "file": "deep-ui.mjs",
+        "bytes": 341,
+        "gzipBytes": 210,
+        "sha256": "6ae9d6249034afe5de97d763bc1a159778b46fdc690630eac17e1c762c0c3992"
+      },
+      {
+        "file": "deep.css",
+        "bytes": 0,
+        "gzipBytes": 20,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "life-chains.mjs",
+        "bytes": 165,
+        "gzipBytes": 153,
+        "sha256": "446e6b3af25431962e576776263e74d83f7c2a263154ff1e2d8a71e14a10b8f3"
+      },
+      {
+        "file": "calendar.mjs",
+        "bytes": 383,
+        "gzipBytes": 248,
+        "sha256": "f50fbcf7d77eb4075e720d2c5d282c44edc79826fad68cb747e40efbb175426b"
+      },
+      {
+        "file": "city.mjs",
+        "bytes": 191,
+        "gzipBytes": 168,
+        "sha256": "ff5b45fef36089a331ce179aa475fc11a8f03ff779a5a380f80372a045b01f99"
+      },
+      {
+        "file": "world-content.mjs",
+        "bytes": 132,
+        "gzipBytes": 145,
+        "sha256": "2acdb94eff4734d4252e193165346d6ffda1656a2c20c6b14cb2958be276bee2"
+      },
+      {
+        "file": "world-life.mjs",
+        "bytes": 256,
+        "gzipBytes": 186,
+        "sha256": "ea9e67f7f9768792457b679f2cd856a48a265377e048aea5b6278cac4f92e1de"
+      },
+      {
+        "file": "living-ui.mjs",
+        "bytes": 271,
+        "gzipBytes": 196,
+        "sha256": "4df5bd4164ae07f7977622cdc4d01b0e32041852b801d5a1f02aec80aa363682"
+      },
+      {
+        "file": "living.css",
+        "bytes": 0,
+        "gzipBytes": 20,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "emergent-content.mjs",
+        "bytes": 94,
+        "gzipBytes": 112,
+        "sha256": "b7c9edb5da57e6484e5b437691786c78eac335ef23857b2c7f758fb4411358b0"
+      },
+      {
+        "file": "emergent-life.mjs",
+        "bytes": 250,
+        "gzipBytes": 173,
+        "sha256": "2566a9289e87c8cc306eb8ba91e6aad3bc5e2e2caf00fc2e0f4f0be8b91a887c"
+      },
+      {
+        "file": "emergent-ui.mjs",
+        "bytes": 316,
+        "gzipBytes": 209,
+        "sha256": "8e00dd2529b0357c81363974df326c10aa2e7d4f0558e47d3b03e1bfbaad50c0"
+      },
+      {
+        "file": "emergent.css",
+        "bytes": 0,
+        "gzipBytes": 20,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "daily-flow.mjs",
+        "bytes": 300,
+        "gzipBytes": 224,
+        "sha256": "441c030e27d16c35429347e7bc32de2d3d5a4ff514a78715aa3637aa6f7832a6"
+      },
+      {
+        "file": "society-content.mjs",
+        "bytes": 111,
+        "gzipBytes": 111,
+        "sha256": "19c50d2407d2014604a538e6c8ee3bd103980030dda9ba348e7ebfa2b6c043fe"
+      },
+      {
+        "file": "society-systems.mjs",
+        "bytes": 389,
+        "gzipBytes": 231,
+        "sha256": "f6f25d1d58436e5c8a7ad9fc4a32debac7a4dfdb3c3cdd77d97efe97216308e5"
+      },
+      {
+        "file": "society-ui.mjs",
+        "bytes": 214,
+        "gzipBytes": 154,
+        "sha256": "b5e40f7a91b9d5e9064c87e6805c1a79a7e8d3587fafee0255e27fe250526b66"
+      },
+      {
+        "file": "society.css",
+        "bytes": 0,
+        "gzipBytes": 20,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "i18n.mjs",
+        "bytes": 236,
+        "gzipBytes": 199,
+        "sha256": "f2081865bba6c5d2bc12ad472647b88ff39b85607cacd080361b872e2920de4d"
+      },
+      {
+        "file": "locale-keys.mjs",
+        "bytes": 40813,
+        "gzipBytes": 15539,
+        "sha256": "ab65567003c2846e463249112678d819f202596c4d7e41bf824050d75c81d599"
+      },
+      {
+        "file": "locale-en.mjs",
+        "bytes": 128405,
+        "gzipBytes": 42940,
+        "sha256": "3e100ab3beb34f7dc6f0580c6832040408514405838b2670580cf9be58c77fa4"
+      },
+      {
+        "file": "locale-pl.mjs",
+        "bytes": 139370,
+        "gzipBytes": 47471,
+        "sha256": "e1aa4eaa44ee8a588d086fa32f20a525fae86ebf3624e15d5496b7cb23856c87"
+      },
+      {
+        "file": "life-content.mjs",
+        "bytes": 136,
+        "gzipBytes": 147,
+        "sha256": "3fa63266abeed95976984a6b51cf7a7e2618e48ec052430029b4ef2b7f7edcfe"
+      },
+      {
+        "file": "life-systems.mjs",
+        "bytes": 501,
+        "gzipBytes": 311,
+        "sha256": "5199759773ce67eec4566ac4c05b9a5a201a7393136aa25eb0f70df4e8dd9c14"
+      },
+      {
+        "file": "bw-runtime-43bc66d49ab558c5.mjs",
+        "bytes": 499752,
+        "gzipBytes": 167375,
+        "sha256": "43bc66d49ab558c5d9c1c40e34aefdcffbf266d8becf44433eed899657a7e4cd"
+      }
+    ],
+    "timings": [
+      {
+        "width": 1440,
+        "firstContentfulPaintMs": 56,
+        "sampleCount": 25,
+        "handlerP50Ms": 8.299999952316284,
+        "handlerP95Ms": 12.100000023841858
+      },
+      {
+        "width": 390,
+        "firstContentfulPaintMs": 40,
+        "sampleCount": 25,
+        "handlerP50Ms": 7.899999976158142,
+        "handlerP95Ms": 13
+      },
+      {
+        "width": 320,
+        "firstContentfulPaintMs": 40,
+        "sampleCount": 25,
+        "handlerP50Ms": 8.799999952316284,
+        "handlerP95Ms": 14
+      }
+    ],
+    "caveat": "Click/change synchronous handler samples; excludes paint/network. Expanded v4 flow differs from separately repeated baseline Living City flow."
+  }
+}

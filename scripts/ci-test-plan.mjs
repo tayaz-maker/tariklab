@@ -38,6 +38,6 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
   const escape=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   if(files.length)run(['--test',`--test-skip-pattern=^(?:${EXTENDED_NAMES.map(escape).join('|')})$`,...files.map(f=>'scripts/'+f)]);
   if(shard===0)run(['--experimental-strip-types','--import','./scripts/ts-alias.mjs','--test',
-    'src/lib/app-data/app-data.test.ts','src/lib/auth/gate-identity.test.ts','src/lib/auth/preview-secret.test.ts',
+    'src/lib/app-data/app-data.test.ts','src/lib/auth/broker-oauth.test.ts','src/lib/auth/gate-identity.test.ts','src/lib/auth/preview-secret.test.ts',
     'src/game/formulas.test.ts','src/game/clock.test.ts','src/game/closure.test.ts','src/game/outcome-moment.test.ts','src/lib/save-slots.test.ts']);
 }

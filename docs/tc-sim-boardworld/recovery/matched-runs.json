@@ -1,0 +1,247 @@
+{
+  "commit": "12b519c58b61e9de5074de5849e8a8c857f26646",
+  "tree": "bceae0875217321eaad2259519a463828f50e985",
+  "environment": {
+    "node": "v24.21.0",
+    "cpu": "Apple M2",
+    "platform": "darwin",
+    "release": "25.6.0"
+  },
+  "runs": [
+    {
+      "repeat": 1,
+      "version": "v5",
+      "start": "2026-11-03T15:57:00.068Z",
+      "loadBefore": [
+        14.13330078125,
+        14.9287109375,
+        14.43310546875
+      ],
+      "command": [
+        "/usr/local/bin/node",
+        "/Users/tarikayaz/Documents/Codex/2026-11-03/tc-sim-boardworld-6-0-release/work/gold7-matched/v5/scripts/boardworld-living-browser.mjs",
+        "--serve",
+        "/Users/tarikayaz/Documents/Codex/2026-10-31/astra-ultra-tc-sim-boardworld-tek/work/bw6-baseline/v5/public"
+      ],
+      "harnessSha256": "4e47ddbb69a3f4560aaf1725683caa5940c432127014acb31ae2cfbd20085a8f",
+      "report": "/private/tmp/boardworld7-final-oj1825n2/evidence/matched/v5-1/screenshots/boardworld-living/result.json",
+      "end": "2026-11-03T15:57:25.627Z",
+      "exit": 0,
+      "signal": null,
+      "loadAfter": [
+        13.4326171875,
+        14.66845703125,
+        14.3505859375
+      ]
+    },
+    {
+      "repeat": 1,
+      "version": "v6",
+      "start": "2026-11-03T15:57:25.628Z",
+      "loadBefore": [
+        13.4326171875,
+        14.66845703125,
+        14.3505859375
+      ],
+      "command": [
+        "/usr/local/bin/node",
+        "/Users/tarikayaz/Documents/Codex/2026-11-03/tc-sim-boardworld-6-0-release/work/gold7-matched/v6/scripts/boardworld-living-browser.mjs",
+        "--serve",
+        "/Users/tarikayaz/Documents/Codex/2026-10-31/astra-ultra-tc-sim-boardworld-tek/work/tariklab/.output/public"
+      ],
+      "harnessSha256": "aae2f724aa8fb786f3edfcc9e4faadc12659ba77e03bc2b0d6b5b09bb26952a7",
+      "report": "/private/tmp/boardworld7-final-oj1825n2/evidence/matched/v6-1/screenshots/boardworld-living/result.json",
+      "end": "2026-11-03T15:57:49.836Z",
+      "exit": 0,
+      "signal": null,
+      "loadAfter": [
+        13.43505859375,
+        14.5537109375,
+        14.31689453125
+      ]
+    },
+    {
+      "repeat": 1,
+      "version": "gold",
+      "start": "2026-11-03T15:57:49.837Z",
+      "loadBefore": [
+        13.43505859375,
+        14.5537109375,
+        14.31689453125
+      ],
+      "command": [
+        "/usr/local/bin/node",
+        "/private/tmp/boardworld7-final-oj1825n2/repo/scripts/boardworld-living-browser.mjs",
+        "--serve",
+        "/private/tmp/boardworld7-final-oj1825n2/repo/.output/public"
+      ],
+      "harnessSha256": "897508f9e545a4d6f456d4404e9d605e9790d50ac08447d73aef58a3830107f1",
+      "report": "/private/tmp/boardworld7-final-oj1825n2/evidence/matched/gold-1/screenshots/boardworld-living/result.json",
+      "end": "2026-11-03T15:58:14.218Z",
+      "exit": 0,
+      "signal": null,
+      "loadAfter": [
+        10.5859375,
+        13.787109375,
+        14.0458984375
+      ]
+    },
+    {
+      "repeat": 2,
+      "version": "gold",
+      "start": "2026-11-03T15:58:14.218Z",
+      "loadBefore": [
+        10.5859375,
+        13.787109375,
+        14.0458984375
+      ],
+      "command": [
+        "/usr/local/bin/node",
+        "/private/tmp/boardworld7-final-oj1825n2/repo/scripts/boardworld-living-browser.mjs",
+        "--serve",
+        "/private/tmp/boardworld7-final-oj1825n2/repo/.output/public"
+      ],
+      "harnessSha256": "897508f9e545a4d6f456d4404e9d605e9790d50ac08447d73aef58a3830107f1",
+      "report": "/private/tmp/boardworld7-final-oj1825n2/evidence/matched/gold-2/screenshots/boardworld-living/result.json",
+      "end": "2026-11-03T15:58:37.941Z",
+      "exit": 0,
+      "signal": null,
+      "loadAfter": [
+        9.49365234375,
+        13.2470703125,
+        13.841796875
+      ]
+    },
+    {
+      "repeat": 2,
+      "version": "v6",
+      "start": "2026-11-03T15:58:37.941Z",
+      "loadBefore": [
+        9.49365234375,
+        13.2470703125,
+        13.841796875
+      ],
+      "command": [
+        "/usr/local/bin/node",
+        "/Users/tarikayaz/Documents/Codex/2026-11-03/tc-sim-boardworld-6-0-release/work/gold7-matched/v6/scripts/boardworld-living-browser.mjs",
+        "--serve",
+        "/Users/tarikayaz/Documents/Codex/2026-10-31/astra-ultra-tc-sim-boardworld-tek/work/tariklab/.output/public"
+      ],
+      "harnessSha256": "aae2f724aa8fb786f3edfcc9e4faadc12659ba77e03bc2b0d6b5b09bb26952a7",
+      "report": "/private/tmp/boardworld7-final-oj1825n2/evidence/matched/v6-2/screenshots/boardworld-living/result.json",
+      "end": "2026-11-03T15:59:01.803Z",
+      "exit": 0,
+      "signal": null,
+      "loadAfter": [
+        7.7861328125,
+        12.6142578125,
+        13.6005859375
+      ]
+    },
+    {
+      "repeat": 2,
+      "version": "v5",
+      "start": "2026-11-03T15:59:01.803Z",
+      "loadBefore": [
+        7.7861328125,
+        12.6142578125,
+        13.6005859375
+      ],
+      "command": [
+        "/usr/local/bin/node",
+        "/Users/tarikayaz/Documents/Codex/2026-11-03/tc-sim-boardworld-6-0-release/work/gold7-matched/v5/scripts/boardworld-living-browser.mjs",
+        "--serve",
+        "/Users/tarikayaz/Documents/Codex/2026-10-31/astra-ultra-tc-sim-boardworld-tek/work/bw6-baseline/v5/public"
+      ],
+      "harnessSha256": "4e47ddbb69a3f4560aaf1725683caa5940c432127014acb31ae2cfbd20085a8f",
+      "report": "/private/tmp/boardworld7-final-oj1825n2/evidence/matched/v5-2/screenshots/boardworld-living/result.json",
+      "end": "2026-11-03T15:59:25.753Z",
+      "exit": 0,
+      "signal": null,
+      "loadAfter": [
+        7.26416015625,
+        12.09912109375,
+        13.384765625
+      ]
+    },
+    {
+      "repeat": 3,
+      "version": "v5",
+      "start": "2026-11-03T15:59:25.754Z",
+      "loadBefore": [
+        7.26416015625,
+        12.09912109375,
+        13.384765625
+      ],
+      "command": [
+        "/usr/local/bin/node",
+        "/Users/tarikayaz/Documents/Codex/2026-11-03/tc-sim-boardworld-6-0-release/work/gold7-matched/v5/scripts/boardworld-living-browser.mjs",
+        "--serve",
+        "/Users/tarikayaz/Documents/Codex/2026-10-31/astra-ultra-tc-sim-boardworld-tek/work/bw6-baseline/v5/public"
+      ],
+      "harnessSha256": "4e47ddbb69a3f4560aaf1725683caa5940c432127014acb31ae2cfbd20085a8f",
+      "report": "/private/tmp/boardworld7-final-oj1825n2/evidence/matched/v5-3/screenshots/boardworld-living/result.json",
+      "end": "2026-11-03T15:59:50.242Z",
+      "exit": 0,
+      "signal": null,
+      "loadAfter": [
+        17.3603515625,
+        14.044921875,
+        14.0458984375
+      ]
+    },
+    {
+      "repeat": 3,
+      "version": "v6",
+      "start": "2026-11-03T15:59:50.245Z",
+      "loadBefore": [
+        17.3603515625,
+        14.044921875,
+        14.0458984375
+      ],
+      "command": [
+        "/usr/local/bin/node",
+        "/Users/tarikayaz/Documents/Codex/2026-11-03/tc-sim-boardworld-6-0-release/work/gold7-matched/v6/scripts/boardworld-living-browser.mjs",
+        "--serve",
+        "/Users/tarikayaz/Documents/Codex/2026-10-31/astra-ultra-tc-sim-boardworld-tek/work/tariklab/.output/public"
+      ],
+      "harnessSha256": "aae2f724aa8fb786f3edfcc9e4faadc12659ba77e03bc2b0d6b5b09bb26952a7",
+      "report": "/private/tmp/boardworld7-final-oj1825n2/evidence/matched/v6-3/screenshots/boardworld-living/result.json",
+      "end": "2026-11-03T16:00:14.637Z",
+      "exit": 0,
+      "signal": null,
+      "loadAfter": [
+        17.9580078125,
+        14.43017578125,
+        14.1826171875
+      ]
+    },
+    {
+      "repeat": 3,
+      "version": "gold",
+      "start": "2026-11-03T16:00:14.637Z",
+      "loadBefore": [
+        17.9580078125,
+        14.43017578125,
+        14.1826171875
+      ],
+      "command": [
+        "/usr/local/bin/node",
+        "/private/tmp/boardworld7-final-oj1825n2/repo/scripts/boardworld-living-browser.mjs",
+        "--serve",
+        "/private/tmp/boardworld7-final-oj1825n2/repo/.output/public"
+      ],
+      "harnessSha256": "897508f9e545a4d6f456d4404e9d605e9790d50ac08447d73aef58a3830107f1",
+      "report": "/private/tmp/boardworld7-final-oj1825n2/evidence/matched/gold-3/screenshots/boardworld-living/result.json",
+      "end": "2026-11-03T16:00:38.784Z",
+      "exit": 0,
+      "signal": null,
+      "loadAfter": [
+        14.529296875,
+        13.923828125,
+        14.0078125
+      ]
+    }
+  ],
+  "boundary": "v5/v6 original synchronous full handler; Gold extended through awaited Web Lock/save/render. Same 20/39/20 UI samples; no early completion or ignored wait."
+}

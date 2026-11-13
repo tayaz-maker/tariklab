@@ -1,0 +1,45 @@
+{
+  "commit": "12b519c58b61e9de5074de5849e8a8c857f26646",
+  "change": "diff --git a/docs/ip/THIRD_PARTY_NOTICES.md b/docs/ip/THIRD_PARTY_NOTICES.md\nindex da7e34c..e49c2b7 100644\n--- a/docs/ip/THIRD_PARTY_NOTICES.md\n+++ b/docs/ip/THIRD_PARTY_NOTICES.md\n@@ -56,7 +56,7 @@ TarikLab uses no third-party fonts (system font stacks only), no audio, and no t\n | react-remove-scroll-bar | 2.3.8 | MIT |\n | react-style-singleton | 2.2.3 | MIT |\n | scheduler | 0.27.0 | MIT |\n-| seroval | 1.6.8 | MIT |\n+| seroval | 1.7.7 | MIT |\n | seroval-plugins | 1.6.8 | MIT |\n | tailwind-merge | 3.6.0 | MIT |\n | tailwindcss | 4.3.3 | MIT |\n@@ -64,7 +64,7 @@ TarikLab uses no third-party fonts (system font stacks only), no audio, and no t\n | use-callback-ref | 1.3.3 | MIT |\n | use-sidecar | 1.1.3 | MIT |\n | use-sync-external-store | 1.6.0 | MIT |\n-| zod | 4.6.5 | MIT |\n+| zod | 4.6.7 | MIT |\n | zustand | 5.0.15 | MIT |\n \n ## @radix-ui/primitive 1.1.7\n@@ -1465,7 +1465,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n SOFTWARE.\n ```\n \n-## seroval 1.6.8\n+## seroval 1.7.7\n \n License: MIT · Source: https://github.com/lxsmnsyc/seroval.git\n \n@@ -1652,7 +1652,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n SOFTWARE.\n ```\n \n-## zod 4.6.5\n+## zod 4.6.7\n \n License: MIT · Source: https://github.com/colinhacks/zod.git\n \n",
+  "scope": "Documentation-only generated license version correction after full JS regression2893/2894; original failure retained. TS stage had not run because npm test uses &&.",
+  "steps": [
+    {
+      "name": "license-notices",
+      "command": [
+        "node",
+        "--test",
+        "scripts/ip-register.test.mjs"
+      ],
+      "startedAt": "2026-11-03T16:45:39.375Z",
+      "pid": 61244,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:45:39.646Z"
+    },
+    {
+      "name": "typescript-suite",
+      "command": [
+        "node",
+        "--experimental-strip-types",
+        "--import",
+        "./scripts/ts-alias.mjs",
+        "--test",
+        "src/lib/app-data/app-data.test.ts",
+        "src/lib/auth/broker-oauth.test.ts",
+        "src/lib/auth/gate-identity.test.ts",
+        "src/lib/auth/preview-secret.test.ts",
+        "src/game/formulas.test.ts",
+        "src/game/clock.test.ts",
+        "src/game/closure.test.ts",
+        "src/game/outcome-moment.test.ts",
+        "src/lib/save-slots.test.ts"
+      ],
+      "startedAt": "2026-11-03T16:45:39.647Z",
+      "pid": 61248,
+      "exit": 0,
+      "signal": null,
+      "finishedAt": "2026-11-03T16:45:40.997Z"
+    }
+  ],
+  "pass": true
+}

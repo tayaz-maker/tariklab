@@ -35,6 +35,17 @@ const activeChanges = {
   "simulation/vehicle-collision.ts":
     "7c8edb8d6f80c08bbeb30e71b4e0e1211b374d77e075ae06dad5988ba5504f37",
 };
+// This byte-reviewed set differs only in small module-local initializers.
+// Keeping them per ruleset lets their consumers share identical function code.
+const ruleConstants = {
+  "domain/world.ts": ["SPAWN"],
+  "simulation/mobility.ts": ["PARKING_LOTS", "nearby"],
+  "simulation/traffic.ts": ["RESERVATION_RADIUS"],
+};
+const extraRuleConstants = {
+  "simulation/traffic.ts": ["insideZone", "corridorZoneMemo"],
+  "simulation/pedestrian-navigation.ts": ["obstacleClearance", "blocked"],
+};
 async function readRules(dir, expected) {
   const manifest = await readFile(join(dir, "provenance.json"));
   if (hash(manifest) !== expected) throw Error("Unexpected frozen manifest at " + dir);
@@ -59,9 +70,18 @@ async function parseModule(input, name) {
     functions = new Map(),
     rest = [],
     exports = [],
-    dependencies = [];
+    dependencies = [],
+    constants = new Map();
   for (const statement of file.statements) {
     const text = statement.getText(file);
+    const singleConst =
+      ts.isVariableStatement(statement) &&
+      statement.declarationList.flags & ts.NodeFlags.Const &&
+      statement.declarationList.declarations.length === 1
+        ? statement.declarationList.declarations[0]
+        : null;
+    const constant =
+      singleConst && ts.isIdentifier(singleConst.name) ? singleConst.name.text : null;
     if (ts.isImportDeclaration(statement)) {
       outer.push(text);
       dependencies.push(statement.moduleSpecifier.text);
@@ -71,6 +91,11 @@ async function parseModule(input, name) {
         exports.push([(s.propertyName ?? s.name).text, s.name.text]);
     } else if (ts.isFunctionDeclaration(statement)) {
       functions.set(statement.name.text, text);
+    } else if (constant && ruleConstants[name]?.includes(constant)) {
+      constants.set(constant, singleConst.initializer.getText(file));
+      rest.push({ constant });
+    } else if (constant && extraRuleConstants[name]?.includes(constant)) {
+      constants.set(constant, singleConst.initializer.getText(file));
     } else if (
       ts.isVariableStatement(statement) &&
       statement.declarationList.declarations.length === 1 &&
@@ -88,13 +113,104 @@ async function parseModule(input, name) {
       rest.push(text);
     }
   }
-  return { outer, bindings, functions, rest, exports, dependencies };
+  return { outer, bindings, functions, rest, exports, dependencies, constants };
+}
+// Share the large, mostly identical dispatch switch across byte-verified engines.
+// Only literal, unique cases that cannot fall through are eligible. A missing
+// case uses that generation's original default; each differing case retains
+// its own lexical body, while identical cases are emitted once.
+function shareCommandDispatch(choices) {
+  const switches = choices.map((code) => {
+    const file = ts.createSourceFile(
+      "dispatch.js",
+      code,
+      ts.ScriptTarget.ES2022,
+      true,
+      ts.ScriptKind.JS,
+    );
+    const fn = file.statements[0];
+    if (file.statements.length !== 1 || !ts.isFunctionDeclaration(fn) || !fn.body) return null;
+    const dispatch = fn.body.statements.at(-1);
+    if (!dispatch || !ts.isSwitchStatement(dispatch)) return null;
+    const branches = new Map();
+    function safe(statement) {
+      return (
+        !(
+          (ts.isVariableDeclarationList(statement) &&
+            !(statement.flags & ts.NodeFlags.BlockScoped)) ||
+          (ts.isIdentifier(statement) && statement.text === "eval")
+        ) && !ts.forEachChild(statement, (child) => !safe(child) || undefined)
+      );
+    }
+    function returns(statement) {
+      if (!statement) return false;
+      if (ts.isReturnStatement(statement) || ts.isThrowStatement(statement)) return true;
+      if (ts.isBlock(statement)) return returns(statement.statements.at(-1));
+      return (
+        ts.isIfStatement(statement) &&
+        returns(statement.thenStatement) &&
+        returns(statement.elseStatement)
+      );
+    }
+    for (const clause of dispatch.caseBlock.clauses) {
+      const key = ts.isDefaultClause(clause)
+        ? null
+        : ts.isStringLiteral(clause.expression)
+          ? clause.expression.text
+          : undefined;
+      if (key === undefined || branches.has(key) || branches.has(null)) return null;
+      const outer = [...clause.statements];
+      if (!returns(outer.at(-1)) || !outer.every(safe)) return null;
+      if (
+        outer.some(
+          (s) =>
+            ts.isVariableStatement(s) || ts.isClassDeclaration(s) || ts.isFunctionDeclaration(s),
+        )
+      )
+        return null;
+      branches.set(key, outer.map((s) => s.getText(file)).join("\n"));
+    }
+    if (!branches.has(null)) return null;
+    return {
+      branches,
+      head:
+        code.slice(0, dispatch.getStart(file)) + `switch (${dispatch.expression.getText(file)}) {`,
+      tail: "}" + code.slice(dispatch.end),
+    };
+  });
+  const first = switches[0];
+  if (!first || switches.some((s) => !s || s.head !== first.head || s.tail !== first.tail))
+    return null;
+  const keys = [...new Set(switches.flatMap((s) => [...s.branches.keys()]))].filter(
+    (k) => k !== null,
+  );
+  const cases = [...keys, null].map((key) => {
+    const groups = new Map();
+    switches.forEach(({ branches }, index) => {
+      const body = branches.get(key) ?? branches.get(null);
+      groups.set(body, [...(groups.get(body) ?? []), index]);
+    });
+    const body =
+      groups.size === 1
+        ? groups.keys().next().value
+        : [...groups]
+            .map(
+              ([branch, indices], index) =>
+                (index === groups.size - 1
+                  ? ""
+                  : `if (${indices.map((i) => "$generation===" + i).join(" || ")}) `) +
+                `{${branch}}`,
+            )
+            .join(" else ");
+    return (key === null ? "default:" : `case ${JSON.stringify(key)}:`) + body;
+  });
+  return first.head + cases.join("\n") + first.tail;
 }
 // Each group already has identical top-level data/initialization statements and
 // exports. Hoist declarations as in ordinary ESM. The few differing functions
 // are chosen once, when a ruleset instantiates the module, before any data is
 // initialized. Arguments and stateful objects still belong to that ruleset.
-function compileFamily(parts, id) {
+function compileFamily(parts, id, moduleName) {
   const params = [...new Set(parts.flatMap((v) => v.bindings))].sort();
   const funcNames = [...new Set(parts.flatMap((v) => [...v.functions.keys()]))];
   if (funcNames.some((k) => params.includes(k))) return null;
@@ -103,32 +219,58 @@ function compileFamily(parts, id) {
     const choices = parts.map((part) => part.functions.get(name) ?? "undefined");
     if (choices.every((code) => code === choices[0])) body.push(choices[0]);
     else {
-      const groups = new Map();
-      choices.forEach((code, index) => groups.set(code, [...(groups.get(code) ?? []), index]));
-      const cases = [...groups].map(([code, indices], index) =>
-        index === groups.size - 1
-          ? code
-          : indices.map((i) => "$generation===" + i).join(" || ") + " ? " + code + " : ",
-      );
-      body.push("const " + name + " = " + cases.join("") + ";");
+      const shared =
+        name === "applyCommandInner" && !choices.includes("undefined")
+          ? shareCommandDispatch(choices)
+          : null;
+      body.push(shared ?? selectGeneration(name, choices));
     }
   }
-  body.push(...parts[0].rest);
-  const bindings = parts[0].exports.map(([local]) => local);
+  const emitConstant = (constant) =>
+    selectGeneration(
+      constant,
+      parts.map((part) =>
+        part.constants.has(constant) ? `(${part.constants.get(constant)})` : "undefined",
+      ),
+    );
+  // The reviewed optional constants only initialize closures or an empty
+  // WeakMap; they do not read any other top-level data during initialization.
+  for (const name of extraRuleConstants[moduleName] ?? [])
+    if (parts.some((part) => part.constants.has(name))) body.push(emitConstant(name));
+  body.push(
+    ...parts[0].rest.map((statement) =>
+      typeof statement === "string" ? statement : emitConstant(statement.constant),
+    ),
+  );
+  const bindings = [...new Set(parts.flatMap((part) => part.exports.map(([local]) => local)))];
   const init = `export default function($generation,${params}) {\n${body.join("\n")}\nreturn [${bindings}];\n}`;
   return {
     init,
     wrappers: parts.map((part, index) => {
       const args = params.map((name) => (part.bindings.includes(name) ? name : "undefined"));
-      const names = part.exports.map(([, name]) => "$" + name);
+      const names = bindings.map((binding) => {
+        const match = part.exports.find(([local]) => local === binding);
+        return match ? "$" + match[1] : "";
+      });
       return [
         ...part.outer,
         `import instantiate from "${id}";`,
         `const [${names}]=instantiate(${index},${args});`,
-        `export {${part.exports.map(([, name], i) => names[i] + " as " + name)}};`,
+        `export {${part.exports.map(([local, name]) => names[bindings.indexOf(local)] + " as " + name)}};`,
       ].join("\n");
     }),
   };
+}
+
+function selectGeneration(name, choices) {
+  const groups = new Map();
+  choices.forEach((code, index) => groups.set(code, [...(groups.get(code) ?? []), index]));
+  const cases = [...groups].map(([code, indices], index) =>
+    index === groups.size - 1
+      ? code
+      : indices.map((i) => "$generation===" + i).join(" || ") + " ? " + code + " : ",
+  );
+  return "const " + name + " = " + cases.join("") + ";";
 }
 
 export function sharedReplay(root) {
@@ -174,9 +316,17 @@ export function sharedReplay(root) {
             this.warn("Using independent ESM for unreviewed replay dependency of " + name);
             continue;
           }
-          const key = JSON.stringify([name, part.rest, part.exports]);
+          const key = JSON.stringify([
+            name,
+            part.rest,
+            ...(name in ruleConstants ||
+            name in extraRuleConstants ||
+            name === "simulation/ledger.ts"
+              ? []
+              : [part.exports]),
+          ]);
           const group = candidates.get(key) ?? [];
-          group.push({ path: join(dir, name), part });
+          group.push({ path: join(dir, name), part, name });
           candidates.set(key, group);
         }
       }
@@ -186,6 +336,7 @@ export function sharedReplay(root) {
         const family = compileFamily(
           group.map((v) => v.part),
           id,
+          group[0].name,
         );
         if (!family) continue;
         inits.set(id, family.init);

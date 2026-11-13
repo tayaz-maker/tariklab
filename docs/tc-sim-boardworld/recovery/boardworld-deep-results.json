@@ -1,0 +1,232 @@
+{
+  "ok": true,
+  "origin": "http://127.0.0.1:61497",
+  "results": [
+    {
+      "width": 1440,
+      "version": 6,
+      "preview": true,
+      "networkKeyboard": true,
+      "routineSettings": true,
+      "routineExecuted": true,
+      "actualBusiness": false,
+      "crossTab": true,
+      "reducedMotion": false,
+      "storyDelay": false,
+      "saveReload": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "version": 6,
+      "preview": true,
+      "networkKeyboard": true,
+      "routineSettings": true,
+      "routineExecuted": true,
+      "actualBusiness": true,
+      "crossTab": true,
+      "reducedMotion": false,
+      "storyDelay": true,
+      "saveReload": true,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "version": 6,
+      "preview": true,
+      "networkKeyboard": true,
+      "routineSettings": true,
+      "routineExecuted": true,
+      "actualBusiness": false,
+      "crossTab": true,
+      "reducedMotion": true,
+      "storyDelay": false,
+      "saveReload": true,
+      "errors": []
+    },
+    {
+      "v1Import": true,
+      "immutableBackup": true,
+      "migratedDay": 46,
+      "oldOpenTabCannotOverwriteV4": true,
+      "observedLegacyWrites": 2,
+      "canonicalBackupPreserved": true,
+      "postLegacyCrossTab": true
+    },
+    {
+      "legacyKeyV2EnvelopeAdopted": true
+    }
+  ],
+  "performance": {
+    "environment": "Headless Chromium; local source or requested origin. Synchronous-dispatch diagnostic excludes awaited Web Lock/save/render and paint; not a Gold performance gate.",
+    "uncompressedBytes": 937763,
+    "assets": [
+      {
+        "file": "index.html",
+        "bytes": 1139
+      },
+      {
+        "file": "app.mjs",
+        "bytes": 73
+      },
+      {
+        "file": "style.css",
+        "bytes": 121942
+      },
+      {
+        "file": "favicon.svg",
+        "bytes": 199
+      },
+      {
+        "file": "engine.mjs",
+        "bytes": 495
+      },
+      {
+        "file": "content.mjs",
+        "bytes": 187
+      },
+      {
+        "file": "persistence.mjs",
+        "bytes": 647
+      },
+      {
+        "file": "save-codec.mjs",
+        "bytes": 82
+      },
+      {
+        "file": "deep-content.mjs",
+        "bytes": 145
+      },
+      {
+        "file": "deep-life.mjs",
+        "bytes": 228
+      },
+      {
+        "file": "deep-ui.mjs",
+        "bytes": 341
+      },
+      {
+        "file": "deep.css",
+        "bytes": 0
+      },
+      {
+        "file": "life-chains.mjs",
+        "bytes": 165
+      },
+      {
+        "file": "calendar.mjs",
+        "bytes": 383
+      },
+      {
+        "file": "city.mjs",
+        "bytes": 191
+      },
+      {
+        "file": "world-content.mjs",
+        "bytes": 132
+      },
+      {
+        "file": "world-life.mjs",
+        "bytes": 256
+      },
+      {
+        "file": "living-ui.mjs",
+        "bytes": 271
+      },
+      {
+        "file": "living.css",
+        "bytes": 0
+      },
+      {
+        "file": "emergent-life.mjs",
+        "bytes": 250
+      },
+      {
+        "file": "emergent-content.mjs",
+        "bytes": 94
+      },
+      {
+        "file": "life-systems.mjs",
+        "bytes": 501
+      },
+      {
+        "file": "life-content.mjs",
+        "bytes": 136
+      },
+      {
+        "file": "emergent-ui.mjs",
+        "bytes": 316
+      },
+      {
+        "file": "emergent.css",
+        "bytes": 0
+      },
+      {
+        "file": "daily-flow.mjs",
+        "bytes": 300
+      },
+      {
+        "file": "society-content.mjs",
+        "bytes": 111
+      },
+      {
+        "file": "society-systems.mjs",
+        "bytes": 389
+      },
+      {
+        "file": "society-ui.mjs",
+        "bytes": 214
+      },
+      {
+        "file": "society.css",
+        "bytes": 0
+      },
+      {
+        "file": "i18n.mjs",
+        "bytes": 236
+      },
+      {
+        "file": "locale-keys.mjs",
+        "bytes": 40813
+      },
+      {
+        "file": "locale-en.mjs",
+        "bytes": 128405
+      },
+      {
+        "file": "locale-pl.mjs",
+        "bytes": 139370
+      },
+      {
+        "file": "bw-runtime-43bc66d49ab558c5.mjs",
+        "bytes": 499752
+      }
+    ],
+    "viewports": [
+      {
+        "width": 1440,
+        "domContentLoadedMs": 43.5,
+        "firstContentfulPaintMs": 56,
+        "clickSamples": 7,
+        "actionP50Ms": 11.200000047683716,
+        "actionP95Ms": 24.5
+      },
+      {
+        "width": 390,
+        "domContentLoadedMs": 32.299999952316284,
+        "firstContentfulPaintMs": 40,
+        "clickSamples": 30,
+        "actionP50Ms": 9,
+        "actionP95Ms": 20.600000023841858
+      },
+      {
+        "width": 320,
+        "domContentLoadedMs": 33.799999952316284,
+        "firstContentfulPaintMs": 36,
+        "clickSamples": 7,
+        "actionP50Ms": 11.799999952316284,
+        "actionP95Ms": 24.5
+      }
+    ]
+  }
+}

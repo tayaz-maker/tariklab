@@ -1,0 +1,109 @@
+{
+  "released": "d695119186cad42c079a911a60c372f201b3b64b",
+  "sourceArchiveSha256": "8ec2b346c223f6d5dead45cdadcf39d3da48344f7e6751dcd53bbb084971b0b7",
+  "goldCommit": "12b519c58b61e9de5074de5849e8a8c857f26646",
+  "goldTrackedDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "command": "/usr/local/bin/node /private/tmp/boardworld7-final-oj1825n2/repo/scripts/boardworld-rollback-check.mjs /private/tmp/boardworld7-final-oj1825n2/evidence/final-validation/rollback.json",
+  "results": [
+    {
+      "fixture": "v6-fresh-newcomer.json",
+      "sourceVersion": 6,
+      "goldAction": "event:welcome:work",
+      "released6Action": "sleep",
+      "pendingEventPreservedAtRollback": false,
+      "stateSha256": "47060e4af1a00e3e754e6300ef15b1d5dbb7a971444546e108e680f1ce011faa",
+      "originalSha256": "76123258fb0f95574ab63eadc0c50054814691562211292c6c283fef1dd78a2d",
+      "bytes": 48361,
+      "pass": true
+    },
+    {
+      "fixture": "v6-fresh-graduate.json",
+      "sourceVersion": 6,
+      "goldAction": "event:welcome:work",
+      "released6Action": "sleep",
+      "pendingEventPreservedAtRollback": false,
+      "stateSha256": "4e48b4a0e142819df9bc269f433ee91bb183b53b0f453559d01b414a56dc4c21",
+      "originalSha256": "3fa1707d82b6aff0af7c7b5141b43be36b116a50aa694b15703983859f5e03d9",
+      "bytes": 48368,
+      "pass": true
+    },
+    {
+      "fixture": "v6-fresh-restart.json",
+      "sourceVersion": 6,
+      "goldAction": "event:welcome:work",
+      "released6Action": "event:craft-project:repair",
+      "pendingEventPreservedAtRollback": false,
+      "stateSha256": "6c6af809a9b69c8bf76390f7ca6295d5388e14ffd2f6f4be46061949872d9bd8",
+      "originalSha256": "0cbd3524c53005d631e23fa6e85bd281027edff70761998e915e71c11044f0c9",
+      "bytes": 48783,
+      "pass": true
+    },
+    {
+      "fixture": "v6-mature-career-day366.json",
+      "sourceVersion": 6,
+      "goldAction": "sleep",
+      "released6Action": "eat",
+      "pendingEventPreservedAtRollback": false,
+      "stateSha256": "bde14bd20698467550ff24182d4500cc45ac5892c74c7bd81132c482e93cd73e",
+      "originalSha256": "8265d470af36d2ca120ff4e5cba060cd84a5b9b937556a9a933afd9daad1e353",
+      "bytes": 285488,
+      "pass": true
+    },
+    {
+      "fixture": "v6-mature-social-day366.json",
+      "sourceVersion": 6,
+      "goldAction": "sleep",
+      "released6Action": "eat",
+      "pendingEventPreservedAtRollback": false,
+      "stateSha256": "72fbe15f3e8f6c08fcf9dc9b1e58a809676deb559955b26d710292fa37a4624e",
+      "originalSha256": "0a49c6df803eae1fa8494dbe74bbbd1158b2fb68b7ea811a4b7cb9c895b2b727",
+      "bytes": 300336,
+      "pass": true
+    },
+    {
+      "fixture": "v6-mature-entrepreneur-day366.json",
+      "sourceVersion": 6,
+      "goldAction": "sleep",
+      "released6Action": "eat",
+      "pendingEventPreservedAtRollback": false,
+      "stateSha256": "be0f1163e54d7be1e32dc7ceef113d03ed2d57fb115be3caeb91266ea934f9c4",
+      "originalSha256": "13061e38153a33c09198fa05d95ea49e2a2cf222851674a9282b14d51c16dbc1",
+      "bytes": 275651,
+      "pass": true
+    },
+    {
+      "fixture": "v5-fresh-newcomer.json",
+      "sourceVersion": 5,
+      "goldAction": null,
+      "released6Action": "event:welcome:work",
+      "pendingEventPreservedAtRollback": true,
+      "stateSha256": "106bbad61f70ec3b7cf813cabc7bcb3c0a1c3595ed131ce7016a9afdc2500cc4",
+      "originalSha256": "f3f4ae8e608dabbf966fc2172ea3de22d14c868598322386d5db8143a549eade",
+      "bytes": 48212,
+      "pass": true
+    },
+    {
+      "fixture": "v5-active-calendar.json",
+      "sourceVersion": 5,
+      "goldAction": "sleep",
+      "released6Action": "eat",
+      "pendingEventPreservedAtRollback": false,
+      "stateSha256": "d5480640ea30b8bb5fd555c4bfd0d0be63bec4c9379beed5d6cf59e3ea3c3c29",
+      "originalSha256": "f7b19e0d5c6a1f5d85beb1b443acbb9317ccc55edcd047b837a63690a97862eb",
+      "bytes": 56743,
+      "pass": true
+    },
+    {
+      "fixture": "v5-social-2026-day366.json",
+      "sourceVersion": 5,
+      "goldAction": "sleep",
+      "released6Action": "eat",
+      "pendingEventPreservedAtRollback": false,
+      "stateSha256": "b31e46ecf6737f4382b553a032979fb6db1a81e9e27bf0543ae76992f8cca709",
+      "originalSha256": "ec3428c4f0ba6e239a2ecebb82aca7b985a1b0d0068f55a99f2eacbcb2c203d5",
+      "bytes": 300300,
+      "pass": true
+    }
+  ],
+  "pass": true
+}

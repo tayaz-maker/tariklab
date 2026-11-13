@@ -1,0 +1,855 @@
+{
+  "ok": true,
+  "origin": "http://127.0.0.1:61536",
+  "results": [
+    {
+      "width": 1440,
+      "connectedRoutes": true,
+      "venues": true,
+      "finiteIntent": true,
+      "calendarPreview": true,
+      "reschedule": true,
+      "conflict": true,
+      "attendance": true,
+      "repeat": true,
+      "projects": true,
+      "saveReload": true,
+      "counterproposalAndNoShow": false,
+      "lateAttendanceAndFixedInterview": false
+    },
+    {
+      "width": 390,
+      "connectedRoutes": true,
+      "venues": true,
+      "finiteIntent": true,
+      "calendarPreview": true,
+      "reschedule": true,
+      "conflict": true,
+      "attendance": true,
+      "repeat": true,
+      "projects": true,
+      "saveReload": true,
+      "counterproposalAndNoShow": true,
+      "lateAttendanceAndFixedInterview": true
+    },
+    {
+      "width": 320,
+      "connectedRoutes": true,
+      "venues": true,
+      "finiteIntent": true,
+      "calendarPreview": true,
+      "reschedule": true,
+      "conflict": true,
+      "attendance": true,
+      "repeat": true,
+      "projects": true,
+      "saveReload": true,
+      "counterproposalAndNoShow": false,
+      "lateAttendanceAndFixedInterview": false
+    },
+    {
+      "v2ImportDay": 46,
+      "immutableV2Bytes": true,
+      "staleV2StorageEvents": 2,
+      "canonicalAndBackupUnchanged": true,
+      "reload": true,
+      "currentCrossTab": true
+    }
+  ],
+  "errors": [],
+  "performance": {
+    "uncompressedBytes": 937763,
+    "assets": [
+      {
+        "name": "index.html",
+        "bytes": 1139,
+        "sha256": "24b9c1544c4f59c09ac122e6117cc1b98580f9f8282bddd82c763ea4795a011c"
+      },
+      {
+        "name": "app.mjs",
+        "bytes": 73,
+        "sha256": "5a927362a55a00d2369f4ee253ec8d9f76296012acfbd21f156c648148d95421"
+      },
+      {
+        "name": "style.css",
+        "bytes": 121942,
+        "sha256": "bb524d257a7880bdc1e2e35e02d862cdf43d9fc46831087d408821fce4355ae8"
+      },
+      {
+        "name": "favicon.svg",
+        "bytes": 199,
+        "sha256": "f56714a4b795e087d52dece6b9ca5113d1a7fe9aa1cf2edb82ec5d87c46fca12"
+      },
+      {
+        "name": "engine.mjs",
+        "bytes": 495,
+        "sha256": "94bc8fc9dab3b67d9ab3725f3c52a6c82fd1d0b03e8269a9bdcfaa2777eef1f8"
+      },
+      {
+        "name": "content.mjs",
+        "bytes": 187,
+        "sha256": "a5eac1f56f9abd796fcd3bc9918d0b6fc226334c73eff9a70b43c741bb566389"
+      },
+      {
+        "name": "persistence.mjs",
+        "bytes": 647,
+        "sha256": "0f7e93b1ac2325fff6d4b8c56b4cf439e3116681e22d7c51fd12565cb7978373"
+      },
+      {
+        "name": "save-codec.mjs",
+        "bytes": 82,
+        "sha256": "b6a3689fbb9a9bf27898776dd8b06d3256f46f11eb4cbdd2d3edd67e3d2616a5"
+      },
+      {
+        "name": "deep-content.mjs",
+        "bytes": 145,
+        "sha256": "f7116cd5f26854ce4e0cac38f4627f1609f7f8f2873fa4859c52736694530e2c"
+      },
+      {
+        "name": "deep-life.mjs",
+        "bytes": 228,
+        "sha256": "1c4b3c89b0aa4720f280b0f3f1d6450f7a655107d6482fa0ac4326a2da2245ee"
+      },
+      {
+        "name": "deep-ui.mjs",
+        "bytes": 341,
+        "sha256": "6ae9d6249034afe5de97d763bc1a159778b46fdc690630eac17e1c762c0c3992"
+      },
+      {
+        "name": "deep.css",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "life-chains.mjs",
+        "bytes": 165,
+        "sha256": "446e6b3af25431962e576776263e74d83f7c2a263154ff1e2d8a71e14a10b8f3"
+      },
+      {
+        "name": "calendar.mjs",
+        "bytes": 383,
+        "sha256": "f50fbcf7d77eb4075e720d2c5d282c44edc79826fad68cb747e40efbb175426b"
+      },
+      {
+        "name": "city.mjs",
+        "bytes": 191,
+        "sha256": "ff5b45fef36089a331ce179aa475fc11a8f03ff779a5a380f80372a045b01f99"
+      },
+      {
+        "name": "world-content.mjs",
+        "bytes": 132,
+        "sha256": "2acdb94eff4734d4252e193165346d6ffda1656a2c20c6b14cb2958be276bee2"
+      },
+      {
+        "name": "world-life.mjs",
+        "bytes": 256,
+        "sha256": "ea9e67f7f9768792457b679f2cd856a48a265377e048aea5b6278cac4f92e1de"
+      },
+      {
+        "name": "living-ui.mjs",
+        "bytes": 271,
+        "sha256": "4df5bd4164ae07f7977622cdc4d01b0e32041852b801d5a1f02aec80aa363682"
+      },
+      {
+        "name": "living.css",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "emergent-life.mjs",
+        "bytes": 250,
+        "sha256": "2566a9289e87c8cc306eb8ba91e6aad3bc5e2e2caf00fc2e0f4f0be8b91a887c"
+      },
+      {
+        "name": "emergent-content.mjs",
+        "bytes": 94,
+        "sha256": "b7c9edb5da57e6484e5b437691786c78eac335ef23857b2c7f758fb4411358b0"
+      },
+      {
+        "name": "life-systems.mjs",
+        "bytes": 501,
+        "sha256": "5199759773ce67eec4566ac4c05b9a5a201a7393136aa25eb0f70df4e8dd9c14"
+      },
+      {
+        "name": "life-content.mjs",
+        "bytes": 136,
+        "sha256": "3fa63266abeed95976984a6b51cf7a7e2618e48ec052430029b4ef2b7f7edcfe"
+      },
+      {
+        "name": "emergent-ui.mjs",
+        "bytes": 316,
+        "sha256": "8e00dd2529b0357c81363974df326c10aa2e7d4f0558e47d3b03e1bfbaad50c0"
+      },
+      {
+        "name": "emergent.css",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "daily-flow.mjs",
+        "bytes": 300,
+        "sha256": "441c030e27d16c35429347e7bc32de2d3d5a4ff514a78715aa3637aa6f7832a6"
+      },
+      {
+        "name": "society-content.mjs",
+        "bytes": 111,
+        "sha256": "19c50d2407d2014604a538e6c8ee3bd103980030dda9ba348e7ebfa2b6c043fe"
+      },
+      {
+        "name": "society-systems.mjs",
+        "bytes": 389,
+        "sha256": "f6f25d1d58436e5c8a7ad9fc4a32debac7a4dfdb3c3cdd77d97efe97216308e5"
+      },
+      {
+        "name": "society-ui.mjs",
+        "bytes": 214,
+        "sha256": "b5e40f7a91b9d5e9064c87e6805c1a79a7e8d3587fafee0255e27fe250526b66"
+      },
+      {
+        "name": "society.css",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "i18n.mjs",
+        "bytes": 236,
+        "sha256": "f2081865bba6c5d2bc12ad472647b88ff39b85607cacd080361b872e2920de4d"
+      },
+      {
+        "name": "locale-keys.mjs",
+        "bytes": 40813,
+        "sha256": "ab65567003c2846e463249112678d819f202596c4d7e41bf824050d75c81d599"
+      },
+      {
+        "name": "locale-en.mjs",
+        "bytes": 128405,
+        "sha256": "3e100ab3beb34f7dc6f0580c6832040408514405838b2670580cf9be58c77fa4"
+      },
+      {
+        "name": "locale-pl.mjs",
+        "bytes": 139370,
+        "sha256": "e1aa4eaa44ee8a588d086fa32f20a525fae86ebf3624e15d5496b7cb23856c87"
+      },
+      {
+        "name": "bw-runtime-43bc66d49ab558c5.mjs",
+        "bytes": 499752,
+        "sha256": "43bc66d49ab558c5d9c1c40e34aefdcffbf266d8becf44433eed899657a7e4cd"
+      }
+    ],
+    "timings": [
+      {
+        "width": 1440,
+        "initialNetwork": [
+          {
+            "name": "http://127.0.0.1:61536/games/tc-sim-boardworld/style.css",
+            "transferSize": 122242,
+            "encodedBodySize": 121942,
+            "decodedBodySize": 121942
+          },
+          {
+            "name": "http://127.0.0.1:61536/games/tc-sim-boardworld/app.mjs",
+            "transferSize": 373,
+            "encodedBodySize": 73,
+            "decodedBodySize": 73
+          },
+          {
+            "name": "http://127.0.0.1:61536/games/tc-sim-boardworld/bw-runtime-43bc66d49ab558c5.mjs",
+            "transferSize": 500052,
+            "encodedBodySize": 499752,
+            "decodedBodySize": 499752
+          },
+          {
+            "name": "http://127.0.0.1:61536/games/tc-sim-boardworld/favicon.svg",
+            "transferSize": 499,
+            "encodedBodySize": 199,
+            "decodedBodySize": 199
+          }
+        ],
+        "memoryBeforeReload": {
+          "Documents": 1,
+          "Nodes": 3425,
+          "JSHeapUsedSize": 18137688,
+          "JSHeapTotalSize": 42532864
+        },
+        "firstContentfulPaintMs": 56,
+        "sampleCount": 20,
+        "handlerP50Ms": 34.5,
+        "handlerP95Ms": 35.700000047683716,
+        "rawSamplesMs": [
+          1.0999999046325684,
+          23.800000071525574,
+          32.700000047683716,
+          33.299999952316284,
+          33.5,
+          33.89999997615814,
+          34,
+          34.300000071525574,
+          34.39999997615814,
+          34.5,
+          34.5,
+          34.699999928474426,
+          34.799999952316284,
+          34.799999952316284,
+          34.89999997615814,
+          35.10000002384186,
+          35.200000047683716,
+          35.299999952316284,
+          35.39999997615814,
+          35.700000047683716
+        ],
+        "actionSamples": [
+          {
+            "id": "event:welcome:work",
+            "elapsed": 35.200000047683716
+          },
+          {
+            "id": "event:craft-project:repair",
+            "elapsed": 35.10000002384186
+          },
+          {
+            "id": "travel:besiktas",
+            "elapsed": 34.699999928474426
+          },
+          {
+            "id": "visit:besiktas-park",
+            "elapsed": 34.39999997615814
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.5
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 32.700000047683716
+          },
+          {
+            "id": "calendar:reschedule:cal-1",
+            "elapsed": 34
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 1.0999999046325684
+          },
+          {
+            "id": "calendar:cancel:cal-2",
+            "elapsed": 34.799999952316284
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 35.700000047683716
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 35.299999952316284
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.5
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 35.39999997615814
+          },
+          {
+            "id": "calendar:attend:cal-3",
+            "elapsed": 33.299999952316284
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 34.89999997615814
+          },
+          {
+            "id": "calendar:repeat-stop:repeat-5",
+            "elapsed": 34.300000071525574
+          },
+          {
+            "id": "calendar:cancel:cal-4",
+            "elapsed": 23.800000071525574
+          },
+          {
+            "id": "project:start:qualification:communication:45",
+            "elapsed": 34.799999952316284
+          },
+          {
+            "id": "project:budget:project-1:2000",
+            "elapsed": 33.89999997615814
+          },
+          {
+            "id": "practice:communication",
+            "elapsed": 33.5
+          }
+        ],
+        "synchronousDispatchSamplesMs": [
+          10.800000071525574,
+          13,
+          11.399999976158142,
+          13,
+          15.200000047683716,
+          11.600000023841858,
+          0,
+          0,
+          13.399999976158142,
+          0,
+          10.899999976158142,
+          12.399999976158142,
+          11.5,
+          12.5,
+          0,
+          10,
+          12.100000023841858,
+          8.200000047683716,
+          9.799999952316284,
+          10.900000095367432
+        ],
+        "boundary": "capture click through action-complete after lock/save/render; excludes paint"
+      },
+      {
+        "width": 390,
+        "initialNetwork": [
+          {
+            "name": "http://127.0.0.1:61536/games/tc-sim-boardworld/style.css",
+            "transferSize": 122242,
+            "encodedBodySize": 121942,
+            "decodedBodySize": 121942
+          },
+          {
+            "name": "http://127.0.0.1:61536/games/tc-sim-boardworld/app.mjs",
+            "transferSize": 373,
+            "encodedBodySize": 73,
+            "decodedBodySize": 73
+          },
+          {
+            "name": "http://127.0.0.1:61536/games/tc-sim-boardworld/bw-runtime-43bc66d49ab558c5.mjs",
+            "transferSize": 500052,
+            "encodedBodySize": 499752,
+            "decodedBodySize": 499752
+          },
+          {
+            "name": "http://127.0.0.1:61536/games/tc-sim-boardworld/favicon.svg",
+            "transferSize": 499,
+            "encodedBodySize": 199,
+            "decodedBodySize": 199
+          }
+        ],
+        "memoryBeforeReload": {
+          "Documents": 1,
+          "Nodes": 1492,
+          "JSHeapUsedSize": 9707236,
+          "JSHeapTotalSize": 70057984
+        },
+        "firstContentfulPaintMs": 36,
+        "sampleCount": 39,
+        "handlerP50Ms": 34.700000047683716,
+        "handlerP95Ms": 40.90000009536743,
+        "rawSamplesMs": [
+          1.2000000476837158,
+          32.799999952316284,
+          33.39999997615814,
+          33.60000002384186,
+          33.800000071525574,
+          33.800000071525574,
+          34,
+          34,
+          34.10000002384186,
+          34.10000002384186,
+          34.10000002384186,
+          34.200000047683716,
+          34.299999952316284,
+          34.300000071525574,
+          34.300000071525574,
+          34.5,
+          34.59999990463257,
+          34.60000002384186,
+          34.60000002384186,
+          34.700000047683716,
+          34.700000047683716,
+          34.799999952316284,
+          34.799999952316284,
+          34.89999997615814,
+          34.89999997615814,
+          34.89999997615814,
+          34.89999997615814,
+          34.90000009536743,
+          34.90000009536743,
+          35,
+          35.09999990463257,
+          35.10000002384186,
+          35.39999997615814,
+          38.299999952316284,
+          38.39999997615814,
+          38.800000071525574,
+          40.60000002384186,
+          40.90000009536743,
+          43
+        ],
+        "actionSamples": [
+          {
+            "id": "event:welcome:work",
+            "elapsed": 35
+          },
+          {
+            "id": "event:craft-project:repair",
+            "elapsed": 34.89999997615814
+          },
+          {
+            "id": "travel:besiktas",
+            "elapsed": 33.800000071525574
+          },
+          {
+            "id": "visit:besiktas-park",
+            "elapsed": 33.60000002384186
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 33.800000071525574
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 34.60000002384186
+          },
+          {
+            "id": "calendar:reschedule:cal-1",
+            "elapsed": 40.90000009536743
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 1.2000000476837158
+          },
+          {
+            "id": "calendar:cancel:cal-2",
+            "elapsed": 34.200000047683716
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 38.299999952316284
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.799999952316284
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.10000002384186
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 33.39999997615814
+          },
+          {
+            "id": "calendar:attend:cal-3",
+            "elapsed": 35.39999997615814
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 35.10000002384186
+          },
+          {
+            "id": "calendar:repeat-stop:repeat-5",
+            "elapsed": 34.59999990463257
+          },
+          {
+            "id": "calendar:cancel:cal-4",
+            "elapsed": 34.89999997615814
+          },
+          {
+            "id": "project:start:qualification:communication:45",
+            "elapsed": 34.799999952316284
+          },
+          {
+            "id": "project:budget:project-1:2000",
+            "elapsed": 40.60000002384186
+          },
+          {
+            "id": "practice:communication",
+            "elapsed": 34
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 34.90000009536743
+          },
+          {
+            "id": "calendar:accept:cal-6",
+            "elapsed": 38.800000071525574
+          },
+          {
+            "id": "calendar:cancel:cal-6",
+            "elapsed": 34.700000047683716
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 34
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.300000071525574
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.89999997615814
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.60000002384186
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.700000047683716
+          },
+          {
+            "id": "calendar:attend:cal-7",
+            "elapsed": 43
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 35.09999990463257
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.90000009536743
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.89999997615814
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.10000002384186
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.10000002384186
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.299999952316284
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.5
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 32.799999952316284
+          },
+          {
+            "id": "calendar:cancel:cal-9",
+            "elapsed": 34.300000071525574
+          },
+          {
+            "id": "calendar:next",
+            "elapsed": 38.39999997615814
+          }
+        ],
+        "synchronousDispatchSamplesMs": [
+          10.100000023841858,
+          12.899999976158142,
+          12.100000023841858,
+          14.100000023841858,
+          14.600000023841858,
+          9.600000023841858,
+          0.10000002384185791,
+          0,
+          13.100000023841858,
+          0,
+          11.100000023841858,
+          8.900000095367432,
+          11.399999976158142,
+          14.199999928474426,
+          0,
+          10.899999976158142,
+          8.899999976158142,
+          8.199999928474426,
+          8,
+          7.699999928474426,
+          0,
+          9.900000095367432,
+          13.400000095367432,
+          0,
+          10.900000095367432,
+          9.600000023841858,
+          9,
+          11.300000071525574,
+          10.100000023841858,
+          0.09999990463256836,
+          11.200000047683716,
+          11.800000071525574,
+          10.800000071525574,
+          12.100000023841858,
+          11.899999976158142,
+          11.799999952316284,
+          10.700000047683716,
+          14,
+          27.200000047683716
+        ],
+        "boundary": "capture click through action-complete after lock/save/render; excludes paint"
+      },
+      {
+        "width": 320,
+        "initialNetwork": [
+          {
+            "name": "http://127.0.0.1:61536/games/tc-sim-boardworld/style.css",
+            "transferSize": 122242,
+            "encodedBodySize": 121942,
+            "decodedBodySize": 121942
+          },
+          {
+            "name": "http://127.0.0.1:61536/games/tc-sim-boardworld/app.mjs",
+            "transferSize": 373,
+            "encodedBodySize": 73,
+            "decodedBodySize": 73
+          },
+          {
+            "name": "http://127.0.0.1:61536/games/tc-sim-boardworld/bw-runtime-43bc66d49ab558c5.mjs",
+            "transferSize": 500052,
+            "encodedBodySize": 499752,
+            "decodedBodySize": 499752
+          },
+          {
+            "name": "http://127.0.0.1:61536/games/tc-sim-boardworld/favicon.svg",
+            "transferSize": 499,
+            "encodedBodySize": 199,
+            "decodedBodySize": 199
+          }
+        ],
+        "memoryBeforeReload": {
+          "Documents": 1,
+          "Nodes": 621,
+          "JSHeapUsedSize": 14943144,
+          "JSHeapTotalSize": 42532864
+        },
+        "firstContentfulPaintMs": 40,
+        "sampleCount": 20,
+        "handlerP50Ms": 35.10000002384186,
+        "handlerP95Ms": 40.60000002384186,
+        "rawSamplesMs": [
+          1,
+          33.799999952316284,
+          34.200000047683716,
+          34.299999952316284,
+          34.5,
+          34.799999952316284,
+          34.800000071525574,
+          35.09999990463257,
+          35.09999990463257,
+          35.09999990463257,
+          35.10000002384186,
+          35.10000002384186,
+          35.10000002384186,
+          35.300000071525574,
+          35.60000002384186,
+          36,
+          36.90000009536743,
+          37.89999997615814,
+          38.299999952316284,
+          40.60000002384186
+        ],
+        "actionSamples": [
+          {
+            "id": "event:welcome:work",
+            "elapsed": 35.09999990463257
+          },
+          {
+            "id": "event:craft-project:repair",
+            "elapsed": 35.10000002384186
+          },
+          {
+            "id": "travel:besiktas",
+            "elapsed": 34.5
+          },
+          {
+            "id": "visit:besiktas-park",
+            "elapsed": 36.90000009536743
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 35.09999990463257
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 34.800000071525574
+          },
+          {
+            "id": "calendar:reschedule:cal-1",
+            "elapsed": 34.200000047683716
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 1
+          },
+          {
+            "id": "calendar:cancel:cal-2",
+            "elapsed": 35.10000002384186
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 37.89999997615814
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 34.799999952316284
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 35.10000002384186
+          },
+          {
+            "id": "wait:15",
+            "elapsed": 36
+          },
+          {
+            "id": "calendar:attend:cal-3",
+            "elapsed": 35.300000071525574
+          },
+          {
+            "id": "calendar:propose",
+            "elapsed": 35.60000002384186
+          },
+          {
+            "id": "calendar:repeat-stop:repeat-5",
+            "elapsed": 40.60000002384186
+          },
+          {
+            "id": "calendar:cancel:cal-4",
+            "elapsed": 35.09999990463257
+          },
+          {
+            "id": "project:start:qualification:communication:45",
+            "elapsed": 33.799999952316284
+          },
+          {
+            "id": "project:budget:project-1:2000",
+            "elapsed": 38.299999952316284
+          },
+          {
+            "id": "practice:communication",
+            "elapsed": 34.299999952316284
+          }
+        ],
+        "synchronousDispatchSamplesMs": [
+          9.399999976158142,
+          13.399999976158142,
+          11.5,
+          9.600000023841858,
+          14.799999952316284,
+          10.300000071525574,
+          0,
+          0,
+          12.300000071525574,
+          0,
+          11.600000023841858,
+          11.899999976158142,
+          9.399999976158142,
+          13.900000095367432,
+          0,
+          10.5,
+          12.199999928474426,
+          8.699999928474426,
+          8,
+          9.199999928474426
+        ],
+        "boundary": "capture click through action-complete after lock/save/render; excludes paint"
+      }
+    ],
+    "caveat": "Local or explicitly supplied origin; complete interaction includes Web Lock wait, save and render, excludes paint. Historical synchronous dispatch alone is not a valid Gold latency measurement."
+  }
+}
