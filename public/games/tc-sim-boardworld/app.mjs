@@ -1,5 +1,6 @@
 import {
   createGame,
+  expandGame,
   resolveAction,
   getActions,
   getClock,
@@ -17,6 +18,8 @@ import {
   getSocietyView,
   getDecisionView,
 } from "./engine.mjs";
+import { getExpansionView } from "./expansion.mjs";
+import { renderExpansion } from "./expansion-ui.mjs";
 import {
   DISTRICTS,
   SCENARIOS,
@@ -68,6 +71,8 @@ import {
 import {
   loadGameLocked,
   saveGameLocked,
+  loadExpansionLocked,
+  saveExpansionLocked,
   exportGame,
   importGame,
   SAVE_KEY,
@@ -131,6 +136,7 @@ const tabDefs = [
   ["work", "Kariyer", "▤"],
   ["enterprise", "İşletme", "▧"],
   ["life", "Yaşam", "⌂"],
+  ["expansion", "Nesiller", "♧"],
   ["people", "Telefon", "◎"],
   ["study", "Gelişim", "↗"],
   ["wallet", "Cüzdan", "₺"],
@@ -170,13 +176,21 @@ const embedded = window.self !== window.top;
 if (embedded) document.documentElement.classList.add("embedded");
 let noticeTimer;
 let saveToken = null,
+  expansionToken = null,
+  expansionProblem = "",
+  restartFrom = null,
   unsaved = false,
   recoverySaves = [];
 async function saveCurrent(current, expected = saveToken) {
-  const result = await saveGameLocked(current, undefined, expected);
+  const result = current.expansion
+    ? await saveExpansionLocked(current, undefined, expansionToken)
+    : await saveGameLocked(current, undefined, expected);
   recoverySaves = result.recoverySaves ?? recoverySaves;
   unsaved = !result.ok;
-  if (result.ok) saveToken = result.token;
+  if (result.ok) {
+    if (current.expansion) expansionToken = result.token;
+    else saveToken = result.token;
+  }
   return result;
 }
 let initialLoad;
@@ -186,6 +200,16 @@ try {
   saveToken = initialLoad.token;
   recoverySaves = initialLoad.recoverySaves ?? [];
   saveStatus = initialLoad.message || "";
+  const expansion = await loadExpansionLocked();
+  expansionToken = expansion.token;
+  if (expansion.state) {
+    state = expansion.state;
+    tab = "expansion";
+    saveStatus = expansion.message;
+  } else if (expansion.saved) {
+    expansionProblem = expansion.message;
+    saveStatus = expansion.message;
+  }
 } catch {
   initialLoad = {
     message: "Tarayıcı kaydına ulaşılamadı. Oyunu oynayabilir, kaydını dosyaya indirebilirsin.",
@@ -547,6 +571,17 @@ function renderGame() {
       stories: renderStories,
       work: renderWork,
       life: renderLife,
+      expansion: () =>
+        renderExpansion({
+          view: cachedView("expansion", () => getExpansionView(state)),
+          actions,
+          actionCard,
+          sectionHeader,
+          money,
+          esc,
+          language: getLanguage(),
+          problem: expansionProblem,
+        }),
       people: renderPeople,
       study: renderStudy,
       wallet: renderWallet,
@@ -656,6 +691,38 @@ function openDialog(kind) {
   showLocalizedDialog();
 }
 async function handleUi(id) {
+  if (id === "expand" && state && !state.expansion) {
+    busy = true;
+    try {
+      const current = await loadExpansionLocked();
+      if (!current.token || current.saved) {
+        announce(current.message || "Nesiller kaydını yüklemek için sayfayı yenile.", true);
+        return;
+      }
+      if (current.token.generation !== saveToken?.generation) {
+        announce("Başka bir sekme kaydı değiştirdi. Devam etmeden önce sayfayı yenile.", true);
+        return;
+      }
+      const expanded = expandGame(state);
+      expansionToken = current.token;
+      const saved = await saveCurrent(expanded);
+      if (!saved.ok) {
+        announce(saved.message, true);
+        return;
+      }
+      state = expanded;
+      expansionProblem = "";
+      saveStatus = saved.message;
+      tab = "expansion";
+      render();
+      announce(saved.message);
+    } catch {
+      announce("Nesiller kaydı oluşturulamadı. Mevcut kayıt korundu.", true);
+    } finally {
+      busy = false;
+    }
+    return;
+  }
   if (id.startsWith("recovery:")) {
     const copy = recoverySaves[Number(id.slice(9))];
     if (!copy) return;
@@ -707,6 +774,7 @@ async function handleUi(id) {
   }
   if (id === "confirm-restart") {
     dialog.close();
+    restartFrom = state;
     state = null;
     lastOutcome = null;
     render();
@@ -965,15 +1033,16 @@ document.addEventListener("submit", async (event) => {
     return;
   }
   busy = true;
-  const previousLife = state;
+  const previousLife = restartFrom;
   state = createGame({
     name,
     scenario: String(data.get("scenario")),
     education: String(data.get("education")),
     trait: String(data.get("trait")),
     seed: 2026,
+    expansion: Boolean(previousLife?.expansion),
   });
-  tab = "board";
+  tab = state.expansion ? "expansion" : "board";
   calendarDay = null;
   appointmentDraft = null;
   editingEntry = "";
@@ -983,10 +1052,12 @@ document.addEventListener("submit", async (event) => {
   saveStatus = saved.message;
   if (saved.conflict) {
     state = previousLife;
+    restartFrom = null;
     render();
     announce(saved.message, true);
     return;
   }
+  restartFrom = null;
   render();
   announce(
     "Hayatın başladı. Önce başlangıç olay kartından bir seçim yap; sonra Kariyer bölümündeki işleri incele.",
@@ -1056,12 +1127,16 @@ $("#import-file").addEventListener("change", async (event) => {
       announce(imported.message || "Kayıt geçersiz. Mevcut oyun korundu.", true);
       return;
     }
-    const saved = await saveCurrent(imported.state, importToken);
+    const restored =
+      state?.expansion && !imported.state.expansion ? expandGame(imported.state) : imported.state;
+    const saved = await saveCurrent(restored, importToken);
     if (!saved.ok) {
       announce(saved.message || "Kayıt saklanamadı. Mevcut oyun korundu.", true);
       return;
     }
-    state = imported.state;
+    state = restored;
+    restartFrom = null;
+    if (state.expansion) expansionProblem = "";
     calendarDay = null;
     appointmentDraft = null;
     editingEntry = "";
@@ -1069,7 +1144,7 @@ $("#import-file").addEventListener("change", async (event) => {
     saveStatus = saved.message;
     lastOutcome = null;
     selectedDistrict = state.location;
-    tab = "board";
+    tab = state.expansion ? "expansion" : "board";
     dialog.close();
     render();
     announce(imported.message || "Kayıt yüklendi; kaldığın yerden devam edebilirsin.");
@@ -1094,7 +1169,7 @@ dialog.addEventListener("click", (event) => {
 // Read-only diagnostics: browser acceptance can inspect the same state rendered by the UI.
 window.boardworldInspect = () => (state ? structuredClone(state) : null);
 window.addEventListener("storage", async (event) => {
-  if (![SAVE_KEY, BACKUP_KEY].includes(event.key) || busy || unsaved) return;
+  if (![SAVE_KEY, BACKUP_KEY].includes(event.key) || busy || unsaved || state?.expansion) return;
   busy = true;
   try {
     const loaded = await loadGameLocked();

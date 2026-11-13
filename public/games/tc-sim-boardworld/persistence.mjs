@@ -1,5 +1,6 @@
 import { packSave, unpackSave } from "./save-codec.mjs";
 import { migrateState, validateState } from "./engine.mjs";
+import { EXPANSION_SAVE_VERSION } from "./expansion.mjs";
 
 export const SAVE_KEY = "tariklab.boardworld.v6";
 export const LEGACY_V5_SAVE_KEY = "tariklab.boardworld.v5";
@@ -19,6 +20,8 @@ export const LEGACY_SAVE_KEY = "tariklab.boardworld.v1";
 export const LEGACY_BACKUP_KEY = `${LEGACY_SAVE_KEY}.backup`;
 export const ORIGINAL_V1_BACKUP_KEY = `${LEGACY_SAVE_KEY}.original-v1`;
 const CURRENT_VERSION = 6;
+const EXPANSION_KEY = "tariklab.boardworld.v7";
+const EXPANSION_BACKUP_KEY = `${EXPANSION_KEY}.backup`;
 const LEGACY_SLOTS = [
   [LEGACY_V5_SAVE_KEY, [5]],
   [LEGACY_V5_BACKUP_KEY, [5]],
@@ -114,6 +117,7 @@ function encode(state, version, compact = false) {
 }
 export function exportGame(state) {
   if (!valid(state)) throw new Error("Oyun durumu doğrulanamadı; mevcut kayıt korundu.");
+  if (state.version === EXPANSION_SAVE_VERSION) return encode(state, EXPANSION_SAVE_VERSION, true);
   const migrated = state.version < CURRENT_VERSION;
   const current = migrated ? migrateState(state) : state;
   // A current state was just validated above. Validate again only when migration
@@ -126,7 +130,7 @@ export function exportGame(state) {
 export function exportCompactGame(state) {
   const verified = importGame(exportGame(state));
   if (!verified.state) throw new Error("Compact export validation failed");
-  return encode(verified.state, CURRENT_VERSION, true);
+  return encode(verified.state, verified.state.version, true);
 }
 function decode(text) {
   if (typeof text !== "string" || text.length > MAX_BYTES) throw new Error("size");
@@ -140,7 +144,7 @@ function decode(text) {
       ["format", "version", "checksum", "payload"].includes(key),
     ) ||
     ![FORMAT, `${FORMAT}-dictionary-1`].includes(envelope.format) ||
-    ![1, 2, 3, 4, 5, CURRENT_VERSION].includes(envelope.version) ||
+    ![1, 2, 3, 4, 5, CURRENT_VERSION, EXPANSION_SAVE_VERSION].includes(envelope.version) ||
     typeof envelope.payload !== "string" ||
     envelope.checksum !== checksum(envelope.payload)
   )
@@ -152,7 +156,10 @@ function decode(text) {
   if (!valid(original) || original.version !== envelope.version) throw new Error("state");
   const migrated = envelope.version < CURRENT_VERSION;
   const state = migrated ? migrateState(original) : original;
-  if (state.version !== CURRENT_VERSION || (migrated && !valid(state)))
+  if (
+    (state.version !== CURRENT_VERSION && state.version !== EXPANSION_SAVE_VERSION) ||
+    (migrated && !valid(state))
+  )
     throw new Error("migration");
   if (migrated) importedLegacy.set(state, { version: envelope.version, bytes: text });
   return { state, sourceVersion: envelope.version, migrated };
@@ -249,6 +256,7 @@ export function readSaveToken(storage = globalThis.localStorage) {
 }
 export function saveGame(state, storage, expectedToken) {
   try {
+    if (state?.version === EXPANSION_SAVE_VERSION) throw new Error("expansion-slot-required");
     storage ??= globalThis.localStorage;
     const encoded = exportGame(state);
     const previous = storage.getItem(SAVE_KEY);
@@ -542,5 +550,88 @@ export async function loadGameLocked(
         message: LOCK_WARNING,
       };
     return read(false);
+  }
+}
+
+function expansionToken(storage) {
+  return {
+    primary: storage.getItem(EXPANSION_KEY),
+    backup: storage.getItem(EXPANSION_BACKUP_KEY),
+  };
+}
+
+function expansionLoad(storage) {
+  const token = expansionToken(storage);
+  for (const [index, bytes] of [token.primary, token.backup].entries()) {
+    const loaded = bytes && importGame(bytes);
+    if (loaded?.state && loaded.sourceVersion === EXPANSION_SAVE_VERSION)
+      return {
+        ...loaded,
+        token,
+        saved: true,
+        message: index ? "Nesiller ana kaydı okunamadı. Sağlam yedek açıldı." : loaded.message,
+      };
+  }
+  return {
+    state: null,
+    token,
+    saved: Boolean(token.primary || token.backup),
+    message:
+      token.primary || token.backup
+        ? "Nesiller kaydı okunamadı; kayıt dosyasıyla kurtarabilirsin."
+        : "",
+  };
+}
+
+export async function loadExpansionLocked(
+  storage,
+  locks = globalThis.navigator?.locks,
+  transact = browserTransaction,
+) {
+  if (!locks?.request) return { state: null, token: null, message: LOCK_WARNING };
+  try {
+    return await locks.request(SAVE_LOCK, () => transact(storage, expansionLoad));
+  } catch (error) {
+    const snapshot = error.snapshot
+      ? expansionLoad(memoryStorage(new Map(error.snapshot.slots)))
+      : { state: null };
+    return { ...snapshot, token: null, message: LOCK_WARNING };
+  }
+}
+
+export async function saveExpansionLocked(
+  state,
+  storage,
+  expectedToken,
+  locks = globalThis.navigator?.locks,
+  transact = browserTransaction,
+) {
+  if (!locks?.request) return { ok: false, message: LOCK_WARNING };
+  try {
+    return await locks.request(SAVE_LOCK, () =>
+      transact(storage, (memory, generation) => {
+        const previous = expansionToken(memory);
+        if (
+          expectedToken?.generation !== generation ||
+          previous.primary !== expectedToken.primary ||
+          previous.backup !== expectedToken.backup
+        )
+          return conflict();
+        if (state?.version !== EXPANSION_SAVE_VERSION) throw new Error("invalid-expansion-state");
+        const encoded = exportGame(state);
+        const primary = previous.primary && importGame(previous.primary);
+        const backup =
+          primary?.sourceVersion === EXPANSION_SAVE_VERSION ? previous.primary : previous.backup;
+        if (backup !== previous.backup) writeChecked(memory, EXPANSION_BACKUP_KEY, backup);
+        writeChecked(memory, EXPANSION_KEY, encoded);
+        return {
+          ok: true,
+          token: { primary: encoded, backup },
+          message: "Bu tarayıcıya kaydedildi.",
+        };
+      }),
+    );
+  } catch {
+    return { ok: false, message: LOCK_WARNING };
   }
 }

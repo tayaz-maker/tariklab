@@ -26,6 +26,18 @@ import {
 } from "./deep-life.mjs";
 import { DISTRICT_RULES } from "./deep-content.mjs";
 import {
+  EXPANSION_SAVE_VERSION,
+  initExpansion,
+  tickExpansion,
+  expansionActions,
+  afterExpansionAction,
+  validateExpansion,
+  familyCanAct,
+  expansionEvent,
+  creditMunicipalTax,
+  economyNpcHousingCost,
+} from "./expansion.mjs";
+import {
   initStories,
   tickStories,
   storyActions,
@@ -82,6 +94,7 @@ import {
   npcHousingCost,
   canNpcMove,
   householdBill,
+  closeHousehold,
   syncLifeHousing,
   canEndLease,
 } from "./life-systems.mjs";
@@ -242,7 +255,10 @@ const API = {
     const a = makeBaseActions(s).find((a) => a.id === id);
     return a && s.version >= 4 ? adaptLifeActions(s, [a], API)[0] : a;
   },
-  npcHousingCost,
+  npcHousingCost: (s, id, base) => {
+    const cost = npcHousingCost(s, id, base);
+    return s.expansion ? economyNpcHousingCost(s, id, cost) : cost;
+  },
   canNpcMove,
   getLifeWorkTerms,
   createNpcOffer,
@@ -252,13 +268,27 @@ const API = {
   societyNpcOptions,
   societyNpcOutcome,
   societyNpcWork,
-  playerPresent: (s, district) => !s._transit && s.location === district,
+  playerPresent: (s, district) =>
+    !s._transit &&
+    s.location === district &&
+    (!s.expansion || s.expansion.world.region === "istanbul"),
+  expansionEvent,
+  creditMunicipalTax,
+  closeHousehold: (s, reason) => closeHousehold(s, reason, API),
+  settleCareer(s) {
+    if (!s.job) return;
+    receive(s, s.job.earned, "İşten ayrılma · kazanılmış ücret", "bank");
+    s.job = null;
+  },
+  transferEstate() {
+    // Property and enterprise belong to the household estate across successors.
+  },
 };
 
 export function migrateState(value) {
   if (!validateState(value)) throw new Error("Geçersiz Boardworld kaydı; yükseltme uygulanmadı.");
   const s = structuredClone(value);
-  if (s.version === 6) return s;
+  if (s.version >= 6) return s;
   if (s.version === 1) {
     initDeep(s);
     initStories(s);
@@ -281,6 +311,13 @@ export function migrateState(value) {
   }
   s.version = 6;
   if (!validateState(s)) throw new Error("Boardworld 6.0 yükseltme doğrulaması başarısız.");
+  return s;
+}
+
+export function expandGame(value) {
+  const s = migrateState(value);
+  if (s.version < EXPANSION_SAVE_VERSION) initExpansion(s);
+  if (!validateState(s)) throw new Error("Boardworld genişletilmiş kayıt doğrulaması başarısız.");
   return s;
 }
 
@@ -452,6 +489,7 @@ export function createGame(options = {}) {
   initSociety(s);
   initFlow(s);
   updateLocations(s);
+  if (options.expansion) initExpansion(s);
   return s;
 }
 
@@ -628,6 +666,10 @@ function advance(s, minutes, { sleeping = false } = {}) {
       if (s.version >= 5) tickSociety(s, API);
       tickEmergent(s, API);
     }
+    if (next === boundary && s.expansion) {
+      tickExpansion(s, API);
+      if (!familyCanAct(s)) break;
+    }
   }
   if (s.version < 3)
     for (const appointment of s.appointments) {
@@ -758,7 +800,8 @@ function qualification(s, j) {
   if (
     j.credential &&
     s.player.education !== "university" &&
-    !s.documents.some((d) => d.id === `certificate-${j.credential}`)
+    !s.documents.some((d) => d.id === `certificate-${j.credential}`) &&
+    !s.expansion?.institutions.qualifications?.some((q) => q.course === j.credential)
   )
     return "Üniversite diploması veya ilgili kurs sertifikası gerekir.";
   return "";
@@ -1748,6 +1791,7 @@ function makeBaseActions(s) {
 }
 
 function makeActions(s) {
+  if (s.expansion && !familyCanAct(s)) return expansionActions(s, [], API);
   let actions = makeBaseActions(s);
   if (s.version < 3 || s.pendingEvents.length) return actions;
   actions = actions.filter(
@@ -1823,6 +1867,7 @@ function makeActions(s) {
           action.reason = blocker.reason;
         }
   }
+  if (s.expansion) actions = expansionActions(s, actions, API);
   for (const a of actions) {
     if (a.disabled) continue;
     let reason = actionCalendarConflict(s, a);
@@ -2022,7 +2067,7 @@ export function resolveAction(state, actionId, payload) {
     (actionId === "calendar:propose" || actionId.startsWith("calendar:reschedule:"))
       ? calendarCommand(state, actionId, payload, API)
       : makeActions(state).find((a) => a.id === actionId);
-  if (!action)
+  if (!action || (state.expansion && !familyCanAct(state) && !actionId.startsWith("family:")))
     return {
       state: original,
       ok: false,
@@ -2058,14 +2103,17 @@ export function resolveAction(state, actionId, payload) {
   if (action.category === "travel") s._transit = true;
   if (action.calendarEntry) s._attendance = action.calendarEntry;
   advance(s, action.minutes, { sleeping: Boolean(action.sleeping) });
+  const active = !s.expansion || familyCanAct(s);
   if (action.category === "travel") {
     delete s._transit;
-    s.location = action.destination;
-    s.city.venue = action.venue || "";
-    updateLocations(s);
+    if (active) {
+      s.location = action.destination;
+      s.city.venue = action.venue || "";
+      updateLocations(s);
+    }
   }
   if (action.calendarEntry) {
-    completeCalendarAttendance(s, action.calendarEntry);
+    if (active) completeCalendarAttendance(s, action.calendarEntry);
     delete s._attendance;
   }
   const effectiveId = action.effectId || actionId;
@@ -2079,6 +2127,7 @@ export function resolveAction(state, actionId, payload) {
     afterSocietyAction(s, effectiveId, state, API, action);
     afterFlowAction(s, effectiveId, state);
   }
+  if (s.expansion) afterExpansionAction(s, effectiveId, state, API, action);
   if (s.version >= 2) tickStories(s, API);
   log(s, message);
   achievements(s);
@@ -2100,7 +2149,8 @@ export function validateState(s) {
       !obj(s) ||
       Object.hasOwn(s, "_transit") ||
       Object.hasOwn(s, "_attendance") ||
-      ![1, 2, 3, 4, 5, 6].includes(s.version) ||
+      ![1, 2, 3, 4, 5, 6, EXPANSION_SAVE_VERSION].includes(s.version) ||
+      (s.version < EXPANSION_SAVE_VERSION && Object.hasOwn(s, "expansion")) ||
       (s.version < 5 && ["society", "flow"].some((k) => Object.hasOwn(s, k))) ||
       (s.version < 4 && ["life", "emergent"].some((k) => Object.hasOwn(s, k))) ||
       (s.version < 3 && ["calendar", "city", "living"].some((k) => Object.hasOwn(s, k))) ||
@@ -2341,7 +2391,8 @@ export function validateState(s) {
         validateStories(s) &&
         (s.version < 3 || (validateCity(s) && validateCalendar(s) && validateLiving(s))) &&
         (s.version < 4 || (validateLife(s) && validateEmergent(s))) &&
-        (s.version < 5 || (validateSociety(s) && validateFlow(s))))
+        (s.version < 5 || (validateSociety(s) && validateFlow(s))) &&
+        (s.version < EXPANSION_SAVE_VERSION || validateExpansion(s)))
     );
   } catch {
     return false;
@@ -2352,6 +2403,8 @@ export function validateState(s) {
 export function runUntilNext(original) {
   if (!validateState(original))
     return { state: original, ok: false, message: "Geçersiz oyun durumu." };
+  if (original.expansion && !familyCanAct(original))
+    return { state: original, ok: false, message: "Önce aileden bir ardıl seç." };
   let s = original.version < 6 ? migrateState(original) : structuredClone(original);
   const initial = routineBlocker(s, { care: true, useRecorded: false }) || recordedStop(s, "wait");
   if (initial) return { state: original, ok: false, message: initial.reason };
@@ -2450,6 +2503,11 @@ export function runUntilNext(original) {
       s.life.lease.stage !== candidate.life.lease.stage ||
       s.flags.partner !== candidate.flags.partner;
     s = candidate;
+    if (s.expansion && !familyCanAct(s)) {
+      stop = "Önce aileden bir ardıl seç.";
+      code = "event";
+      break;
+    }
     if (changed) {
       stop = "İş, ilişki veya ev sözleşmesinin koşulları değişti; devam etmeden incele.";
       code = "contract";
@@ -2469,6 +2527,8 @@ export function runUntilNext(original) {
 export function runCare(original) {
   if (!validateState(original))
     return { state: original, ok: false, message: "Geçersiz oyun durumu.", actions: [] };
+  if (original.expansion && !familyCanAct(original))
+    return { state: original, ok: false, message: "Önce aileden bir ardıl seç.", actions: [] };
   let s = original.version < 6 ? migrateState(original) : structuredClone(original);
   const blocker = routineBlocker(s, { care: true });
   if (blocker) return { state: original, ok: false, message: blocker.reason, actions: [] };
@@ -2478,6 +2538,7 @@ export function runCare(original) {
     code = "complete",
     blocked = false;
   for (let step = 0; step < 8; step++) {
+    if (s.expansion && !familyCanAct(s)) break;
     const currentBlocker = routineBlocker(s, { care: true, useRecorded: false });
     if (currentBlocker) {
       reason = currentBlocker.reason;
@@ -2617,6 +2678,11 @@ const sumFunds = (s) => s.cash + s.bank;
 export function runRoutine(original, days = 1) {
   if (![1, 7].includes(days) || !validateState(original))
     return { state: original, ok: false, message: "Geçersiz rutin." };
+  if (
+    original.expansion &&
+    (!familyCanAct(original) || original.expansion.world.region !== "istanbul")
+  )
+    return { state: original, ok: false, message: "Bu rutin şu anda kullanılamıyor.", actions: [] };
   let s = original.version < 6 ? migrateState(original) : structuredClone(original);
   const initialBlocker = routineBlocker(s);
   if (initialBlocker)
@@ -2631,6 +2697,7 @@ export function runRoutine(original, days = 1) {
     if (!skipped.includes(text)) skipped.push(text);
   };
   for (let step = 0; step < 96 && s.time < end; step++) {
+    if (s.expansion && !familyCanAct(s)) break;
     const policy = s.emergent.policy,
       clock = getClock(s),
       settings = s.deep.routine.settings;
