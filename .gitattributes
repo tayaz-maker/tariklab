@@ -1,0 +1,9 @@
+# Preserve byte-exact imported terminal evidence, including ANSI layout spaces.
+# This affects only whitespace formatting checks on these six raw log files;
+# source, workflow, assertions and all security/test gates retain their checks.
+docs/tc-sim-boardworld/recovery/concurrent-save/build.log -whitespace
+docs/tc-sim-boardworld/recovery/concurrent-save/revision2/build.log -whitespace
+docs/tc-sim-boardworld/recovery/concurrent-save/revision2/typecheck.log -whitespace
+docs/tc-sim-boardworld/recovery/concurrent-save/revision3/build.log -whitespace
+docs/tc-sim-boardworld/recovery/concurrent-save/revision3/typecheck.log -whitespace
+docs/tc-sim-boardworld/recovery/concurrent-save/typecheck.log -whitespace

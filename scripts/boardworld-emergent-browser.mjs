@@ -6,6 +6,7 @@ import { createHash } from "node:crypto";
 import { gzipSync } from "node:zlib";
 import { chromium } from "playwright";
 import { createStaticGameServer } from "./static-game-server.mjs";
+import { generatedGameAssets } from "./boardworld-browser-assets.mjs";
 import { checkedUrl } from "./browser-guard.mjs";
 const args = process.argv.slice(2);
 const arg = (name, fallback) => (args.includes(name) ? args[args.indexOf(name) + 1] : fallback);
@@ -22,7 +23,7 @@ const assets = [
   "engine.mjs",
   "content.mjs",
   "persistence.mjs",
-    "save-codec.mjs",
+  "save-codec.mjs",
   "deep-content.mjs",
   "deep-life.mjs",
   "deep-ui.mjs",
@@ -83,7 +84,10 @@ try {
     origin = `http://127.0.0.1:${server.address().port}`;
   }
   checkedUrl(origin);
-  for (const file of assets) {
+  for (const file of [
+    ...assets,
+    ...generatedGameAssets(arg("--expected-root", arg("--serve", "public"))),
+  ]) {
     const response = await fetch(origin + gamePath + file);
     assert.equal(response.status, 200, `${file} delivered`);
     const bytes = Buffer.from(await response.arrayBuffer());

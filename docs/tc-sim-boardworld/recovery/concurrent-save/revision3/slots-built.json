@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "commit": "b0c25495a7c162eb4a653e32c0d999144aefb300",
+  "tree": "ea47604ba010b6f09807ae4d9f559c3617ba0543",
+  "trackedDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "runnerSha256": "cd73fa7b889bcd42712d6374e50192795806c3d84232d5dfe755877a1788997c",
+  "released": "d695119186cad42c079a911a60c372f201b3b64b",
+  "archiveSha256": "8ec2b346c223f6d5dead45cdadcf39d3da48344f7e6751dcd53bbb084971b0b7",
+  "serving": ".output/public",
+  "results": [
+    {
+      "case": "known-primary",
+      "goldSaved": true,
+      "firstOldSave": true,
+      "secondOldSave": true,
+      "forkInBackupBefore": true,
+      "winnerPreserved": true,
+      "foreignCopyPreserved": true,
+      "originalUnchanged": true,
+      "pass": true
+    },
+    {
+      "case": "same-primary",
+      "goldSaved": true,
+      "firstOldSave": true,
+      "secondOldSave": true,
+      "forkInBackupBefore": true,
+      "winnerPreserved": true,
+      "foreignCopyPreserved": true,
+      "originalUnchanged": true,
+      "pass": true
+    },
+    {
+      "case": "corrupt-primary",
+      "goldSaved": true,
+      "firstOldSave": true,
+      "secondOldSave": true,
+      "forkInBackupBefore": true,
+      "winnerPreserved": true,
+      "foreignCopyPreserved": true,
+      "originalUnchanged": true,
+      "pass": true
+    },
+    {
+      "case": "original-only",
+      "goldSaved": true,
+      "firstOldSave": true,
+      "secondOldSave": true,
+      "forkInBackupBefore": true,
+      "winnerPreserved": true,
+      "foreignCopyPreserved": true,
+      "originalUnchanged": true,
+      "pass": true
+    },
+    {
+      "case": "en",
+      "goldSaved": true,
+      "firstOldSave": true,
+      "secondOldSave": true,
+      "forkInBackupBefore": true,
+      "winnerPreserved": true,
+      "foreignCopyPreserved": true,
+      "originalUnchanged": true,
+      "notice": "Saved in this browser. A different save copy was preserved. Download it from the Save menu and import it explicitly; your current save was kept.",
+      "uiNotice": "Saved in this browser. A different save copy was preserved. Download it from the Save menu and import it explicitly; your current save was kept.",
+      "uiStatus": "Saved in this browser. A different save copy was preserved. Download it from the Save menu and import it explicitly; your current save was kept.",
+      "uiCopyPreserved": true,
+      "pass": true
+    },
+    {
+      "case": "pl",
+      "goldSaved": true,
+      "firstOldSave": true,
+      "secondOldSave": true,
+      "forkInBackupBefore": true,
+      "winnerPreserved": true,
+      "foreignCopyPreserved": true,
+      "originalUnchanged": true,
+      "notice": "Zapisano w tej przeglądarce. Zachowano inną kopię zapisu. Pobierz ją z menu zapisu i jawnie zaimportuj; bieżący zapis pozostał bez zmian.",
+      "uiNotice": "Zapisano w tej przeglądarce. Zachowano inną kopię zapisu. Pobierz ją z menu zapisu i jawnie zaimportuj; bieżący zapis pozostał bez zmian.",
+      "uiStatus": "Zapisano w tej przeglądarce. Zachowano inną kopię zapisu. Pobierz ją z menu zapisu i jawnie zaimportuj; bieżący zapis pozostał bez zmian.",
+      "uiCopyPreserved": true,
+      "pass": true
+    }
+  ],
+  "browser": "156.0.8078.80"
+}

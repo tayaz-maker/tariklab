@@ -56,7 +56,7 @@ TarikLab uses no third-party fonts (system font stacks only), no audio, and no t
 | react-remove-scroll-bar | 2.3.8 | MIT |
 | react-style-singleton | 2.2.3 | MIT |
 | scheduler | 0.27.0 | MIT |
-| seroval | 1.6.8 | MIT |
+| seroval | 1.7.7 | MIT |
 | seroval-plugins | 1.6.8 | MIT |
 | tailwind-merge | 3.6.0 | MIT |
 | tailwindcss | 4.3.3 | MIT |
@@ -64,7 +64,7 @@ TarikLab uses no third-party fonts (system font stacks only), no audio, and no t
 | use-callback-ref | 1.3.3 | MIT |
 | use-sidecar | 1.1.3 | MIT |
 | use-sync-external-store | 1.6.0 | MIT |
-| zod | 4.6.5 | MIT |
+| zod | 4.6.7 | MIT |
 | zustand | 5.0.15 | MIT |
 
 ## @radix-ui/primitive 1.1.7
@@ -1465,7 +1465,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## seroval 1.6.8
+## seroval 1.7.7
 
 License: MIT · Source: https://github.com/lxsmnsyc/seroval.git
 
@@ -1652,7 +1652,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## zod 4.6.5
+## zod 4.6.7
 
 License: MIT · Source: https://github.com/colinhacks/zod.git
 

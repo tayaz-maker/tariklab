@@ -1,9 +1,11 @@
 /** Production-only packing. Readable game sources and public module URLs stay intact. */
-import { mkdir, readFile, readdir, writeFile, stat } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile, stat, unlink } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { gzipSync } from "node:zlib";
 import { transform } from "esbuild";
+import { transform as transformCss } from "lightningcss";
+import { packModules } from "./boardworld-pack-modules.mjs";
 
 const gamePath = "games/tc-sim-boardworld";
 const styles = ["style.css", "deep.css", "living.css", "emergent.css", "society.css"];
@@ -72,27 +74,34 @@ export async function packGameAssets({ sourceDir = resolve("public", gamePath), 
   }
   packed.set(
     "style.css",
-    (
-      await transform(styles.map((file) => source.get(file)).join("\n"), {
-        ...options,
-        loader: "css",
-      })
-    ).code,
+    transformCss({
+      filename: "style.css",
+      code: Buffer.from(styles.map((file) => source.get(file)).join("\n")),
+      minify: true,
+    }).code.toString(),
   );
   for (const file of styles.slice(1)) {
     // Keep established asset URLs for older probes/bookmarks; the production HTML
     // requests the combined sheet once. Original cascade order is unchanged.
-    packed.set(file, "/* Included in style.css. */\n");
+    packed.set(file, "");
     html = html.replace(
       new RegExp(`\\s*<link rel="stylesheet" href="\\./${file.replace(".", "\\.")}"\\s*/>`),
       "",
     );
   }
-  packed.set("index.html", html);
+  // This fixed bootstrap has no preformatted content or inline script/style.
+  // Keep textual separators while dropping formatting-only tag whitespace.
+  if (/<(?:pre|textarea|style)\b|<script(?![^>]*\bsrc=)/i.test(html))
+    throw new Error("Inline/preformatted bootstrap needs a dedicated HTML packing rule.");
+  packed.set("index.html", html.replace(/\n\s*/g, " ").replace(/>\s+</g, "><").trim());
   locales.forEach((file, index) =>
     packed.set(file, `export default ${JSON.stringify(catalog[index])};\n`),
   );
+  const modules = await packModules(packed, keys);
   await mkdir(targetDir, { recursive: true });
+  for (const file of await readdir(targetDir))
+    if (/^bw-runtime-[a-f0-9]{16}\.mjs$/.test(file) && !packed.has(file))
+      await unlink(resolve(targetDir, file));
   await Promise.all([...packed].map(([file, text]) => writeFile(resolve(targetDir, file), text)));
   const after = await assetMetrics(targetDir);
   return {
@@ -101,6 +110,7 @@ export async function packGameAssets({ sourceDir = resolve("public", gamePath), 
     before,
     after,
     localeEntries: keys.length,
+    modules,
   };
 }
 

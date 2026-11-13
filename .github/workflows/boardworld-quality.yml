@@ -15,10 +15,16 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch immutable released6 compatibility reference
+        # checkout is shallow; browser rollback tests archive this exact shipped tree.
+        run: git fetch --no-tags --depth=1 origin d695119186cad42c079a911a60c372f201b3b64b
+      - name: Fetch immutable prior empty-head protocol reference
+        run: git fetch --no-tags --depth=1 origin b0c25495a7c162eb4a653e32c0d999144aefb300
       - uses: ./.github/actions/ci-node
       - name: Deterministic simulation and save recovery
         env:
           BOARDWORLD_ACCEPTANCE_REPORT: ${{ runner.temp }}/boardworld-acceptance.json
+          BOARDWORLD_GOLD_REPORT: ${{ runner.temp }}/boardworld-gold-endurance.json
         run: node --test scripts/boardworld*.test.mjs
       - name: Production bundle
         run: npm run build
@@ -40,14 +46,31 @@ jobs:
         run: node scripts/boardworld-emergent-browser.mjs --serve .output/public
       - name: Living Society invitations, daily decisions, locales and v4 isolation
         run: node scripts/boardworld-society-browser.mjs --serve .output/public
+      - name: Gold native cross-tab transaction and import races
+        run: |
+          node scripts/boardworld-stale-browser.mjs --serve .output/public
+          node scripts/boardworld-concurrent-browser.mjs --serve .output/public --output "$RUNNER_TEMP/screenshots/boardworld-stale/concurrent.json"
+          node scripts/boardworld-concurrent-browser.mjs --serve .output/public --stale-cache --repeats 20 --output "$RUNNER_TEMP/screenshots/boardworld-stale/frozen-cache.json"
+          node scripts/boardworld-transaction-browser.mjs --serve .output/public --output "$RUNNER_TEMP/screenshots/boardworld-stale/transactions.json"
+      - name: Released6 stale tab cannot replace a newer Gold save
+        run: node scripts/boardworld-legacy-tab-browser.mjs --serve .output/public
+      - name: Every legacy backup and original remains recoverable
+        run: node scripts/boardworld-legacy-slot-browser.mjs --serve .output/public
+      - name: Empty bootstrap migration and first-creation race
+        run: node scripts/boardworld-legacy-bootstrap-browser.mjs --serve .output/public
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: boardworld-browser
           path: |
             ${{ runner.temp }}/boardworld-acceptance.json
+            ${{ runner.temp }}/boardworld-gold-endurance.json
             ${{ runner.temp }}/screenshots/boardworld
             ${{ runner.temp }}/screenshots/boardworld-deep
             ${{ runner.temp }}/screenshots/boardworld-living
             ${{ runner.temp }}/screenshots/boardworld-emergent
             ${{ runner.temp }}/screenshots/boardworld-society
+            ${{ runner.temp }}/screenshots/boardworld-stale
+            ${{ runner.temp }}/screenshots/boardworld-legacy-tab
+            ${{ runner.temp }}/screenshots/boardworld-legacy-slot
+            ${{ runner.temp }}/screenshots/boardworld-legacy-bootstrap

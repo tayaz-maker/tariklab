@@ -65,7 +65,14 @@ import {
   renderFirstFive,
   renderHabits,
 } from "./emergent-ui.mjs";
-import { loadGame, saveGame, exportGame, importGame, SAVE_KEY } from "./persistence.mjs";
+import {
+  loadGameLocked,
+  saveGameLocked,
+  exportGame,
+  importGame,
+  SAVE_KEY,
+  BACKUP_KEY,
+} from "./persistence.mjs";
 import {
   initLocale,
   localizeTree,
@@ -162,10 +169,22 @@ const app = $("#app"),
 const embedded = window.self !== window.top;
 if (embedded) document.documentElement.classList.add("embedded");
 let noticeTimer;
+let saveToken = null,
+  unsaved = false,
+  recoverySaves = [];
+async function saveCurrent(current, expected = saveToken) {
+  const result = await saveGameLocked(current, undefined, expected);
+  recoverySaves = result.recoverySaves ?? recoverySaves;
+  unsaved = !result.ok;
+  if (result.ok) saveToken = result.token;
+  return result;
+}
 let initialLoad;
 try {
-  initialLoad = loadGame();
+  initialLoad = await loadGameLocked();
   state = initialLoad.state;
+  saveToken = initialLoad.token;
+  recoverySaves = initialLoad.recoverySaves ?? [];
   saveStatus = initialLoad.message || "";
 } catch {
   initialLoad = {
@@ -187,6 +206,10 @@ function announce(message, error = false) {
   clearTimeout(noticeTimer);
   noticeTimer = setTimeout(() => el.classList.remove("visible"), error ? 12000 : 6500);
 }
+function updateSaveStatus() {
+  const status = $(".save-state");
+  if (status) status.textContent = translateText(saveStatus);
+}
 function badge(text, kind = "") {
   return `<span class="badge ${kind}">${esc(text)}</span>`;
 }
@@ -198,7 +221,7 @@ function meter(label, value, inverse = false) {
   return `<div class="meter ${inverse ? "inverse" : ""} ${inverse ? (v > 70 ? "low" : "") : v < 30 ? "low" : ""}"><span>${esc(label)} <b>${v}</b></span><meter min="0" max="100" value="${v}" aria-label="${esc(label)}">${v}</meter></div>`;
 }
 function renderStart() {
-  app.innerHTML = `<main class="onboarding" id="main"><section class="start-story"><a href="/" target="_top" class="back-link">← TarikLab oyunları</a><div class="edition">İSTANBUL / BİRBİRİNE BAĞLI HAYATLAR / 06</div><div class="brand-lockup"><span class="brand-seal">TC</span><span>SIM<span class="brand-small">BOARDWORLD</span></span></div><h1>Bu şehirde<br>bir hayatın var.</h1><p class="start-lead">İşini seç. İnsanları tanı. Bir ev kur.<br>Bir düzen kur. Kararlarının izini şehirde gör.</p><div class="start-board" aria-hidden="true"><span class="start-route"></span><span class="mini-place mini-one">01 <b>Şişli</b><small>Kariyer &amp; eğitim</small></span><span class="mini-place mini-two">02 <b>Beşiktaş</b><small>Sahil &amp; sosyal çevre</small></span><span class="mini-place mini-three">03 <b>Kadıköy</b><small>Yeni başlangıçlar</small><i class="player-piece"></i></span><span class="mini-water">İSTANBUL BOĞAZI</span></div><p class="start-note">Tek oyunculu · Zaman yalnızca karar verdiğinde ilerler.</p></section><section class="creation"><span class="eyebrow">KARAKTER KARTIN</span><h2>İlk sayfayı sen yaz.</h2><p class="muted">Başlangıcın koşullarını değiştirir; geleceğini belirlemez.</p><form id="create-form"><label class="field">Karakter adı<input name="name" id="character-name" autocomplete="off" minlength="2" maxlength="32" required value="Deniz" placeholder="Karakterinin adı"></label><fieldset class="scenario-list"><legend>Nereden başlıyorsun?</legend>${SCENARIOS.map((s, i) => `<label class="scenario-option"><input type="radio" name="scenario" value="${esc(s.id)}" ${i === 0 ? "checked" : ""}><span class="scenario-number">0${i + 1}</span><span><strong>${esc(title(s))}</strong><small>${esc(s.description)}</small></span><span class="radio-dot"></span></label>`).join("")}</fieldset><div class="field-row"><label class="field">Eğitim<select name="education">${EDUCATIONS.map((e) => option(e, "highschool")).join("")}</select></label><label class="field">Kişilik<select name="trait">${TRAITS.map((e) => option(e, "balanced")).join("")}</select></label></div><p class="creation-detail" id="trait-description">${esc(lookup(TRAITS, "balanced")?.description || "")}</p><button class="primary start-button" type="submit" data-testid="create-game">Hayatına başla <span aria-hidden="true">→</span></button></form><div class="start-foot">${languageControl()}<button class="text-button" data-ui="import">Kayıt dosyası yükle</button><button class="text-button" data-ui="help">Nasıl oynanır?</button></div><p class="privacy">Kayıtların bu tarayıcıda tutulur. Cihaz değiştirmek için kayıt dosyanı indir.</p></section></main>`;
+  app.innerHTML = `<main class="onboarding" id="main"><section class="start-story"><a href="/" target="_top" class="back-link">← TarikLab oyunları</a><div class="edition">İSTANBUL / BİRBİRİNE BAĞLI HAYATLAR / 07</div><div class="brand-lockup"><span class="brand-seal">TC</span><span>SIM<span class="brand-small">BOARDWORLD</span></span></div><h1>Bu şehirde<br>bir hayatın var.</h1><p class="start-lead">İşini seç. İnsanları tanı. Bir ev kur.<br>Bir düzen kur. Kararlarının izini şehirde gör.</p><div class="start-board" aria-hidden="true"><span class="start-route"></span><span class="mini-place mini-one">01 <b>Şişli</b><small>Kariyer &amp; eğitim</small></span><span class="mini-place mini-two">02 <b>Beşiktaş</b><small>Sahil &amp; sosyal çevre</small></span><span class="mini-place mini-three">03 <b>Kadıköy</b><small>Yeni başlangıçlar</small><i class="player-piece"></i></span><span class="mini-water">İSTANBUL BOĞAZI</span></div><p class="start-note">Tek oyunculu · Zaman yalnızca karar verdiğinde ilerler.</p></section><section class="creation"><span class="eyebrow">KARAKTER KARTIN</span><h2>İlk sayfayı sen yaz.</h2><p class="muted">Başlangıcın koşullarını değiştirir; geleceğini belirlemez.</p><form id="create-form"><label class="field">Karakter adı<input name="name" id="character-name" autocomplete="off" minlength="2" maxlength="32" required value="Deniz" placeholder="Karakterinin adı"></label><fieldset class="scenario-list"><legend>Nereden başlıyorsun?</legend>${SCENARIOS.map((s, i) => `<label class="scenario-option"><input type="radio" name="scenario" value="${esc(s.id)}" ${i === 0 ? "checked" : ""}><span class="scenario-number">0${i + 1}</span><span><strong>${esc(title(s))}</strong><small>${esc(s.description)}</small></span><span class="radio-dot"></span></label>`).join("")}</fieldset><div class="field-row"><label class="field">Eğitim<select name="education">${EDUCATIONS.map((e) => option(e, "highschool")).join("")}</select></label><label class="field">Kişilik<select name="trait">${TRAITS.map((e) => option(e, "balanced")).join("")}</select></label></div><p class="creation-detail" id="trait-description">${esc(lookup(TRAITS, "balanced")?.description || "")}</p><button class="primary start-button" type="submit" data-testid="create-game">Hayatına başla <span aria-hidden="true">→</span></button></form><div class="start-foot">${languageControl()}<button class="text-button" data-ui="import">Kayıt dosyası yükle</button><button class="text-button" data-ui="help">Nasıl oynanır?</button></div><p class="privacy">Kayıtların bu tarayıcıda tutulur. Cihaz değiştirmek için kayıt dosyanı indir.</p></section></main>`;
 }
 function actionCard(a, compact = false) {
   const aid = `reason-${a.id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
@@ -225,7 +248,7 @@ function renderBoard() {
 
 function renderWork() {
   const job = state.job && lookup(JOBS, state.job.id);
-  return `${sectionHeader("EMEK & İLERLEME", "Bir işten, bir kariyere.", "Yeterliliklerini geliştir, başvurunu yap ve vardiyalarını planla. İşe alım koşullara bağlıdır.")}<section class="status-sheet"><div><span class="eyebrow">${job ? "MEVCUT SÖZLEŞME" : "İŞ ARAMA DURUMU"}</span><h3>${esc(job ? job.levels?.[state.job.level] || title(job) : "Yeni bir kapı aç")}</h3><p>${esc(job ? job.description : "Başvuru için ilandaki semtte ve mesai saatlerinde bulun. Eksik becerilerini Gelişim bölümünden tamamlayabilirsin.")}</p></div>${job ? `<div class="sheet-stats"><span>Seviye <b>${state.job.level + 1}</b></span><span>Vardiya <b>${state.job.shifts}</b></span><span>Performans <b>${state.job.performance}</b></span><span>Birikmiş maaş <b>${money(state.job.earned)}</b></span><span>Ödeme günü <b>${state.job.payDay}. gün</b></span></div>` : ""}</section>${renderEmployer(lifeView, actions, actionCard)}${renderCareer(deepView.career)}${renderFreelance(deepView.freelance)}${actionList("work")}<details class="reference"><summary>Meslek rehberi · ${JOBS.length} seçenek</summary><div class="reference-grid">${JOBS.map((j) => `<article><h3>${esc(title(j))}</h3><span class="eyebrow">${esc(districtName(j.district))}</span><p>${esc(j.description)}</p>${j.wage ? `<p class="tiny">Temel vardiya ücreti: ${money(j.wage)}</p>` : ""}</article>`).join("")}</div></details>`;
+  return `${sectionHeader("EMEK & İLERLEME", "Bir işten, bir kariyere.", "Yeterliliklerini geliştir, başvurunu yap ve vardiyalarını planla. İşe alım koşullara bağlıdır.")}<section class="status-sheet"><div><span class="eyebrow">${job ? "MEVCUT SÖZLEŞME" : "İŞ ARAMA DURUMU"}</span><h3>${esc(job ? job.levels?.[state.job.level] || title(job) : "Yeni bir kapı aç")}</h3><p>${esc(job ? job.description : "Başvuru için ilandaki semtte ve mesai saatlerinde bulun. Eksik becerilerini Gelişim bölümünden tamamlayabilirsin.")}</p></div>${job ? `<div class="sheet-stats"><span>Seviye <b>${state.job.level + 1}</b></span><span>Vardiya <b>${state.job.shifts}</b></span><span>Performans <b>${Math.round(state.job.performance)}</b></span><span>Birikmiş maaş <b>${money(state.job.earned)}</b></span><span>Ödeme günü <b>${state.job.payDay}. gün</b></span></div>` : ""}</section>${renderEmployer(lifeView, actions, actionCard)}${renderCareer(deepView.career)}${renderFreelance(deepView.freelance)}${actionList("work")}<details class="reference"><summary>Meslek rehberi · ${JOBS.length} seçenek</summary><div class="reference-grid">${JOBS.map((j) => `<article><h3>${esc(title(j))}</h3><span class="eyebrow">${esc(districtName(j.district))}</span><p>${esc(j.description)}</p>${j.wage ? `<p class="tiny">Temel vardiya ücreti: ${money(j.wage)}</p>` : ""}</article>`).join("")}</div></details>`;
 }
 function renderLife() {
   const home = lookup(HOMES, state.housing.id);
@@ -550,9 +573,10 @@ function render({ focus = null } = {}) {
   }
   window.scrollTo(x, y);
 }
-function commit(id, payload) {
+async function commit(id, payload) {
   if (!state || busy) return;
   busy = true;
+  let completion = { id, ok: false, saved: false, conflict: false };
   try {
     const before = state,
       result = resolveAction(state, id, payload);
@@ -564,6 +588,7 @@ function commit(id, payload) {
     if (id === "calendar:propose" || id.startsWith("calendar:reschedule:")) {
       const entry = state.calendar.entries.at(-1);
       if (entry) calendarDay = Math.floor(entry.start / 1440) + 1;
+      editingEntry = "";
     }
     const deltas = [];
     if (state.time !== before.time) deltas.push(`+${duration(state.time - before.time)}`);
@@ -584,17 +609,29 @@ function commit(id, payload) {
       message: result.message,
       delta: deltas.join(" · ") || "Kararın hikâyene kaydedildi.",
     };
-    const saved = saveGame(state);
+    // Resolve and draw while the browser acquires the cross-tab lock. The UI
+    // remains busy, and only the verified write may announce a saved state.
+    const saving = saveCurrent(state);
+    saveStatus = "Kaydediliyor…";
+    if (state.location !== before.location) selectedDistrict = state.location;
+    render({
+      focus:
+        id === "calendar:propose" || id.startsWith("calendar:reschedule:")
+          ? "calendar-form"
+          : `action:${id}`,
+    });
+    const saved = await saving;
     saveStatus =
       saved.message || (saved.ok ? "Otomatik kaydedildi" : "Kayıt yapılamadı; dosyaya indir.");
-    if (state.location !== before.location) selectedDistrict = state.location;
-    render({ focus: `action:${id}` });
-    announce(saved.ok ? result.message : `${result.message} ${saved.message}`, !saved.ok);
-    return result;
+    updateSaveStatus();
+    completion = { id, ok: saved.ok, saved: saved.ok, conflict: saved.conflict === true };
+    announce(saved.ok ? result.message : saved.message, !saved.ok);
+    return { ...result, ...completion };
   } catch (error) {
     announce(`Hamle tamamlanamadı: ${error.message}`, true);
   } finally {
     busy = false;
+    window.dispatchEvent(new CustomEvent("boardworld:action-complete", { detail: completion }));
   }
 }
 function showLocalizedDialog() {
@@ -611,10 +648,26 @@ function openDialog(kind) {
     restart: `<span class="eyebrow">YENİ BAŞLANGIÇ</span><h2 id="dialog-title">Yeni bir hayat?</h2><p>Yeni karakteri oluşturduğunda mevcut otomatik kaydın yerini alır. İstersen önce kayıt dosyanı indir.</p><div class="menu-actions"><button class="secondary" data-ui="export">Mevcut kaydı indir</button><button class="primary" data-ui="confirm-restart">Karakter oluşturmaya geç</button><button class="secondary" data-ui="close">Vazgeç</button></div>`,
     help: `<span class="eyebrow">MASANIN KURALLARI</span><h2 id="dialog-title">İlk günün için bir rehber.</h2><ol class="help-steps"><li><strong>Şehri tanı.</strong> Tahtada bir semti seç. Ulaşım kartında süre ve bedeli gör; hareket etmek için kartı seç.</li><li><strong>Bir iş bul.</strong> Kariyer ekranında koşulları oku. İlanın olduğu semte git, başvur. İşe alım ve maaş, beceri ve emeğine bağlıdır.</li><li><strong>Kendine bak.</strong> Yaşam ekranından yemek, dinlenme, sağlık ve konut kararlarını ver. Tokluk ve enerji yüksek, stres düşük olduğunda işler kolaylaşır.</li><li><strong>Sözünü tut.</strong> Telefonundaki kişiler günlük rutinlerini sürdürür. Görüş, arayıp hatır sor, buluşma planla. Takvimindeki saat ve semte dikkat et.</li><li><strong>Bir yön seç.</strong> Gelişimden eğitim al, Cüzdandan hesaplarını yönet. Hedefler ilerlemeni gösterir; onları tamamlayınca da oyun sürer.</li></ol><div class="rule-note"><strong>Bir zaman öner, sonucu önceden gör.</strong><p>Ajandada kişi, gün, saat ve mekân seç. Karşı teklifleri kabul et; ulaşımı ve çakışmaları hesaba kat. Projeler gerçek eylemlerinle ilerler. Şehir tahtasındaki Hamlelerini keşfet düğmesi desteklenen seçenekleri bulur. Ajanda ile çalışma ve bakım rutinlerini seç. Rutin yeni olaylarda durur. Öngörü, bir kararın zamanını, hesaplarını ve risklerini açıklar. Hikâyeler bölümündeki çok aşamalı zincirler eski seçimlerini hatırlar. Telefon rehberindeki ilişki haritası, insanların birbirinden ne duyabileceğini gösterir.</p></div><div class="rule-note"><strong>Zaman senin elinde.</strong><p>Menülerde gezinmek zaman harcamaz. Her eylemin süre ve maliyeti kartında yazar. Bazı belirsiz karşılaşmalarda zar kullanılır; iş, ders ve maaş zar değildir.</p></div><p class="tiny">Oyun ekonomisi tasarlanmış bir simülasyondur; gerçek fiyatları veya finansal tavsiyeyi temsil etmez. Kayıt yalnızca bu tarayıcıdadır. Ses kapalıdır.</p>`,
   };
-  dialog.innerHTML = `<div class="dialog-inner"><button class="dialog-close icon-button" data-ui="close" aria-label="Pencereyi kapat">×</button>${content[kind] || content.menu}</div>`;
+  const recovery =
+    kind === "menu" && recoverySaves.length
+      ? `<p>${esc(translateText("Farklı kayıt kopyaları korundu. İndirip dosyadan yükleyebilirsin."))}</p><div class="menu-actions">${recoverySaves.map((_, index) => `<button class="secondary" data-ui="recovery:${index}">${esc(translateText("Korunan kayıt kopyasını indir"))} ${index + 1}</button>`).join("")}</div>`
+      : "";
+  dialog.innerHTML = `<div class="dialog-inner"><button class="dialog-close icon-button" data-ui="close" aria-label="Pencereyi kapat">×</button>${content[kind] || content.menu}${recovery}</div>`;
   showLocalizedDialog();
 }
-function handleUi(id) {
+async function handleUi(id) {
+  if (id.startsWith("recovery:")) {
+    const copy = recoverySaves[Number(id.slice(9))];
+    if (!copy) return;
+    const url = URL.createObjectURL(new Blob([copy.bytes], { type: "application/json" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `boardworld-recovery-${Number(id.slice(9)) + 1}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+    announce("Kayıt dosyan indirildi.");
+    return;
+  }
   if (id === "menu" || id === "restart" || id === "help" || id === "character") {
     openDialog(id);
     return;
@@ -624,10 +677,13 @@ function handleUi(id) {
     return;
   }
   if (id === "save" && state) {
-    const result = saveGame(state);
+    if (busy) return;
+    busy = true;
+    const result = await saveCurrent(state);
+    busy = false;
     saveStatus = result.message;
     announce(result.message, !result.ok);
-    if (!dialog.open) render();
+    updateSaveStatus();
     return;
   }
   if (id === "export" && state) {
@@ -790,7 +846,8 @@ function handleLivingControl(button) {
   }
   return false;
 }
-document.addEventListener("click", (event) => {
+document.addEventListener("click", async (event) => {
+  if (busy) return;
   const network = event.target.closest("[data-network-npc]");
   if (network) {
     selectedNpc = network.dataset.networkNpc;
@@ -833,11 +890,7 @@ document.addEventListener("click", (event) => {
   if (button.dataset.previewCommit) {
     const id = button.dataset.previewCommit;
     dialog.close();
-    const result = commit(id, previewPayload || undefined);
-    if (result?.ok && (id === "calendar:propose" || id.startsWith("calendar:reschedule:"))) {
-      editingEntry = "";
-      render();
-    }
+    await commit(id, previewPayload || undefined);
     previewPayload = null;
     return;
   }
@@ -873,16 +926,16 @@ document.addEventListener("keydown", (event) => {
     event.target.dispatchEvent(new MouseEvent("click", { bubbles: true }));
   }
 });
-document.addEventListener("submit", (event) => {
+document.addEventListener("submit", async (event) => {
+  if (busy) {
+    event.preventDefault();
+    return;
+  }
   if (event.target.id === "appointment-form") {
     event.preventDefault();
     const payload = readAppointmentForm(event.target);
     const id = editingEntry ? `calendar:reschedule:${editingEntry}` : "calendar:propose";
-    const result = commit(id, payload);
-    if (result?.ok) {
-      editingEntry = "";
-      render({ focus: "calendar-form" });
-    }
+    await commit(id, payload);
     return;
   }
   if (event.target.id === "project-form") {
@@ -911,6 +964,8 @@ document.addEventListener("submit", (event) => {
     $("#character-name").focus();
     return;
   }
+  busy = true;
+  const previousLife = state;
   state = createGame({
     name,
     scenario: String(data.get("scenario")),
@@ -923,8 +978,15 @@ document.addEventListener("submit", (event) => {
   appointmentDraft = null;
   editingEntry = "";
   selectedDistrict = state.location;
-  const saved = saveGame(state);
+  const saved = await saveCurrent(state);
+  busy = false;
   saveStatus = saved.message;
+  if (saved.conflict) {
+    state = previousLife;
+    render();
+    announce(saved.message, true);
+    return;
+  }
   render();
   announce(
     "Hayatın başladı. Önce başlangıç olay kartından bir seçim yap; sonra Kariyer bölümündeki işleri incele.",
@@ -981,18 +1043,20 @@ document.addEventListener("change", (event) => {
 $("#import-file").addEventListener("change", async (event) => {
   const file = event.target.files?.[0];
   event.target.value = "";
-  if (!file) return;
+  if (!file || busy) return;
+  busy = true;
   try {
     if (file.size > 2_000_000) {
       announce("Bu kayıt dosyası çok büyük.", true);
       return;
     }
+    const importToken = saveToken;
     const imported = importGame(await file.text());
     if (!imported.state) {
       announce(imported.message || "Kayıt geçersiz. Mevcut oyun korundu.", true);
       return;
     }
-    const saved = saveGame(imported.state);
+    const saved = await saveCurrent(imported.state, importToken);
     if (!saved.ok) {
       announce(saved.message || "Kayıt saklanamadı. Mevcut oyun korundu.", true);
       return;
@@ -1011,6 +1075,8 @@ $("#import-file").addEventListener("change", async (event) => {
     announce(imported.message || "Kayıt yüklendi; kaldığın yerden devam edebilirsin.");
   } catch (error) {
     announce(`Dosya okunamadı. Mevcut oyun korundu: ${error.message}`, true);
+  } finally {
+    busy = false;
   }
 });
 dialog.addEventListener("click", (event) => {
@@ -1027,12 +1093,15 @@ dialog.addEventListener("click", (event) => {
 });
 // Read-only diagnostics: browser acceptance can inspect the same state rendered by the UI.
 window.boardworldInspect = () => (state ? structuredClone(state) : null);
-window.addEventListener("storage", (event) => {
-  if (event.key !== SAVE_KEY || !event.newValue) return;
+window.addEventListener("storage", async (event) => {
+  if (![SAVE_KEY, BACKUP_KEY].includes(event.key) || busy || unsaved) return;
+  busy = true;
   try {
-    const loaded = loadGame();
+    const loaded = await loadGameLocked();
     if (loaded.state) {
       state = loaded.state;
+      saveToken = loaded.token;
+      recoverySaves = loaded.recoverySaves ?? recoverySaves;
       calendarDay = null;
       appointmentDraft = null;
       editingEntry = "";
@@ -1042,10 +1111,16 @@ window.addEventListener("storage", (event) => {
       selectedDistrict = state.location;
       lastOutcome = null;
       render();
-      announce("Başka bir sekmedeki güncel kaydın yüklendi. Oyun aynı noktadan devam ediyor.");
+      announce(
+        loaded.recoverySaves?.length
+          ? loaded.message
+          : "Başka bir sekmedeki güncel kaydın yüklendi. Oyun aynı noktadan devam ediyor.",
+      );
     }
   } catch {
     announce("Diğer sekmenin kaydı okunamadı. Bu sekmedeki ilerlemeni dosyaya indir.", true);
+  } finally {
+    busy = false;
   }
 });
 await initLocale(() => {

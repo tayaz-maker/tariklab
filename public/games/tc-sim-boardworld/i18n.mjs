@@ -67,6 +67,13 @@ function translate(value, depth = 0) {
   let translated = dictionary[text];
   if (!translated && dictionary[text + "."]?.endsWith("."))
     translated = dictionary[text + "."].slice(0, -1);
+  // Outcome amounts already use the selected locale; translate only their label.
+  if (!translated) {
+    const delta = raw
+      .trim()
+      .match(/^(Nakit|Banka|Enerji|Tokluk|Stres|Sağlık)( [+−-]\d[\d.,\s]*(?:₺)?)$/);
+    if (delta) translated = dictionary[delta[1]] + delta[2];
+  }
   if (!translated && depth < 6) {
     for (const p of patterns) {
       if (p.prefix && !text.startsWith(p.prefix)) continue;

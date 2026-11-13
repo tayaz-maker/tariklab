@@ -1,0 +1,61 @@
+{
+  "status": "ENDURANCE_ARTIFACT_VERIFIED_BOARDWORLD_SUITE_FAILED",
+  "capturedAt": "2026-11-03T19:49:03.036475+00:00",
+  "repository": "tayaz-maker/tariklab",
+  "run": 41702206427,
+  "job": 126148397285,
+  "runConclusion": "failure",
+  "head": "038de709cfc6385710b05f1fa743cf44e9217ce7",
+  "tree": "e15cfe2de4d5f9d180393fa2f657042334b60ae1",
+  "checkoutCommit": "4997d58410f563d67a50e30b8c13d8e988ac410f",
+  "checkoutTreeMatchesHead": true,
+  "artifactId": 13264144406,
+  "artifactName": "boardworld-browser",
+  "artifactZipSha256": "0385c0ab975e3956ce36cc8aa36f3a720e7ff4d0dc97509dead08bf4e4fe0181",
+  "artifactZipBytes": 3411521,
+  "enduranceJsonSha256": "346cf06511e61045354279c63594ac7a2c71bebd2bf3a51a9d397b30da5d2696",
+  "runtimeModulesMatchedGitObjects": 27,
+  "controllerMatchedGitObject": true,
+  "harnessMatchedGitObject": true,
+  "lifeCount": 19,
+  "annualLives": 18,
+  "twoYearLives": 1,
+  "totalDays": 7300,
+  "totalActions": 64064,
+  "allExpectedCheckpointsAndHashesPresent": true,
+  "nodeTests": {
+    "pass": 513,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "coreBrowser": {
+    "ok": true,
+    "rows": 3
+  },
+  "deepBrowser": {
+    "ok": false,
+    "completedRows": 4,
+    "error": "TimeoutError: locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('.game-tabs') to be visible\n",
+    "logLocation": "scripts/boardworld-deep-browser.mjs:592:48"
+  },
+  "laterCiGates": "SKIPPED_AFTER_DEEP_FAILURE",
+  "releaseAccepted": false,
+  "downloadAttempts": [
+    {
+      "sandbox": "default",
+      "exit": 1,
+      "reason": "DNS unavailable"
+    },
+    {
+      "sandbox": "authorized escalation",
+      "exit": 0
+    }
+  ],
+  "limits": [
+    "Artifact hashes/runtime provenance and completed19-life records verified; no independent simulation replay rerun locally.",
+    "Boardworld suite FAIL; four completed deep rows are not a full-suite PASS.",
+    "Candidate also fails matched performance and has a separately confirmed legacy-after-empty-head availability defect.",
+    "PR-linked CI only; main CI and production Gold delivery were not performed."
+  ]
+}

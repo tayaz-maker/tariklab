@@ -2943,4 +2943,12 @@ export default [
   "Sıradaki stok öngörüsü",
   "Öngörü, bilinen giriş ve tüketimi içerir; yeni alışverişlerle değişebilir.",
   "İletişim isteğine gerçek görüşmeyle yanıt verildi; yeni bir ödeme veya yardım sözü oluşmadı.",
+  "Başka bir sekme kaydı değiştirdi. Bu sekmedeki ilerlemeni dosyaya aktar, sonra sayfayı yenile.",
+  "Bu tarayıcı güvenli sekmeler arası kaydı desteklemiyor. İlerlemeni dosyaya aktar; otomatik kayıt kapalı.",
+  "İSTANBUL / BİRBİRİNE BAĞLI HAYATLAR / 07",
+  "Kaydediliyor…",
+  "Farklı bir kayıt kopyası korundu. Kayıt menüsünden indirip dosyadan yükleyebilirsin; mevcut kaydın değiştirilmedi.",
+  "Farklı kayıt kopyaları korundu. İndirip dosyadan yükleyebilirsin.",
+  "Korunan kayıt kopyasını indir",
+  "Bu tarayıcıya kaydedildi. Farklı bir kayıt kopyası korundu. Kayıt menüsünden indirip dosyadan yükleyebilirsin; mevcut kaydın değiştirilmedi.",
 ];

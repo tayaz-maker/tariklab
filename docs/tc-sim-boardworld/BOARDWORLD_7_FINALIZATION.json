@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "scope": "PRE_FREEZE_IMPLEMENTATION_AND_HISTORICAL_EVIDENCE",
+  "preparedAt": "2026-11-03T20:04:53.517684+00:00",
+  "pr": "https://github.com/tayaz-maker/tariklab/pull/254",
+  "acceptedByThisSnapshot": false,
+  "finalGatePolicy": "Full final exact-head/main CI, matched timing and live delivery are required. Update PR/delivery evidence without relabeling old tests.",
+  "implementation": {
+    "cache": {
+      "localCommit": "843bc0c36de611ed2b200566645aa0d614d9feaf",
+      "publishedCommit": "9d116ec53efddec95e06640b102c6edc3ce69ec8",
+      "tree": "15dea71e8cc9763cd576a16cbefd81ef18bcce40"
+    },
+    "bootstrap": {
+      "localCommit": "3ba963028c7e5cfa2a70445a390414571dab0ac6",
+      "publishedCommit": "b2ba2ce3e74f1ca7f5da729588dd50162ec774ac",
+      "tree": "d537e0cf9b7d1401325fd492e4af07f436f2b550",
+      "independentSourceCases": 4,
+      "independentBuiltCases": 4,
+      "status": "PASS_IMPLEMENTATION_ONLY"
+    },
+    "locale": {
+      "localCommit": "68a732b3359d6b262c7e63366c8bc4a6033a2a67",
+      "nodeTests": 8,
+      "builtSocietyViewports": 3,
+      "status": "PASS_IMPLEMENTATION_ONLY"
+    }
+  },
+  "historical038": {
+    "commit": "038de709cfc6385710b05f1fa743cf44e9217ce7",
+    "tree": "e15cfe2de4d5f9d180393fa2f657042334b60ae1",
+    "generalCi": "SUCCESS",
+    "boardworldCi": "FAIL_DEEP_LATE_LEGACY",
+    "p95Ms": [
+      29.6,
+      26.9,
+      27.8
+    ],
+    "p95Status": "FAIL",
+    "excludedPopulationCases": "NOT_RUN",
+    "deployed": false
+  },
+  "fixedBudgets": {
+    "initialTrGzipBytes": 205874,
+    "allLanguagesGzipBytes": 301836,
+    "p95MsBy1440_390_320": [
+      23.4,
+      23.4,
+      24.0
+    ]
+  },
+  "finalIntegratedGates": {
+    "tests": "NOT_RUN_IN_THIS_PRE_FREEZE_SNAPSHOT",
+    "matchedPerformance": "NOT_RUN_IN_THIS_PRE_FREEZE_SNAPSHOT",
+    "exactHeadCi": "NOT_RUN_IN_THIS_PRE_FREEZE_SNAPSHOT",
+    "exactMainCi": "NOT_RUN",
+    "production": "NOT_RUN",
+    "ownerPhysical": "ASSIGNED_TO_OWNER_NOT_RUN"
+  },
+  "evidence": [
+    {
+      "path": "recovery/final-integration/038-boardworld-artifact-provenance.json",
+      "sha256": "b491ca39969177ef8b73cffa207b017fb1db473a091965dbe8a8aa91a86028ab"
+    },
+    {
+      "path": "recovery/final-integration/038-endurance-reference-comparison.json",
+      "sha256": "ad08185b00ffa0ee67724921f093342b676230c284eb4df0557464a7035a652a"
+    },
+    {
+      "path": "recovery/final-integration/038-final-summary.json",
+      "sha256": "8f21d1387799448cf6931d3a21501de6a5a1f8dfe86c08e076ec61b7bff8d9f3"
+    },
+    {
+      "path": "recovery/final-integration/3ba-late-legacy-v2-built.json",
+      "sha256": "ff2d8b264ade9e938f0a51e74c39cdc36ee32f477c431aff3e9f0e911973c94f"
+    },
+    {
+      "path": "recovery/final-integration/3ba-late-legacy-v2-source.json",
+      "sha256": "89548576f10a7b673b868cd8a2019b2e35123e72f4bb738b924e1016c3f1f719"
+    }
+  ]
+}
