@@ -1,0 +1,49 @@
+name: Cloudflare Boardworld build diagnosis
+on:
+  push:
+    branches: [diagnostics/boardworld-cloudflare-build]
+    paths: [.github/workflows/cloudflare-build-diagnostic.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  read-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - name: Read existing Cloudflare build and production metadata
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CF_API_TOKEN }}
+          CF_HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK || secrets.CLOUDFLARE_DEPLOY_HOOK_URL }}
+        run: |
+          node --input-type=module <<'NODE'
+          const token=process.env.CF_TOKEN?.trim(), hook=process.env.CF_HOOK?.trim();
+          console.log(JSON.stringify({configuredToken:Boolean(token),configuredHook:Boolean(hook),method:'GET only; no retry, deploy or configuration mutation'}));
+          if(!token){console.error('CLOUDFLARE_DIAGNOSTIC_UNAVAILABLE: neither CLOUDFLARE_API_TOKEN nor CF_API_TOKEN is configured for this job');process.exit(1)}
+          const base='https://api.cloudflare.com/client/v4/accounts/1c23838a8ed57b3cabd47e117b6ebb62/';
+          const redact=value=>String(value).replaceAll(token,'[REDACTED]').replaceAll(hook||'__NO_HOOK__','[REDACTED]').replace(/https?:\/\/\S*deploy_hooks\/\S+/g,'[REDACTED_HOOK]').replace(/(Bearer\s+)\S+/gi,'$1[REDACTED]');
+          async function get(path){
+            const r=await fetch(base+path,{headers:{Authorization:'Bearer '+token},signal:AbortSignal.timeout(20000)});
+            const body=await r.json();
+            if(!r.ok||!body.success){console.log(redact(JSON.stringify({path,http:r.status,errors:body.errors})));return null}
+            return body.result;
+          }
+          const build='0d82c447-38ff-43d6-9474-50bfdf96d2f5';
+          const logs=await get('builds/builds/'+build+'/logs');
+          if(logs){
+            const lines=JSON.stringify(logs).split(/\\n/);
+            for(let i=0;i<lines.length;i++)if(/error|failed|failure|pending|budget|node\.js|detected|executing user|command/i.test(lines[i]))console.log(redact(lines[i].slice(0,5000)));
+          }
+          const deployments=await get('workers/scripts/tariklab/deployments');
+          if(deployments)console.log(redact(JSON.stringify({deployments})));
+          const scripts=await get('workers/scripts');
+          const worker=Array.isArray(scripts)?scripts.find(s=>s.id==='tariklab'):null;
+          if(worker?.tag){
+            const settings=await get('builds/workers/'+worker.tag);
+            if(settings){
+              const p=settings.production_settings||{};
+              console.log(JSON.stringify({repository:settings.git_repository,buildCommand:p.build_command,deployCommand:p.deploy_command,root:p.root_directory,environmentNames:Object.keys(p.environment_variables||{}),previewEnabled:settings.previews_enabled}));
+            }
+          }
+          if(!logs)process.exitCode=1;
+          NODE
