@@ -47,6 +47,14 @@ function idAddress(id: string): { key: string; bit: bigint } {
   return { key: `txexact:${id}`, bit: 1n };
 }
 
+/** Exact membership survives ledger receipt compaction and save/load. */
+export function hasSettledTransaction(state: WorldState, id: string): boolean {
+  const meal = mealAddress(id);
+  if (meal) return hasMeal(state.flags[meal.key], meal.code);
+  const address = idAddress(id);
+  return (readTransactionBits(String(state.flags[address.key] ?? "0")) & address.bit) !== 0n;
+}
+
 /** Opening balances + matched transfer journal = current balances, including explicit external accounts. */
 export function transfer(
   state: WorldState,

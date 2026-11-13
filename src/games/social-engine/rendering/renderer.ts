@@ -3,6 +3,7 @@ import { Application, Container, Graphics, Rectangle, Sprite, Text, Texture } fr
 import type { Person, Point, RenderProjection, Vehicle } from "../domain/types";
 import { retargetMotion, sampleMotion } from "./interpolation";
 import { cameraTranslation } from "./camera";
+import { alphaMask, masksOverlap, type AlphaMask } from "./occlusion";
 import { BUILDINGS, LAND_HEIGHT, ROAD_CENTERS, isRoad, project, unproject } from "./world";
 
 // Physics headings stay in world coordinates; compare projected tangents to eight authored axes.
@@ -26,6 +27,10 @@ function vehicleFrame(heading: number): number {
   }
   return best;
 }
+function vehicleVariant(id: string): string {
+  const n = Number(id.match(/\d+$/)?.[0] ?? 0);
+  return ["car", "cargo", "van", "hatch"][n % 4];
+}
 function animationOffset(id: string): number {
   let hash = 2166136261;
   for (const char of id) hash = Math.imul(hash ^ char.charCodeAt(0), 16777619);
@@ -47,6 +52,10 @@ type ActorView = {
   duration: number;
   person?: Person;
   vehicle?: Vehicle;
+  fadeSprite?: Sprite;
+  vehicleFrameName?: string;
+  personFrameName?: string;
+  fadeStartedAt?: number;
 };
 export type WorldRenderer = {
   render: (projection: RenderProjection) => void;
@@ -95,9 +104,9 @@ function groundTexture(cx: number, cy: number): Texture {
       const color = water
         ? ["#376b72", "#396e75", "#3c7278"][n % 3]
         : road
-          ? ["#697471", "#6c7774", "#6e7875"][n % 3]
+          ? ["#626e6c", "#636f6d", "#64706e"][n % 3]
           : stone
-            ? ["#c3bda4", "#c8c1a9", "#c5bda3"][n % 3]
+            ? ["#bebba9", "#c0bdab", "#c2bfad"][n % 3]
             : ["#829371", "#859673", "#899974"][n % 3];
       const q = drawTile(x, y, color);
       if (stone) {
@@ -111,6 +120,33 @@ function groundTexture(cx: number, cy: number): Texture {
         c.beginPath();
         c.moveTo(q.x, q.y + 12);
         c.lineTo(q.x + 12, q.y + 6);
+        c.stroke();
+      }
+      if (stone) {
+        // Street curbs follow the actual road boundary; no collision data is changed.
+        const edges: [number, number, number, number, number, number][] = [
+          [1, 0, 24, 12, 0, 24],
+          [-1, 0, 0, 0, -24, 12],
+          [0, 1, 0, 24, -24, 12],
+          [0, -1, 0, 0, 24, 12],
+        ];
+        c.strokeStyle = "#e0d7bd";
+        c.lineWidth = 2;
+        for (const [dx, dy, x1, y1, x2, y2] of edges) {
+          if (!isRoad({ x: p.x + dx, y: p.y + dy })) continue;
+          c.beginPath();
+          c.moveTo(q.x + x1, q.y + y1);
+          c.lineTo(q.x + x2, q.y + y2);
+          c.stroke();
+        }
+      }
+      if (road && (x * 19 + y * 23) % 53 === 0) {
+        // Restrained asphalt repair seam, deterministic and baked once per chunk.
+        c.strokeStyle = "#45565344";
+        c.lineWidth = 1.1;
+        c.beginPath();
+        c.moveTo(q.x - 7, q.y + 10);
+        c.lineTo(q.x + 4, q.y + 15);
         c.stroke();
       }
       if (water && n % 2 === 0) {
@@ -136,6 +172,21 @@ function groundTexture(cx: number, cy: number): Texture {
           c.moveTo(q.x - 4, q.y + 7);
           c.lineTo(q.x + 8, q.y + 13);
         }
+        c.stroke();
+      }
+      if (road && (x * 11 + y * 7) % 43 === 0) {
+        c.strokeStyle = "#485956aa";
+        c.lineWidth = 1.2;
+        c.beginPath();
+        c.ellipse(q.x, q.y + 12, 4.5, 2.2, 0, 0, Math.PI * 2);
+        c.stroke();
+      }
+      if (stone && (x * 13 + y * 7) % 31 === 0) {
+        c.strokeStyle = "#827f7055";
+        c.lineWidth = 0.8;
+        c.beginPath();
+        c.moveTo(q.x - 4, q.y + 10);
+        c.lineTo(q.x + 3, q.y + 14);
         c.stroke();
       }
       if (y === 56) {
@@ -386,6 +437,38 @@ export async function createRenderer(
     app.destroy(true, { children: true });
     throw error;
   }
+  // A compact, one-bit occupancy mask prevents transparent atlas padding or
+  // shadows from triggering building fade. It is built once, never per frame.
+  const buildingMasks = new Map<string, AlphaMask>();
+  const maskCanvas = document.createElement("canvas");
+  maskCanvas.width = buildingBase.source.width;
+  maskCanvas.height = buildingBase.source.height;
+  const maskContext = maskCanvas.getContext("2d", { willReadFrequently: true })!;
+  maskContext.drawImage(buildingBase.source.resource as HTMLImageElement, 0, 0);
+  for (const [name, frame] of Object.entries(atlas.buildings.frames)) {
+    const pixels = maskContext.getImageData(frame.x, frame.y, frame.w, frame.h).data;
+    buildingMasks.set(name, alphaMask(pixels, frame.w, frame.h));
+  }
+  maskCanvas.width = 0;
+  maskCanvas.height = 0;
+  // Only player animation cells actually visited are decoded; each is cached
+  // as one bit per pixel so sprite overlap excludes transparent character pixels.
+  const playerMasks = new Map<string, AlphaMask>();
+  const playerMask = (name: string, frame: Frame): AlphaMask => {
+    const existing = playerMasks.get(name);
+    if (existing) return existing;
+    const canvas = document.createElement("canvas");
+    canvas.width = frame.w;
+    canvas.height = frame.h;
+    const context = canvas.getContext("2d", { willReadFrequently: true })!;
+    context.drawImage(actorBase.source.resource as HTMLImageElement, frame.x, frame.y, frame.w, frame.h, 0, 0, frame.w, frame.h);
+    const pixels = context.getImageData(0, 0, frame.w, frame.h).data;
+    const mask = alphaMask(pixels, frame.w, frame.h, true);
+    canvas.width = 0;
+    canvas.height = 0;
+    playerMasks.set(name, mask);
+    return mask;
+  };
   const textures = new Map<string, Texture>();
   for (const [name, frame] of Object.entries(atlas.buildings.frames))
     textures.set(
@@ -467,6 +550,8 @@ export async function createRenderer(
     initialized = false;
   const stopMarkers: Container[] = [];
   const trafficSignals: Graphics[] = [];
+  const streetLines: Graphics[] = [];
+  const lampGlows: Graphics[] = [];
   const optionalTextures: Texture[] = [];
   const sceneZoom: Record<string, number> = { outside: 0.9 };
   const frameSamples: number[] = [],
@@ -510,11 +595,16 @@ export async function createRenderer(
     stopMarkers.length = 0;
     for (const light of trafficSignals) light.destroy();
     trafficSignals.length = 0;
+    for (const line of streetLines) line.destroy();
+    streetLines.length = 0;
+    for (const glow of lampGlows) glow.destroy();
+    lampGlows.length = 0;
     if (scene) sceneZoom[scene] = zoom;
     scene = next;
     zoom = sceneZoom[next] ?? 1.25;
     for (const v of actors.values()) {
       v.sprite.destroy();
+      v.fadeSprite?.destroy();
       v.label.destroy();
     }
     actors.clear();
@@ -583,6 +673,35 @@ export async function createRenderer(
         { x: 2.6, y: 50 },
       ])
         decor.push(sprite("tree", p, 1.15));
+      for (const p of [
+        { x: 15.1, y: 9 },
+        { x: 21.6, y: 9 },
+        { x: 40.1, y: 9 },
+        { x: 46.2, y: 9 },
+        { x: 15.1, y: 27 },
+        { x: 21.6, y: 27 },
+        { x: 40.1, y: 27 },
+        { x: 46.2, y: 27 },
+        { x: 15.1, y: 45 },
+        { x: 21.6, y: 45 },
+        { x: 40.1, y: 45 },
+        { x: 46.2, y: 45 },
+      ]) {
+        const lamp = sprite("lamp", p, 0.65);
+        decor.push(lamp);
+        const glow = new Graphics()
+          .ellipse(0, 0, 22, 9)
+          .fill({ color: 0xf3bc68, alpha: 0.12 })
+          .circle(13, -77, 13)
+          .fill({ color: 0xffd18a, alpha: 0.12 })
+          .circle(13, -77, 6)
+          .fill({ color: 0xffe0a5, alpha: 0.24 });
+        glow.position.set(lamp.x, lamp.y);
+        glow.zIndex = lamp.zIndex + 0.1;
+        glow.alpha = 0;
+        objects.addChild(glow);
+        lampGlows.push(glow);
+      }
       for (let x = 4; x < 63; x += 7) {
         decor.push(sprite("lamp", { x, y: 55.5 }, 0.85));
         if (x % 2 === 0) decor.push(sprite("bench", { x: x + 2, y: 55.5 }, 0.7));
@@ -591,6 +710,36 @@ export async function createRenderer(
         decor.push(sprite("planter", { x: b.door.x - 1.5, y: b.door.y + 0.1 }, 0.65));
         if (b.kind === "cafe" || b.kind === "restaurant")
           decor.push(sprite("bench", { x: b.door.x + 1.7, y: b.door.y + 0.2 }, 0.6));
+      }
+      // One restrained overhead cable run per block, behind actors and outside portals.
+      for (const [a, b] of [
+        [
+          { x: 15.1, y: 9 },
+          { x: 15.1, y: 27 },
+        ],
+        [
+          { x: 40.1, y: 9 },
+          { x: 40.1, y: 27 },
+        ],
+        [
+          { x: 15.1, y: 27 },
+          { x: 15.1, y: 45 },
+        ],
+        [
+          { x: 40.1, y: 27 },
+          { x: 40.1, y: 45 },
+        ],
+      ] as [Point, Point][]) {
+        const pa = project(a),
+          pb = project(b),
+          line = new Graphics();
+        line
+          .moveTo(pa.x, pa.y - 72)
+          .quadraticCurveTo((pa.x + pb.x) / 2, (pa.y + pb.y) / 2 - 58, pb.x, pb.y - 72)
+          .stroke({ color: 0x263e3b, width: 1.2, alpha: 0.65 });
+        line.zIndex = Math.min(pa.y, pb.y) - 2;
+        objects.addChild(line);
+        streetLines.push(line);
       }
       // A distant ferry is decorative; travel interactions remain part of simulation.
       const boat = new Graphics();
@@ -709,7 +858,7 @@ export async function createRenderer(
       let view = actors.get(person.id);
       const target = { x: person.location.x, y: person.location.y };
       if (!view) {
-        const s = sprite(`person-${person.appearance % 8}-0-0`, target, 0.65);
+        const s = sprite(`person-${person.appearance % 8}-0-0`, target, 0.76);
         const label = new Text({
           text: person.id === projection.player.id ? person.name : "",
           style: {
@@ -736,21 +885,37 @@ export async function createRenderer(
       }
       transition(view, target, cadence.get(person.id) ?? 1000);
       view.person = person;
+      const important =
+        person.id !== projection.player.id &&
+        projection.quests.some(
+          (q) =>
+            (q.status === "active" || q.status === "offered") &&
+            (q.targetId === person.id || q.issuerId === person.id),
+        ) &&
+        Math.hypot(
+          person.location.x - projection.player.location.x,
+          person.location.y - projection.player.location.y,
+        ) < 12;
+      view.label.text =
+        person.id === projection.player.id ? person.name : important ? `◆ ${person.name}` : "";
       view.sprite.visible =
         person.id !== projection.player.id ||
         (!projection.player.vehicleId && !projection.mobility?.trip);
-      view.label.visible = person.id === projection.player.id && !projection.mobility?.trip;
+      view.label.visible =
+        (person.id === projection.player.id || important) && !projection.mobility?.trip;
     }
     for (const vehicle of projection.vehicles) {
       if (vehicle.location.scene !== scene) continue;
       keep.add(vehicle.id);
       const direction = vehicleFrame(vehicle.heading);
-      const variant = vehicle.id.endsWith("0") ? "cargo" : "car";
+      const variant = vehicleVariant(vehicle.id);
       const frameName = `${variant}-${direction}`;
       let view = actors.get(vehicle.id);
       const target = { x: vehicle.location.x, y: vehicle.location.y };
       if (!view) {
         const s = sprite(frameName, target, 1);
+        const fadeSprite = sprite(frameName, target, 1);
+        fadeSprite.visible = false;
         const label = new Text({ text: "", style: { fontSize: 10 } });
         label.visible = false;
         objects.addChild(label);
@@ -763,6 +928,8 @@ export async function createRenderer(
           moving: false,
           updatedAt: time,
           duration: 100,
+          fadeSprite,
+          vehicleFrameName: frameName,
         };
         actors.set(vehicle.id, view);
       }
@@ -772,6 +939,7 @@ export async function createRenderer(
     for (const [id, v] of actors)
       if (!keep.has(id)) {
         v.sprite.destroy();
+        v.fadeSprite?.destroy();
         v.label.destroy();
         actors.delete(id);
       }
@@ -784,6 +952,21 @@ export async function createRenderer(
     .stroke({ color: 0x92e6c5, width: 0.7, alpha: 0.4 });
   objects.addChild(playerRing);
   playerRing.zIndex = 100000;
+  const playerMarker = new Graphics();
+  playerMarker
+    .poly([0, -65, 7, -73, 0, -81, -7, -73])
+    .fill(0xf2c978)
+    .stroke({ color: 0x132d2b, width: 2.5 });
+  playerMarker.zIndex = 100003;
+  objects.addChild(playerMarker);
+  // An occlusion-only ghost preserves player readability without moving the real actor.
+  const playerGhost = new Sprite(Texture.EMPTY);
+  playerGhost.anchor.set(0.5, 84 / 96);
+  playerGhost.tint = 0xf4d89a;
+  playerGhost.alpha = 0.78;
+  playerGhost.zIndex = 100002;
+  playerGhost.visible = false;
+  objects.addChild(playerGhost);
   const pointer = (event: PointerEvent) => {
     if (!current) return;
     const rect = app.canvas.getBoundingClientRect();
@@ -831,30 +1014,95 @@ export async function createRenderer(
       if (v.vehicle) {
         // Heading follows the displacement actually presented since the previous draw.
         // The newest physics tangent can lead the interpolated position at a turn.
+        const previousRotation = v.sprite.rotation;
         const dx = p.x - v.sprite.x,
           dy = p.y - v.sprite.y;
         if (Math.hypot(dx, dy) > 0.01) {
           const worldDelta = unproject({ x: dx, y: dy });
           v.direction = vehicleFrame(Math.atan2(worldDelta.y, worldDelta.x));
+          // Residual screen-space angle follows the visible interpolated displacement.
+          // The simulation's heading and position are never changed by this treatment.
+          const axis = project({
+            x: Math.cos((v.direction * Math.PI) / 4),
+            y: Math.sin((v.direction * Math.PI) / 4),
+          });
+          const angle = Math.atan2(dy, dx) - Math.atan2(axis.y, axis.x);
+          const residual = Math.atan2(Math.sin(angle), Math.cos(angle));
+          // Combined atlas-axis plus residual is exactly the presented movement direction.
+          // Smoothing the residual itself causes a jump whenever the base frame changes.
+          v.sprite.rotation = residual;
         } else if (v.vehicle.speed <= 0) {
           v.direction = vehicleFrame(v.vehicle.heading);
+          v.sprite.rotation *= Math.exp(-Math.min(delta, 100) / 120);
         }
-        const variant = id.endsWith("0") ? "cargo" : "car";
-        v.sprite.texture = paintedVehicle(`${variant}-${v.direction}`, v.vehicle.color);
+        const variant = vehicleVariant(id);
+        const nextFrame = `${variant}-${v.direction}`;
+        if (v.fadeSprite && v.vehicleFrameName && nextFrame !== v.vehicleFrameName) {
+          v.fadeSprite.texture = v.sprite.texture;
+          v.fadeSprite.rotation = previousRotation;
+          v.fadeStartedAt = started;
+        }
+        v.vehicleFrameName = nextFrame;
+        v.sprite.texture = paintedVehicle(nextFrame, v.vehicle.color);
+        const blend =
+          v.fadeStartedAt === undefined ? 1 : clamp((started - v.fadeStartedAt) / 120, 0, 1);
+        v.sprite.alpha = blend;
+        if (v.fadeSprite) {
+          v.fadeSprite.visible = blend < 1;
+          v.fadeSprite.alpha = 1 - blend;
+          v.fadeSprite.position.set(p.x, p.y);
+          v.fadeSprite.zIndex = p.y - 0.01;
+        }
       }
       v.sprite.position.set(p.x, p.y);
       v.sprite.zIndex = p.y;
-      v.label.position.set(p.x, p.y - 49);
-      v.label.zIndex = p.y + 0.1;
+      v.label.position.set(p.x, p.y - 56);
+      v.label.zIndex = id === current.player.id ? 100004 : p.y + 0.1;
       if (v.person) {
-        const frame = moving ? Math.floor((started + animationOffset(id)) / 135) % 4 : 0;
-        v.sprite.texture = textures.get(
-          `person-${v.person.appearance % 8}-${v.direction}-${frame}`,
-        )!;
+        const phase = started + animationOffset(id);
+        const apparentSpeed =
+          (Math.hypot(v.to.x - v.from.x, v.to.y - v.from.y) * 1000) / Math.max(1, v.duration);
+        const running = moving && apparentSpeed > 2.4;
+        const frame = moving ? Math.floor(phase / (running ? 85 : 135)) % 4 : 0;
+        const playerAction =
+          id === current.player.id
+            ? current.player.attackUntil > current.tick
+              ? "punch"
+              : current.player.blocking
+                ? "block"
+                : null
+            : null;
+        const textureName = playerAction
+          ? `person-${playerAction}-${v.person.appearance % 8}-${v.direction}`
+          : `person-${running ? "run-" : ""}${v.person.appearance % 8}-${v.direction}-${frame}`;
+        v.sprite.texture = textures.get(textureName)!;
+        v.personFrameName = textureName;
+        // Independent idle breathing is presentation only, with a fixed foot anchor.
+        const breath = moving ? 1 : 1 + Math.sin(phase / 620) * 0.014;
+        v.sprite.scale.set(0.76, 0.76 * breath);
         if (id === current.player.id) focus = p;
         v.sprite.tint = v.person.health <= 20 ? 0xe9a292 : 0xffffff;
       }
     }
+    let obscured = false;
+    if (player && player.sprite.visible) {
+      for (const [id, other] of actors) {
+        if (id === current.player.id || !other.sprite.visible) continue;
+        if (
+          other.sprite.y >= player.sprite.y - 5 &&
+          Math.abs(other.sprite.x - player.sprite.x) < 24 &&
+          Math.abs(other.sprite.y - player.sprite.y) < 18
+        ) {
+          obscured = true;
+          break;
+        }
+      }
+      playerGhost.texture = player.sprite.texture;
+      playerGhost.position.copyFrom(player.sprite.position);
+      playerGhost.scale.copyFrom(player.sprite.scale);
+    }
+    playerGhost.visible =
+      obscured && !!player && !current.player.vehicleId && !current.mobility?.trip;
     if (!initialized) {
       camera = { ...focus };
       initialized = true;
@@ -874,20 +1122,32 @@ export async function createRenderer(
         sx > -160 && sx < app.screen.width + 160 && sy > -120 && sy < app.screen.height + 120;
       if (v.sprite.renderable) visibleActors++;
       v.label.renderable = v.sprite.renderable;
+      if (v.fadeSprite) v.fadeSprite.renderable = v.sprite.renderable;
     }
     playerRing.position.set(focus.x, focus.y);
     playerRing.visible = !!player && !current.player.vehicleId;
+    playerMarker.position.set(focus.x, focus.y);
+    playerMarker.visible = !!player && !current.player.vehicleId && !current.mobility?.trip;
+    // The player's driven vehicle is the visible subject while the character
+    // sprite is hidden. Its authored frame supplies the same alpha test.
+    const subject = current.player.vehicleId ? actors.get(current.player.vehicleId) : player;
+    const subjectName = subject?.personFrameName ?? subject?.vehicleFrameName;
+    const subjectFrame = subjectName ? atlas.actors.frames[subjectName] : undefined;
+    const actorMask = subjectName && subjectFrame ? playerMask(subjectName, subjectFrame) : undefined;
     for (const b of BUILDINGS) {
       const s = buildings.get(b.id);
       if (!s) continue;
-      const f = project({ x: b.x + b.w / 2, y: b.y + b.h / 2 });
-      const blocks =
-        current.player.location.x <= b.x + b.w &&
-        current.player.location.y <= b.y + b.h &&
-        focus.x > f.x - (b.w + b.h) * 12 &&
-        focus.x < f.x + (b.w + b.h) * 12 &&
-        focus.y < s.y + (b.w + b.h) * 12 &&
-        focus.y > s.y - b.height * 24;
+      const frame = atlas.buildings.frames[b.id];
+      const mask = buildingMasks.get(b.id);
+      let blocks = false;
+      // Compare in the shared projected world coordinates. Depth must put the
+      // building in front, and an opaque building pixel must cover the body.
+      if (subject?.sprite.visible && s.zIndex > subject.sprite.zIndex && frame && mask && subjectFrame && actorMask) {
+        blocks = masksOverlap(mask, actorMask,
+          subject.sprite.x - s.x + frame.pivot.x, subject.sprite.y - s.y + frame.pivot.y,
+          subjectFrame.pivot.x, subjectFrame.pivot.y,
+          subject.sprite.scale.x, subject.sprite.scale.y, subject.sprite.rotation);
+      }
       const targetAlpha = blocks ? 0.35 : 1;
       s.alpha += (targetAlpha - s.alpha) * 0.12;
       const d = doors.get(b.id)!;
@@ -908,6 +1168,7 @@ export async function createRenderer(
             : hour > 17
               ? (hour - 17) * 0.1
               : 0;
+    for (const glow of lampGlows) glow.alpha = Math.min(1, darkness * 4);
     overlay
       .clear()
       .rect(0, 0, app.screen.width, app.screen.height)
@@ -926,6 +1187,16 @@ export async function createRenderer(
               )
             : 0.04,
       });
+    // Warm light at dawn and dusk layers over the cool ambient shade without bloom.
+    if (scene === "outside") {
+      const dusk = hour >= 17 && hour < 20 ? Math.sin(((hour - 17) / 3) * Math.PI) : 0;
+      const dawn = hour >= 5 && hour < 8 ? Math.sin(((hour - 5) / 3) * Math.PI) : 0;
+      const warmth = Math.max(dusk, dawn) * 0.11;
+      if (warmth > 0.001)
+        overlay
+          .rect(0, 0, app.screen.width, app.screen.height)
+          .fill({ color: 0xe4a366, alpha: warmth });
+    }
     if (
       scene === "outside" &&
       !document.body.classList.contains("reduce-motion") &&
@@ -973,6 +1244,7 @@ export async function createRenderer(
       },
       samples: frameSamples.length,
       visibleActors,
+      occludedBuildings: [...buildings].filter(([, sprite]) => sprite.alpha < 0.9).map(([id, sprite]) => ({ id, alpha: sprite.alpha })),
       sceneChanges,
       zoom,
       cameraTransform: { x: world.x, y: world.y, zoom },
@@ -1000,6 +1272,8 @@ export async function createRenderer(
       for (const texture of textures.values()) texture.destroy(false);
       // Frame textures share these two owned sources. Disposing frames alone leaves
       // Texture.from(image) entries in Pixi's resource cache across recovery/restart.
+      buildingMasks.clear();
+      playerMasks.clear();
       buildingBase.destroy(true);
       actorBase.destroy(true);
       app.destroy(true, { children: true, texture: false, textureSource: false });

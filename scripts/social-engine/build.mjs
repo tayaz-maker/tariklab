@@ -1,4 +1,4 @@
-import { compileRuntime } from "./compile-runtime.mjs";
+import { compileRuntime, compileStyles } from "./compile-runtime.mjs";
 import { readFile, writeFile, mkdir, readdir, rm } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { gzipSync } from "node:zlib";
@@ -41,7 +41,7 @@ for (const chunk of compiled) await writeFile(resolve(out, chunk.fileName), chun
 const workerFile = compiled.find((chunk) => chunk.isEntry && chunk.name === "worker")?.fileName,
   appFile = compiled.find((chunk) => chunk.isEntry && chunk.name === "app")?.fileName;
 if (!workerFile || !appFile) throw new Error("Missing explicit app/worker output");
-const css = await readFile(resolve(root, "src/games/social-engine/ui/styles.css"));
+const css = await compileStyles(root);
 const cssFile = `styles-${createHash("sha256").update(css).digest("hex").slice(0, 12)}.css`;
 await writeFile(resolve(out, cssFile), css);
 let html = await readFile(resolve(root, "src/games/social-engine/ui/index.html"), "utf8");

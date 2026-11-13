@@ -1,5 +1,6 @@
 import { encodeSave, decodeSave } from "../../src/games/social-engine/persistence/codec.ts";
 import { observeLocalDay } from "./neighbourhood-liveness.mjs";
+import { startReplay } from "./simulation-365-replay.mjs";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
@@ -9,7 +10,6 @@ import { gzipSync } from "node:zlib";
 import {
   createWorld,
   stepWorld,
-  advanceMinutes,
   validateState,
   canonicalState,
 } from "../../src/games/social-engine/simulation/engine.ts";
@@ -18,8 +18,8 @@ const output = "artifacts/social-engine/simulation-365";
 mkdirSync(output, { recursive: true });
 const seed = Number(process.env.SE_SEED ?? 20261103),
   started = performance.now();
-const primary = createWorld(seed),
-  replay = createWorld(seed);
+const primary = createWorld(seed);
+const replay = startReplay({ seed });
 let resumed = null;
 const samples = [],
   days = [],
@@ -61,8 +61,11 @@ const environment = {
 
 writeFileSync(`${output}/results.json`, JSON.stringify({status:"RUNNING", environment, completedDays:0},null,2));
 try {
+  assert.equal((await replay.ready).hash, hash(primary), "initial same-seed replay differs");
   for (let day = 1; day <= 365; day++) {
     const dayStart = performance.now();
+    const replayResult = replay.advance();
+    const resumedResult = resumed ? resumed.advance() : null;
     const neighbourhood = observeLocalDay(primary);
     // The tested path is the same ten-Hz stepWorld used by the browser worker.
     for (let tick = 0; tick < 14400; tick++) {
@@ -76,20 +79,17 @@ try {
     const localActivity = neighbourhood.result();
     if (localActivity.stalled) errors.push({ day, label: "local-activity", localActivity });
     assert.ok(!localActivity.stalled, `day ${day} local pedestrian/meal liveness: ${JSON.stringify(localActivity)}`);
-    advanceMinutes(replay, 1440);
-    if (resumed) advanceMinutes(resumed, 1440);
-    for (const [label, state] of [
-      ["primary", primary],
-      ["replay", replay],
-      ...(resumed ? [["resumed", resumed]] : []),
-    ]) {
-      const violations = validateState(state);
-      if (violations.length) errors.push({ day, label, violations });
-      assert.deepEqual(violations, [], `${label} day ${day} invariant violation`);
+    const remote = [["replay", await replayResult], ...(resumedResult ? [["resumed", await resumedResult]] : [])];
+    const primaryViolations = validateState(primary);
+    if (primaryViolations.length) errors.push({ day, label: "primary", violations: primaryViolations });
+    assert.deepEqual(primaryViolations, [], `primary day ${day} invariant violation`);
+    for (const [label, result] of remote) {
+      if (result.violations.length) errors.push({ day, label, violations: result.violations });
+      assert.deepEqual(result.violations, [], `${label} day ${day} invariant violation`);
     }
     const stateHash = hash(primary),
-      replayHash = hash(replay),
-      resumedHash = resumed ? hash(resumed) : null;
+      replayHash = remote[0][1].hash,
+      resumedHash = resumed ? remote[1][1].hash : null;
     assert.equal(stateHash, replayHash, `same-seed replay differs day ${day}`);
     if (resumed)
       assert.equal(stateHash, resumedHash, `day180 serialized resume differs day ${day}`);
@@ -97,8 +97,10 @@ try {
       const bytes = canonicalState(primary);
       writeFileSync(`${output}/day180-world.json.gz`, gzipSync(bytes));
       const checkpoint = await encodeSave("auto", primary);
-      resumed = (await decodeSave(checkpoint)).state;
-      assert.equal(hash(resumed), stateHash, "day180 canonical snapshot roundtrip");
+      const decoded = (await decodeSave(checkpoint)).state;
+      assert.equal(hash(decoded), stateHash, "day180 canonical snapshot roundtrip");
+      resumed = startReplay({ checkpoint });
+      assert.equal((await resumed.ready).hash, stateHash, "day180 worker snapshot roundtrip");
       writeFileSync(
         `${output}/day180-snapshot.sha256`,
         `${createHash("sha256").update(bytes).digest("hex")}\n`,
@@ -157,8 +159,8 @@ try {
     unexplainedMoneyDifference:
       Object.values(primary.accounts).reduce((a, b) => a + b, 0) - primary.openingTotal,
     finalHash: hash(primary),
-    replayHash: hash(replay),
-    resumedHash: hash(resumed),
+    replayHash: days.at(-1).replayHash,
+    resumedHash: days.at(-1).resumedHash,
     ledgerTransfers: primary.ledgerCheckpoint.count + primary.ledger.length,
     finalSnapshotBytes: Buffer.byteLength(bytes),
     finalSnapshotGzipBytes: gzipSync(bytes).length,
@@ -172,6 +174,7 @@ try {
     elapsedMs: performance.now() - started,
     notes: [
       "Headless Node simulation, not browser FPS or human playtest evidence.",
+      "Replay worlds run concurrently in worker threads; tick timings include contention from those workers.",
       "Every authoritative tick executed; no daily shortcut. Separate identical-seed run and day180 serialized resume both match daily hashes.",
       "Measured tree identified by sourceSha256; build_sha alone is not a claim that uncommitted sources existed in that commit.",
     ],
@@ -185,4 +188,6 @@ try {
     `${JSON.stringify({ status: "FAIL", environment, errors, completedDays: days, error: error.stack, elapsedMs: performance.now() - started }, null, 2)}\n`,
   );
   throw error;
+} finally {
+  await Promise.all([replay.stop(), ...(resumed ? [resumed.stop()] : [])]);
 }

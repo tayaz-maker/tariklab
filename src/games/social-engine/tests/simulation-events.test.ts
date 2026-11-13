@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { SPAWN } from "../domain/world.ts";
 import { EVENT_TEMPLATES } from "../domain/content.ts";
 import {
   createWorld,
@@ -97,7 +98,7 @@ for (const template of EVENT_TEMPLATES)
       advanceMinutes(state, 20);
     }
     if (template.kind === "traffic_jam") {
-      state.player.location = { x: 27, y: 16, scene: "outside" };
+      state.player.location = { ...SPAWN, scene: "outside" };
       assert.ok(act(state, "VEHICLE_ENTER", { vehicleId: "v0" }).ok);
       const start = Number(state.flags.drivenDistance ?? 0);
       assert.ok(act(state, "DRIVE", { throttle: 1, steer: 0 }).ok);

@@ -31,8 +31,9 @@ test("SOCIAL ENGINE pure domain boundaries and isolated storage remain enforced"
     );
   }
 });
-test("SOCIAL ENGINE immutable bundle manifest matches every runtime byte and startup budget", () => {
+test("SOCIAL ENGINE immutable bundle manifest matches every runtime byte and package budget", () => {
   const root = "public/games/social-engine";
+  const maxRuntimeGzip = 256000;
   const manifest = JSON.parse(readFileSync(root + "/build-manifest.json", "utf8"));
   let gzip = 0;
   for (const asset of manifest.assets) {
@@ -43,7 +44,7 @@ test("SOCIAL ENGINE immutable bundle manifest matches every runtime byte and sta
     gzip += asset.gzipBytes;
   }
   assert.equal(gzip, manifest.totalGzipBytes);
-  assert.ok(gzip <= 250 * 1024, `incremental runtime gzip ${gzip} >250KiB`);
+  assert.ok(gzip <= maxRuntimeGzip, `total runtime gzip ${gzip} > ${maxRuntimeGzip} bytes`);
   assert.match(manifest.worker, /^worker-[\w-]+\.js$/);
   assert.match(manifest.entry, /^app-[\w-]+\.js$/);
 });

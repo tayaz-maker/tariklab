@@ -98,7 +98,72 @@ export function expectedTrafficMigration(source: WorldState): WorldState {
         : expected.npcs.find((n) => n.id === car.driverId);
     if (driver) driver.location = { ...car.location };
   }
-  expected.schemaVersion = 8;
-  expected.engineVersion = "1.0.0-candidate.7";
+  expected.schemaVersion = 9;
+  expected.engineVersion = "1.0.0-candidate.8";
+  return expectedParkingUpgrade(expected);
+}
+
+/** Independent, literal new slot oracle. These predecessor fixtures cover the
+ * original idle start pose and otherwise unchanged player positions. */
+export function expectedParkingUpgrade(source: WorldState): WorldState {
+  const expected = structuredClone(source),
+    v0 = expected.vehicles.find((v) => v.id === "v0");
+  const moveStarter =
+    !!v0 &&
+    v0.driverId === null &&
+    v0.speed === 0 &&
+    v0.lane === 0 &&
+    v0.progress === 10 &&
+    v0.location.x === 27 &&
+    v0.location.y === 17 &&
+    !(Number(source.flags.drivenDistance ?? 0) > 0) &&
+    !source.mobility.parking.some((l) => l.vehicleIds.includes("v0"));
+  expected.mobility.driverBreaks = [];
+  expected.mobility.parking.push(
+    ...[
+      "park-driver-coast",
+      "park-driver-east",
+      "park-driver-west",
+      "park-driver-west-south",
+      "park-starter",
+    ].map((id) => ({
+      id,
+      capacity: 1,
+      vehicleIds: id === "park-starter" && moveStarter ? ["v0"] : [],
+    })),
+  );
+  const slots: Record<string, Array<[number, number, number]>> = {
+    "park-market": [
+      [31, 15.2, 0],
+      [35, 15.2, 0],
+    ],
+    "park-east": [
+      [45.8, 25, -1.570796327],
+      [45.8, 29, -1.570796327],
+    ],
+    "park-coast": [[29, 55.2, 0]],
+    "park-starter": [[19.6, 14.1, 0]],
+  };
+  for (const lot of expected.mobility.parking)
+    for (const [index, id] of lot.vehicleIds.entries()) {
+      const v = expected.vehicles.find((v) => v.id === id)!,
+        [x, y, heading] = slots[lot.id][index];
+      v.location = { x, y, scene: "outside" };
+      v.heading = heading;
+    }
+  if (
+    moveStarter &&
+    expected.player.location.scene === "outside" &&
+    expected.player.location.x === 27 &&
+    expected.player.location.y === 16 &&
+    !expected.player.vehicleId
+  ) {
+    expected.player.location = { x: 20.35, y: 12.75, scene: "outside" };
+    expected.player.path = [];
+    expected.player.destination = null;
+    expected.notices.push(
+      "Park cepleri güvenli konumlara taşındı; yakındaki aracın yanında erişimin korundu. Sözleşme ve bakiyelerin aynı.",
+    );
+  }
   return expected;
 }

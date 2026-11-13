@@ -40,6 +40,7 @@ test("repair delivery cannot create seven unproduced parts", () => {
   const s = createWorld(804),
     q = s.quests.find((q) => q.kind === "shortage")!;
   assert.ok(q);
+  s.player.location = { ...BUILDINGS.find((b) => b.id === "b-market")!.door, scene: "outside" };
   assert.equal(command(s, "buy-parts", "BUY", { businessId: "market", item: "parts" }).ok, true);
   assert.equal(command(s, "accept-parts", "ACCEPT_QUEST", { questId: q.id }).ok, true);
   s.player.location = { ...BUILDINGS.find((b) => b.id === q.buildingId)!.door, scene: "outside" };
@@ -115,6 +116,7 @@ test("a negative steering request at a connected junction turns left on screen",
   const { pointOnLane, project } = await import("../domain/world.ts");
   const s = createWorld(810),
     v = s.vehicles[0];
+  s.mobility.parking.find((lot) => lot.id === "park-starter")!.vehicleIds = [];
   v.lane = 1;
   v.progress = 100;
   v.speed = 1;
@@ -124,6 +126,7 @@ test("a negative steering request at a connected junction turns left on screen",
   v.driverId = "player";
   s.player.vehicleId = v.id;
   s.player.location = { ...v.location };
+  assert.deepEqual(validateState(s), []);
   const before = project({ x: Math.cos(v.heading), y: Math.sin(v.heading) });
   assert.equal(command(s, "turn-left", "DRIVE", { throttle: 1, steer: -1 }).ok, true);
   stepWorld(s);
@@ -133,6 +136,7 @@ test("a negative steering request at a connected junction turns left on screen",
     "negative screen-space cross product is a counterclockwise/left turn",
   );
   assert.equal(v.lane, 2);
+  assert.deepEqual(validateState(s), []);
 });
 
 test("save validator rejects dangling player vehicle ownership", () => {

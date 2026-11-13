@@ -1,5 +1,5 @@
 // Rebuild into memory: running tests keep serving an immutable on-disk candidate.
-import { compileRuntime } from "./compile-runtime.mjs";
+import { compileRuntime, compileStyles } from "./compile-runtime.mjs";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { createHash } from "node:crypto";
@@ -20,7 +20,7 @@ for (const file of rebuilt) {
   files.push({ file: name, sha256: expected.sha256, bytes: Buffer.byteLength(file.code) });
 }
 assert.equal(files.length, manifest.assets.filter((a) => a.file.endsWith(".js")).length);
-const css = await readFile("src/games/social-engine/ui/styles.css");
+const css = await compileStyles(resolve(import.meta.dirname, "../.."));
 const cssFile = `styles-${hash(css).slice(0, 12)}.css`;
 assert.equal(hash(await readFile(`${dir}/${cssFile}`)), hash(css));
 const html = (await readFile("src/games/social-engine/ui/index.html", "utf8"))

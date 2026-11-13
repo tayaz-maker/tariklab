@@ -115,7 +115,7 @@ try {
   for (let i = 0; i < 8; i++)
     assert.match(
       result.actors.find((a) => a.id === "fixture" + i).frame,
-      new RegExp(`^(?:car|cargo)-${i}:`),
+      new RegExp(`^(?:car|cargo|van|hatch)-${i}:`),
     );
   assert(result.worstDegrees < 32);
   assert.equal(errors.length, 0);
@@ -134,6 +134,7 @@ try {
     rawContext.drawImage(info.raw, f.x, f.y, f.w, f.h, 0, 0, f.w, f.h);
     const raw = rawContext.getImageData(0, 0, a.width, a.height).data;
     let unmaskedChanges = 0;
+    const changedUnmasked = [];
     for (let i = 0; i < raw.length; i += 4) {
       const r = raw[i],
         g = raw[i + 1],
@@ -141,12 +142,20 @@ try {
       const masked = r > 40 && b > 40 && r > g * 1.35 && b > g * 1.35 && Math.abs(r - b) < 70;
       if (
         !masked &&
-        (raw[i] !== ap[i] ||
-          raw[i + 1] !== ap[i + 1] ||
-          raw[i + 2] !== ap[i + 2] ||
+        // Canvas premultiplication can round a translucent channel by one on putImageData.
+        (Math.abs(raw[i] - ap[i]) > (raw[i + 3] < 255 ? 1 : 0) ||
+          Math.abs(raw[i + 1] - ap[i + 1]) > (raw[i + 3] < 255 ? 1 : 0) ||
+          Math.abs(raw[i + 2] - ap[i + 2]) > (raw[i + 3] < 255 ? 1 : 0) ||
           raw[i + 3] !== ap[i + 3])
-      )
+      ) {
         unmaskedChanges++;
+        if (changedUnmasked.length < 5)
+          changedUnmasked.push({
+            index: i / 4,
+            raw: [...raw.slice(i, i + 4)],
+            painted: [...ap.slice(i, i + 4)],
+          });
+      }
     }
     let changed = 0,
       unchanged = 0;
@@ -174,7 +183,7 @@ try {
         dy = (Math.cos(angle) + Math.sin(angle)) * 12,
         len = Math.hypot(dx, dy);
       c.fillStyle = "#183b40";
-      c.fillText(`${i * 45}°${i === 0 ? " · PLAYER / CARGO" : ""}`, x - 90, y - 36);
+      c.fillText(`${i * 45}°${i === 0 ? " · PLAYER" : ""}`, x - 90, y - 36);
       c.drawImage(texture, x - 120, y - 20, 240, 192);
       c.strokeStyle = "#b32c22";
       c.fillStyle = "#b32c22";
@@ -187,10 +196,11 @@ try {
       c.arc(x - 50 + (dx / len) * 65, y + 190 + (dy / len) * 65, 5, 0, Math.PI * 2);
       c.fill();
     }
-    return { changedPixels: changed, unchangedPixels: unchanged, unmaskedChanges };
+    return { changedPixels: changed, unchangedPixels: unchanged, unmaskedChanges, changedUnmasked };
   });
   assert(result.paintComparison.changedPixels > 500);
   assert(result.paintComparison.unchangedPixels > 500);
+  if (result.paintComparison.unmaskedChanges) console.log(JSON.stringify(result.paintComparison));
   assert.equal(result.paintComparison.unmaskedChanges, 0);
   await page.screenshot({ path: `${out}/eight-headings-contact-sheet.png` });
   await writeFile(`${out}/results.json`, JSON.stringify(result, null, 2));

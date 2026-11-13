@@ -43,7 +43,9 @@ const fixtureV2 = gunzipSync(
 const fixtureV3 = gunzipSync(
   await readFile("src/games/social-engine/persistence/fixtures/v3-world.json.gz"),
 ).toString("utf8");
+const archiveV8 = JSON.parse(await readFile("src/games/social-engine/persistence/fixtures/v6-via8-archive.json","utf8"));
 const archiveV7 = JSON.parse(await readFile("src/games/social-engine/persistence/fixtures/v6-via7-archive.json","utf8"));
+const fixtureV8 = gunzipSync(await readFile("src/games/social-engine/persistence/fixtures/v8-auto-with-tail.json.gz")).toString("utf8");
 const fixtureV7 = gunzipSync(await readFile("src/games/social-engine/persistence/fixtures/v7-auto-with-tail.json.gz")).toString("utf8");
 const fixtureV6 = gunzipSync(
   await readFile("src/games/social-engine/persistence/fixtures/v6-auto-with-tail.json.gz"),
@@ -87,7 +89,7 @@ await context.tracing.start({ screenshots: true, snapshots: true, sources: true 
 try {
   await page.goto(base + "/");
   const result = await page.evaluate(
-    async ({ fixture, fixtureV2, fixtureV3, fixtureV5, fixtureV6, fixtureV7, archiveV7 }) => {
+    async ({ fixture, fixtureV2, fixtureV3, fixtureV5, fixtureV6, fixtureV7, fixtureV8, archiveV7, archiveV8 }) => {
       const bundle = "/bundle.js";
       const api = (await import(bundle)) as Api;
       const repository = new api.SaveRepository();
@@ -385,7 +387,7 @@ try {
         )) as { source: SaveEnvelope; steps: number[]; targetSchema: number }[];
         ensure(journal.length === 1, "Migration retry duplicated journal");
         ensure(
-          JSON.stringify(journal[0].steps) === "[1,2,3,4,5,6,7]" && journal[0].targetSchema === 8,
+          JSON.stringify(journal[0].steps) === "[1,2,3,4,5,6,7,8]" && journal[0].targetSchema === 9,
           "Migration chain missing",
         );
         ensure(
@@ -396,13 +398,13 @@ try {
       await check("authentic v2 save migrates through an explicit journal to schema4", async () => {
         await repository.import("slot-3", fixtureV2);
         const state = await repository.load("slot-3");
-        ensure(state.schemaVersion === 8 && state.life.version === 2, "Lifecycle migration absent");
+        ensure(state.schemaVersion === 9 && state.life.version === 2, "Lifecycle migration absent");
         const journal = (await raw(["migrationJournal"], "readonly", (tx) =>
           request(tx.objectStore("migrationJournal").getAll()),
         )) as { source: SaveEnvelope; steps: number[]; targetSchema: number }[];
         const entry = journal.find((row) => row.source.schemaVersion === 2);
         ensure(
-          entry && JSON.stringify(entry.steps) === "[2,3,4,5,6,7]" && entry.targetSchema === 8,
+          entry && JSON.stringify(entry.steps) === "[2,3,4,5,6,7,8]" && entry.targetSchema === 9,
           "V2 chain missing",
         );
         ensure(JSON.stringify(entry!.source) === fixtureV2.trim(), "V2 source bytes changed");
@@ -417,14 +419,14 @@ try {
           await repository.import("slot-3", fixtureV3);
           const state = await repository.load("slot-3");
           ensure(
-            state.schemaVersion === 8 && state.life.version === 2,
+            state.schemaVersion === 9 && state.life.version === 2,
             "Schema4 family migration missing",
           );
           const rows = (await raw(["migrationJournal"], "readonly", (tx) =>
             request(tx.objectStore("migrationJournal").getAll()),
           )) as { source: SaveEnvelope; steps: number[] }[];
           const source = rows.find((row) => row.source.schemaVersion === 3);
-          ensure(source && JSON.stringify(source.steps) === "[3,4,5,6,7]", "V3 chain missing");
+          ensure(source && JSON.stringify(source.steps) === "[3,4,5,6,7,8]", "V3 chain missing");
           ensure(JSON.stringify(source!.source) === fixtureV3.trim(), "V3 source bytes changed");
         },
       );
@@ -782,7 +784,7 @@ try {
           try {
             const upgraded = await reader.load("auto");
             ensure(
-              upgraded.schemaVersion === 8 && upgraded.tick === frozen.meta.currentTick,
+              upgraded.schemaVersion === 9 && upgraded.tick === frozen.meta.currentTick,
               "Verified tail did not become the new baseline",
             );
             const decoded = await api.decodeSave(e);
@@ -845,11 +847,48 @@ try {
           const old = api.replayJournal(decoded.sourceState!,point,batch.operations,7);
           const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(canonical(old))))).map(v=>v.toString(16).padStart(2,"0")).join("");
           ensure(hash === f.expectedCanonicalSha256,"rules7 journal changed under new reader");
-          ensure(loaded.tick === f.meta.currentTick && loaded.schemaVersion === 8, "rules8 checkpoint missing");
+          ensure(loaded.tick === f.meta.currentTick && loaded.schemaVersion === 9, "rules8 checkpoint missing");
           ensure(canonical(loaded) === canonical(await reader.load("auto")), "replayed tail twice");
           ensure(JSON.stringify(await revision(e.revisionId)) === JSON.stringify(e),"historical source modified");
           const readonly = await new Promise<boolean>(resolve => {const req=indexedDB.open(api.DATABASE_NAME,3);req.onerror=()=>resolve(req.error?.name==="VersionError");req.onsuccess=()=>{req.result.close();resolve(false);};});
           ensure(readonly,"rules7 writer still opens upgraded DB");
+        } finally {await reader.close();}
+      });      await check("genuine rules8 traffic snapshot replays its old tail before rules9 and protects rules8 writers", async () => {
+        const f = JSON.parse(fixtureV8), e: SaveEnvelope = f.envelope;
+        await raw(["slots", "revisions", "journalMeta", "commandJournal"], "readwrite", (tx) => {
+          tx.objectStore("commandJournal").clear();
+          tx.objectStore("revisions").put(e);
+          tx.objectStore("slots").put({slotId:"auto",revisionId:e.revisionId,tick:e.tick,byteLength:e.byteLength,updatedAt:e.createdAt});
+          tx.objectStore("journalMeta").put(f.meta);
+          tx.objectStore("commandJournal").put(f.record);
+        });
+        const reader = new api.SaveRepository();
+        try {
+          const loaded = await reader.load("auto"), decoded = await api.decodeSave(e);
+          const point = {epoch:f.meta.epoch,cursor:f.meta.baseCursor};
+          const batch = await api.decodeJournal(await api.newJournalMeta(e,point),f.record);
+          const old = api.replayJournal(decoded.sourceState!,point,batch.operations,8);
+          const hash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(canonical(old))))).map(v=>v.toString(16).padStart(2,"0")).join("");
+          ensure(hash === f.expectedCanonicalSha256,"rules8 journal changed under new reader");
+          ensure(loaded.tick === f.meta.currentTick && loaded.schemaVersion === 9, "rules9 checkpoint missing");
+          ensure(canonical(loaded) === canonical(await reader.load("auto")), "replayed tail twice");
+          ensure(JSON.stringify(await revision(e.revisionId)) === JSON.stringify(e),"historical source modified");
+          const readonly = await new Promise<boolean>(resolve => {const req=indexedDB.open(api.DATABASE_NAME,4);req.onerror=()=>resolve(req.error?.name==="VersionError");req.onsuccess=()=>{req.result.close();resolve(false);};});
+          ensure(readonly,"rules8 writer still opens upgraded DB");
+          const head = await slot("auto"), latest = await revision(head.revisionId);
+          const archive = await raw(["migrationJournal"],"readonly",tx=>request(tx.objectStore("migrationJournal").get(e.revisionId+":v9")));
+          await raw(["revisions","migrationJournal"],"readwrite",tx=>{
+            tx.objectStore("revisions").put({...latest,payload:"damaged"});
+            tx.objectStore("migrationJournal").put({...archive,targetSha256:"0".repeat(64)});
+          });
+          const recovery = new api.SaveRepository();
+          try {
+            await rejected(()=>recovery.load("auto"),"JOURNAL_CORRUPT");
+            ensure((await slot("auto")).revisionId===head.revisionId,"bad rules8 archive replaced baseline");
+            await raw(["migrationJournal"],"readwrite",tx=>tx.objectStore("migrationJournal").put(archive));
+            ensure(canonical(await recovery.load("auto"))===canonical(loaded),"rules8 archived tail lost or replayed with rules9");
+          } finally {await recovery.close();}
+
         } finally {await reader.close();}
       });
       await check(
@@ -874,7 +913,7 @@ try {
           try {
             const upgraded = await reader.load("auto");
             ensure(
-              upgraded.schemaVersion === 8 && upgraded.tick === frozen.meta.currentTick,
+              upgraded.schemaVersion === 9 && upgraded.tick === frozen.meta.currentTick,
               "Legacy tail missing",
             );
             const decoded = await api.decodeSave(e);
@@ -909,7 +948,7 @@ try {
               "Source revision altered",
             );
             const provenance = await raw(["migrationJournal"], "readonly", (tx) =>
-              request(tx.objectStore("migrationJournal").get(`${e.revisionId}:v8`)),
+              request(tx.objectStore("migrationJournal").get(`${e.revisionId}:v9`)),
             );
             ensure(
               JSON.stringify(provenance.sourceJournal.meta) === JSON.stringify(frozen.meta),
@@ -942,7 +981,7 @@ try {
           const current = await revision(head.revisionId);
           const readArchive = () =>
             raw(["migrationJournal"], "readonly", (tx) =>
-              request(tx.objectStore("migrationJournal").get(`${e.revisionId}:v8`)),
+              request(tx.objectStore("migrationJournal").get(`${e.revisionId}:v9`)),
             );
           const archive = await readArchive();
           const decodedLegacy = await api.decodeSave(e);
@@ -1045,7 +1084,7 @@ try {
           tx.objectStore("revisions").put({...latest,payload:"damaged"});
           tx.objectStore("revisions").put(e);
           tx.objectStore("slots").put({...head,previousRevisionId:e.revisionId});
-          tx.objectStore("migrationJournal").delete(e.revisionId+":v8");
+          tx.objectStore("migrationJournal").delete(e.revisionId+":v9");
           tx.objectStore("migrationJournal").put({...archive,targetSha256:"0".repeat(64)});
         });
         const reader=new api.SaveRepository();
@@ -1054,7 +1093,29 @@ try {
           ensure((await slot("auto")).revisionId === head.revisionId,"bad old archive replaced latest revision");
           await raw(["migrationJournal"],"readwrite",tx=>tx.objectStore("migrationJournal").put(archive));
           const recovered=await reader.load("auto");
-          ensure(recovered.tick === f.meta.currentTick && recovered.schemaVersion===8,"lost prior acknowledged operations");
+          ensure(recovered.tick === f.meta.currentTick && recovered.schemaVersion===9,"lost prior acknowledged operations");
+          ensure(canonical(recovered)===canonical((await api.decodeSave(latest)).state),"cross-version archive differs");
+        } finally {await reader.close();}
+      });      await check("schema6 fallback can recover using a genuine prior schema8 archive digest", async () => {
+        const f = JSON.parse(fixtureV6), e: SaveEnvelope = f.envelope;
+        const head = await slot("auto");
+        const latest = await revision(head.revisionId);
+        const archive = {id:e.revisionId+":v8",source:e,sourceSchema:6,targetSchema:8,steps:[6,7],targetSha256:archiveV8.targetSha256,sourceJournal:{meta:f.meta,records:[f.record]}};
+        ensure(archiveV8.sourceRevision === e.revisionId,"stale prior archive fixture");
+        await raw(["revisions","slots","migrationJournal"],"readwrite",tx=>{
+          tx.objectStore("revisions").put({...latest,payload:"damaged"});
+          tx.objectStore("revisions").put(e);
+          tx.objectStore("slots").put({...head,previousRevisionId:e.revisionId});
+          tx.objectStore("migrationJournal").delete(e.revisionId+":v9");
+          tx.objectStore("migrationJournal").put({...archive,targetSha256:"0".repeat(64)});
+        });
+        const reader=new api.SaveRepository();
+        try {
+          await rejected(()=>reader.load("auto"),"JOURNAL_CORRUPT");
+          ensure((await slot("auto")).revisionId === head.revisionId,"bad old archive replaced latest revision");
+          await raw(["migrationJournal"],"readwrite",tx=>tx.objectStore("migrationJournal").put(archive));
+          const recovered=await reader.load("auto");
+          ensure(recovered.tick === f.meta.currentTick && recovered.schemaVersion===9,"lost prior acknowledged operations");
           ensure(canonical(recovered)===canonical((await api.decodeSave(latest)).state),"cross-version archive differs");
         } finally {await reader.close();}
       });
@@ -1062,6 +1123,88 @@ try {
         "incompatible schema6 journal fails without mutating original records",
         async () => {
           const frozen = JSON.parse(fixtureV6),
+            e = frozen.envelope;
+          for (const fault of ["hash", "clock", "semantic", "missing-meta"]) {
+            const meta = structuredClone(frozen.meta),
+              record = structuredClone(frozen.record);
+            if (fault === "hash") record.hash = "0".repeat(64);
+            if (fault === "clock") meta.currentTick++;
+            // A structurally valid, checksummed batch with a dishonest tick must also fail closed.
+            if (fault === "semantic") {
+              const payload = JSON.parse(record.payload);
+              payload.operations[0].endingTick += 2;
+              const base = await api.newJournalMeta(e, {
+                epoch: meta.epoch,
+                cursor: meta.baseCursor,
+              });
+              Object.assign(record, await api.encodeJournal(base, payload));
+              meta.lastHash = record.hash;
+              meta.bytes = record.byteLength;
+            }
+            await raw(
+              ["slots", "revisions", "journalMeta", "commandJournal"],
+              "readwrite",
+              (tx) => {
+                tx.objectStore("commandJournal").clear();
+                tx.objectStore("revisions").put(e);
+                tx.objectStore("slots").put({
+                  slotId: "auto",
+                  revisionId: e.revisionId,
+                  tick: e.tick,
+                  byteLength: e.byteLength,
+                  updatedAt: e.createdAt,
+                });
+                tx.objectStore("journalMeta").delete("auto");
+                if (fault !== "missing-meta") tx.objectStore("journalMeta").put(meta);
+                tx.objectStore("commandJournal").put(record);
+              },
+            );
+            const snapshot = async () =>
+              raw(
+                [
+                  "slots",
+                  "revisions",
+                  "journalMeta",
+                  "commandJournal",
+                  "migrationJournal",
+                  "quarantine",
+                ],
+                "readonly",
+                async (tx) =>
+                  Promise.all(
+                    [
+                      "slots",
+                      "revisions",
+                      "journalMeta",
+                      "commandJournal",
+                      "migrationJournal",
+                      "quarantine",
+                    ].map((s) => request(tx.objectStore(s).getAll())),
+                  ),
+              );
+            const before = JSON.stringify(await snapshot()),
+              reader = new api.SaveRepository();
+            try {
+              await rejected(() => reader.load("auto"), "JOURNAL_CORRUPT");
+            } finally {
+              await reader.close();
+            }
+            ensure(
+              JSON.stringify(await snapshot()) === before,
+              `Failed history changed records: ${fault}`,
+            );
+          }
+          // Restore the valid history for subsequent reopen/crash tests.
+          await raw(["journalMeta", "commandJournal"], "readwrite", (tx) => {
+            tx.objectStore("commandJournal").clear();
+            tx.objectStore("commandJournal").put(frozen.record);
+            tx.objectStore("journalMeta").put(frozen.meta);
+          });
+        },
+      );      await check(
+        "incompatible schema8 journal fails without mutating original records",
+        async () => {
+          const frozen = JSON.parse(fixtureV8),
             e = frozen.envelope;
           for (const fault of ["hash", "clock", "semantic", "missing-meta"]) {
             const meta = structuredClone(frozen.meta),
@@ -1248,7 +1391,7 @@ try {
         },
       };
     },
-    { fixture, fixtureV2, fixtureV3, fixtureV5, fixtureV6, fixtureV7, archiveV7 },
+    { fixture, fixtureV2, fixtureV3, fixtureV5, fixtureV6, fixtureV7, fixtureV8, archiveV7, archiveV8 },
   );
   const interruptedStart = performance.now();
   const baseline = await page.evaluate(async () => {
