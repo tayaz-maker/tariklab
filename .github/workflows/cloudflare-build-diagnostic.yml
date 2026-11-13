@@ -8,6 +8,7 @@ permissions:
   contents: read
 jobs:
   read-only:
+    if: false # Diagnostic result retained in run 43496594686; no repeat token probe.
     runs-on: ubuntu-24.04
     timeout-minutes: 3
     steps:
@@ -76,12 +77,12 @@ jobs:
             assert.equal(run?.status,'completed',path+' pending');
             assert.equal(run?.conclusion,'success',path+' must pass');
           }
-          const checks=(await read('commits/'+sha+'/check-runs?per_page=100')).check_runs.filter(c=>c.name==='Workers Builds: tariklab');
-          assert.ok(checks.length);
+          const checks=(await read('commits/'+sha+'/check-runs?per_page=100&filter=all')).check_runs.filter(c=>c.name==='Workers Builds: tariklab');
           assert.ok(checks.every(c=>c.status==='completed'),'Native Cloudflare build already active');
-          const check=checks.sort((a,b)=>b.id-a.id)[0];
-          if(check.conclusion==='success'){console.log('Native Cloudflare check already passed; no retry');process.exit(0)}
-          assert.equal(check.id,132111350993,'A newer Cloudflare attempt exists; inspect before retry');
+          const check=await read('check-runs/132111350993');
+          assert.equal(check.status,'completed');
+          if(check.conclusion==='success'){console.log('Exact production check already passed; no retry');process.exit(0)}
+          assert.equal(check.conclusion,'failure');
           assert.equal(check.head_sha,sha);
           assert.ok(check.details_url.endsWith('/builds/0d82c447-38ff-43d6-9474-50bfdf96d2f5'));
           assert.equal((await read('branches/main')).commit.sha,sha);
