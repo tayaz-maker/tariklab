@@ -78,7 +78,8 @@ jobs:
             assert.equal(run?.conclusion,'success',path+' must pass');
           }
           const checks=(await read('commits/'+sha+'/check-runs?per_page=100&filter=all')).check_runs.filter(c=>c.name==='Workers Builds: tariklab');
-          assert.ok(checks.every(c=>c.status==='completed'),'Native Cloudflare build already active');
+          const latestBuilds=[...new Map(checks.sort((a,b)=>a.id-b.id).map(c=>[c.details_url,c])).values()];
+          assert.ok(latestBuilds.every(c=>c.status==='completed'),'Native Cloudflare build already active');
           const check=await read('check-runs/132111350993');
           assert.equal(check.status,'completed');
           if(check.conclusion==='success'){console.log('Exact production check already passed; no retry');process.exit(0)}
