@@ -4,7 +4,7 @@ Baseline: `7ded3aa8d831dda2ab1f35dab35d6a089d3e48d1`, the exact `main` inspected
 
 - All mutations remain in `resolveAction` and deterministic daily/monthly hooks. UI reads existing state and public views, never charges money, ticks time or consumes RNG.
 - Preserve Gold schema 6 and expansion schema 7, stable entity IDs, save envelope, generation lock and migration semantics. Optional fields require deterministic normalization of older expansion saves, validation, round-trip and rollback coverage. Do not change persistence without integration review.
-- Gold initial import graph must not load `expansion*.mjs`; expansion uses the same engine instance. Frozen gzip ceilings remain Gold 301836, initial TR 205874, expansion 40217, combined 342048. Reduce duplication; do not relax checks.
+- Gold initial import graph must not load `expansion*.mjs`; expansion uses the same engine instance. Frozen gzip ceilings remain Gold 301836, initial TR 205574, expansion 40217, combined 342048. Reduce duplication; do not relax checks.
 - TR is source, EN and PL stay complete. Locale arrays append only. Terra owns locale arrays; simulation strings localize within their existing module dictionaries.
 - Retain existing `data-tab` destinations and action IDs. Four primary groups contain all existing destinations; utility destinations remain reachable. Dashboard recommendations use available actions and actual needs, calendar, household and finances.
 - Public expansion view retains `world`, `events`, `family`, `economy`, `institutions`; additive view fields require explicit coordination. Family tree uses people/parents/unions; property/business displays only authoritative values. New regional actors must be bounded, persisted, deterministic and included in validation and save tests.
@@ -29,14 +29,14 @@ The implementation keeps schema 7 readable without eagerly adding resident profi
 
 ## Candidate verification and release blocker
 
-The final runtime source is `7eef6579` (the following evidence commit changes documentation only). Its production build succeeds, but it is **not release ready**. The unchanged package gate rejects the candidate; no assertion or budget was relaxed.
+The final runtime source is `18212092` (the following evidence commit changes documentation only). Its production build succeeds, but it is **not release ready**. The unchanged package gate rejects the candidate; no assertion or budget was relaxed.
 
 | Package measurement                      | Candidate gzip bytes | Frozen ceiling | Result                |
 | ---------------------------------------- | -------------------: | -------------: | --------------------- |
-| Gold aggregate                           |               298478 |         301836 | PASS                  |
-| Initial TR graph                         |               199644 |         205874 | PASS                  |
+| Gold aggregate                           |               298475 |         301836 | PASS                  |
+| Initial TR graph                         |               199641 |         205574 | PASS                  |
 | Deferred expansion, every asset included |                45628 |          40217 | FAIL: 5411 bytes over |
-| Combined Gold and expansion              |               344106 |         342048 | FAIL: 2058 bytes over |
+| Combined Gold and expansion              |               344103 |         342048 | FAIL: 2055 bytes over |
 
 The exact-source packaging rerun preserves every locale entry, public export, source/packed deterministic replay and deferred graph assertion before failing the expansion byte assertion. The combined overage is independently reported by the build; execution of that later assertion is not claimed. Further literal pooling, language-table transposition and validator factoring probes did not produce a sufficient reduction and were discarded.
 
@@ -49,5 +49,7 @@ Local evidence is deliberately separated by candidate stage:
 - The final `af98b2fd` rebuild changes only the outcome landmark and tomorrow label. A focused real-browser check passed those labels in TR, EN and PL with no runtime errors. Root independently exercised adoption, relocation, funded local work, property discovery, family links and family reserve payment in the built browser.
 
 - A later screenshot review found that the first successful shift could recommend resigning. The new real-browser regression failed against the previous build, then passed against `7eef6579` at 1440/390/320 after the fallback was limited to constructive work and education actions. The overview offers an enabled career development review; resigning remains an enabled Career choice. The rebuilt core browser suite also passed every destination, work/travel, save/reload, export/import and backup recovery with no runtime errors. Build, targeted lint and the exact package rerun were repeated; the byte gate remains the sole failing package test. Earlier full-suite and save evidence retains its explicitly stated candidate scope.
+
+- General CI on the previous `bae684c` candidate found one failure among 978 responsive checks: the embedded English week strip extended 10 pixels beyond a 1024-pixel viewport. CSS runtime `18212092` removes the unnecessary 240-pixel sidebar override, retaining the existing 275-pixel sidebar and all seven visible days. Terra reproduced 1034 → 1024 scroll width and checked TR/EN/PL intermediate widths. The unmodified integration responsive harness, filtered with `SITEWIDE_ROUTE_IDS=tc-sim-boardworld`, then exited successfully: 84 portal/Boardworld TR/EN layout checks across its original 14 viewports, all original archive checks intact, plus 12 built root-offline registration cases. This is scoped post-fix evidence, not a repeat of the full 978-check suite. Root independently reran the built core browser at 1440/390/320 on `18212092`; every destination, constructive recommendation, work/travel, save/reload, export/import and backup recovery passed with no browser errors. Build and exact package checks were repeated. The previous candidate's remote CI results do not represent this final CSS tree; its own exact-tree CI remains required.
 
 The remaining release blocker is the measured package overage. A reviewable draft may be published, but merging or deploying requires the same existing byte limits and exact-head required CI to pass. The production main and existing Cloudflare deployment remain the released baseline until then.

@@ -2070,9 +2070,6 @@ dialog::backdrop {
   }
 }
 @media (max-width: 1200px) {
-  .play-layout {
-    grid-template-columns: minmax(0, 1fr) 240px;
-  }
   .daybook {
     padding-inline: 18px;
   }
