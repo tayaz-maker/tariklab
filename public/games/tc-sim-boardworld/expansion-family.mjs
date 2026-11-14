@@ -1,10 +1,12 @@
+import { shape } from "./expansion-world.mjs";
 import { HOMES, NPCS, SKILLS } from "./content.mjs";
+import { REGIONS } from "./expansion-world.mjs";
 
 const YEAR = 30;
 const ADULT = 18;
 const MAX_MONEY = 1_000_000_000;
 const MAX_PEOPLE = 180;
-const CITIES = ["istanbul", "ankara", "izmir"];
+const CITIES = Object.keys(REGIONS);
 const NAMES = ["Ada", "Ekin", "Yağmur", "Ege", "Işık", "Özgür", "Öykü", "Toprak", "Can", "Güneş"];
 const FOCUSES = ["communication", "technical", "craft", "knowledge"];
 const UNION_STATUS = ["married", "separated", "divorced", "widowed"];
@@ -922,47 +924,47 @@ export function validateFamily(s) {
     day = dayOf(s),
     active = s.expansion.playerId;
   const object = (value) => value !== null && typeof value === "object" && !Array.isArray(value);
+  const validResidentId = (entry, upper) =>
+    typeof entry === "string" &&
+    /^resident:[1-9]\d*$/.test(entry) &&
+    Number(entry.slice(9)) < upper;
   const int = (value, low, high) => Number.isSafeInteger(value) && value >= low && value <= high;
   const money = (value) => int(value, 0, MAX_MONEY);
-  const optionalDay = (value) => value === null || int(value, 1, day);
   const legalName = (value) => typeof value === "string" && value.trim() && value.length <= 36;
-  const inList = (value, values) => typeof value === "string" && values.includes(value);
   const bounded = (array, limit) => Array.isArray(array) && array.length <= limit;
   const unique = (array) => new Set(array).size === array.length;
   if (
-    !object(f) ||
+    !shape(f, {
+      nextPerson: [3, 100000],
+      nextResident: [13, 1000000],
+      lastDay: [1, day],
+      generations: [1, MAX_PEOPLE],
+      "reserve arrears": MAX_MONEY,
+      "lastSupportDay lastFamilyDay": [1, day, true],
+    }) ||
     !bounded(f.people, MAX_PEOPLE) ||
     !bounded(f.unions, 256) ||
     !bounded(f.background, 6) ||
-    f.background.length !== 6 ||
-    !int(f.nextPerson, 3, 100000) ||
-    !int(f.nextResident, 13, 1000000) ||
-    !int(f.lastDay, 1, day) ||
-    !int(f.generations, 1, MAX_PEOPLE) ||
-    !money(f.reserve) ||
-    !money(f.arrears) ||
-    !optionalDay(f.lastSupportDay) ||
-    !optionalDay(f.lastFamilyDay)
+    f.background.length !== 6
   )
     return false;
   const ids = new Map();
   for (const person of f.people) {
     if (
-      !object(person) ||
+      !shape(person, {
+        born: [-10000, day],
+        "died lastCare": [1, day, true],
+        lifespan: [75, 90],
+        "care learning": 100,
+        focus: FOCUSES.join(" "),
+        retired: true,
+      }) ||
       typeof person.id !== "string" ||
       ids.has(person.id) ||
       !legalName(person.name) ||
-      !int(person.born, -10000, day) ||
-      !optionalDay(person.died) ||
       (person.died !== null && person.died < Math.max(1, person.born)) ||
-      !int(person.lifespan, 75, 90) ||
       !bounded(person.parents, 2) ||
       !unique(person.parents) ||
-      !int(person.care, 0, 100) ||
-      !int(person.learning, 0, 100) ||
-      !inList(person.focus, FOCUSES) ||
-      !optionalDay(person.lastCare) ||
-      typeof person.retired !== "boolean" ||
       (person.retired && ageAt(person, day) < 62)
     )
       return false;
@@ -1014,9 +1016,11 @@ export function validateFamily(s) {
       typeof union.id !== "string" ||
       !/^union:[1-9]\d*$/.test(union.id) ||
       unions.has(union.id) ||
-      !inList(union.status, UNION_STATUS) ||
-      !int(union.since, 1, day) ||
-      !int(union.changed, union.since, day) ||
+      !shape(union, {
+        status: UNION_STATUS.join(" "),
+        since: [1, day],
+        changed: [union.since, day],
+      }) ||
       ageAt(first, union.since) < ADULT ||
       ageAt(second, union.since) < ADULT
     )
@@ -1056,31 +1060,27 @@ export function validateFamily(s) {
     residents = new Set();
   for (const home of f.background) {
     if (
-      !object(home) ||
+      !shape(home, {
+        region: CITIES.join(" "),
+        lastBirth: [-3000, day],
+        "cash arrears earnings expenses births deaths": MAX_MONEY,
+      }) ||
       typeof home.id !== "string" ||
       !/^family-household:[1-6]$/.test(home.id) ||
       houses.has(home.id) ||
-      !inList(home.region, CITIES) ||
       !bounded(home.residents, 4) ||
       !home.residents.length ||
-      !bounded(home.ancestors, 8) ||
-      !int(home.lastBirth, -3000, day) ||
-      !["cash", "arrears", "earnings", "expenses", "births", "deaths"].every((key) =>
-        money(home[key]),
-      )
+      !bounded(home.ancestors, 8)
     )
       return false;
     houses.add(home.id);
     const ancestry = new Map();
     for (const ancestor of home.ancestors) {
       if (
-        !object(ancestor) ||
-        typeof ancestor.id !== "string" ||
-        !/^resident:[1-9]\d*$/.test(ancestor.id) ||
-        Number(ancestor.id.slice(9)) >= f.nextResident ||
-        residents.has(ancestor.id) ||
-        !int(ancestor.born, -10000, day) ||
+        !shape(ancestor, { born: [-10000, day] }) ||
         !int(ancestor.died, Math.max(1, ancestor.born + 72 * YEAR), day) ||
+        !validResidentId(ancestor.id, f.nextResident) ||
+        residents.has(ancestor.id) ||
         !home.residents.some(
           (person) => Array.isArray(person?.parents) && person.parents.includes(ancestor.id),
         )
@@ -1091,24 +1091,17 @@ export function validateFamily(s) {
     }
     for (const resident of home.residents) {
       if (
-        !object(resident) ||
-        typeof resident.id !== "string" ||
-        !/^resident:[1-9]\d*$/.test(resident.id) ||
-        Number(resident.id.slice(9)) >= f.nextResident ||
+        !shape(resident, { born: [-10000, day], lifespan: [72, 86], skill: 100 }) ||
+        !validResidentId(resident.id, f.nextResident) ||
         residents.has(resident.id) ||
         !legalName(resident.name) ||
-        !int(resident.born, -10000, day) ||
-        !int(resident.lifespan, 72, 86) ||
-        !int(resident.skill, 0, 100) ||
         !bounded(resident.parents, 2) ||
         !unique(resident.parents) ||
         resident.parents.some((id) => {
           const parent = ancestry.get(id) ?? home.residents.find((item) => item?.id === id);
           return (
             !parent ||
-            typeof id !== "string" ||
-            !/^resident:[1-9]\d*$/.test(id) ||
-            Number(id.slice(9)) >= Number(resident.id.slice(9)) ||
+            !validResidentId(id, Number(resident.id.slice(9))) ||
             resident.born - parent.born < ADULT * YEAR ||
             (parent.died && resident.born > parent.died)
           );

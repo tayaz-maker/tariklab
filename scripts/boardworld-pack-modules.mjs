@@ -313,7 +313,7 @@ export async function packModules(packed, keys) {
   // content-hashed bundle and the exact same Gold engine instance. Stable public
   // module URLs remain forwarders, just as for Gold.
   for (const file of packed.keys()) {
-    if (!file.startsWith("expansion") || !file.endsWith(".mjs")) continue;
+    if (!["expansion-preview.mjs", "expansion-persistence.mjs"].includes(file)) continue;
     packed.set(
       file,
       packed
@@ -337,6 +337,45 @@ export async function packModules(packed, keys) {
     deferredForwards.set(file, pairs);
     deferredEntry += `export {${pairs.map(([original, alias]) => `${original} as ${alias}`).join(",")}} from './${file}';\n`;
   }
+  // Generated Gold forwarders contain only re-exports. Resolve their bindings
+  // through one build-only bridge so esbuild can share identical imports across
+  // expansion modules. Keep the hashed Gold runtime external: never bundle a
+  // second engine, and leave every public compatibility forwarder intact.
+  const bridgeFile = "expansion-gold-bridge.mjs";
+  if (packed.has(bridgeFile)) throw Error("Reserved Gold bridge path already exists");
+  const bridgeExports = new Set();
+  const deferredInputs = new Map();
+  for (const [file] of deferred) {
+    let input = packed.get(file);
+    const ast = ts.createSourceFile(file, input, ts.ScriptTarget.Latest, true, ts.ScriptKind.JS);
+    const edits = [];
+    for (const node of ast.statements) {
+      if (!ts.isImportDeclaration(node)) continue;
+      if (!node.moduleSpecifier.text.startsWith("./")) continue;
+      const target = node.moduleSpecifier.text.slice(2);
+      if (target === "app.mjs" || !forwards.has(target)) continue;
+      const bindings = node.importClause?.namedBindings;
+      if (node.importClause?.name || !bindings || !ts.isNamedImports(bindings))
+        throw Error(`Unsupported Gold import in ${file}`);
+      const exports = new Map(forwards.get(target));
+      const pairs = bindings.elements.map((spec) => {
+        const name = (spec.propertyName ?? spec.name).text;
+        const alias = exports.get(name);
+        if (!alias) throw Error("Missing Gold export: " + name);
+        bridgeExports.add(alias);
+        return `${alias} as ${spec.name.text}`;
+      });
+      edits.push({
+        start: node.getStart(),
+        end: node.end,
+        text: `import{${pairs.join(",")}}from'./${bridgeFile}';`,
+      });
+    }
+    for (const edit of edits.reverse())
+      input = input.slice(0, edit.start) + edit.text + input.slice(edit.end);
+    deferredInputs.set(file, input);
+  }
+  const bridgeSource = `export{${[...bridgeExports].join(",")}}from'./${name}';`;
   const deferredBundle = await build({
     stdin: { contents: deferredEntry, sourcefile: "expansion-entry.mjs" },
     write: false,
@@ -352,12 +391,12 @@ export async function packModules(packed, keys) {
         name: "boardworld-deferred",
         setup(b) {
           b.onResolve({ filter: /^\.\// }, (args) =>
-            deferredForwards.has(args.path.slice(2))
+            deferredForwards.has(args.path.slice(2)) || args.path === "./" + bridgeFile
               ? { path: args.path.slice(2), namespace: "expansion" }
               : { path: args.path, external: true },
           );
           b.onLoad({ filter: /.*/, namespace: "expansion" }, (args) => ({
-            contents: packed.get(args.path),
+            contents: args.path === bridgeFile ? bridgeSource : deferredInputs.get(args.path),
             loader: "js",
           }));
         },

@@ -15,6 +15,7 @@ import {
 
 import { localizeEconomyText } from "../public/games/tc-sim-boardworld/expansion-economy.mjs";
 import { localizeWorldText } from "../public/games/tc-sim-boardworld/expansion-world.mjs";
+import { localizeDistrictText } from "../public/games/tc-sim-boardworld/expansion-districts.mjs";
 
 const { getExpansionView } = await loadExpansionRuntime();
 const at = (s) => Math.floor(s.time / 1440) + 1;
@@ -52,6 +53,18 @@ function untilDay(s, target) {
     s = act(s, next.id);
   }
   assert.equal(at(s), target);
+  return s;
+}
+
+function regionalMorning(s) {
+  s = act(s, "world:rest");
+  for (let steps = 0; s.time % 1440 < 8 * 60 || s.time % 1440 >= 9 * 60; steps++) {
+    assert.ok(steps < 30, "regional morning must be reachable through ordinary waiting");
+    const next =
+      getActions(s).find(({ id, disabled }) => id.startsWith("event:") && !disabled) ??
+      action(s, "wait:60");
+    s = act(s, next.id);
+  }
   return s;
 }
 
@@ -125,6 +138,8 @@ test("a household weighs actual rent and job openings when moving and receives i
   let s = start();
   s.bank = 150000;
   s = act(s, "world:move:ankara");
+  s = regionalMorning(s);
+  s = act(s, "district:visit:ankara:kizilay:housing");
   s = act(s, "economy:buy:ankara:room");
   s = act(s, "economy:let:ankara:room");
   const lot = (state) => economy(state).properties["ankara:room"];
@@ -165,17 +180,24 @@ test("a household weighs actual rent and job openings when moving and receives i
 
 const npcTotal = (s) => resident(s).cash + resident(s).savings;
 
-test("an open local employer funds a gig once and the worker earns personal tenure", () => {
+test("an open local employer funds a contract shift once and the worker earns personal tenure", () => {
   let s = start();
   s = act(s, "world:move:ankara");
-  const shift = action(s, "world:shift");
+  s = act(s, "district:visit:ankara:kizilay:work");
+  s = act(s, "district:apply");
+  s = regionalMorning(s);
+  assert.equal(action(s, "world:shift").disabled, true, "the legacy action cannot bypass the contract");
+  const shift = action(s, "district:shift");
   assert.equal(shift.disabled, false, shift.reason);
-  const wage = Number(/(\d+) TL\.$/.exec(shift.description)[1]);
-  const before = firm(s).cash;
+  const wage = Number(/Ücret: (\d+) TL/.exec(shift.description)[1]);
+  const { firmId } = s.expansion.districts.job;
+  const before = economy(s).firms[firmId];
   const worked = act(s, shift.id);
   assert.equal(worked.bank - s.bank, wage);
-  assert.equal(before - firm(worked).cash, wage);
+  assert.equal(before.cash - economy(worked).firms[firmId].cash, wage);
+  assert.equal(economy(worked).firms[firmId].costs - before.costs, wage);
   assert.equal(worked.flags.workDays, s.flags.workDays + 1);
+  assert.equal(worked.expansion.districts.job.shifts, s.expansion.districts.job.shifts + 1);
   assert.ok(action(worked, shift.id).disabled);
   assert.equal(resolveAction(worked, shift.id).state, worked);
 });
@@ -355,16 +377,20 @@ test("municipal training costs money, raises a skill and unlocks a real job", ()
 
 test("regional shift, meal and rest report their real outcomes in Turkish, English and Polish", () => {
   let s = act(start(), "world:move:ankara");
-  for (const [id, english, polish] of [
-    ["shift", "Local shift completed.", "Ukończono lokalną zmianę."],
-    ["meal", "You ate a hot meal nearby.", "Zjedzono ciepły posiłek w okolicy."],
-    ["rest", "You rested and regained energy.", "Odpoczęto i odzyskano energię."],
+  s = act(s, "district:visit:ankara:kizilay:work");
+  s = act(s, "district:apply");
+  s = regionalMorning(s);
+  for (const [id, localize, english, polish] of [
+    ["district:shift", localizeDistrictText, "Shift completed.", "Zmiana zakończona."],
+    ["world:meal", localizeWorldText, "You ate a hot meal nearby.", "Zjedzono ciepły posiłek w okolicy."],
+    ["world:rest", localizeWorldText, "You rested and regained energy.", "Odpoczęto i odzyskano energię."],
   ]) {
-    const outcome = resolveAction(s, `world:${id}`);
+    if (id === "world:meal") s = act(s, "district:visit:ankara:kizilay:social");
+    const outcome = resolveAction(s, id);
     assert.ok(outcome.ok, outcome.message);
-    assert.equal(localizeWorldText(outcome.message, "tr"), outcome.message);
-    assert.equal(localizeWorldText(outcome.message, "en"), english);
-    assert.equal(localizeWorldText(outcome.message, "pl"), polish);
+    assert.equal(localize(outcome.message, "tr"), outcome.message);
+    assert.equal(localize(outcome.message, "en"), english);
+    assert.equal(localize(outcome.message, "pl"), polish);
     s = outcome.state;
   }
 });
@@ -373,6 +399,8 @@ test("finance outcomes translate property names, preserve amounts and describe t
   let s = start();
   s.bank = 120000;
   s = act(s, "world:move:izmir");
+  s = regionalMorning(s);
+  s = act(s, "district:visit:izmir:konak:housing");
   const purchased = resolveAction(s, "economy:mortgage:izmir:room");
   assert.ok(purchased.ok, purchased.message);
   assert.equal(

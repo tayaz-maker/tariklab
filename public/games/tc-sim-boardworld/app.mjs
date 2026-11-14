@@ -261,6 +261,7 @@ const option = (entry, selected) =>
   `<option value="${esc(entry.id)}" ${entry.id === selected ? "selected" : ""}>${esc(title(entry))}</option>`;
 
 const presentOutcome = message => expansionUi && state?.expansion ? expansionUi.localizeExpansionOutcome(message, getLanguage()) : message;
+const presentForecast = forecast => !forecast.ok && forecast.message ? { ...forecast, message: presentOutcome(forecast.message) } : forecast;
 const currentPlace = () => state?.expansion ? ({istanbul: "İstanbul", ankara: "Ankara", izmir: "İzmir"})[state.expansion.world.region] : districtName(state.location);
 function announce(message, error = false) {
   const el = $("#notice");
@@ -279,10 +280,10 @@ function badge(text, kind = "") {
 function sectionHeader(eyebrow, heading, copy = "") {
   return `<header class="section-heading"><span class="eyebrow">${esc(eyebrow)}</span><h2 tabindex="-1" id="panel-heading">${esc(heading)}</h2>${copy ? `<p>${esc(copy)}</p>` : ""}</header>`;
 }
-function renderGenerations() {
+function renderGenerations(panel = tab) {
   return expansionPreview.renderGenerations(
     state, expansionUi, cachedView, actions, actionCard, sectionHeader,
-    money, esc, getLanguage(), expansionProblem, tab,
+    money, esc, getLanguage(), expansionProblem, panel,
   );
 }
 
@@ -296,7 +297,10 @@ function renderStart() {
 function actionCard(a, compact = false) {
   if (state?.expansion && expansionUi) a = expansionUi.translateExpansionAction(a, getLanguage());
   const aid = `reason-${a.id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
-  return `<article class="action-card ${a.disabled ? "unavailable" : ""} ${compact ? "compact" : ""}"><div class="action-top"><span class="action-time">◷ ${esc(a.id.startsWith("schedule:run:") || a.id === "calendar:next" ? "Plana bağlı" : duration(a.minutes))}</span>${a.cost > 0 ? `<span class="action-cost">${money(a.cost)}</span>` : a.cost < 0 ? `<span class="action-cost income">+${money(-a.cost)}</span>` : '<span class="action-cost">Ücretsiz</span>'}</div><h3>${esc(a.label)}</h3><p>${esc(a.description)}</p>${a.disabled ? `<p class="action-reason" id="${aid}">${esc(a.reason || "Şu anda uygun değil.")}</p>` : ""}<button class="${compact ? "secondary" : "action-button"}" aria-label="${esc(a.label)}" data-action="${esc(a.id)}" data-focus="action:${esc(a.id)}" ${a.disabled ? `disabled aria-describedby="${aid}"` : ""}>${a.disabled ? "Koşullar eksik" : "Seç"} <span aria-hidden="true">${a.disabled ? "·" : "→"}</span></button><button class="forecast-button" data-preview="${esc(a.id)}" aria-label="${esc(a.label)} için sonuç öngörüsü">Öngörüyü incele <span aria-hidden="true">↗</span></button></article>`;
+  const zeroCost = a.id.startsWith("business:")
+    ? ({ tr: "Kişisel ödeme yok", en: "No personal payment", pl: "Brak płatności osobistej" })[getLanguage()] || "Kişisel ödeme yok"
+    : "Ücretsiz";
+  return `<article class="action-card ${a.disabled ? "unavailable" : ""} ${compact ? "compact" : ""}"><div class="action-top"><span class="action-time">◷ ${esc(a.id.startsWith("schedule:run:") || a.id === "calendar:next" ? "Plana bağlı" : duration(a.minutes))}</span>${a.cost > 0 ? `<span class="action-cost">${money(a.cost)}</span>` : a.cost < 0 ? `<span class="action-cost income">+${money(-a.cost)}</span>` : `<span class="action-cost">${esc(zeroCost)}</span>`}</div><h3>${esc(a.label)}</h3><p>${esc(a.description)}</p>${a.disabled ? `<p class="action-reason" id="${aid}">${esc(a.reason || "Şu anda uygun değil.")}</p>` : ""}<button class="${compact ? "secondary" : "action-button"}" aria-label="${esc(a.label)}" data-action="${esc(a.id)}" data-focus="action:${esc(a.id)}" ${a.disabled ? `disabled aria-describedby="${aid}"` : ""}>${a.disabled ? "Koşullar eksik" : "Seç"} <span aria-hidden="true">${a.disabled ? "·" : "→"}</span></button><button class="forecast-button" data-preview="${esc(a.id)}" aria-label="${esc(a.label)} için sonuç öngörüsü">Öngörüyü incele <span aria-hidden="true">↗</span></button></article>`;
 }
 function actionList(category, filter = () => true) {
   const list = actions.filter((a) => a.category === category && filter(a));
@@ -344,6 +348,8 @@ function renderDashboard() {
 }
 
 function renderBoard() {
+  if (state.expansion && state.expansion.world.region !== "istanbul")
+    return renderGenerations("expansion-world");
   return `<div class="board-heading">${sectionHeader("İSTANBUL / KARARLARININ ŞEHRİ", "Hayatın bu masada.")}</div>${renderFirstFive(state)}${state.pendingEvents.length ? "" : renderDecisionDesk(decisionView, actions)}${renderCityMap({ state, city: cityView, calendar: calendarView, npcs: NPCS, getLocation: getNpcLocation, selectedDistrict, actions, actionCard, society: societyView, conditions: renderDistrictConditions(lifeView, selectedDistrict) + renderSocietyDistrict(societyView, selectedDistrict, actions) })}${renderToday(calendarView, state, actions)}<section class="intent-entry"><div><span class="eyebrow">SIRADAKİ HAMLE SANA BAĞLI</span><h3>Neyi değiştirmek istersin?</h3></div><button class="secondary" data-intent-open aria-expanded="${intentOpen}">${intentOpen ? "Seçenekleri kapat" : "Hamlelerini keşfet ↗"}</button></section>${intentOpen ? renderIntentComposer({ ...intentFilters, fallbackActions: actions.filter((a) => !a.disabled), results: getIntentActions(state, { query: intentFilters.query, npcId: intentFilters.npcId, location: intentFilters.location }), npcs: [...NPCS, ...lifeView.secondary], districts: DISTRICTS, actionCard }) : ""}<details class="city-news-fold"><summary>Şehrin nabzı ve sana ulaşan haberler</summary>${renderWorldBulletin(livingView)}</details>`;
 }
 
@@ -486,7 +492,7 @@ function renderGoals() {
 }
 function appointmentOptions() {
   const { kind, npcId, subjectId, day, venue, duration, repeat } = appointmentDraft;
-  return getAppointmentOptions(state, {
+  const options = getAppointmentOptions(state, {
     kind,
     npcId,
     subjectId,
@@ -496,6 +502,7 @@ function appointmentOptions() {
     repeat,
     ...(editingEntry ? { ignoreId: editingEntry } : {}),
   });
+  return { ...options, slots: options.slots.map(slot => slot.reason ? { ...slot, reason: presentOutcome(slot.reason) } : slot) };
 }
 function normalizeAppointmentDraft() {
   const day = getClock(state).day;
@@ -618,10 +625,11 @@ function cachedView(key, factory) {
   return viewCache.get(key);
 }
 function renderGame() {
+  const cityBoard = tab === "board" && (!state.expansion || state.expansion.world.region === "istanbul");
   actions = cachedView("actions", () => getActions(state));
-  if (["board", "plan", "people", "stories", "log"].includes(tab))
+  if (cityBoard || ["plan", "people", "stories", "log"].includes(tab))
     societyView = cachedView("society", () => getSocietyView(state));
-  if (["board", "plan"].includes(tab))
+  if (cityBoard || tab === "plan")
     decisionView = cachedView("decision", () =>
       getDecisionView(state, { actions, society: societyView }),
     );
@@ -629,11 +637,11 @@ function renderGame() {
   emergentView = cachedView("emergent", () => getEmergentView(state));
   if (["plan", "enterprise", "work", "people", "wallet"].includes(tab))
     deepView = cachedView("deep", () => getDeepView(state));
-  if (["board", "projects", "enterprise", "life", "people"].includes(tab))
+  if (cityBoard || ["projects", "enterprise", "life", "people"].includes(tab))
     livingView = cachedView("living", () => getLivingView(state));
-  if (["dashboard", "board", "life", "people", "work"].includes(tab))
+  if (cityBoard || ["dashboard", "life", "people", "work"].includes(tab))
     lifeView = cachedView("life", () => getLifeView(state));
-  if (tab === "board") cityView = cachedView("city", () => getCityView(state));
+  if (cityBoard) cityView = cachedView("city", () => getCityView(state));
   calendarDay = Math.max(getClock(state).day, calendarDay || getClock(state).day);
   calendarView = cachedView(`calendar:${calendarDay}`, () =>
     getCalendarView(state, { day: calendarDay }),
@@ -962,7 +970,7 @@ function handleLivingControl(button) {
   if ("calendarPreview" in data) {
     const payload = readAppointmentForm($("#appointment-form")),
       id = editingEntry ? `calendar:reschedule:${editingEntry}` : "calendar:propose";
-    const forecast = previewAction(state, id, payload),
+    const forecast = presentForecast(previewAction(state, id, payload)),
       action = {
         id,
         label: editingEntry ? "Planını yeniden öner" : "Takvim önerisi",
@@ -1017,7 +1025,7 @@ document.addEventListener("click", async (event) => {
     const action = actions.find((a) => a.id === button.dataset.preview);
     if (!action) return;
     previewPayload = null;
-    const forecast = previewAction(state, action.id);
+    const forecast = presentForecast(previewAction(state, action.id));
     dialog.innerHTML = `<div class="dialog-inner forecast-dialog"><button class="dialog-close icon-button" data-ui="close" aria-label="Pencereyi kapat">×</button>${renderPreview(forecast, action)}</div>`;
     showLocalizedDialog();
     return;

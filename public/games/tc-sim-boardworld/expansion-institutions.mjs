@@ -1,7 +1,9 @@
+import { shape } from "./expansion-world.mjs";
 import { COURSES, NPCS } from "./content.mjs";
 import { getSocietyDistrictEffects } from "./society-systems.mjs";
+import { REGIONS } from "./expansion-world.mjs";
 
-const REGION_IDS = ["istanbul", "ankara", "izmir"];
+const REGION_IDS = Object.keys(REGIONS);
 const TOPICS = ["skills", "health", "housing"];
 const MAX_MONEY = 1_000_000_000;
 const DAY = 1440;
@@ -42,7 +44,7 @@ const LABELS = {
   rentAid: "Kira borcuna geçici destek al",
 };
 
-export const institutionCopy = {
+const institutionCopy = {
   "Meslek okuluna kaydol": ["Enrol in vocational school", "Zapisz się do szkoły zawodowej"],
   "Okul dersine katıl": ["Attend class", "Weź udział w zajęciach"],
   "Okul kaydını kapat": ["Withdraw from school", "Zrezygnuj ze szkoły"],
@@ -84,7 +86,6 @@ export const institutionCopy = {
     "At least 20 energy is required.",
     "Potrzeba co najmniej 20 energii.",
   ],
-  "Güncel bir sağlık sorunu yok.": ["There is no active illness.", "Brak aktywnej choroby."],
   "Sağlık durumun bu iş için uygun değil.": [
     "Your health makes this work unsafe.",
     "Zdrowie uniemożliwia bezpieczną pracę.",
@@ -121,10 +122,7 @@ export const institutionCopy = {
     "The council already heard you this week.",
     "Rada wysłuchała cię już w tym tygodniu.",
   ],
-  "Başka soruşturma sürüyor.": [
-    "Another investigation is open.",
-    "Trwa inne dochodzenie.",
-  ],
+  "Başka soruşturma sürüyor.": ["Another investigation is open.", "Trwa inne dochodzenie."],
   "Bu şehirde sonuçlandır.": [
     "Resolve this in the city where it began.",
     "Załatw sprawę w mieście, w którym się zaczęła.",
@@ -146,15 +144,15 @@ export const institutionCopy = {
     "Sixty days must pass between grants.",
     "Między dopłatami musi minąć 60 dni.",
   ],
-  "Ücret ve burs başta belirlenir; günde bir ders.": [
-    "Fee and scholarship are set on enrolment; one class daily.",
+  "Kayıtta ücret ve burs belirlenir. Günde bir ders.": [
+    "Fee and scholarship set at enrolment. One class daily.",
     "Opłata i stypendium przy zapisie; jedne zajęcia dziennie.",
   ],
   "Beceri kazan; son derste meslek belgesi al.": [
     "Build skill; earn a certificate in the final class.",
     "Zdobywaj umiejętności i świadectwo na ostatnich zajęciach.",
   ],
-  "Ücret iade edilmez; kazanılan beceriler kalır.": [
+  "Ücret iadesiz. Beceriler kalır.": [
     "Fees are non-refundable; skills remain.",
     "Opłata bezzwrotna; zdobyte umiejętności pozostają.",
   ],
@@ -162,16 +160,16 @@ export const institutionCopy = {
     "Treatment reduces illness and its effect on work.",
     "Leczenie łagodzi chorobę i wpływ na pracę.",
   ],
-  "Günlük zaman ilerler. Yeterli beslenme toparlanmayı hızlandırır.": [
+  "Zaman ilerler. Yeterli beslenme iyileşmeyi hızlandırır.": [
     "Time passes. Adequate food speeds recovery.",
-    "Czas płynie. Odpowiednie żywienie przyspiesza powrót do zdrowia.",
+    "Czas płynie. Dobre odżywianie przyspiesza powrót do zdrowia.",
   ],
-  "Belediye başvuruyu ve bütçeyi üç günde değerlendirir.": [
-    "The council reviews the petition and budget within three days.",
+  "Belediye başvuru ve bütçeyi üç günde inceler.": [
+    "Council reviews petition and budget within three days.",
     "Rada oceni wniosek i budżet w trzy dni.",
   ],
-  "Doğrulanmış belediye sonucunu yayımla; güven ve kamuoyu değişir.": [
-    "Publish a verified council outcome; trust and opinion change.",
+  "Doğrulanmış belediye sonucunu yayımla. Güven ve kamuoyu değişir.": [
+    "Publish a verified council result. Trust and opinion change.",
     "Publikuj wynik rady; zaufanie i opinia się zmienią.",
   ],
   "Görüşün yerel öncelikleri ve belediye harcamalarını etkiler.": [
@@ -186,17 +184,17 @@ export const institutionCopy = {
     "Receive public money; the contract triggers review and restitution.",
     "Środki miejskie; umowa oznacza kontrolę i zwrot.",
   ],
-  "Tazmin belediyeye döner; dosya ve kredi engeli kapanır.": [
-    "Funds return to the council; the case and credit restriction end.",
-    "Środki wrócą do rady; sprawa i blokada kredytu się zakończą.",
+  "Tazmini belediye alır. Dosya ve kredi engeli kalkar.": [
+    "Restitution to the council ends the case and credit block.",
+    "Zwrot środków radzie kończy sprawę i blokadę kredytu.",
   ],
-  "İnceleme cezayı azaltabilir; kamu parası yine iade edilir.": [
-    "Review may reduce the penalty; public money must be returned.",
-    "Kontrola może obniżyć karę; środki publiczne trzeba zwrócić.",
+  "İnceleme cezayı azaltabilir. Kamu parası iade edilir.": [
+    "Review may reduce the fine. Public funds are returned.",
+    "Kontrola może obniżyć karę. Środki publiczne podlegają zwrotowi.",
   ],
-  "Belediye fonu doğrudan kira borcuna aktarılır.": [
+  "Belediye fonu kira borcunu doğrudan öder.": [
     "Council funds pay rent arrears directly.",
-    "Fundusz rady bezpośrednio spłaca zaległy czynsz.",
+    "Fundusz rady spłaca zaległy czynsz bezpośrednio.",
   ],
   "Eğitim kaydı açıldı.": ["School enrolment confirmed.", "Potwierdzono zapis do szkoły."],
   "Ders tamamlandı.": ["Class completed.", "Zajęcia ukończone."],
@@ -427,7 +425,7 @@ export function institutionActions(s, api) {
       add(
         `school:${course.id}`,
         `${LABELS.school} · ${course.name}`,
-        "Ücret ve burs başta belirlenir; günde bir ders.",
+        "Kayıtta ücret ve burs belirlenir. Günde bir ders.",
         "education",
         30,
         tuition - grant,
@@ -499,7 +497,7 @@ export function institutionActions(s, api) {
     add(
       "withdraw",
       LABELS.withdraw,
-      "Ücret iade edilmez; kazanılan beceriler kalır.",
+      "Ücret iadesiz. Beceriler kalır.",
       "education",
       0,
       0,
@@ -512,7 +510,11 @@ export function institutionActions(s, api) {
   }
   if (x.illness) {
     const { cost, grant } = clinicPrice(s);
-    const delay = region === "istanbul" ? getSocietyDistrictEffects(s, s.location).serviceDelay : 0;
+    const delay = api.getDistrictSimulation
+      ? api.getDistrictSimulation(s, api.getPlace(s).districtId).serviceDelay
+      : region === "istanbul"
+        ? getSocietyDistrictEffects(s, s.location).serviceDelay
+        : 0;
     const minutes = 60 + delay;
     add(
       "clinic",
@@ -536,7 +538,7 @@ export function institutionActions(s, api) {
     add(
       "rest",
       LABELS.rest,
-      "Günlük zaman ilerler. Yeterli beslenme toparlanmayı hızlandırır.",
+      "Zaman ilerler. Yeterli beslenme iyileşmeyi hızlandırır.",
       "life",
       240,
       0,
@@ -552,7 +554,7 @@ export function institutionActions(s, api) {
     add(
       `petition:${topic}`,
       `${LABELS.petition} · ${topicName[topic]}`,
-      "Belediye başvuruyu ve bütçeyi üç günde değerlendirir.",
+      "Belediye başvuru ve bütçeyi üç günde inceler.",
       "people",
       45,
       0,
@@ -601,7 +603,7 @@ export function institutionActions(s, api) {
   add(
     "publish",
     LABELS.publish,
-    "Doğrulanmış belediye sonucunu yayımla; güven ve kamuoyu değişir.",
+    "Doğrulanmış belediye sonucunu yayımla. Güven ve kamuoyu değişir.",
     "people",
     45,
     0,
@@ -629,7 +631,7 @@ export function institutionActions(s, api) {
   add(
     "rent-aid",
     LABELS.rentAid,
-    "Belediye fonu doğrudan kira borcuna aktarılır.",
+    "Belediye fonu kira borcunu doğrudan öder.",
     "finance",
     40,
     0,
@@ -703,7 +705,7 @@ export function institutionActions(s, api) {
     add(
       "fine",
       LABELS.fine,
-      "Tazmin belediyeye döner; dosya ve kredi engeli kapanır.",
+      "Tazmini belediye alır. Dosya ve kredi engeli kalkar.",
       "finance",
       30,
       auditAmount(s),
@@ -718,7 +720,7 @@ export function institutionActions(s, api) {
     add(
       "appeal",
       LABELS.appeal,
-      "İnceleme cezayı azaltabilir; kamu parası yine iade edilir.",
+      "İnceleme cezayı azaltabilir. Kamu parası iade edilir.",
       "people",
       60,
       0,
@@ -744,8 +746,7 @@ export function adaptInstitutionActions(s, actions) {
       reason = "Sağlık durumun bu iş için uygun değil.";
     if (action.id === "loan" && (x.credit < 40 || x.case))
       reason = "Banka önce gecikmiş borç veya yaptırımın çözümünü bekliyor.";
-    if (action.id.startsWith("enroll:") && x.program)
-      reason = "Önce eğitimini tamamla veya bırak.";
+    if (action.id.startsWith("enroll:") && x.program) reason = "Önce eğitimini tamamla veya bırak.";
     if (
       action.id.startsWith("enroll:") &&
       x.qualifications.some((q) => q.course === action.id.slice(7))
@@ -770,7 +771,11 @@ export function afterInstitutionAction(s, actionId, before, api) {
   )
     credential(s, before.course.id);
   if (actionId === "clinic" || actionId === "event:illness:clinic") treat(s, api, 52);
-  if (actionId === "work" || actionId === "world:shift") {
+  if (
+    actionId === "work" ||
+    actionId === "world:shift" ||
+    (actionId === "district:shift" && s.flags.workDays > before.flags.workDays)
+  ) {
     if (stateOf(before).illness && x.illness) {
       api.change(s, { health: -4, energy: -7 });
       x.illness.severity = cap(x.illness.severity + 4);
@@ -981,37 +986,24 @@ export function institutionsView(s) {
   };
 }
 
-const int = (value, min = 0, max = MAX_MONEY) =>
-  Number.isSafeInteger(value) && value >= min && value <= max;
-const exact = (value, keys) =>
-  Boolean(
-    value &&
-    Object.getPrototypeOf(value) === Object.prototype &&
-    Object.keys(value).length === keys.length &&
-    keys.every((key) => Object.hasOwn(value, key)),
-  );
 const knownCourse = (id) => COURSES.find((course) => course.id === id);
 const namedNpcs = NPCS.map(({ id }) => id);
-const STATE_KEYS =
-  "lastDay program qualifications illness credit contacts npcTraining regions case".split(" ");
-const REGION_KEYS =
-  "treasury opinion policy policyUntil trust advocacy watch lastAid offerUntil lastPetition lastMedia lastCampaign petition result".split(
-    " ",
-  );
-const CASE_KEYS = "region owner amount penalty openedDay reviewed decided overdue".split(" ");
-
 export function validateInstitutions(s) {
-  const x = s.expansion?.institutions;
-  const today = dayOf(s);
+  const x = s.expansion?.institutions,
+    today = dayOf(s);
   if (
-    !exact(x, STATE_KEYS) ||
-    !int(x.lastDay, 1, today) ||
-    !int(x.credit, 0, 100) ||
-    !exact(x.contacts, namedNpcs) ||
-    !namedNpcs.every((id) => int(x.contacts[id], 0, today)) ||
-    !exact(x.npcTraining, namedNpcs) ||
-    !namedNpcs.every((id) => int(x.npcTraining[id], 0, 8)) ||
-    !exact(x.regions, REGION_IDS) ||
+    !shape(
+      x,
+      {
+        lastDay: [1, today],
+        credit: 100,
+        "program qualifications illness contacts npcTraining regions case": null,
+      },
+      2,
+    ) ||
+    !shape(x.contacts, { [namedNpcs.join(" ")]: today }, 2) ||
+    !shape(x.npcTraining, { [namedNpcs.join(" ")]: 8 }, 2) ||
+    !shape(x.regions, { [REGION_IDS.join(" ")]: null }, 2) ||
     !Array.isArray(x.qualifications) ||
     x.qualifications.length > COURSES.length
   )
@@ -1019,9 +1011,8 @@ export function validateInstitutions(s) {
   const courses = new Set();
   for (const q of x.qualifications) {
     if (
-      !exact(q, ["course", "day"]) ||
+      !shape(q, { course: null, day: [1, today] }, 2) ||
       !knownCourse(q.course) ||
-      !int(q.day, 1, today) ||
       courses.has(q.course)
     )
       return false;
@@ -1029,69 +1020,83 @@ export function validateInstitutions(s) {
   }
   if (x.program !== null) {
     const p = x.program;
-    if (!exact(p, ["course", "region", "sessions", "lastStudyDay", "grant"])) return false;
+    if (
+      !shape(
+        p,
+        {
+          course: null,
+          region: REGION_IDS.join(" "),
+          sessions: MAX_MONEY,
+          lastStudyDay: today,
+          grant: MAX_MONEY,
+        },
+        2,
+      )
+    )
+      return false;
     const course = knownCourse(p.course);
     if (
       !course ||
       courses.has(p.course) ||
       s.course ||
-      !REGION_IDS.includes(p.region) ||
-      !int(p.sessions, 0, course.sessions - 1) ||
-      !int(p.lastStudyDay, 0, today) ||
-      (p.sessions === 0) !== (p.lastStudyDay === 0) ||
-      !int(p.grant, 0, MAX_MONEY)
+      p.sessions > course.sessions - 1 ||
+      (p.sessions === 0) !== (p.lastStudyDay === 0)
     )
       return false;
   }
-  if (
-    x.illness !== null &&
-    (!exact(x.illness, ["since", "severity"]) ||
-      !int(x.illness.since, 1, today) ||
-      !int(x.illness.severity, 1, 100))
-  )
+  if (x.illness !== null && !shape(x.illness, { since: [1, today], severity: [1, 100] }, 2))
     return false;
   for (const region of REGION_IDS) {
     const r = x.regions[region];
     if (
-      !exact(r, REGION_KEYS) ||
-      !int(r.treasury) ||
-      ![r.opinion, r.trust, r.advocacy, r.watch].every((v) => int(v, 0, 100)) ||
-      !TOPICS.includes(r.policy) ||
-      !int(r.policyUntil, 0, Math.min(MAX_DAY + 30, today + 30)) ||
-      !int(r.offerUntil, 0, today + 6) ||
-      ![r.lastAid, r.lastPetition, r.lastMedia, r.lastCampaign].every((v) => int(v, 0, today))
+      !shape(
+        r,
+        {
+          treasury: MAX_MONEY,
+          "opinion trust advocacy watch": 100,
+          policy: TOPICS.join(" "),
+          policyUntil: Math.min(MAX_DAY + 30, today + 30),
+          offerUntil: today + 6,
+          "lastAid lastPetition lastMedia lastCampaign": today,
+          "petition result": null,
+        },
+        2,
+      )
     )
       return false;
     if (
       r.petition !== null &&
-      (!exact(r.petition, ["topic", "filedDay", "owner", "support"]) ||
-        !TOPICS.includes(r.petition.topic) ||
-        !int(r.petition.filedDay, 1, today) ||
+      (!shape(
+        r.petition,
+        { topic: TOPICS.join(" "), filedDay: [1, today], owner: null, support: 6 },
+        2,
+      ) ||
         r.petition.filedDay !== r.lastPetition ||
-        r.petition.owner !== s.expansion.playerId ||
-        !int(r.petition.support, 0, 6))
+        r.petition.owner !== s.expansion.playerId)
     )
       return false;
     if (
       r.result !== null &&
-      (!exact(r.result, ["topic", "day", "approved", "published"]) ||
-        !TOPICS.includes(r.result.topic) ||
-        !int(r.result.day, 1, today) ||
-        typeof r.result.approved !== "boolean" ||
-        typeof r.result.published !== "boolean")
+      !shape(r.result, { topic: TOPICS.join(" "), day: [1, today], "approved published": true }, 2)
     )
       return false;
   }
   const c = x.case;
   return (
     c === null ||
-    (exact(c, CASE_KEYS) &&
-      REGION_IDS.includes(c.region) &&
+    (shape(
+      c,
+      {
+        region: REGION_IDS.join(" "),
+        owner: null,
+        amount: [200, MAX_MONEY / 2],
+        penalty: [1, c?.amount],
+        openedDay: [1, today],
+        "reviewed decided overdue": true,
+      },
+      2,
+    ) &&
       c.owner === s.expansion.playerId &&
-      int(c.amount, 200, MAX_MONEY / 2) &&
-      int(c.penalty, 1, c.amount) &&
-      int(c.openedDay, 1, today) &&
-      [c.reviewed, c.decided, c.overdue].every((v) => typeof v === "boolean") &&
       (!(c.reviewed || c.overdue) || c.decided))
   );
 }

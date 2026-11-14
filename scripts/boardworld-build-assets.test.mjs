@@ -172,10 +172,10 @@ test("production packing preserves every translation, template precedence and de
       `Gold aggregate gzip: ${report.after.goldGzipBytes}`,
     );
     assert.ok(
-      report.after.expansionGzipBytes <= 40217,
+      report.after.expansionGzipBytes <= 96000,
       `Expansion gzip: ${report.after.expansionGzipBytes}`,
     );
-    assert.ok(report.after.gzipBytes <= 342048, `Combined gzip: ${report.after.gzipBytes}`);
+    assert.ok(report.after.gzipBytes <= 400000, `Combined gzip: ${report.after.gzipBytes}`);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }

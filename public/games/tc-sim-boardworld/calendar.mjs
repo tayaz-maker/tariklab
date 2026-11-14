@@ -371,7 +371,7 @@ export function calendarCommand(s, id, p, api) {
   const prior = id.startsWith("calendar:reschedule:")
     ? s.calendar.entries.find((e) => e.id === id.slice("calendar:reschedule:".length))
     : null;
-  let reason = validDraft(s, p);
+  let reason = api.planningReason?.(s) || validDraft(s, p);
   if (
     !reason &&
     id !== "calendar:propose" &&
@@ -818,7 +818,7 @@ export function actionCalendarConflict(s, a) {
   }
   return "";
 }
-export function getAppointmentOptions(s, options = {}) {
+export function getAppointmentOptions(s, options = {}, api = {}) {
   const { ignoreId, ...values } = options;
   const p = {
     kind: "meeting",
@@ -831,8 +831,9 @@ export function getAppointmentOptions(s, options = {}) {
     ...values,
   };
   const slots = [];
+  const reason = api.planningReason?.(s);
   for (let minute = 360; minute < 1380; minute += 30) {
-    const result = assess(s, { ...p, minute }, ignoreId || "");
+    const result = reason ? { reason } : assess(s, { ...p, minute }, ignoreId || "");
     slots.push({
       minute,
       label: timeLabel(minute),

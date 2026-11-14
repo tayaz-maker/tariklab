@@ -81,13 +81,19 @@ test("known archived events and course names are localized in the current view",
 test("current regional shift and outcomes translate without changing source", async () => {
   await loadExpansionRuntime();
   let state = expandGame(createGame({ seed: 49 }));
-  state = resolveAction(state, "event:welcome:work").state;
-  state = resolveAction(state, "world:move:ankara").state;
-  const action = getActions(state).find(a => a.id === "world:shift");
+  for (const id of ["event:welcome:work", "world:move:ankara", "district:visit:ankara:kizilay:work", "district:apply"]) {
+    const result = resolveAction(state, id);
+    assert.equal(result.ok, true, `${id}: ${result.message}`);
+    state = result.state;
+  }
+  const legacy = getActions(state).find(a => a.id === "world:shift");
+  assert.equal(legacy.disabled, true, "a second shift path cannot bypass the local contract");
+  assert.equal(translateExpansionAction(legacy, "en").label, "Work a local shift");
+  const action = getActions(state).find(a => a.id === "district:shift");
   assert.ok(action && !action.disabled);
   const original = { ...action }, translated = translateExpansionAction(action, "en");
-  assert.equal(translated.label, "Work a local shift");
-  assert.match(translated.description, /Shift pay: \d+ TL\./);
+  assert.equal(translated.label, "Contract shift");
+  assert.match(translated.description, /Pay: \d+ TL/);
   assert.deepEqual(action, original);
   assert.equal(localizeExpansionOutcome("Yeni şehir: Ankara.", "en"), "New city: Ankara.");
   assert.match(localizeExpansionOutcome("Ekin ile tanıştın. Okul ve bakım seçenekleri artık aile ekranında.", "en"), /You met Ekin/);

@@ -6,9 +6,12 @@ export const REGIONS = {
 const regionIds = Object.keys(REGIONS);
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const DAY = 1440;
-const whole = (n, min, max) => Number.isSafeInteger(n) && n >= min && n <= max;
 const ownRegion = (id) => Object.hasOwn(REGIONS, id);
 const worldCopy = {
+  "Yeni İstanbul planları için önce İstanbul'a dön.": [
+    "Return to Istanbul before making new Istanbul plans.",
+    "Wróć do Stambułu przed ustaleniem nowych planów w tym mieście.",
+  ],
   "Yerel vardiyayı tamamladın.": ["Local shift completed.", "Ukończono lokalną zmianę."],
   "Mahallede sıcak yemek yedin.": [
     "You ate a hot meal nearby.",
@@ -18,8 +21,8 @@ const worldCopy = {
     "You rested and regained energy.",
     "Odpoczęto i odzyskano energię.",
   ],
-  "Ailen, borçların ve mülklerin taşınma sonrasında devam eder.": [
-    "Your family, debts and property carry over when you move.",
+  "Taşınınca aile, borç ve mülk korunur.": [
+    "Family, debts and property carry over.",
     "Po przeprowadzce zachowasz rodzinę, długi i nieruchomości.",
   ],
   "Yerel vardiyaya katıl": ["Work a local shift", "Podejmij lokalną zmianę"],
@@ -32,15 +35,15 @@ const worldCopy = {
     "Żadna czynna lokalna firma nie ma środków na zmianę.",
   ],
   "Mahallede yemek ye": ["Eat in the neighborhood", "Zjedz posiłek w okolicy"],
-  "Yemek ücreti şehrin fiyat düzeyine göre değişir.": [
-    "The meal price reflects the city's price index.",
-    "Cena posiłku zależy od poziomu cen w mieście.",
+  "Yemek ücreti şehir fiyatlarına bağlı.": [
+    "Meal cost follows local prices.",
+    "Koszt posiłku zależy od cen w mieście.",
   ],
   "Şu anda yeterince toksun.": ["You are already full.", "Już nie jesteś głodny."],
   "Geceyi dinlenerek geçir": ["Rest for the night", "Odpocznij w nocy"],
-  "Dinlenirken saat ve dünyanın rutinleri ilerler.": [
-    "Time and the world's routines advance while you rest.",
-    "Podczas odpoczynku płynie czas, a świat żyje swoim rytmem.",
+  "Dinlenirken zaman ve rutinler ilerler.": [
+    "Time and world routines advance while you rest.",
+    "Odpoczynek przesuwa czas i rutyny świata.",
   ],
   "Şu anda yeterince dinlenmişsin.": [
     "You are already rested.",
@@ -146,18 +149,13 @@ export function worldActions(s, api) {
       category: "world",
       pay: "total",
       label: `${target.name} şehrine taşın`,
-      description: "Ailen, borçların ve mülklerin taşınma sonrasında devam eder.",
+      description: "Taşınınca aile, borç ve mülk korunur.",
       cost: id === "istanbul" || w.region === "istanbul" ? 780 : 620,
       minutes: 360,
       disabled: false,
       reason: "",
       run(next) {
-        const world = next.expansion.world;
-        const from = world.region;
-        if (next.job) api.settleCareer(next);
-        next.city.venue = "";
-        world.region = id;
-        api.expansionEvent(next, "relocation", id, from);
+        next._transit = true;
         return `Yeni şehir: ${target.name}.`;
       },
     });
@@ -201,7 +199,7 @@ export function worldActions(s, api) {
       category: "world",
       pay: "total",
       label: "Mahallede yemek ye",
-      description: "Yemek ücreti şehrin fiyat düzeyine göre değişir.",
+      description: "Yemek ücreti şehir fiyatlarına bağlı.",
       cost: Math.round((90 * r.price) / 100),
       minutes: 40,
       disabled: s.player.hunger >= 95,
@@ -216,7 +214,7 @@ export function worldActions(s, api) {
       category: "world",
       pay: "total",
       label: "Geceyi dinlenerek geçir",
-      description: "Dinlenirken saat ve dünyanın rutinleri ilerler.",
+      description: "Dinlenirken zaman ve rutinler ilerler.",
       cost: 0,
       minutes: 480,
       sleeping: true,
@@ -231,12 +229,18 @@ export function worldActions(s, api) {
   return actions;
 }
 
+export function calendarPlanningReason(s) {
+  return s.expansion && s.expansion.world.region !== "istanbul"
+    ? "Yeni İstanbul planları için önce İstanbul'a dön."
+    : "";
+}
+
 export function adaptWorldActions(s, actions) {
   if (s.expansion.world.region === "istanbul") return actions;
   // Gold's district, routes and appointments still represent İstanbul.
   // Explicit regional actions supply local work, care and transport.
   return actions.filter((a) =>
-    /^(world:|family:|economy:|institution:|business:|event:|wait:|deposit:|withdraw:|repay:|finance:)/.test(
+    /^(district:|underworld:|world:|family:|economy:|institution:|business:|event:|wait:|deposit:|withdraw:|repay:|finance:|calendar:(cancel|decline|repeat-stop):)/.test(
       a.id,
     ),
   );
@@ -248,22 +252,60 @@ export function validateWorld(s) {
   return (
     !!w &&
     ownRegion(w.region) &&
-    whole(w.startedDay, 1, day) &&
-    whole(w.lastShiftDay, 0, day) &&
-    whole(w.cycle, 0, Math.floor((day - w.startedDay) / 30)) &&
+    integer(w.startedDay, 1, day) &&
+    integer(w.lastShiftDay, 0, day) &&
+    integer(w.cycle, 0, Math.floor((day - w.startedDay) / 30)) &&
     !!w.regions &&
     Object.keys(w.regions).length === regionIds.length &&
     regionIds.every((id) => {
       const r = w.regions[id];
       return (
         !!r &&
-        whole(r.price, 60, 170) &&
-        whole(r.employment, 60, 145) &&
-        whole(r.population, 1, 1000000) &&
-        [r.births, r.deaths, r.arrivals, r.exits].every((v) => whole(v, 0, 1000000)) &&
+        integer(r.price, 60, 170) &&
+        integer(r.employment, 60, 145) &&
+        integer(r.population, 1, 1000000) &&
+        [r.births, r.deaths, r.arrivals, r.exits].every((v) => integer(v, 0, 1000000)) &&
         r.population === REGIONS[id].population + r.births - r.deaths + r.arrivals - r.exits
       );
     }) &&
     regionIds.reduce((net, id) => net + w.regions[id].arrivals - w.regions[id].exits, 0) === 0
   );
+}
+
+/** Shared expansion-only field constraints; relation checks stay with their owner.
+ * Groups name fields with one rule: a nonnegative integer ceiling, [min,max,nullable],
+ * boolean type, a space-delimited enum, or null for a separately checked field.
+ * Object policies intentionally retain the old validators: 0 permits extra keys,
+ * 1 requires exact own keys, and 2 also requires Object.prototype.
+ */
+export const integer = (value, min = 0, max = 1e9) =>
+  Number.isSafeInteger(value) && value >= min && value <= max;
+export function shape(value, groups, exact = 0) {
+  if (
+    !value ||
+    typeof value !== "object" ||
+    Array.isArray(value) ||
+    (exact === 2 && Object.getPrototypeOf(value) !== Object.prototype)
+  )
+    return false;
+  let count = 0;
+  for (const [fields, rule] of Object.entries(groups))
+    for (const key of fields.split(" ")) {
+      count++;
+      if (exact && !Object.hasOwn(value, key)) return false;
+      const item = value[key];
+      if (
+        rule !== null &&
+        !(typeof rule === "number"
+          ? integer(item, 0, rule)
+          : rule === true
+            ? typeof item === "boolean"
+            : typeof rule === "string"
+              ? rule.split(" ").includes(item)
+              : (rule[2] && item === null) ||
+                (Number.isSafeInteger(item) && item >= rule[0] && item <= rule[1]))
+      )
+        return false;
+    }
+  return !exact || Object.keys(value).length === count;
 }

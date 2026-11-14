@@ -1,12 +1,14 @@
+import { shape, integer } from "./expansion-world.mjs";
 import { HOMES, NPCS } from "./content.mjs";
 import { BUSINESS_TYPES } from "./deep-content.mjs";
 import { closeHousehold, syncLifeHousing } from "./life-systems.mjs";
 import { SOCIETY_COPY } from "./society-content.mjs";
 import { REGIONS as CITIES, migratePopulation } from "./expansion-world.mjs";
+import { getDistrictSimulation, districtForLot } from "./expansion-districts.mjs";
 
 const DAY = 1440;
 const MAX = 1_000_000_000;
-const REGIONS = ["istanbul", "ankara", "izmir"];
+const REGIONS = Object.keys(CITIES);
 const HOUSEHOLD = "household";
 const MARKET = "market";
 const homes = HOMES.slice(1);
@@ -14,7 +16,7 @@ const citizens = new Set(NPCS.map(({ id }) => id));
 const regionHomes = REGIONS.flatMap((region, regionIndex) =>
   homes.map((home, index) => ({
     id: `${region}:${home.id}`,
-    name: `${["İstanbul", "Ankara", "İzmir"][regionIndex]} · ${["Oda", "Stüdyo", "Daire"][index]}`,
+    name: `${CITIES[region].name} · ${["Oda", "Stüdyo", "Daire"][index]}`,
     region,
     anchor: home.id,
     district: home.district,
@@ -40,6 +42,12 @@ const regionalResidents = secondaryRegions.flatMap((region) =>
   })),
 );
 const regionalIds = new Set(regionalResidents.map(({ id }) => id));
+const commercialDistrict = (s, region, type, player = false) =>
+  player && region === "istanbul"
+    ? s.deep.business.location
+    : districtForLot(`${region}:${homes[BUSINESS_TYPES.findIndex(({ id }) => id === type.id)].id}`);
+const commercialTerms = (s, region, type, player = false) =>
+  getDistrictSimulation(s, commercialDistrict(s, region, type, player));
 const competitors = REGIONS.flatMap((region, city) =>
   BUSINESS_TYPES.map((type, index) => ({
     id: `${region}:${type.id}`,
@@ -60,23 +68,15 @@ const economy = (s) => s.expansion.economy;
 const funds = (s) => s.bank + s.cash;
 const asMoney = (amount) => Math.min(MAX, Math.max(0, Math.round(amount)));
 const bound = (amount, min, max) => Math.min(max, Math.max(min, amount));
-const exact = (value, keys) => {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
-  const expected = keys.split(" ");
-  return (
-    Object.keys(value).length === expected.length &&
-    expected.every((key) => Object.hasOwn(value, key))
-  );
-};
-const integer = (n, low = 0, high = MAX) => Number.isSafeInteger(n) && n >= low && n <= high;
 
 function marketIndex(s, region, key, low = 50, high = 200) {
   return bound(s.expansion.world.regions[region]?.[key] ?? 100, low, high);
 }
+const lotPressure = (s, lot) => getDistrictSimulation(s, districtForLot(lot.id)).rentPressure;
 const propertyValue = (s, lot, p) =>
-  Math.round((lot.base * marketIndex(s, lot.region, "price") * (65 + p.condition * 0.35)) / 10000);
+  Math.round((lot.base * (65 + p.condition * 0.35) * lotPressure(s, lot)) / 10000);
 const propertyRent = (s, lot, p) =>
-  Math.round((lot.rent * marketIndex(s, lot.region, "price") * (80 + p.condition * 0.2)) / 10000);
+  Math.round((lot.rent * (80 + p.condition * 0.2) * lotPressure(s, lot)) / 10000);
 const saleValue = (s, lot, p) => Math.floor(propertyValue(s, lot, p) * 0.88);
 const debtor = (p) => (p.mortgage ? p.mortgage.principal + p.mortgage.interest : 0);
 const mortgageDue = (p, interest = p.mortgage.interest) =>
@@ -350,7 +350,7 @@ export function economyActions(s, api) {
         propertyAction(
           "leave",
           "kirayı kapat",
-          "Depozito önce kira borcuna gider, kalanı iade edilir.",
+          "Depozito kira borcuna gider, kalanı iade edilir.",
           30,
           0,
           away,
@@ -377,20 +377,14 @@ export function economyActions(s, api) {
           return `${lot.name} için konut sözleşmesi başladı.`;
         },
       );
-      propertyAction(
-        "buy",
-        "satın al",
-        `Tapu bedeli ${value} TL.`,
-        90,
-        value,
-        away || occupied,
-        (next) => takeTitle(next, lot, value, value, api),
+      propertyAction("buy", "satın al", "Tapu bedeli.", 90, value, away || occupied, (next) =>
+        takeTitle(next, lot, value, value, api),
       );
       const down = Math.ceil(value * 0.25);
       propertyAction(
         "mortgage",
         "kredili satın al",
-        `Peşinat ${down} TL. Aylık %0,8 faiz ve %4 anapara; üç kaçan vade tasfiye riski yaratır.`,
+        "Bedel peşinattır. Aylık %0,8 faiz, %4 anapara. Üç ödenmeyen taksitte tasfiye riski.",
         90,
         down,
         away || occupied || (s.debt > value / 3 ? "Borç çok yüksek." : ""),
@@ -416,7 +410,7 @@ export function economyActions(s, api) {
     propertyAction(
       "maintain",
       "bakım yap",
-      `${repairs} TL ile yapı kondisyonu 18 puan artar.`,
+      "Konut kondisyonu +18.",
       120,
       repairs,
       away || (p.condition >= 95 ? "Konutun bakıma ihtiyacı yok." : ""),
@@ -431,7 +425,7 @@ export function economyActions(s, api) {
       propertyAction(
         "repay",
         "krediye ek ödeme",
-        `${payment} TL önce faize sonra anaparaya yazılır.`,
+        "Önce faiz, sonra anapara.",
         15,
         payment,
         "",
@@ -448,7 +442,7 @@ export function economyActions(s, api) {
       propertyAction(
         "let",
         "kiracı al",
-        `Kiracı ilk kirayı ve depozitoyu öder.`,
+        `İlk kira ve depozitoyu kiracı öder.`,
         45,
         0,
         away ||
@@ -467,7 +461,7 @@ export function economyActions(s, api) {
       propertyAction(
         "end",
         "kiracı sözleşmesini bitir",
-        "Depozito önce kira borcuna gider, kalanı iade edilir.",
+        "Depozito kira borcuna gider, kalanı iade edilir.",
         30,
         0,
         away,
@@ -483,7 +477,7 @@ export function economyActions(s, api) {
     propertyAction(
       "sell",
       "sat",
-      `İşlem gideri ve ipotekten sonra kalan ${net} TL.`,
+      `Gider ve ipotek sonrası net ${net} TL.`,
       90,
       0,
       away ||
@@ -623,10 +617,60 @@ export function regionalShift(s, region, wage) {
   );
 }
 
+function fundedOrder(s, firm) {
+  const account = economy(s).firms[firm.id];
+  if (account.status !== "open") return null;
+  const price = Math.max(
+    1,
+    Math.round((firm.type.unitCost * marketIndex(s, firm.region, "price") * 1.12) / 100),
+  );
+  const reserve = wageRate(s, firm.region) * account.workers * 4 + 65;
+  const capacity = Math.max(
+    0,
+    Math.min(
+      3,
+      12 - account.stock,
+      Math.floor((account.cash - reserve) / price),
+      Math.floor((MAX - account.costs) / price),
+    ),
+  );
+  return capacity ? { firmId: firm.id, name: firm.name, price, capacity } : null;
+}
+
+// Orders are a quote against the same finite stock/cash used by daily commerce.
+// Fulfilment debits the buyer only; the caller transfers its own stock and credits
+// the returned proceeds once. There is no second firm account.
+export function underworldOrder(s, region, index = 0) {
+  const local = competitors.filter((firm) => firm.region === region);
+  if (!local.length || !integer(index)) return null;
+  for (let offset = 0; offset < local.length; offset++) {
+    const order = fundedOrder(s, local[(index + offset) % local.length]);
+    if (order) return order;
+  }
+  return null;
+}
+
+export function fulfillUnderworldOrder(s, firmId, units, price) {
+  const firm = competitors.find(({ id }) => id === firmId);
+  if (!firm || !integer(units, 1, 3)) return 0;
+  const quote = fundedOrder(s, firm);
+  if (!quote || price !== quote.price || units > quote.capacity) return 0;
+  const account = economy(s).firms[firmId];
+  const amount = units * price;
+  account.cash -= amount;
+  account.stock += units;
+  account.costs += amount;
+  return amount;
+}
+
 function suppliers(s, e, type) {
-  return e.supplier === "cooperative"
-    ? Math.round((type.unitCost * 0.86 * marketIndex(s, e.region, "price")) / 100)
-    : Math.round((type.unitCost * marketIndex(s, e.region, "price")) / 100);
+  const base =
+    e.supplier === "cooperative"
+      ? Math.round((type.unitCost * 0.86 * marketIndex(s, e.region, "price")) / 100)
+      : Math.round((type.unitCost * marketIndex(s, e.region, "price")) / 100);
+  return Math.round(
+    (base * (100 + commercialTerms(s, e.region, type, true).serviceDelay / 5)) / 100,
+  );
 }
 
 function priceAdjustment(s, e, type) {
@@ -634,7 +678,7 @@ function priceAdjustment(s, e, type) {
   const benchmark = competitor.status === "open" ? competitor.price : type.unitPrice;
   const price = Math.round((type.unitPrice * e.price * marketIndex(s, e.region, "price")) / 10000);
   const demand = Math.round(
-    (marketIndex(s, e.region, "employment") * benchmark) / Math.max(1, price),
+    (benchmark * commercialTerms(s, e.region, type, true).demand) / Math.max(1, price),
   );
   return { price, demand: bound(demand, 45, 145) };
 }
@@ -654,7 +698,7 @@ function appendBusinessActions(s, api, add) {
   enterpriseAction(
     "hire",
     "Ücretli çalışan işe al",
-    `Günlük ${wage} TL; ücret yalnız açık işyerinde tamamlanan vardiya için gider.`,
+    `${wage} TL. Yalnız açık işyerinde tamamlanan vardiya ödenir.`,
     30,
     0,
     away ||
@@ -675,7 +719,7 @@ function appendBusinessActions(s, api, add) {
     enterpriseAction(
       "dismiss",
       "Bir iş sözleşmesini bitir",
-      `Kıdem ödemesi ${wage * 3} TL işletme kasasından karşılanır.`,
+      `Kıdem: ${wage * 3} TL işletme kasasından.`,
       20,
       0,
       away || (firm.capital < wage * 3 ? "Kıdem ödemesi için kasa yetersiz." : ""),
@@ -723,7 +767,7 @@ function appendBusinessActions(s, api, add) {
   enterpriseAction(
     "business-credit",
     "İşletme kredisi al",
-    "Kasaya 3.000 TL. Her 30 günde anapara ve %1 faiz.",
+    "Kasaya 3.000 TL. 30 günde bir anapara ve %1 faiz.",
     30,
     0,
     away ||
@@ -750,7 +794,7 @@ function appendBusinessActions(s, api, add) {
     enterpriseAction(
       "business-repay",
       `İşletme kredisinden ${payment} TL kapat`,
-      "Anapara işletme kasasından ödenir.",
+      "Anapara işletme kasasından.",
       15,
       0,
       firm.capital < payment ? "İşletme kasası yetersiz." : "",
@@ -887,7 +931,8 @@ function settleCompetitors(s, api) {
   const e = economy(s);
   for (const { id, region, type, name } of competitors) {
     const firm = e.firms[id];
-    const demand = marketIndex(s, region, "employment");
+    const terms = commercialTerms(s, region, type);
+    const demand = terms.demand;
     if (firm.status === "closed") {
       if (d < firm.reopenDay || demand < 85) continue;
       // New outside equity funds reopening. No previous cash or transactions replay.
@@ -911,7 +956,9 @@ function settleCompetitors(s, api) {
       s.deep.business.clients > 0;
     const rivalPrice = player ? priceAdjustment(s, e.business, type).price : type.unitPrice;
     const localIndex = marketIndex(s, region, "price");
-    const productionCost = Math.round((type.unitCost * localIndex) / 100);
+    const productionCost = Math.round(
+      (type.unitCost * localIndex * (100 + terms.serviceDelay / 5)) / 10000,
+    );
     const staff = staffIds(s, id);
     const shift = region === "istanbul" || workday(d);
     const scheduled = staff
@@ -1041,7 +1088,12 @@ export function adaptEconomyActions(s, actions, api) {
       const local = e.region === "istanbul";
       const amount =
         local && action.societyCost
-          ? Math.round(action.societyCost.amount * (e.supplier === "cooperative" ? 0.86 : 1))
+          ? Math.round(
+              (action.societyCost.amount *
+                (e.supplier === "cooperative" ? 0.86 : 1) *
+                (100 + commercialTerms(s, e.region, type, true).serviceDelay / 5)) /
+                100,
+            )
           : units * suppliers(s, e, type);
       const reprice = [
         "Malzeme için işletme sermayesi aktar.",
@@ -1092,7 +1144,7 @@ export function adaptEconomyActions(s, actions, api) {
         return blocked(action, "İşletme hesabı üst sınırda.");
       return {
         ...action,
-        description: `${served} müşteri, ${price} TL liste fiyatı. Stok kullanılır; ${operating} TL gider ve ${revenue} TL gelir.`,
+        description: `${served} müşteri, liste fiyatı ${price} TL. Stoktan. Gider ${operating} TL, gelir ${revenue} TL.`,
         run(next) {
           const business = next.deep.business;
           next.living.enterprise.stock -= served;
@@ -1352,6 +1404,7 @@ export function economyView(s) {
         id: lot.id,
         name: lot.name,
         region: lot.region,
+        districtId: districtForLot(lot.id),
         condition: p.condition,
         value: propertyValue(s, lot, p),
         ownership: p.owner,
@@ -1439,14 +1492,13 @@ export function regionalMarkets(s, details = false) {
 }
 
 export function validateEconomy(s) {
-  const e = s.expansion?.economy;
-  const today = day(s);
+  const e = s.expansion?.economy,
+    today = day(s);
   if (
-    !exact(e, "lastDay home properties business residents firms") ||
-    e.lastDay !== today ||
-    !exact(e.properties, regionHomes.map(({ id }) => id).join(" ")) ||
-    !exact(e.firms, competitors.map(({ id }) => id).join(" ")) ||
-    !exact(e.residents, regionalResidents.map(({ id }) => id).join(" ")) ||
+    !shape(e, { lastDay: [today, today], "home properties business residents firms": null }, 1) ||
+    !shape(e.properties, { [regionHomes.map(({ id }) => id).join(" ")]: null }, 1) ||
+    !shape(e.firms, { [competitors.map(({ id }) => id).join(" ")]: null }, 1) ||
+    !shape(e.residents, { [regionalResidents.map(({ id }) => id).join(" ")]: null }, 1) ||
     !(e.home === "" || regionHomes.some(({ id }) => id === e.home))
   )
     return false;
@@ -1454,26 +1506,36 @@ export function validateEconomy(s) {
     Object.hasOwn(e.residents[id] ?? {}, "life"),
   );
   if (profiles.length && profiles.length !== regionalResidents.length) return false;
-  const staffing = new Map();
-  const residentRegions = new Map();
+  const staffing = new Map(),
+    residentRegions = new Map();
   for (const resident of regionalResidents) {
     const n = e.residents[resident.id];
-    const schema = "cash savings debt employment" + (profiles.length ? " life" : "");
     if (
-      !exact(n, schema) ||
-      !["cash", "savings", "debt"].every((k) => integer(n[k])) ||
-      !["employed", "searching"].includes(n.employment)
+      !shape(
+        n,
+        {
+          "cash savings debt": MAX,
+          employment: "employed searching",
+          ...(profiles.length ? { life: null } : {}),
+        },
+        1,
+      )
     )
       return false;
     const life = n.life;
     if (profiles.length) {
       if (
-        !exact(life, "region employer born generation health skill") ||
-        !secondaryRegions.includes(life.region) ||
-        !integer(life.born, today - 2700, today - 540) ||
-        !integer(life.generation, 1, 400000) ||
-        !integer(life.health, 0, 100) ||
-        !integer(life.skill, 0, 100) ||
+        !shape(
+          life,
+          {
+            region: secondaryRegions.join(" "),
+            employer: null,
+            born: [today - 2700, today - 540],
+            generation: [1, 400000],
+            "health skill": 100,
+          },
+          1,
+        ) ||
         (life.employer === "") !== (n.employment === "searching")
       )
         return false;
@@ -1492,14 +1554,13 @@ export function validateEconomy(s) {
     }
     residentRegions.set(resident.id, life?.region ?? resident.region);
   }
-  const tenants = new Set();
-  const owners = new Set();
+  const tenants = new Set(),
+    owners = new Set();
   for (const lot of regionHomes) {
     const p = e.properties[lot.id];
     if (
-      !exact(p, "owner condition mortgage lease") ||
-      !validOwner(p.owner) ||
-      !integer(p.condition, 35, 100)
+      !shape(p, { "owner mortgage lease": null, condition: [35, 100] }, 1) ||
+      !validOwner(p.owner)
     )
       return false;
     if (isResident(p.owner)) {
@@ -1513,21 +1574,31 @@ export function validateEconomy(s) {
       owners.add(p.owner);
     }
     if (p.mortgage) {
-      const m = p.mortgage;
       if (
-        !exact(m, "principal interest dueDay missed") ||
-        p.owner !== HOUSEHOLD ||
-        !integer(m.principal, 1) ||
-        !integer(m.interest) ||
-        !integer(m.dueDay, today + 1, today + 30) ||
-        !integer(m.missed, 0, 2)
+        !shape(
+          p.mortgage,
+          { principal: [1, MAX], interest: MAX, dueDay: [today + 1, today + 30], missed: 2 },
+          1,
+        ) ||
+        p.owner !== HOUSEHOLD
       )
         return false;
     } else if (p.mortgage !== null) return false;
     if (p.lease) {
       const l = p.lease;
       if (
-        !exact(l, "tenant rent deposit dueDay arrears missed") ||
+        !shape(
+          l,
+          {
+            tenant: null,
+            rent: [1, 30000],
+            deposit: 30000,
+            dueDay: [today + 1, today + 30],
+            arrears: MAX,
+            missed: 2,
+          },
+          1,
+        ) ||
         l.tenant === p.owner ||
         !(l.tenant === HOUSEHOLD || isResident(l.tenant)) ||
         tenants.has(l.tenant) ||
@@ -1536,12 +1607,7 @@ export function validateEconomy(s) {
           (p.owner === MARKET ||
             (citizens.has(l.tenant)
               ? lot.region !== "istanbul"
-              : residentRegions.get(l.tenant) !== lot.region))) ||
-        !integer(l.rent, 1, 30000) ||
-        !integer(l.deposit, 0, 30000) ||
-        !integer(l.dueDay, today + 1, today + 30) ||
-        !integer(l.arrears) ||
-        !integer(l.missed, 0, 2)
+              : residentRegions.get(l.tenant) !== lot.region)))
       )
         return false;
       tenants.add(l.tenant);
@@ -1560,39 +1626,43 @@ export function validateEconomy(s) {
   if (b) {
     if (
       !s.deep.business ||
-      !exact(
+      !shape(
         b,
-        "region price supplier workers wageDue principal installmentDay missed lastTaxRevenue taxDue taxes payrollMissed",
+        {
+          region: REGIONS.join(" "),
+          price: null,
+          supplier: "local cooperative",
+          workers: 3,
+          "wageDue principal taxDue taxes": MAX,
+          missed: 3,
+          lastTaxRevenue: [0, s.deep.business.revenue],
+          payrollMissed: 400000,
+          installmentDay: null,
+        },
+        1,
       ) ||
-      !REGIONS.includes(b.region) ||
       ![85, 100, 120].includes(b.price) ||
-      !["local", "cooperative"].includes(b.supplier) ||
-      !integer(b.workers, 0, 3) ||
-      !integer(b.wageDue) ||
-      !integer(b.principal) ||
-      !integer(b.missed, 0, 3) ||
-      !integer(b.lastTaxRevenue, 0, s.deep.business.revenue) ||
-      !integer(b.taxDue) ||
-      !integer(b.taxes) ||
-      !integer(b.payrollMissed, 0, 400000) ||
-      !(b.principal ? integer(b.installmentDay, today + 1, today + 30) : b.installmentDay === 0)
+      (b.principal ? !integer(b.installmentDay, today + 1, today + 30) : b.installmentDay !== 0)
     )
       return false;
   } else if (b !== null || s.deep.business) return false;
   return competitors.every(({ id }) => {
     const f = e.firms[id];
     return (
-      exact(
+      shape(
         f,
-        "cash stock workers reputation price revenue costs status failed reopenDay closed",
+        {
+          "cash revenue costs": MAX,
+          stock: 12,
+          workers: [staffing.get(id) ?? 0, 3],
+          reputation: 100,
+          price: [1, 2000],
+          failed: 3,
+          closed: 400000,
+          "status reopenDay": null,
+        },
+        1,
       ) &&
-      ["cash", "revenue", "costs"].every((key) => integer(f[key])) &&
-      integer(f.stock, 0, 12) &&
-      integer(f.workers, staffing.get(id) ?? 0, 3) &&
-      integer(f.reputation, 0, 100) &&
-      integer(f.price, 1, 2000) &&
-      integer(f.failed, 0, 3) &&
-      integer(f.closed, 0, 400000) &&
       (f.status === "open"
         ? f.workers > 0 && f.reopenDay === 0 && f.failed < 3
         : f.status === "closed" &&
@@ -1605,6 +1675,16 @@ export function validateEconomy(s) {
 }
 
 const economyCopy = {
+  "Tapu bedeli.": ["Purchase price.", "Cena zakupu."],
+  "Bedel peşinattır. Aylık %0,8 faiz, %4 anapara. Üç ödenmeyen taksitte tasfiye riski.": [
+    "Cost is the deposit. Monthly: 0.8% interest, 4% principal. Three missed payments risk foreclosure.",
+    "Koszt to wkład własny. Miesięcznie: 0,8% odsetek, 4% kapitału. Po 3 zaległościach grozi przejęcie.",
+  ],
+  "Konut kondisyonu +18.": ["Property condition +18.", "Stan nieruchomości +18."],
+  "Önce faiz, sonra anapara.": [
+    "Interest first, then principal.",
+    "Najpierw odsetki, potem kapitał.",
+  ],
   "Kira kapatıldı; geçici konuta geçtin.": [
     "Lease ended. You moved into temporary housing.",
     "Najem zakończony. Przenosisz się do lokalu tymczasowego.",
@@ -1673,7 +1753,7 @@ const economyCopy = {
     "The home does not need repairs.",
     "Mieszkanie nie wymaga remontu.",
   ],
-  "Kiracı ilk kirayı ve depozitoyu öder.": [
+  "İlk kira ve depozitoyu kiracı öder.": [
     "Tenant pays first rent and deposit.",
     "Najemca płaci pierwszy czynsz i kaucję.",
   ],
@@ -1681,9 +1761,9 @@ const economyCopy = {
     "No eligible tenant can pay.",
     "Brak wypłacalnego najemcy.",
   ],
-  "Depozito önce kira borcuna gider, kalanı iade edilir.": [
-    "The deposit covers rent arrears first. Any remainder is refunded.",
-    "Kaucja pokrywa zaległy czynsz. Reszta podlega zwrotowi.",
+  "Depozito kira borcuna gider, kalanı iade edilir.": [
+    "Deposit covers rent arrears. The rest is refunded.",
+    "Kaucja spłaca zaległy czynsz. Reszta wraca.",
   ],
   "Satmadan önce krediyi azalt.": [
     "Pay down the loan before selling.",
@@ -1724,18 +1804,15 @@ const economyCopy = {
     "This supplier is already active.",
     "Ten dostawca jest już aktywny.",
   ],
-  "Kasaya 3.000 TL. Her 30 günde anapara ve %1 faiz.": [
-    "Adds 3,000 TL. Principal and 1% interest every 30 days.",
+  "Kasaya 3.000 TL. 30 günde bir anapara ve %1 faiz.": [
+    "3,000 TL into business funds. Principal and 1% interest every 30 days.",
     "3 000 TL do kasy. Kapitał i 1% odsetek co 30 dni.",
   ],
   "Kredi için itibar, borç ve bakiye uygun olmalı.": [
     "Loan depends on reputation, debts and balance.",
     "Kredyt zależy od reputacji, długów i salda.",
   ],
-  "Anapara işletme kasasından ödenir.": [
-    "Business funds pay the principal.",
-    "Kapitał jest spłacany z kasy firmy.",
-  ],
+  "Anapara işletme kasasından.": ["Business funds pay the principal.", "Kapitał z kasy firmy."],
   "İşletme kasası yetersiz.": ["Insufficient business funds.", "Za mało środków firmy."],
   "Önce işletmeye sermaye aktar.": ["Add business capital first.", "Najpierw zasil konto firmy."],
   "Önce ücret, vergi ve krediyi öde.": [
@@ -1820,36 +1897,20 @@ const economyTemplates = [
     "First rent and deposit: $1 TL.",
     "Pierwszy czynsz i kaucja: $1 TL.",
   ],
-  [/^Tapu bedeli (\d+) TL\.$/, "Purchase price: $1 TL.", "Cena zakupu: $1 TL."],
   [
-    /^Peşinat (\d+) TL\. Aylık %0,8 faiz ve %4 anapara; üç kaçan vade tasfiye riski yaratır\.$/,
-    "Deposit: $1 TL. Monthly 0.8% interest and 4% principal. Three missed payments risk foreclosure.",
-    "Wkład własny: $1 TL. Co miesiąc 0,8% odsetek i 4% kapitału. Trzy zaległości grożą przejęciem.",
+    /^Gider ve ipotek sonrası net (-?\d+) TL\.$/,
+    "Net after costs and mortgage: $1 TL.",
+    "Netto po kosztach i hipotece: $1 TL.",
   ],
   [
-    /^(\d+) TL ile yapı kondisyonu 18 puan artar\.$/,
-    "Spend $1 TL to raise the condition by 18 points.",
-    "Wydaj $1 TL, aby poprawić stan o 18 punktów.",
+    /^(\d+) TL\. Yalnız açık işyerinde tamamlanan vardiya ödenir\.$/,
+    "$1 TL per completed shift while open.",
+    "$1 TL za odbytą zmianę w otwartej firmie.",
   ],
   [
-    /^(\d+) TL önce faize sonra anaparaya yazılır\.$/,
-    "$1 TL goes toward interest first, then principal.",
-    "$1 TL pokryje najpierw odsetki, a potem kapitał.",
-  ],
-  [
-    /^İşlem gideri ve ipotekten sonra kalan (-?\d+) TL\.$/,
-    "Net proceeds after costs and mortgage: $1 TL.",
-    "Kwota po kosztach i spłacie hipoteki: $1 TL.",
-  ],
-  [
-    /^Günlük (\d+) TL; ücret yalnız açık işyerinde tamamlanan vardiya için gider\.$/,
-    "$1 TL per day. Wages accrue for completed shifts while open.",
-    "$1 TL dziennie. Płaca nalicza się za odbyte zmiany w otwartej firmie.",
-  ],
-  [
-    /^Kıdem ödemesi (\d+) TL işletme kasasından karşılanır\.$/,
-    "$1 TL severance is paid from the business account.",
-    "Odprawa w wysokości $1 TL jest wypłacana z konta firmy.",
+    /^Kıdem: (\d+) TL işletme kasasından\.$/,
+    "Severance: $1 TL from business funds.",
+    "Odprawa: $1 TL z kasy firmy.",
   ],
   [
     /^Liste fiyatını (\d+) TL yap$/,
@@ -1872,9 +1933,9 @@ const economyTemplates = [
     "$1 sztuk zapasów za $2 TL z konta firmy.",
   ],
   [
-    /^(\d+) müşteri, (\d+) TL liste fiyatı\. Stok kullanılır; (\d+) TL gider ve (\d+) TL gelir\.$/,
-    "$1 customers at a list price of $2 TL. Stock is used, with $3 TL in costs and $4 TL in revenue.",
-    "$1 klientów przy cenie $2 TL. Zużycie zapasów, koszt $3 TL i przychód $4 TL.",
+    /^(\d+) müşteri, liste fiyatı (\d+) TL\. Stoktan\. Gider (\d+) TL, gelir (\d+) TL\.$/,
+    "$1 customers at a list price of $2 TL. Uses stock. Cost $3 TL, revenue $4 TL.",
+    "$1 klientów przy cenie katalogowej $2 TL. Z zapasów. Koszt $3 TL, przychód $4 TL.",
   ],
 ];
 
@@ -1895,7 +1956,7 @@ export function localizeEconomyText(text, language) {
         });
       });
   const [city, dwelling, action] = String(text).split(" · ");
-  if (["İstanbul", "Ankara", "İzmir"].includes(city) && economyCopy[dwelling]) {
+  if (REGIONS.some((region) => CITIES[region].name === city) && economyCopy[dwelling]) {
     const label =
       (language === "en" ? { İstanbul: "Istanbul", İzmir: "Izmir" }[city] : undefined) ?? city;
     return [label, economyCopy[dwelling][index], action && economyCopy[action]?.[index]]
