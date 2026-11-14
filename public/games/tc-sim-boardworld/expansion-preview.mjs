@@ -21,6 +21,17 @@ const expansionIntro = {
     "Kontynuuj z tego zapisu",
   ],
 };
+export function placeLabel(view, language) {
+  const {place, districts, neighborhoods} = view.districts;
+  const district = districts.find(d => d.id === place.districtId);
+  const neighborhood = neighborhoods.find(n => n.id === place.neighborhoodId);
+  const venue = district?.venues.find(v => v.id === place.venueId);
+  const city = {istanbul: "İstanbul", ankara: "Ankara", izmir: "İzmir"}[place.cityId];
+  const area = neighborhood?.fictional
+    ? {tr:"Oyun Mahallesi",en:"Game Neighborhood",pl:"Dzielnica fikcyjna"}[language] || "Oyun Mahallesi"
+    : neighborhood?.name;
+  return [city, district?.name, venue?.name || area].filter(Boolean).join(" · ");
+}
 export function renderGenerations(state, expansionUi, cachedView, actions, actionCard, sectionHeader, money, esc, language, expansionProblem, tab = "expansion") {
   const [name, headline, description, start] = expansionIntro[language] ?? expansionIntro.tr;
   if (state.expansion)

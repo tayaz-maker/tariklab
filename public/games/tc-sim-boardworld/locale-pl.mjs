@@ -2951,4 +2951,5 @@ export default [
   "Zachowano inne kopie zapisu. Pobierz je i zaimportuj plik, aby wybrać jedną.",
   "Pobierz zachowaną kopię zapisu",
   "Zapisano w tej przeglądarce. Zachowano inną kopię zapisu. Pobierz ją z menu zapisu i jawnie zaimportuj; bieżący zapis pozostał bez zmian.",
+  "{0} · {1} godz. Zarobek {2} TL; następna wypłata {3}. Efekty zmiany: energia −{4}, stres +10; umiejętność zawodowa +1. Łączna prognoza uwzględnia też upływ czasu.",
 ];

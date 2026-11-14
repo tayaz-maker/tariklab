@@ -1597,7 +1597,7 @@ Final gzip is 298708 Gold, 199873 initial, 44647 deferred and 343355 combined. D
 
 ## 2026-11-14 — Explicit user-approved optional package budget override
 
-The user authorized expansion gzip 40217 → 96000 and combined gzip 342048 → 400000 to unblock actual Living Cities & Underworld implementation. Gold301836 and initialTR205874 remain unchanged. Only the two authorized test thresholds changed; accounting, every emitted asset/forwarder, lazy boundaries, shared-engine identity, translations and replay assertions remain active. The full existing package test passes3/3 on unchanged runtimecb93d94a: Gold298708, initialTR199873, expansion44647 and combined343355. This clears the old size blocker under the new explicit policy, not the feature/CI/release acceptance. Historical failed receipts retain their original scope. Continue the same integration branch toward one complete PR/merge/Cloudflare release; no intermediate production deployment.
+The user authorized expansion gzip 40217 → 96000 and combined gzip 342048 → 400000 to unblock actual Living Cities & Underworld implementation. Gold301836 and initialTR205874 remain unchanged. Only the two authorized test thresholds changed; accounting, every emitted asset/forwarder, lazy boundaries, shared-engine identity, translations and replay assertions remain active. The full existing package test passes 3/3 on unchanged runtimecb93d94a: Gold298708, initialTR199873, expansion44647 and combined343355. This clears the old size blocker under the new explicit policy, not the feature/CI/release acceptance. Historical failed receipts retain their original scope. Continue the same integration branch toward one complete PR/merge/Cloudflare release; no intermediate production deployment.
 
 ## 2026-11-14 — Living-world save capability boundary
 
@@ -1626,3 +1626,37 @@ Runtime tree `6989a7cf` integrates actual districts, funded organizations, auton
 Final candidate packing counts 47 assets: Gold298896, initialTR200060, expansion69240, combined368136 gzip bytes, all below the authorized ceilings. Desktop/mobile TR/EN/PL player/public case flows and keyboard travel pass; authenticated old-runtime and five released-save compatibility controls pass. Full evidence and remaining exact-head CI/PR/merge/Cloudflare verification are in `docs/tc-sim-boardworld/LIVING_UNDERWORLD_VERIFICATION.md`. No deployment or subjective acceptance is claimed by this entry.
 
 The final regional-career control verifies that reaching the 1,000-step progression cap does not stop employer-funded work or invent an insufficient-funds reason. Prepared boundary fixtures and all 13 district/economy integration checks pass; same-day duplicate protection and finite payroll remain. The exact final package test again passes 3/3.
+
+## 2026-11-14 — Living World 2.0 integrated candidate
+
+The requested Astra/Terra/Sol workstreams extend PR261 in one integration branch.
+Thirty-one functional districts now share an explicit neighborhood/location model,
+connected hub-based transport, existing household/firm ledgers, independent resident
+activity and resource-funded organization territory. Kızılay remains a preserved
+legacy area inside Çankaya. New neighborhood names are explicitly fictional.
+An explicit LW2 capability and canonical slot protect progress from released cached
+writers; native IndexedDB/Web Lock negative controls pass with exact old backups.
+
+Actual fresh-browser city and enterprise journeys pass on packed assets, including
+31 local meal visits, employer-funded work, lease/course controls, reload and three
+mobile locales. Independent CUA work exposed—and prompted correction of—local
+contract HUD and home-action inconsistencies. Root's genuine candidate underworld
+journey reached recruitment, promotion, a rival shipment and a day7 conviction.
+A full UI life reached natural day 1501 succession; its continuation harness was
+corrected to handle inherited pending events and is rerunning. Prepared 72-year
+stress/replay fixtures are separately labeled. Final exact-head/full journey and
+release gates remain required; no production deployment is asserted here.
+
+See `docs/tc-sim-boardworld/LIVING_WORLD_2_VERIFICATION.md` for authority boundaries,
+source references, real-journey methods, compatibility controls and unchanged budgets.
+
+
+The fresh packed UI life now completes 1377 visible actions through natural day 1501
+succession and continued heir play. Independent CUA confirms the actual-home
+return/cook/sleep path preserves the contract and local employer. Automatic care
+uses the same home, and property payment boundaries now reuse existing review,
+consent and budget-floor controls; changed contract terms revoke consent. The
+final package gate passes 3/3 at Gold300161, initialTR201145, expansion79763 and
+combined379924. All earlier Gold/deep/living/emergent/society browser suites and
+native stale/legacy/20-cache-race controls passed the preceding packed checkpoint;
+final exact-head CI repeats them unchanged. No release gate or budget is disabled.

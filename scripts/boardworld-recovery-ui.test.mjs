@@ -307,74 +307,37 @@ test("recovery preserves rendered expansion snapshots", async () => {
         out[`${language}/${name}/${section}`] = createHash("sha256").update(html).digest("hex");
       }
   }
-  // Reviewed against living-safety-base: family output remains byte-for-byte
-  // unchanged. Finance changes district-priced rent/value quotes and housing
-  // office eligibility; world adds districts, organizations and local action
-  // requirements. Full action fields and escaped content remain snapshotted.
+  // Reviewed LW2 changes:31 districts, connected routes, funded territory,
+  // contextual property eligibility and compact organization/property sections.
+  // Full action fields, family output and escaped content remain snapshotted.
   const expected = {
     "tr/initial/family": "8a4a64b0ad91daf0cb8762dabef571f0de6b89f406f83af0b5701e6c44ec6007",
-    "tr/initial/finance": "10422d11a46b50eaf9e9ac8189d5aa7b5608bae25bfbdb62c6a9f0a7fea9a61e",
-    "tr/initial/world": "0a2b73315cde500d8cc0c04c8d0ff2d9e59e122c91c303c747cb514816e13a32",
+    "tr/initial/finance": "593453d9ec9c4ed1fd4c1a36062f88ffaa27329484ea0e22e41bd0ec61c21248",
+    "tr/initial/world": "0df4bdb03a48f5b7529fa3cfb467bd9fc8f8de6fba8d0a5885c701867239102d",
     "tr/populated/family": "8d05f4bb0069161dfe559309d4847262d0ee88133a271cedd354b94f011717ce",
-    "tr/populated/finance": "1f89d2ed542c5cbdc499146737daf1296a4e7e340c3217b23173282875a318cd",
-    "tr/populated/world": "dcdba7b7021f98bbf6740a5aa3d551bb1aa2ba390324313cc9aa1915c9980312",
+    "tr/populated/finance": "6d9fccbedba05dee64eeba03e87a776f4b7bdc55449e4b30653175993d30812c",
+    "tr/populated/world": "2a42a38be23c54249aad5a2dba3ff18cce12eb434aa2277c3c648e034fd15377",
     "tr/heir/family": "f11eb8c0b90f31a933909e121d05e8216c7a84a29787812def084b811a506642",
-    "tr/heir/finance": "1f89d2ed542c5cbdc499146737daf1296a4e7e340c3217b23173282875a318cd",
-    "tr/heir/world": "dcdba7b7021f98bbf6740a5aa3d551bb1aa2ba390324313cc9aa1915c9980312",
-    "tr/v7-ankara-family-day35.state.json/family":
-      "52c61da08cbdd1b1b6b8bd19d982d8c7583a84ce523adb5fcf7ed9399725be81",
-    "tr/v7-ankara-family-day35.state.json/finance":
-      "ef531c5c6adffe7b1f3ea3e18cd2cc6f563c62a518972b892ad77265d9e8f96e",
-    "tr/v7-ankara-family-day35.state.json/world":
-      "7e5281c8e71f84dddf5929cc9ea58bfab1f6bc5731fa4f4ad1d1308170759daa",
-    "tr/v7-izmir-family-day40.state.json/family":
-      "677f0a470b26a13f23fd64ad1d233ee6050c2e36e043dd7bc46e737c53294c18",
-    "tr/v7-izmir-family-day40.state.json/finance":
-      "eb6315cf7f2a13a432d5647a1665c79b1501d6b0de2570d23dc81f6cbb71d35d",
-    "tr/v7-izmir-family-day40.state.json/world":
-      "45bc21ced36f61556ede29a43b0e5a6c4fb82c840bfcc9fb2f121a70ab82c8dc",
+    "tr/heir/finance": "6d9fccbedba05dee64eeba03e87a776f4b7bdc55449e4b30653175993d30812c",
+    "tr/heir/world": "2a42a38be23c54249aad5a2dba3ff18cce12eb434aa2277c3c648e034fd15377",
     "en/initial/family": "754fed20538784efde0bc97846c4fe5d04ee5fd3e3bb81c98cdb834ad153fd29",
-    "en/initial/finance": "418eece2fb21ba68821bdaeca039453c0dd405513a7c6d376de9c1ed49d59f6e",
-    "en/initial/world": "82844cd22f49b263a3ff0041e7bdfd3864a4c8a15b621517949d5eb5d1f9793d",
+    "en/initial/finance": "c36fd92520cd063ccf9dc61aaa5547d545520c1be196e6038b786b280902bb1a",
+    "en/initial/world": "4d6d533ebb34e98a06d7cc17e9443b3dd636959da4e8bd1aaa6355b0245cb9fa",
     "en/populated/family": "3535f467513aa9b4eea9912f0203bfb291537c8814a3610eca843b50ec15c16a",
-    "en/populated/finance": "da1ea7998607bb7d9ecbadd95f88fff9676da2a0ae4ab9f87f04c72b806198b6",
-    "en/populated/world": "0f2a09c4a4e7aa2f6949e1cf0212f192d0944f599b87a2e33f0b00d11bffddcd",
+    "en/populated/finance": "dc117a030df2e8284ad371502e5bc449d570f1a0504eec6d1e181193f84fba00",
+    "en/populated/world": "d416fcfbf51ef0c36a61957ef9092c98d67a05530b1f4e333fce2738ec6229fd",
     "en/heir/family": "7e7554fd47a7b97a393c286b52352ee0a408f5fc7964b73306de155ca092b5ea",
-    "en/heir/finance": "da1ea7998607bb7d9ecbadd95f88fff9676da2a0ae4ab9f87f04c72b806198b6",
-    "en/heir/world": "0f2a09c4a4e7aa2f6949e1cf0212f192d0944f599b87a2e33f0b00d11bffddcd",
-    "en/v7-ankara-family-day35.state.json/family":
-      "da48c48586846bc7c6217932414b7abda30fd8c5d93382f5690670aebc8b08a2",
-    "en/v7-ankara-family-day35.state.json/finance":
-      "fc2a450cf2b65157b8863f617b7b12008d55f8710f8a2037ecad6daa73ff6310",
-    "en/v7-ankara-family-day35.state.json/world":
-      "9f4bb210204a00c2395f493825936ed33492f4cfb138f930a646ad49bfefaa72",
-    "en/v7-izmir-family-day40.state.json/family":
-      "20ace6482d69d4b4b81fbef061c425c5e4a3f222462482c595cc25368d3f3b04",
-    "en/v7-izmir-family-day40.state.json/finance":
-      "d9173b602ef809c5d7e7148f6c95c5bf8c5482a2ded272d6be9e9fe3c81f52db",
-    "en/v7-izmir-family-day40.state.json/world":
-      "4d655484e5ed2ce82e07feb21ea3b5aa4fa6070dd5eeba21f6a3d52263691b59",
+    "en/heir/finance": "dc117a030df2e8284ad371502e5bc449d570f1a0504eec6d1e181193f84fba00",
+    "en/heir/world": "d416fcfbf51ef0c36a61957ef9092c98d67a05530b1f4e333fce2738ec6229fd",
     "pl/initial/family": "146f825c308b5e048a7bcead9fe1e641d777062063b6a9e675f879e557394217",
-    "pl/initial/finance": "2e4551250cbc055849a09cfc1cd07797295ebb1adbc446a28abf41f0c618c096",
-    "pl/initial/world": "ed687d253b3bee3f1bccfc4106b6bb743cbe51bed2d88d88d1a12a0d02ee1d62",
+    "pl/initial/finance": "083b45a89a6bbc0f3636cca48e8a66edfe11f88de00fa6c5bbb5f4ae35ab6e94",
+    "pl/initial/world": "0780768e85c6c2da3f8ed1ad41a50afd06724911c19b3955df3d0d1ea55d7f46",
     "pl/populated/family": "bd8145681ee28e0b41f18600ea70e9449260d69e965a4a61ba4aba0e0421db4a",
-    "pl/populated/finance": "a0ca04a6bf216b75aea4f27982bf43fe29f0d87376e787fa545e990fc26de075",
-    "pl/populated/world": "2cc098d23a34f78dcd115277211708f8bb88833d88a6d7812e3a0f9a6096ecef",
+    "pl/populated/finance": "a2700e0eb5024fe833a077e529afdaf8857ba38cbe30c1c1edcbf5fabf240284",
+    "pl/populated/world": "1819f86a9424d8086a01fe401a732d6c96399f16bd2c72ce423db6a94e6a3937",
     "pl/heir/family": "00cfa7f37ca3d9113832b18e4fff775f48783e17057c0817e088eb39292513f2",
-    "pl/heir/finance": "a0ca04a6bf216b75aea4f27982bf43fe29f0d87376e787fa545e990fc26de075",
-    "pl/heir/world": "2cc098d23a34f78dcd115277211708f8bb88833d88a6d7812e3a0f9a6096ecef",
-    "pl/v7-ankara-family-day35.state.json/family":
-      "4945df85d41d49e016bc97ca4aa7e6e13289b2bf6475fe4e4faaa576289000ce",
-    "pl/v7-ankara-family-day35.state.json/finance":
-      "a47fb3dd0ade8356a466ca4320ed70268d69dbd866154b4cbfeeb85eda0a2dde",
-    "pl/v7-ankara-family-day35.state.json/world":
-      "c29220cda230f9cf86d3c4456da5d2cb652574d68316fecbcdc85f9a47c5efca",
-    "pl/v7-izmir-family-day40.state.json/family":
-      "c77177e9d635a03466236ed77ddc7d076ba78849680a61f5840a37fce7a4b902",
-    "pl/v7-izmir-family-day40.state.json/finance":
-      "db6c10ef05ccd63115d3cf0b2d9e8f52b2e311a80d8ac1ed68ccad03e2da974a",
-    "pl/v7-izmir-family-day40.state.json/world":
-      "2f85645886ded65bfae2ba22dbb81886ec9bf88b1935a36ad29656cfb2964cc9",
-  };
+    "pl/heir/finance": "a2700e0eb5024fe833a077e529afdaf8857ba38cbe30c1c1edcbf5fabf240284",
+    "pl/heir/world": "1819f86a9424d8086a01fe401a732d6c96399f16bd2c72ce423db6a94e6a3937"
+};
   for (const [name, digest] of Object.entries(out)) assert.equal(digest, expected[name], name);
 });

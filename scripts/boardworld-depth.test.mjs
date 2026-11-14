@@ -16,6 +16,8 @@ import {
 import { localizeEconomyText } from "../public/games/tc-sim-boardworld/expansion-economy.mjs";
 import { localizeWorldText } from "../public/games/tc-sim-boardworld/expansion-world.mjs";
 import { localizeDistrictText } from "../public/games/tc-sim-boardworld/expansion-districts.mjs";
+import { routeBetween } from "../public/games/tc-sim-boardworld/expansion-geography.mjs";
+import { residentServiceQuote } from "../public/games/tc-sim-boardworld/expansion-institutions.mjs";
 
 const { getExpansionView } = await loadExpansionRuntime();
 const at = (s) => Math.floor(s.time / 1440) + 1;
@@ -70,15 +72,30 @@ function regionalMorning(s) {
 
 test("schema 7 legacy resident bytes survive import and backup recovery, then replay into identical profiles", async () => {
   const original = start();
-  for (const n of Object.values(economy(original).residents)) delete n.life;
+  delete original.expansion.livingWorld;
+  delete economy(original).activity;
+  for (const [id, n] of Object.entries(economy(original).residents)) {
+    if (/^resident:(ankara|izmir):[0-2]$/.test(id)) delete n.life;
+    else delete economy(original).residents[id];
+  }
+  for (const field of ["properties", "firms"])
+    for (const id of Object.keys(economy(original)[field]))
+      if (id.split(":").length > 2) delete economy(original)[field][id];
   resident(original).cash = 1234;
   const old = exportGame(original);
   const snapshot = importGame(old).state;
-  assert.deepEqual(snapshot, original);
+  assert.ok(snapshot?.expansion.economy.activity, "the old bytes migrate additively");
+  for (const [id, account] of Object.entries(economy(original).residents)) {
+    const { life, ...balance } = economy(snapshot).residents[id];
+    assert.deepEqual(balance, account);
+    assert.ok(life.employer);
+  }
+  const canonical = exportGame(snapshot);
+  assert.equal(exportGame(original), old);
   const view = getExpansionView(snapshot);
   assert.equal(view.economy.regions.ankara.residents[0].cash, 1234);
   assert.equal(view.economy.regions.ankara.residents[0].employer, "ankara:repair");
-  assert.equal(exportGame(snapshot), old, "view cannot normalize the saved state");
+  assert.equal(exportGame(snapshot), canonical, "view cannot normalize the saved state");
 
   const token = new Map([
     ["tariklab.boardworld.v7", "invalid"],
@@ -87,7 +104,7 @@ test("schema 7 legacy resident bytes survive import and backup recovery, then re
   const locks = { request: (_, fn) => fn() };
   const transact = (_, read) => read({ getItem: (key) => token.get(key) ?? null });
   const recovered = await loadExpansionLocked(undefined, locks, transact);
-  assert.deepEqual(recovered.state, original);
+  assert.deepEqual(recovered.state, snapshot);
   assert.equal(recovered.token.backup, old);
   const one = untilDay(snapshot, 2);
   const two = untilDay(recovered.state, 2);
@@ -145,9 +162,7 @@ test("a household weighs actual rent and job openings when moving and receives i
   const lot = (state) => economy(state).properties["ankara:room"];
   assert.equal(lot(s).lease.tenant, "resident:ankara:0");
   const rival = economy(s).firms["izmir:repair"];
-  rival.workers = 2;
-  for (const id of ["resident:ankara:1", "resident:ankara:2"])
-    economy(s).residents[id].life.health = 0;
+  rival.workers = 3;
   s.expansion.world.regions.ankara.employment = 60;
   s.expansion.world.regions.ankara.price = 150;
   s.expansion.world.regions.izmir.employment = 140;
@@ -168,9 +183,13 @@ test("a household weighs actual rent and job openings when moving and receives i
   assert.equal(resident(stayed).life.region, "ankara");
   assert.equal(lot(moved).lease, null);
   assert.equal(lot(moved).owner, "household");
-  assert.ok(npcTotal(moved) > npcTotal(stayed) - 620, `the ${deposit} TL deposit is returned`);
-  assert.equal(moved.expansion.world.regions.ankara.exits, 1);
-  assert.equal(moved.expansion.world.regions.izmir.arrivals, 1);
+  const route = routeBetween(moved, "ankara:cankaya", "izmir:konak:work", {
+    actor: "npc", at: moved.time - (moved.time % 1440) + 8 * 60,
+  });
+  assert.ok(route.available);
+  assert.ok(npcTotal(moved) > npcTotal(stayed) - route.cost, `the ${deposit} TL deposit is returned`);
+  assert.ok(moved.expansion.world.regions.ankara.exits >= 1);
+  assert.ok(moved.expansion.world.regions.izmir.arrivals >= 1);
   assert.equal(
     events(moved, "resident.migration").filter(({ subject }) => subject === "resident:ankara:0")
       .length,
@@ -361,13 +380,15 @@ test("municipal training costs money, raises a skill and unlocks a real job", ()
   });
   const deprived = structuredClone(opening);
   deprived.expansion.institutions.regions.ankara.treasury = 1_000_000_000;
-  const trained = untilDay(opening, 7);
+  const beforeClass = untilDay(opening, 6);
+  const fee = residentServiceQuote(beforeClass, "ankara", "skills", "ankara:cankaya").fee;
+  const trained = untilDay(beforeClass, 7);
   const noClass = untilDay(deprived, 7);
   assert.equal(resident(trained).life.skill, 36);
   assert.equal(resident(trained).life.employer, "ankara:repair");
   assert.equal(resident(noClass).life.skill, 32);
   assert.equal(resident(noClass).life.employer, "");
-  assert.equal(npcTotal(noClass) - npcTotal(trained), 90);
+  assert.equal(npcTotal(noClass) - npcTotal(trained), fee);
   assert.equal(
     events(trained, "resident.training").filter(({ subject }) => subject === "resident:ankara:0")
       .length,

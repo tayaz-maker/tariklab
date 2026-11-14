@@ -20,6 +20,8 @@ jobs:
         run: git fetch --no-tags --depth=1 origin d695119186cad42c079a911a60c372f201b3b64b
       - name: Fetch immutable prior empty-head protocol reference
         run: git fetch --no-tags --depth=1 origin b0c25495a7c162eb4a653e32c0d999144aefb300
+      - name: Fetch immutable released Living Cities reference
+        run: git fetch --no-tags --depth=1 origin 2b1ede2be7466348e3933eba26b83a3831241bce
       - uses: ./.github/actions/ci-node
       - name: Deterministic simulation and save recovery
         env:
@@ -48,6 +50,13 @@ jobs:
         run: node scripts/boardworld-society-browser.mjs --serve .output/public
       - name: Optional generations module loading, save isolation and stale writes
         run: node scripts/boardworld-expansion-browser.mjs .output/public
+      - name: Living World 2 real city, housing, institution and generation journeys
+        run: |
+          node scripts/boardworld-lw2-city-browser.mjs .output/public
+          node scripts/boardworld-lw2-simulation-browser.mjs .output/public
+          node scripts/boardworld-lw2-generation-browser.mjs .output/public
+      - name: Released v7 native browser writer isolation
+        run: node scripts/boardworld-lw2-legacy-browser.mjs .output/public
       - name: Gold native cross-tab transaction and import races
         run: |
           node scripts/boardworld-stale-browser.mjs --serve .output/public
@@ -76,3 +85,5 @@ jobs:
             ${{ runner.temp }}/screenshots/boardworld-legacy-tab
             ${{ runner.temp }}/screenshots/boardworld-legacy-slot
             ${{ runner.temp }}/screenshots/boardworld-legacy-bootstrap
+            ${{ runner.temp }}/screenshots/boardworld-lw2-city
+            ${{ runner.temp }}/screenshots/boardworld-lw2-generation

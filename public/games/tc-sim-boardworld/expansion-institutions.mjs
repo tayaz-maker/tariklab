@@ -1,6 +1,7 @@
 import { shape } from "./expansion-world.mjs";
 import { COURSES, NPCS } from "./content.mjs";
 import { getSocietyDistrictEffects } from "./society-systems.mjs";
+import { underworldDistrictModifiers } from "./expansion-underworld.mjs";
 import { REGIONS } from "./expansion-world.mjs";
 
 const REGION_IDS = Object.keys(REGIONS);
@@ -334,6 +335,16 @@ export function creditMunicipalTax(s, region, amount) {
   budget.treasury += accepted;
   return accepted;
 }
+// Resident fees use the same municipal budget and active policy as player services.
+export function residentServiceQuote(s, region, service, districtId) {
+  const budget = stateOf(s)?.regions[region];
+  if (!budget || (service !== "health" && service !== "skills")) return null;
+  const subsidy = budget.policy === service && budget.policyUntil >= dayOf(s);
+  const delay = underworldDistrictModifiers(s, districtId).serviceDelay;
+  const fee = (subsidy ? 90 : 180) + delay;
+  return budget.treasury <= MAX_MONEY - fee ? { fee } : null;
+}
+
 function event(s, api, type, subject, message) {
   api.expansionEvent(s, type, subject, message);
   return message;

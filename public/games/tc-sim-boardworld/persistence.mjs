@@ -26,6 +26,7 @@ const CURRENT_VERSION = 6;
 const EXPANSION_KEY = "tariklab.boardworld.v7";
 const EXPANSION_BACKUP_KEY = `${EXPANSION_KEY}.backup`;
 const LIVING_KEY = `${EXPANSION_KEY}.living`;
+const WORLD2_KEY = `${EXPANSION_KEY}.living-world-2`;
 const LEGACY_SLOTS = [
   [LEGACY_V5_SAVE_KEY, [5]],
   [LEGACY_V5_BACKUP_KEY, [5]],
@@ -46,6 +47,8 @@ const LEGACY_SLOTS = [
 const MAX_BYTES = 2_000_000;
 const FORMAT = "tc-sim-boardworld";
 const LIVING_FORMAT = `${FORMAT}-living-dictionary-1`;
+const WORLD2_FORMAT = `${FORMAT}-living-world-2-dictionary-1`;
+const world2State = (state) => state.version === EXPANSION_SAVE_VERSION && state.expansion?.livingWorld === 2;
 const livingState = (state) => state.version === EXPANSION_SAVE_VERSION &&
   (state.expansion?.districts !== undefined || state.expansion?.underworld !== undefined);
 // Preserve the exact imported envelope outside simulation state. The original
@@ -114,7 +117,7 @@ function valid(state) {
 function encode(state, version, compact = false) {
   const payload = JSON.stringify(compact ? packSave(state) : state);
   const encoded = JSON.stringify({
-    format: livingState(state) ? LIVING_FORMAT : compact ? `${FORMAT}-dictionary-1` : FORMAT,
+    format: world2State(state) ? WORLD2_FORMAT : livingState(state) ? LIVING_FORMAT : compact ? `${FORMAT}-dictionary-1` : FORMAT,
     version,
     checksum: checksum(payload),
     payload,
@@ -150,8 +153,8 @@ function readEnvelope(text) {
     !Object.keys(envelope).every((key) =>
       ["format", "version", "checksum", "payload"].includes(key),
     ) ||
-    ![FORMAT, `${FORMAT}-dictionary-1`, LIVING_FORMAT].includes(envelope.format) ||
-    (envelope.format === LIVING_FORMAT && envelope.version !== EXPANSION_SAVE_VERSION) ||
+    ![FORMAT, `${FORMAT}-dictionary-1`, LIVING_FORMAT, WORLD2_FORMAT].includes(envelope.format) ||
+    ([LIVING_FORMAT, WORLD2_FORMAT].includes(envelope.format) && envelope.version !== EXPANSION_SAVE_VERSION) ||
     ![1, 2, 3, 4, 5, CURRENT_VERSION, EXPANSION_SAVE_VERSION].includes(envelope.version) ||
     typeof envelope.payload !== "string" ||
     envelope.checksum !== checksum(envelope.payload)
@@ -172,13 +175,15 @@ function decode(text) {
   // legacy record must never gain legitimacy from new-schema defaults.
   const parsed = JSON.parse(envelope.payload);
   const original = envelope.format === FORMAT ? parsed : unpackSave(parsed);
-  if (livingState(original) && envelope.format !== LIVING_FORMAT) throw new Error("capability");
+  if (world2State(original) ? envelope.format !== WORLD2_FORMAT :
+    envelope.format === WORLD2_FORMAT || (livingState(original) && envelope.format !== LIVING_FORMAT))
+    throw new Error("capability");
   if (!valid(original) || original.version !== envelope.version) throw new Error("state");
   const migrated = envelope.version < CURRENT_VERSION;
-  const state = migrated ? migrateState(original) : original;
+  const state = migrated || original.version === EXPANSION_SAVE_VERSION ? migrateState(original) : original;
   if (
     (state.version !== CURRENT_VERSION && state.version !== EXPANSION_SAVE_VERSION) ||
-    (migrated && !valid(state))
+    ((migrated || original.version === EXPANSION_SAVE_VERSION) && !valid(state))
   )
     throw new Error("migration");
   if (migrated) importedLegacy.set(state, { version: envelope.version, bytes: text });
@@ -576,13 +581,14 @@ export async function loadGameLocked(
 function expansionToken(storage) {
   // Older cached runtimes preserve unknown durable slots but cannot simulate
   // these domains. Keep their v7 branch separate from the canonical living world.
+  const world2 = storage.getItem(WORLD2_KEY) !== null || storage.getItem(`${WORLD2_KEY}.backup`) !== null;
   const living = storage.getItem(LIVING_KEY) !== null ||
     storage.getItem(`${LIVING_KEY}.backup`) !== null;
-  const key = living ? LIVING_KEY : EXPANSION_KEY;
+  const key = world2 ? WORLD2_KEY : living ? LIVING_KEY : EXPANSION_KEY;
   return {
     key,
     primary: storage.getItem(key),
-    backup: storage.getItem(living ? `${LIVING_KEY}.backup` : EXPANSION_BACKUP_KEY),
+    backup: storage.getItem(`${key}.backup`),
   };
 }
 
@@ -590,7 +596,7 @@ const EXPANSION_READ_ERROR = "Nesiller kaydı okunamadı; kayıt dosyasıyla kur
 
 function probeExpansion(storage) {
   const token = expansionToken(storage);
-  return { token, saved: token.key === LIVING_KEY || Boolean(token.primary || token.backup), state: null };
+  return { token, saved: token.key !== EXPANSION_KEY || Boolean(token.primary || token.backup), state: null };
 }
 
 // Only the neutral authoritative-slot probe belongs to the Gold bootstrap.
@@ -599,7 +605,7 @@ const expansionPersistence = () => import("./expansion-persistence.mjs");
 // Private adapter tuple shared only with expansion-persistence.mjs.
 const expansionIo = [
   probeExpansion, importGame, exportGame, browserTransaction, writeChecked, conflict,
-  SAVE_LOCK, LOCK_WARNING, LIVING_KEY, livingState,
+  SAVE_LOCK, LOCK_WARNING, WORLD2_KEY, world2State,
 ];
 
 export async function loadExpansionLocked(

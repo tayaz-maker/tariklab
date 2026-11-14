@@ -4,7 +4,11 @@ import { BUSINESS_TYPES } from "./deep-content.mjs";
 import { closeHousehold, syncLifeHousing } from "./life-systems.mjs";
 import { SOCIETY_COPY } from "./society-content.mjs";
 import { REGIONS as CITIES, migratePopulation } from "./expansion-world.mjs";
-import { getDistrictSimulation, districtForLot } from "./expansion-districts.mjs";
+import { getDistrictSimulation, getPlace } from "./expansion-districts.mjs";
+import { residentServiceQuote } from "./expansion-institutions.mjs";
+import {
+  DISTRICTS, LOCATIONS, cityDistricts, districtById, hubDistrict, normalizeDistrictId, routeBetween,
+} from "./expansion-geography.mjs";
 
 const DAY = 1440;
 const MAX = 1_000_000_000;
@@ -13,13 +17,15 @@ const HOUSEHOLD = "household";
 const MARKET = "market";
 const homes = HOMES.slice(1);
 const citizens = new Set(NPCS.map(({ id }) => id));
-const regionHomes = REGIONS.flatMap((region, regionIndex) =>
+const legacyHomes = REGIONS.flatMap((region, regionIndex) =>
   homes.map((home, index) => ({
     id: `${region}:${home.id}`,
     name: `${CITIES[region].name} · ${["Oda", "Stüdyo", "Daire"][index]}`,
     region,
     anchor: home.id,
-    district: home.district,
+    districtId: region === "istanbul" ? home.district
+      : region === "ankara" ? "ankara:cankaya"
+      : index === 0 ? "izmir:konak" : "izmir:bornova",
     base: ([47000, 68000, 97000][index] * [100, 79, 90][regionIndex]) / 100,
     rent: Math.round((home.rent * [76, 62, 69][regionIndex]) / 100),
     index,
@@ -34,25 +40,19 @@ const residentNames = [
   "Ece Uçar",
   "Bora Kaya",
 ];
-const regionalResidents = secondaryRegions.flatMap((region) =>
+const legacyResidents = secondaryRegions.flatMap((region) =>
   BUSINESS_TYPES.map((type, index) => ({
     id: `resident:${region}:${index}`,
     region,
     type,
   })),
 );
-const regionalIds = new Set(regionalResidents.map(({ id }) => id));
-const commercialDistrict = (s, region, type, player = false) =>
-  player && region === "istanbul"
-    ? s.deep.business.location
-    : districtForLot(`${region}:${homes[BUSINESS_TYPES.findIndex(({ id }) => id === type.id)].id}`);
-const commercialTerms = (s, region, type, player = false) =>
-  getDistrictSimulation(s, commercialDistrict(s, region, type, player));
-const competitors = REGIONS.flatMap((region, city) =>
+const legacyFirms = REGIONS.flatMap((region, city) =>
   BUSINESS_TYPES.map((type, index) => ({
     id: `${region}:${type.id}`,
     region,
     type,
+    districtId: legacyHomes[city * homes.length + index].districtId,
     name: [
       ["Moda Tamir", "Pera Dijital", "Kuzguncuk Eğitim"],
       ["Çankaya Tamir", "Ostim Dijital", "Bahçeli Eğitim"],
@@ -60,11 +60,50 @@ const competitors = REGIONS.flatMap((region, city) =>
     ][city][index],
   })),
 );
+const newDistricts = DISTRICTS.filter((d) => !legacyHomes.some((lot) => lot.districtId === d.id));
+const typeForTrait = { commerce: 1, services: 1, culture: 2, heritage: 2, residential: 2, industry: 0 };
+const districtFirms = newDistricts.map(({ id, regionId, name, trait }) => {
+  const index = typeForTrait[trait];
+  const type = BUSINESS_TYPES[index];
+  return {
+    id: `${id}:${type.id}`, type, region: regionId, districtId: id,
+    name: `${name} · ${["Onarım Atölyesi", "Dijital Hizmet", "Öğrenme Atölyesi"][index]}`,
+  };
+});
+const districtHomes = newDistricts.map(({ id, name, regionId, trait }, index) => ({
+  id: `${id}:room`, name: `${name} · Oda`, region: regionId, districtId: id, anchor: "room",
+  base: (trait === "commerce" ? 52000 : trait === "residential" ? 39000 : 45000) + index * 80,
+  rent: trait === "commerce" ? 3750 : trait === "residential" ? 2750 : 3200,
+  index: index + 3,
+}));
+const districtResidents = districtFirms.map(({ districtId, region, type, id }) => ({
+  id: `resident:${districtId}`, region, type, districtId, employer: id,
+}));
+const regionHomes = [...legacyHomes, ...districtHomes];
+const regionalResidents = [...legacyResidents, ...districtResidents];
+const competitors = [...legacyFirms, ...districtFirms];
+const lotsById = new Map(regionHomes.map((lot) => [lot.id, lot]));
+const residentIndex = new Map(regionalResidents.map((resident, index) => [resident.id, index]));
+const firmsById = new Map(competitors.map((firm) => [firm.id, firm]));
+const firmsInDistrict = new Map(DISTRICTS.map(({ id }) =>
+  [id, competitors.filter((firm) => firm.districtId === id)]));
+const lotsInDistrict = new Map(DISTRICTS.map(({ id }) =>
+  [id, regionHomes.filter((lot) => lot.districtId === id)]));
+const venuesByDistrict = new Map(DISTRICTS.map(({ id }) => [id, LOCATIONS.filter((v) => v.districtId === id)]));
+const commercialTerms = (s, region, type) => getDistrictSimulation(s,
+  economy(s).business?.districtId ?? (region === "istanbul"
+    ? s.deep.business.location : firmsById.get(`${region}:${type.id}`).districtId));
+
+export const economyLotDistrict = (id) => lotsById.get(id)?.districtId ?? null;
+export const economyFirmDistrict = (id) => firmsById.get(id)?.districtId ?? null;
+export const economyHomeDistrict = (s) => economyLotDistrict(s.expansion?.economy.home);
+
 const residentAge = (life, today) => Math.floor((today - life.born) / 30);
-const workday = (d) => (d - 2) % 7 < 5;
+const workday = (d) => (d - 1) % 7 < 5;
+const districtIds = new Set(DISTRICTS.map(({ id }) => id));
 const day = (s) => Math.floor(s.time / DAY) + 1;
 const regionOf = (s) => s.expansion.world.region;
-const economy = (s) => s.expansion.economy;
+const economy = (s) => s.expansion?.economy;
 const funds = (s) => s.bank + s.cash;
 const asMoney = (amount) => Math.min(MAX, Math.max(0, Math.round(amount)));
 const bound = (amount, min, max) => Math.min(max, Math.max(min, amount));
@@ -72,7 +111,7 @@ const bound = (amount, min, max) => Math.min(max, Math.max(min, amount));
 function marketIndex(s, region, key, low = 50, high = 200) {
   return bound(s.expansion.world.regions[region]?.[key] ?? 100, low, high);
 }
-const lotPressure = (s, lot) => getDistrictSimulation(s, districtForLot(lot.id)).rentPressure;
+const lotPressure = (s, lot) => getDistrictSimulation(s, lot.districtId).rentPressure;
 const propertyValue = (s, lot, p) =>
   Math.round((lot.base * (65 + p.condition * 0.35) * lotPressure(s, lot)) / 10000);
 const propertyRent = (s, lot, p) =>
@@ -98,47 +137,97 @@ const npcFunds = (n) => n.cash + n.savings;
 const businessRecord = (s, value, label, api) => api.record(s, label, value, "business");
 const event = (s, api, type, id, detail) => api.expansionEvent?.(s, type, id, detail);
 const playerProperty = (s, lot) => economy(s).properties[lot.id];
-const isResident = (id) => citizens.has(id) || regionalIds.has(id);
+const isResident = (id) => citizens.has(id) || residentIndex.has(id);
 const validOwner = (id) => id === MARKET || id === HOUSEHOLD || isResident(id);
 const residentAccount = (s, id) => (citizens.has(id) ? s.deep.npcs[id] : economy(s).residents[id]);
 
-function residentLife(s, resident, index = regionalResidents.indexOf(resident)) {
+function residentLife(s, resident, index = residentIndex.get(resident.id)) {
   const n = residentAccount(s, resident.id);
   if (n.life) return n.life;
-  const employer = `${resident.region}:${resident.type.id}`;
+  const employer = resident.employer ?? `${resident.region}:${resident.type.id}`;
   return {
     region: resident.region,
     employer:
       n.employment === "employed" && economy(s).firms[employer].status === "open" ? employer : "",
     born: economy(s).lastDay - (26 + ((s.seed + index * 3) % 16)) * 30,
     generation: 1,
-    health: 82 + index * 2,
+    health: 82 + (index % 6) * 2,
     skill: resident.type.required,
   };
 }
 
 function residentName(index, generation) {
-  if (generation === 1) return residentNames[index];
-  const first = ["Umay", "Yağız", "Aslı", "Selim", "Elif", "Arda"];
-  const surname = residentNames[index].split(" ")[1];
-  return `${first[(index + generation) % first.length]} ${surname}`;
+  if (generation === 1 && index < residentNames.length) return residentNames[index];
+  const first = ["Umay", "Yağız", "Aslı", "Selim", "Elif", "Arda", "Dilan", "Mete", "İrem"];
+  const surnames = ["Aydın", "Yalçın", "Koç", "Akın", "Uçar", "Kaya", "Işık"];
+  return `${first[(index + generation) % first.length]} ${surnames[index % surnames.length]}`;
 }
 
 function regionalHome(s, id) {
   return regionHomes.find((lot) => {
     const p = playerProperty(s, lot);
-    return p.lease?.tenant === id || (p.owner === id && !p.lease);
+    return p && (p.lease?.tenant === id || (p.owner === id && !p.lease));
   });
 }
 
 function residentProperty(s, id) {
-  return regionHomes.find((lot) => playerProperty(s, lot).owner === id);
+  return regionHomes.find((lot) => playerProperty(s, lot)?.owner === id);
 }
 
 function staffIds(s, firmId) {
-  return regionalResidents
-    .filter((resident) => residentLife(s, resident).employer === firmId)
-    .map(({ id }) => id);
+  return regionalResidents.flatMap((resident) => {
+    if (!residentAccount(s, resident.id)) return [];
+    return residentLife(s, resident).employer === firmId ? [resident.id] : [];
+  });
+}
+
+function playerPosition(s, firmId) {
+  const job = s.expansion.districts?.job;
+  if (job?.firmId !== firmId || job.personId !== s.expansion.playerId) return 0;
+  return Number(Boolean(s.expansion.family?.people.some((row) =>
+    row.id === job.personId && row.died === null && !row.retired)));
+}
+
+function vacancies(s, firm, workerCount) {
+  const account = economy(s).firms[firm.id];
+  if (account?.status !== "open") return 0;
+  return Math.max(0, account.workers - workerCount - playerPosition(s, firm.id));
+}
+
+export function getDistrictEmployers(s, districtId) {
+  return (firmsInDistrict.get(normalizeDistrictId(districtId)) ?? []).flatMap((entry) => {
+    const firm = economy(s)?.firms[entry.id];
+    return firm ? [{ ...entry, type: entry.type.id, firm, vacancies: vacancies(s, entry, staffIds(s, entry.id).length) }] : [];
+  });
+}
+
+export function districtEconomyMetrics(s, districtId) {
+  const id = normalizeDistrictId(districtId);
+  const firms = firmsInDistrict.get(id) ?? [];
+  const e = economy(s);
+  let localFirms = 0, jobOpenings = 0, materialStock = 0, closing = 0;
+  for (const entry of firms) {
+    const firm = e?.firms[entry.id];
+    if (!firm) continue;
+    if (firm.status === "closed") {
+      closing++;
+      continue;
+    }
+    localFirms++;
+    materialStock += firm.stock;
+    jobOpenings += vacancies(s, entry, staffIds(s, entry.id).length);
+  }
+  const lots = lotsInDistrict.get(id) ?? [];
+  let occupied = 0;
+  for (const lot of lots) {
+    const p = e?.properties[lot.id];
+    if (p && (isResident(p.lease?.tenant) || isResident(p.owner))) occupied++;
+  }
+  return {
+    localFirms, jobOpenings, materialStock,
+    rentAdjustment: occupied * 3 - closing * 3,
+    demandAdjustment: occupied * 2 - closing * 3,
+  };
 }
 
 function spendNpc(n, amount) {
@@ -169,6 +258,7 @@ function neutralHousing(s, id, api, relocate = true) {
   const home = HOMES.find((home) => home.id === id);
   if (relocate) {
     if (s.city.venue) s.city.venue = "";
+    if (s.expansion.districts) s.expansion.districts.place = null;
     s.location = home.district;
   }
   api.document?.(
@@ -210,6 +300,10 @@ function occupy(s, lot, api) {
   vacate(s, api, false);
   neutralHousing(s, lot.anchor, api);
   economy(s).home = lot.id;
+  if (s.location !== lot.districtId || lot.region !== "istanbul") {
+    const place = s.expansion.districts ??= { place: null, job: null, visits: {}, visitDay: day(s), contacts: {} };
+    place.place = { districtId: lot.districtId, venueId: null };
+  }
 }
 
 function takeTitle(s, lot, amount, down, api) {
@@ -246,17 +340,25 @@ function sell(s, lot, p, api, foreclosure = false) {
   return `Tapu devredildi, kredi kapandı. Net satış ${residual} TL.`;
 }
 
+function residentDistrict(s, resident, life, home = regionalHome(s, resident.id)) {
+  const saved = economy(s).activity?.[resident.id]?.districtId ?? resident.districtId;
+  if (home && home.region === life.region) return home.districtId;
+  if (districtById(saved)?.regionId === life.region) return saved;
+  return life.employer ? firmsById.get(life.employer)?.districtId : hubDistrict(life.region);
+}
+
 function candidateResidents(s, lot) {
-  if (lot.region === "istanbul")
-    return NPCS.filter(
-      ({ id }) => s.deep.npcs[id].home === lot.district && s.life.household?.memberId !== id,
-    );
-  return regionalResidents.flatMap((resident, index) => {
+  const gold = lot.region === "istanbul" && lot.index < 3
+    ? NPCS.filter(({ id }) =>
+        s.deep.npcs[id].home === lot.districtId && s.life.household?.memberId !== id)
+    : [];
+  return gold.concat(regionalResidents.flatMap((resident, index) => {
+    if (!residentAccount(s, resident.id)) return [];
     const life = residentLife(s, resident, index);
-    return life.region === lot.region
+    return residentDistrict(s, resident, life) === lot.districtId
       ? [{ id: resident.id, name: residentName(index, life.generation) }]
       : [];
-  });
+  }));
 }
 
 function availableTenant(s, lot) {
@@ -274,44 +376,61 @@ function availableTenant(s, lot) {
   });
 }
 
+function newProperty(s, lot) {
+  return { owner: MARKET, condition: 82 + ((s.seed + lot.index) % 17), mortgage: null, lease: null };
+}
+
+function newFirm(firm, index) {
+  return {
+    cash: 4200 + 100 * index,
+    stock: 6,
+    workers: index < legacyFirms.length ? 2 : 3,
+    reputation: 45,
+    price: firm.type.unitPrice,
+    revenue: 0,
+    costs: 0,
+    status: "open",
+    failed: 0,
+    reopenDay: 0,
+    closed: 0,
+  };
+}
+
+function newResident(index) {
+  return { cash: 7000 + index * 250, savings: 6000 + index * 300, debt: 0, employment: "employed" };
+}
+
 export function initEconomy(s) {
   s.expansion.economy = {
     lastDay: day(s),
     home: "",
-    properties: Object.fromEntries(
-      regionHomes.map((lot) => [
-        lot.id,
-        { owner: MARKET, condition: 82 + ((s.seed + lot.index) % 17), mortgage: null, lease: null },
-      ]),
-    ),
+    properties: Object.fromEntries(legacyHomes.map((lot) => [lot.id, newProperty(s, lot)])),
     business: s.deep.business ? businessState(s, s.deep.business.revenue) : null,
-    residents: Object.fromEntries(
-      regionalResidents.map((resident, i) => [
-        resident.id,
-        { cash: 7000 + i * 250, savings: 6000 + i * 300, debt: 0, employment: "employed" },
-      ]),
-    ),
-    firms: Object.fromEntries(
-      competitors.map((firm, index) => [
-        firm.id,
-        {
-          cash: 4200 + 100 * index,
-          stock: 6,
-          workers: 1,
-          reputation: 45,
-          price: firm.type.unitPrice,
-          revenue: 0,
-          costs: 0,
-          status: "open",
-          failed: 0,
-          reopenDay: 0,
-          closed: 0,
-        },
-      ]),
-    ),
+    residents: Object.fromEntries(legacyResidents.map(({ id }, index) => [id, newResident(index)])),
+    firms: Object.fromEntries(legacyFirms.map((firm, index) => [firm.id, newFirm(firm, index)])),
   };
-  for (const [index, resident] of regionalResidents.entries())
-    residentAccount(s, resident.id).life = residentLife(s, resident, index);
+  migrateEconomy(s);
+}
+
+export function migrateEconomy(s) {
+  const e = s.expansion?.economy;
+  if (!e || Object.hasOwn(e, "activity")) return;
+  if (e.business && !e.business.districtId) {
+    e.business.districtId = e.business.region === "istanbul" ? s.deep.business.location
+      : firmsById.get(`${e.business.region}:${s.deep.business.id}`).districtId;
+  }
+  for (const lot of districtHomes) e.properties[lot.id] = newProperty(s, lot);
+  districtFirms.forEach((firm, index) => { e.firms[firm.id] = newFirm(firm, index + legacyFirms.length); });
+  districtResidents.forEach(({ id }, index) => { e.residents[id] = newResident(index + legacyResidents.length); });
+  for (const resident of regionalResidents) {
+    const n = residentAccount(s, resident.id);
+    n.life ??= residentLife(s, resident);
+    if (!n.life.employer) n.employment = "searching";
+  }
+  e.activity = Object.fromEntries(regionalResidents.map((resident) => {
+    const life = residentLife(s, resident);
+    return [resident.id, { districtId: residentDistrict(s, resident, life), trip: null, contacts: {}, history: [] }];
+  }));
 }
 
 export function economyActions(s, api) {
@@ -334,16 +453,20 @@ export function economyActions(s, api) {
     });
   };
   const local = regionOf(s);
+  const place = getPlace(s);
   for (const lot of regionHomes) {
     const propertyAction = (id, label, detail, ...terms) =>
       add(`${id}:${lot.id}`, `${lot.name} · ${label}`, detail, "wallet", ...terms);
     const p = playerProperty(s, lot);
-    if (p.owner !== HOUSEHOLD && lot.region !== local && e.home !== lot.id) continue;
+    if (!p || (p.owner !== HOUSEHOLD && e.home !== lot.id &&
+      (lot.region !== local || (lot.index >= 3 && place.districtId !== lot.districtId)))) continue;
     const value = propertyValue(s, lot, p);
     const monthly = propertyRent(s, lot, p);
     const sameHome = e.home === lot.id;
     const occupied = p.lease ? "Konut kirada." : "";
-    const away = lot.region !== local ? "Konutun şehrine git." : "";
+    const away = lot.region !== local ? "Konutun şehrine git."
+      : lot.index >= 3 && place.districtId !== lot.districtId
+        ? "Konutun ilçesine git." : "";
     const cohabiting = s.life.household ? "Önce ev paylaşımını sonlandır." : "";
     if (p.owner !== HOUSEHOLD) {
       if (sameHome) {
@@ -559,6 +682,14 @@ function settleProperties(s, api) {
           residentAccount(s, candidate.id).savings -= propertyValue(s, lot, p);
           p.owner = candidate.id;
           event(s, api, "property.npc-purchase", lot.id, candidate.name);
+        } else if (lot.index >= 3 && lot.index % 3 === 0 && d >= 45) {
+          const tenant = availableTenant(s, lot);
+          const rent = propertyRent(s, lot, p);
+          if (tenant) {
+            spendNpc(residentAccount(s, tenant.id), rent * 2);
+            p.lease = leaseTerms(s, tenant.id, rent);
+            event(s, api, "property.lease", lot.id, `${tenant.name} · ${rent} TL/ay.`);
+          }
         }
       } else if (isResident(p.owner)) {
         const n = residentAccount(s, p.owner);
@@ -576,9 +707,9 @@ export function economyNpcHousingCost(s, id, original) {
   if (!s.expansion?.economy) return original;
   const contract = regionHomes.find((lot) => {
     const p = playerProperty(s, lot);
-    return (
+    return p && (
       p.lease?.tenant === id ||
-      (p.owner === id && !p.lease && lot.district === s.deep.npcs[id]?.home)
+      (p.owner === id && !p.lease && lot.districtId === s.deep.npcs[id]?.home)
     );
   });
   if (!contract) return original;
@@ -589,6 +720,7 @@ export function economyNpcHousingCost(s, id, original) {
 function businessState(s, baselineRevenue = 0) {
   return {
     region: regionOf(s),
+    districtId: getPlace(s).districtId,
     price: 100,
     supplier: "local",
     workers: 0,
@@ -612,14 +744,14 @@ export function regionalShift(s, region, wage) {
   return competitors.find(
     ({ id, region: local }) =>
       local === region &&
-      e.firms[id].status === "open" &&
+      e.firms[id]?.status === "open" &&
       e.firms[id].cash >= wage + wageRate(s, region) * e.firms[id].workers * 4,
   );
 }
 
 function fundedOrder(s, firm) {
   const account = economy(s).firms[firm.id];
-  if (account.status !== "open") return null;
+  if (account?.status !== "open") return null;
   const price = Math.max(
     1,
     Math.round((firm.type.unitCost * marketIndex(s, firm.region, "price") * 1.12) / 100),
@@ -640,8 +772,10 @@ function fundedOrder(s, firm) {
 // Orders are a quote against the same finite stock/cash used by daily commerce.
 // Fulfilment debits the buyer only; the caller transfers its own stock and credits
 // the returned proceeds once. There is no second firm account.
-export function underworldOrder(s, region, index = 0) {
-  const local = competitors.filter((firm) => firm.region === region);
+export function underworldOrder(s, region, index = 0, districtId) {
+  const local = districtId
+    ? firmsInDistrict.get(normalizeDistrictId(districtId)) ?? []
+    : legacyFirms.filter((firm) => firm.region === region);
   if (!local.length || !integer(index)) return null;
   for (let offset = 0; offset < local.length; offset++) {
     const order = fundedOrder(s, local[(index + offset) % local.length]);
@@ -651,7 +785,7 @@ export function underworldOrder(s, region, index = 0) {
 }
 
 export function fulfillUnderworldOrder(s, firmId, units, price) {
-  const firm = competitors.find(({ id }) => id === firmId);
+  const firm = firmsById.get(firmId);
   if (!firm || !integer(units, 1, 3)) return 0;
   const quote = fundedOrder(s, firm);
   if (!quote || price !== quote.price || units > quote.capacity) return 0;
@@ -669,16 +803,17 @@ function suppliers(s, e, type) {
       ? Math.round((type.unitCost * 0.86 * marketIndex(s, e.region, "price")) / 100)
       : Math.round((type.unitCost * marketIndex(s, e.region, "price")) / 100);
   return Math.round(
-    (base * (100 + commercialTerms(s, e.region, type, true).serviceDelay / 5)) / 100,
+    (base * (100 + commercialTerms(s, e.region, type).serviceDelay / 5)) / 100,
   );
 }
 
 function priceAdjustment(s, e, type) {
-  const competitor = economy(s).firms[`${e.region}:${type.id}`];
-  const benchmark = competitor.status === "open" ? competitor.price : type.unitPrice;
+  const local = firmsInDistrict.get(e.districtId) ?? [];
+  const competitor = economy(s).firms[local.find((firm) => firm.type === type)?.id ?? `${e.region}:${type.id}`];
+  const benchmark = competitor?.status === "open" ? competitor.price : type.unitPrice;
   const price = Math.round((type.unitPrice * e.price * marketIndex(s, e.region, "price")) / 10000);
   const demand = Math.round(
-    (benchmark * commercialTerms(s, e.region, type, true).demand) / Math.max(1, price),
+    (benchmark * commercialTerms(s, e.region, type).demand) / Math.max(1, price),
   );
   return { price, demand: bound(demand, 45, 145) };
 }
@@ -929,9 +1064,23 @@ function residentWage(s, region, type, skill) {
 function settleCompetitors(s, api) {
   const d = day(s);
   const e = economy(s);
-  for (const { id, region, type, name } of competitors) {
+  const workersByFirm = new Map();
+  const localStress = new Map();
+  for (const resident of regionalResidents) {
+    const n = e.residents[resident.id];
+    if (n.life.employer) {
+      const staff = workersByFirm.get(n.life.employer) ?? [];
+      staff.push(resident.id);
+      workersByFirm.set(n.life.employer, staff);
+    }
+    if (n.debt > npcFunds(n)) {
+      const id = residentDistrict(s, resident, n.life, null);
+      localStress.set(id, (localStress.get(id) ?? 0) + 1);
+    }
+  }
+  for (const { id, region, type, name, districtId } of competitors) {
     const firm = e.firms[id];
-    const terms = commercialTerms(s, region, type);
+    const terms = getDistrictSimulation(s, districtId);
     const demand = terms.demand;
     if (firm.status === "closed") {
       if (d < firm.reopenDay || demand < 85) continue;
@@ -939,7 +1088,7 @@ function settleCompetitors(s, api) {
       Object.assign(firm, {
         cash: type.startup,
         stock: 0,
-        workers: 1,
+        workers: 2,
         reputation: 35,
         failed: 0,
         revenue: 0,
@@ -951,6 +1100,7 @@ function settleCompetitors(s, api) {
     }
     const player =
       e.business?.region === region &&
+      (e.business.districtId ?? firmsById.get(`${region}:${type.id}`).districtId) === districtId &&
       s.deep.business?.id === type.id &&
       s.deep.business.status === "active" &&
       s.deep.business.clients > 0;
@@ -959,14 +1109,20 @@ function settleCompetitors(s, api) {
     const productionCost = Math.round(
       (type.unitCost * localIndex * (100 + terms.serviceDelay / 5)) / 10000,
     );
-    const staff = staffIds(s, id);
+    const staff = workersByFirm.get(id) ?? [];
     const shift = region === "istanbul" || workday(d);
-    const scheduled = staff
-      .map((employee) => e.residents[employee])
-      .filter(({ life }) => shift && life.health >= 42 && residentAge(life, d) < 67);
-    const untracked = shift ? firm.workers - staff.length : 0;
+    const scheduled = staff.flatMap((employee) => {
+      const n = e.residents[employee];
+      if (!shift || n.life.health < 42 || residentAge(n.life, d) >= 67) return [];
+      const from = residentDistrict(s, regionalResidents[residentIndex.get(employee)], n.life);
+      const route = from === districtId ? { available: true, cost: 0, minutes: 0 }
+        : routeForResident(s, from, workSite(districtId), 8);
+      return route?.available && route.minutes <= 100 && npcFunds(n) >= 2 * route.cost
+        ? [{ n, fare: 2 * route.cost }] : [];
+    });
+    const untracked = shift ? Math.max(0, firm.workers - staff.length - playerPosition(s, id)) : 0;
     const workforce = untracked + scheduled.length;
-    const payroll = scheduled.map(({ life }) => residentWage(s, region, type, life.skill));
+    const payroll = scheduled.map(({ n }) => residentWage(s, region, type, n.life.skill));
     const overhead =
       payroll.reduce((sum, wage) => sum + wage, untracked * wageRate(s, region)) + 65;
     const targetPrice = Math.round((type.unitPrice * localIndex) / 100);
@@ -982,16 +1138,12 @@ function settleCompetitors(s, api) {
     firm.cash -= production * productionCost;
     firm.costs = asMoney(firm.costs + production * productionCost);
     // The untracked population provides external demand. Labor and taxes are actual transfers.
-    const localStress = regionalResidents.filter((resident) => {
-      const n = e.residents[resident.id];
-      return n.life.region === region && n.debt > npcFunds(n);
-    }).length;
     const customers = shift
       ? bound(
           Math.floor(demand / 31) +
             (firm.reputation >= 60 ? 1 : 0) -
             (player && rivalPrice <= firm.price ? 1 : 0) -
-            Math.ceil(localStress / 2) -
+            Math.min(2, Math.ceil((localStress.get(districtId) ?? 0) / 2)) -
             (demand < 82 ? 2 : 0),
           0,
           6,
@@ -1009,8 +1161,9 @@ function settleCompetitors(s, api) {
     firm.cash -= paid;
     firm.costs = asMoney(firm.costs + paid);
     let remaining = paid;
-    for (const [index, n] of scheduled.entries()) {
+    for (const [index, { n, fare }] of scheduled.entries()) {
       const wage = Math.min(remaining, payroll[index]);
+      if (fare) spendNpc(n, fare);
       n.cash = asMoney(n.cash + wage);
       remaining -= wage;
     }
@@ -1024,19 +1177,83 @@ function settleCompetitors(s, api) {
       event(s, api, "business.npc-closure", id, "Giderlerini karşılayamayan işletme kapandı.");
     } else if (d % 7 === 1) {
       if (demand > 104 && firm.cash > type.startup * 2 && firm.workers < 3) firm.workers++;
-      else if (firm.workers > 1 && (demand < 85 || firm.cash < overhead * 5)) firm.workers--;
+      else if (firm.workers > playerPosition(s, id) + 1 && (demand < 85 || firm.cash < overhead * 5))
+        firm.workers--;
       firm.reputation = bound(firm.reputation + (firm.stock < 6 ? 1 : -2), 0, 100);
     }
-    for (const employee of staff.slice(firm.workers)) {
+    const capacity = firm.status === "open" ? firm.workers - playerPosition(s, id) : 0;
+    for (const employee of staff.slice(capacity)) {
       const n = e.residents[employee];
       n.life.employer = "";
       n.employment = "searching";
-      event(s, api, "resident.job-loss", employee, `${name} · İş sözleşmesi sona erdi.`);
+      residentEvent(s, api, regionalResidents[residentIndex.get(employee)], "job", districtId,
+        `${name} · İş sözleşmesi sona erdi.`, "job-loss");
     }
   }
 }
 
-export function adaptEconomyActions(s, actions, api) {
+function activeHomeActions(s, actions, api) {
+  const lot = lotsById.get(economy(s)?.home);
+  if (!lot) return actions;
+  const home = homes.find(({ id }) => id === lot.anchor);
+  const furniture = s.living.household;
+  const maintained = s.time < furniture.maintainedUntil;
+  const isAtHome = getPlace(s).districtId === lot.districtId;
+  const away = isAtHome ? "" : `Evine dön · ${lot.name}`;
+  const today = day(s);
+  const minute = s.time % DAY;
+  return actions.flatMap((action) => {
+    const id = action.id;
+    // Active property contracts pay rent/title independently of the old lease.
+    if (/^(?:move:|lease:renew$|household:(?:lease$|invite:))/.test(id)) return [];
+    if (id === "sleep") {
+      const bed = maintained && furniture.assets.includes("bed") ? 5 : 0;
+      const energy = home.rest + (s.player.trait === "balanced" ? 5 : 0) + (s.flags.homeComfort || 0) + bed;
+      const reason = away || (minute >= 480 && minute < 1080 && s.flags.lastSleepDay === today
+        ? "Gündüz uykunu kullandın. Dinlenebilir veya akşamı bekleyebilirsin." : "");
+      return [{
+        ...action,
+        description: `${lot.name} · Uyku enerjisi +${energy}; stres −16.`,
+        disabled: Boolean(reason),
+        reason,
+        run(next) {
+          api.change(next, { energy, stress: -16, health: next.player.hunger >= 35 ? 4 : 0 });
+          next.flags.lastSleepDay = today;
+          return "Dinlendin; takvim, ödemeler ve mahalle hayatı ilerledi.";
+        },
+      }];
+    }
+    if (id === "cook") {
+      const kitchen = maintained && furniture.assets.includes("kitchen");
+      const reason = away || (!s.inventory.groceries ? "Envanterinde erzak yok." : "");
+      return [{
+        ...action,
+        description: `${lot.name} · Bir erzak; tokluk +${kitchen ? 70 : 65}, zanaat +1.`,
+        minutes: kitchen ? 30 : 45,
+        disabled: Boolean(reason),
+        reason,
+        run(next) {
+          next.inventory.groceries--;
+          api.change(next, { hunger: kitchen ? 70 : 65 });
+          api.skill(next, "craft", 1);
+          return "Evde yemek hazırladın; bir erzak kullanıldı.";
+        },
+      }];
+    }
+    if (id.startsWith("household:buy:") || id === "household:maintain") {
+      const reason = away || (id === "household:maintain"
+        ? !furniture.assets.length ? "Önce bir ev eşyası edin."
+          : furniture.maintainedUntil > s.time + 7 * DAY
+            ? "Bakımın son yedi gününde veya bitince yenileyebilirsin." : ""
+        : "");
+      return [{ ...action, disabled: Boolean(reason), reason }];
+    }
+    return [action];
+  });
+}
+
+export function adaptEconomyActions(s, baseActions, api) {
+  const actions = activeHomeActions(s, baseActions, api);
   const e = s.expansion?.economy?.business;
   if (!e || !s.deep.business) return actions;
   const type = BUSINESS_TYPES.find((x) => x.id === s.deep.business.id);
@@ -1045,8 +1262,25 @@ export function adaptEconomyActions(s, actions, api) {
   return actions.map((action) => {
     if (!action.id.startsWith("business:")) return action;
     const id = action.id;
-    if (/^business:(acquire|serve|stock:|upgrade)/.test(id) && regionOf(s) !== e.region)
-      return blocked(action, "İşletmenin şehrine git.");
+    const place = getPlace(s);
+    const districtId = e.districtId ?? (e.region === "istanbul" ? b.location : firmsById.get(`${e.region}:${b.id}`).districtId);
+    const localGold = e.region === "istanbul" && legacyHomes.some((lot) =>
+      lot.region === "istanbul" && lot.districtId === districtId);
+    if (/^business:(acquire|serve|stock:|upgrade)/.test(id)) {
+      if (regionOf(s) !== e.region) return blocked(action, "İşletmenin şehrine git.");
+      if (place.districtId !== districtId) return blocked(action, "İşletmenin semtine git.");
+      if (!localGold && action.reason === "İşletmenin semtine git.") {
+        const unavailable = b.status !== "active" ? "İşletme durmuş durumda."
+          : id === "business:serve" && (!b.clients || !s.living.enterprise.stock || b.lastServiceDay === day(s) ||
+              s.player.energy < 20) ? "Şu anda hizmet vardiyası yapılamıyor."
+          : id === "business:acquire" && (b.lastAcquireDay === day(s) || s.living.enterprise.capital < 180 ||
+              b.clients >= Math.min(8, 2 + b.level * 2, Math.max(2, Math.floor(
+                getDistrictSimulation(s, districtId).demand / 16))))
+            ? "Şu anda müşteri edinimi yapılamıyor." : "";
+        if (unavailable) return blocked(action, unavailable);
+        action = { ...action, reason: "", disabled: false };
+      }
+    }
     if (id === "business:pause") {
       const opening = b.status === "paused";
       if (opening && (e.wageDue || e.taxDue || e.missed >= 3))
@@ -1085,13 +1319,14 @@ export function adaptEconomyActions(s, actions, api) {
       return blocked(action, "Kapatmadan önce kıdemi öde.");
     if (id.startsWith("business:stock:")) {
       const units = Number(id.split(":")[2]);
-      const local = e.region === "istanbul";
+      if (s.living.enterprise.stock + units > 24) return blocked(action, "Stok kapasitesi 24 birim.");
+      const local = localGold;
       const amount =
         local && action.societyCost
           ? Math.round(
               (action.societyCost.amount *
                 (e.supplier === "cooperative" ? 0.86 : 1) *
-                (100 + commercialTerms(s, e.region, type, true).serviceDelay / 5)) /
+                (100 + commercialTerms(s, e.region, type).serviceDelay / 5)) /
                 100,
             )
           : units * suppliers(s, e, type);
@@ -1100,8 +1335,13 @@ export function adaptEconomyActions(s, actions, api) {
         "Güncel malzeme fiyatı için işletme kasası yetersiz.",
       ];
       if (!local) reprice.push(SOCIETY_COPY.noStock);
+      const localSupply = !local && e.supplier === "local"
+        ? getDistrictEmployers(s, districtId).filter(({ firm }) => firm.status === "open")
+        : [];
       if (action.disabled && !reprice.includes(action.reason)) return action;
       if (local && s.society.districts[s.location].materialStock < units)
+        return blocked(action, "Semt stoğu yetersiz.");
+      if (!local && e.supplier === "local" && !localSupply.some(({ firm }) => firm.stock >= units && firm.cash <= MAX - amount))
         return blocked(action, "Semt stoğu yetersiz.");
       if (e.supplier === "cooperative" && units < 6)
         return blocked(action, "Kooperatif siparişi en az altı birim.");
@@ -1117,6 +1357,13 @@ export function adaptEconomyActions(s, actions, api) {
           next.living.enterprise.stock += units;
           next.living.enterprise.lastRestockAt = next.time;
           if (local) next.society.districts[next.location].materialStock -= units;
+          else if (e.supplier === "local") {
+            const id = localSupply.find(({ firm }) => firm.stock >= units && firm.cash <= MAX - amount).id;
+            const vendor = economy(next).firms[id];
+            vendor.stock -= units;
+            vendor.cash += amount;
+            vendor.revenue = asMoney(vendor.revenue + amount);
+          }
           next.deep.business.costs = asMoney(next.deep.business.costs + amount);
           businessRecord(next, -amount, "İşletme stoğu · tedarikçi ödemesi", api);
           return `${units} stok alındı; ${amount} TL işletme kasasından ödendi.`;
@@ -1127,7 +1374,7 @@ export function adaptEconomyActions(s, actions, api) {
     if (id === "business:serve") {
       const { price, demand } = priceAdjustment(s, e, type);
       const score =
-        e.region === "istanbul"
+        localGold
           ? s.living.markets[b.location].demand
           : marketIndex(s, e.region, "employment");
       const served = Math.min(
@@ -1208,84 +1455,146 @@ function residentExpense(s, region, home) {
   return Math.round(((home ? 66 : 179) * price) / 100);
 }
 
-function residentOffer(s, region, life) {
-  let offer;
-  let highestWage = 0;
+function residentEvent(s, api, resident, type, districtId, detail, eventType = type) {
+  const { id } = resident;
+  const e = economy(s);
+  const history = e.activity[id].history;
+  const { generation } = e.residents[id].life;
+  history.push({ kind: type, districtId, day: day(s), generation });
+  if (history.length > 8) history.shift();
+  if (detail) event(s, api, `resident.${eventType}`, id, detail);
+}
+
+const routeForResident = (s, from, to, hour) => routeBetween(s, from, to, {
+  actor: "npc",
+  at: (day(s) - 1) * DAY + hour * 60,
+});
+const siteOf = (id, ...kinds) => venuesByDistrict.get(id)?.find(({ kind }) => kinds.includes(kind));
+const workSite = (id) => siteOf(id, "work")?.id;
+
+function residentOffer(s, n, homeDistrict, home) {
+  const { life } = n;
+  const local = life.region;
+  let winner = null;
+  const contract = life.employer && firmsById.get(life.employer);
+  const localCost = residentExpense(s, local, Boolean(home)) +
+    Math.ceil((home ? playerProperty(s, home).lease?.rent ?? 0 : 0) / 30);
+  const expenseByRegion = Object.fromEntries(REGIONS.map((region) => [region,
+    region === local ? localCost : residentExpense(s, region, false)]));
+  // The bounded public vacancy market advertises funded seats and qualifications.
+  // Residents evaluate those terms against their own skills, travel and housing costs.
   for (const firm of competitors) {
-    if (firm.region !== region || life.skill < firm.type.required) continue;
     const account = economy(s).firms[firm.id];
-    const wage = residentWage(s, region, firm.type, life.skill);
-    if (
-      account.status === "open" &&
-      account.cash >= wage * 3 &&
-      wage > highestWage &&
-      staffIds(s, firm.id).length < account.workers
-    ) {
-      offer = firm;
-      highestWage = wage;
-    }
+    if (life.skill < firm.type.required || account.status !== "open") continue;
+    const retained = firm === contract;
+    const wage = residentWage(s, firm.region, firm.type, life.skill);
+    if (!retained && (account.cash < wage * 3 || !vacancies(s, firm, staffIds(s, firm.id).length))) continue;
+    const move = firm.region !== local;
+    if (firm.districtId !== homeDistrict && !workSite(firm.districtId)) continue;
+    const route = firm.districtId === homeDistrict
+      ? { available: true, cost: 0, minutes: 0 }
+      : routeForResident(s, homeDistrict, workSite(firm.districtId), 8);
+    if (!route?.available || (!move && route.minutes > 100)) continue;
+    const commute = move ? 0 : route.cost * 2 + Math.floor(route.minutes / 8);
+    const margin = Math.floor((wage - commute) * 5 / 7) - expenseByRegion[firm.region];
+    const value = margin + (retained ? 26 : 0) - (move ? 40 + Math.ceil(route.cost / 12) : 0);
+    if (move && (npcFunds(n) < route.cost + 400 || s.expansion.world.regions[local].population <= 1))
+      continue;
+    if (!winner || winner.value < value) winner = { firm, route, move, value };
   }
-  return offer;
+  return winner;
 }
 
 function regionalDecision(s, api, resident, n, home) {
   const { life } = n;
-  const { region } = life;
-  const current = life.employer
-    ? competitors.find(({ id }) => id === life.employer)
-    : residentOffer(s, region, life);
-  const target = secondaryRegions.find((id) => id !== region);
-  const alternative = residentOffer(s, target, life);
-  const title = residentProperty(s, resident.id);
-  const occupied = home && playerProperty(s, home);
-  const lease = occupied?.lease;
-  const living = residentExpense(s, region, Boolean(home));
-  const rent = lease ? Math.ceil(lease.rent / 30) : 0;
-  const localWage = current ? residentWage(s, region, current.type, life.skill) : 0;
-  const localMargin = (localWage * 5) / 7 - living - rent;
-  const nextWage = alternative ? residentWage(s, target, alternative.type, life.skill) : 0;
-  const nextMargin = (nextWage * 5) / 7 - residentExpense(s, target, false);
-  const shouldMove =
-    alternative &&
-    nextMargin > Math.max(0, localMargin) + 32 &&
-    (!life.employer || localMargin < 35) &&
-    npcFunds(n) >= 620 &&
-    s.expansion.world.regions[region].population > 1 &&
-    !lease?.arrears &&
-    !(title && playerProperty(s, title).lease);
-  if (shouldMove) {
-    spendNpc(n, 620);
-    if (lease) releaseResidentLease(s, occupied, api);
-    if (title) {
-      const property = playerProperty(s, title);
+  const districtId = residentDistrict(s, resident, life, home);
+  const offer = residentOffer(s, n, districtId, home);
+  if (!offer || offer.firm.id === life.employer) return;
+  const activity = economy(s).activity[resident.id];
+  if (offer.move) {
+    const title = residentProperty(s, resident.id);
+    const property = title && playerProperty(s, title);
+    const occupied = home && playerProperty(s, home);
+    if (property?.lease || occupied?.lease?.arrears || (life.employer && offer.value < 0)) return;
+    spendNpc(n, offer.route.cost);
+    if (occupied?.lease) releaseResidentLease(s, occupied, api);
+    if (property) {
       payOwner(s, resident.id, saleValue(s, title, property), api, "Konut satışı");
       property.owner = MARKET;
     }
-    life.region = target;
-    migratePopulation(s, region, target, 1);
-    event(
-      s,
-      api,
-      "resident.migration",
-      resident.id,
-      `${CITIES[region].name} → ${CITIES[target].name}`,
-    );
+    const origin = life.region;
+    life.region = offer.firm.region;
+    activity.districtId = offer.firm.districtId;
+    activity.trip = null;
+    migratePopulation(s, origin, life.region, 1);
+    residentEvent(s, api, resident, "move", activity.districtId,
+      `${CITIES[origin].name} → ${CITIES[life.region].name}`, "migration");
   }
-  const offer = shouldMove ? alternative : current;
-  if (!offer || offer.id === life.employer) return;
+  life.employer = offer.firm.id;
   n.employment = "employed";
-  life.employer = offer.id;
-  event(s, api, "resident.hired", resident.id, `${offer.name} · İşe başladı.`);
+  residentEvent(s, api, resident, "job", offer.firm.districtId, `${offer.firm.name} · İşe başladı.`, "hired");
 }
 
-function residentService(s, api, n, service) {
-  const region = n.life.region;
-  const budget = s.expansion.institutions?.regions[region];
-  if (!budget) return 0;
-  const fee = budget.policy === service && budget.policyUntil >= day(s) ? 90 : 180;
-  const paid = api.creditMunicipalTax?.(s, region, fee) ?? 0;
-  spendNpc(n, paid);
-  return paid;
+function residentService(s, api, resident, n, service, districtId) {
+  const { region } = n.life;
+  const eligible = (id) => service === "health"
+    ? siteOf(id, "clinic", "health", "institution", "class")
+    : siteOf(id, "school", "class", "institution");
+  const site = eligible(districtId) ?? eligible(hubDistrict(region));
+  if (!site) return false;
+  const route = routeForResident(s, districtId, site.id, 10);
+  if (!route?.available) return false;
+  const quote = residentServiceQuote(s, region, service, site.districtId);
+  if (!quote || npcFunds(n) < quote.fee + 2 * route.cost) return false;
+  const paid = api.creditMunicipalTax?.(s, region, quote.fee) ?? 0;
+  if (paid !== quote.fee) return false;
+  spendNpc(n, paid + 2 * route.cost);
+  residentEvent(s, api, resident, service === "health" ? "health" : "training", site.districtId);
+  return true;
+}
+
+function linkResidents(s, id, other, today) {
+  const e = economy(s);
+  const contacts = e.activity[id].contacts;
+  const generation = e.residents[other].life.generation;
+  const prior = contacts[other];
+  if (prior?.generation === generation && prior.day === today) return;
+  if (!prior && Object.keys(contacts).length >= 6) {
+    const leastRecent = Object.entries(contacts).reduce((a, b) => a[1].day <= b[1].day ? a : b);
+    delete contacts[leastRecent[0]];
+  }
+  contacts[other] = {
+    generation, day: today,
+    score: Math.min(100, (prior?.generation === generation ? prior.score : 0) + 6),
+  };
+}
+
+function residentSocialTrip(s, api, resident, n, districtId) {
+  const today = day(s);
+  const { id } = resident;
+  const e = economy(s);
+  const activity = e.activity[id];
+  if (activity.trip || npcFunds(n) < 450 || n.life.health < 50) return;
+  const index = residentIndex.get(id);
+  const candidates = cityDistricts(n.life.region);
+  const destination = candidates[(Math.floor(today / 7) + index * 5) % candidates.length].id;
+  // Keep the originating district socially populated. Visitors travel only to a host district
+  // with a healthy homebody, and routes use the same closing hours and fares as player travel.
+  const host = regionalResidents.find((other) => other.id !== id &&
+    e.residents[other.id].life.health >= 50 && !e.activity[other.id].trip &&
+    residentDistrict(s, other, e.residents[other.id].life, null) === destination);
+  const site = siteOf(destination, "social", "meeting");
+  if (!host || !site) return;
+  const route = routeForResident(s, districtId, site.id, 17);
+  if (!route?.available || route.minutes > 120 || npcFunds(n) < route.cost * 2 + 200) return;
+  if (destination !== districtId) {
+    // The round trip is paid once. Re-entering the district only changes the view.
+    spendNpc(n, 2 * route.cost);
+    activity.trip = { districtId: destination, started: today, returnDay: today + 1 };
+    residentEvent(s, api, resident, "journey", destination);
+  }
+  linkResidents(s, id, host.id, today);
+  linkResidents(s, host.id, id, today);
 }
 
 function settleRegionalResidents(s, api) {
@@ -1296,26 +1605,37 @@ function settleRegionalResidents(s, api) {
     const n = e.residents[id];
     const { life } = n;
     let age = residentAge(life, d);
+    const activity = e.activity[id];
     const home = regionalHome(s, id);
+    const districtId = residentDistrict(s, resident, life, home);
+    activity.districtId = districtId;
+    if (activity.trip?.returnDay <= d) {
+      activity.trip = null;
+      residentEvent(s, api, resident, "return", districtId);
+    }
     const livingCost = residentExpense(s, life.region, Boolean(home));
     const paid = Math.min(npcFunds(n), livingCost);
     spendNpc(n, paid);
-    n.debt = asMoney(n.debt + livingCost - paid);
+    // Vendors extend at most two weeks of ordinary credit. Existing obligations
+    // are kept in full, and rent arrears follow the separate lease settlement.
+    n.debt += Math.min(livingCost - paid, Math.max(0, livingCost * 14 - n.debt));
+    const aging = age > 58 ? 2 : 0;
+    life.health = bound(life.health + (paid < livingCost ? -4 : 3 - aging), 0, 100);
     const lifespan = 74 + ((s.seed + index * 3) % 15);
-    if (age >= lifespan) {
-      // A new adult inherits the named household's account, obligations and home.
-      event(
-        s,
-        api,
-        "resident.inheritance",
-        id,
-        `${residentName(index, life.generation)} · Hane mirası devredildi.`,
-      );
+    if (age >= lifespan || life.health === 0) {
+      // The household title, lease, assets and liabilities pass together to its successor.
+      residentEvent(s, api, resident, "death", districtId,
+        `${residentName(index, life.generation)} · Hane mirası devredildi.`, "inheritance");
+      const market = s.expansion.world.regions[life.region];
+      if (Number.isSafeInteger(market.births) && Number.isSafeInteger(market.deaths)) {
+        market.deaths++;
+        market.births++;
+      }
+      for (const local of Object.values(e.activity)) delete local.contacts[id];
+      Object.assign(activity, { contacts: {}, trip: null });
       Object.assign(life, {
-        born: d - 24 * 30,
-        generation: life.generation + 1,
-        health: 91,
-        skill: 30,
+        born: d - 24 * 30, generation: Math.min(400000, life.generation + 1),
+        health: 91, skill: bound(life.skill, 30, resident.type.required), employer: "",
       });
       age = 24;
     }
@@ -1324,14 +1644,12 @@ function settleRegionalResidents(s, api) {
       n.employment = "searching";
     }
     if (age >= 67 && (d - 1) % 30 === 0) n.cash = asMoney(n.cash + 900);
-    const aging = age > 58 ? 2 : 0;
-    life.health = bound(life.health + (paid < livingCost ? -4 : 3 - aging), 0, 100);
     const decisionDay = (d + index) % 7 === 0;
     if (
       life.health < 55 &&
       decisionDay &&
       npcFunds(n) >= 460 &&
-      residentService(s, api, n, "health")
+      residentService(s, api, resident, n, "health", districtId)
     )
       life.health = Math.min(100, life.health + 24);
     if (n.debt && n.cash > 900) {
@@ -1344,13 +1662,15 @@ function settleRegionalResidents(s, api) {
       n.cash -= saved;
       n.savings += saved;
     }
-    if (age >= 67 || !decisionDay) continue;
+    if (!decisionDay) continue;
+    if ((d + index) % 14 === 0) residentSocialTrip(s, api, resident, n, districtId);
+    if (age >= 67 || activity.trip) continue;
     if (
       n.cash >= 680 &&
       life.health >= 55 &&
       life.skill < 72 &&
       !life.employer &&
-      residentService(s, api, n, "skills")
+      residentService(s, api, resident, n, "skills", districtId)
     ) {
       life.skill += 4;
       event(s, api, "resident.training", id, "Ücretli eğitim mesleki beceriyi geliştirdi.");
@@ -1362,14 +1682,7 @@ function settleRegionalResidents(s, api) {
 export function tickEconomy(s, api) {
   const e = s.expansion?.economy;
   if (!e || e.lastDay >= day(s)) return;
-  // Older slots derive missing profiles before updating the settlement date.
-  for (const [index, resident] of regionalResidents.entries()) {
-    const n = e.residents[resident.id];
-    if (!n.life) {
-      n.life = residentLife(s, resident, index);
-      if (!n.life.employer) n.employment = "searching";
-    }
-  }
+  migrateEconomy(s);
   e.lastDay = day(s);
   settleProperties(s, api);
   settleBusiness(s, api);
@@ -1398,13 +1711,13 @@ export function economyView(s) {
       : null;
   return {
     home: e.home,
-    properties: regionHomes.map((lot) => {
+    properties: regionHomes.filter((lot) => playerProperty(s, lot)).map((lot) => {
       const p = playerProperty(s, lot);
       return {
         id: lot.id,
         name: lot.name,
         region: lot.region,
-        districtId: districtForLot(lot.id),
+        districtId: lot.districtId,
         condition: p.condition,
         value: propertyValue(s, lot, p),
         ownership: p.owner,
@@ -1436,11 +1749,12 @@ export function regionalMarkets(s, details = false) {
   const { business, firms, residents } = economy(s);
   return Object.fromEntries(
     REGIONS.map((region) => {
-      const local = competitors.filter((firm) => firm.region === region);
+      const local = competitors.filter((firm) => firm.region === region && firms[firm.id]);
       const active = local.filter(({ id }) => firms[id].status === "open");
       const owned = business?.region === region && s.deep.business?.status === "active";
       const workers = active.reduce((sum, { id }) => sum + firms[id].workers, 0);
       const jobseekers = regionalResidents.filter((resident) => {
+        if (!residents[resident.id]) return false;
         const life = residentLife(s, resident);
         return life.region === region && !life.employer && residentAge(life, day(s)) < 67;
       }).length;
@@ -1458,6 +1772,7 @@ export function regionalMarkets(s, details = false) {
       if (details) {
         summary.residents = regionalResidents.flatMap((resident, index) => {
           const { id } = resident;
+          if (!residents[id]) return [];
           const { cash, savings, debt } = residents[id];
           const life = residentLife(s, resident, index);
           if (life.region !== region) return [];
@@ -1474,14 +1789,18 @@ export function regionalMarkets(s, details = false) {
               debt,
               name: residentName(index, life.generation),
               home: regionalHome(s, id)?.id ?? "",
+              ...residentPresence(s, resident, life),
+              contacts: economy(s).activity?.[id]?.contacts ?? {},
+              history: economy(s).activity?.[id]?.history ?? [],
             },
           ];
         });
-        summary.firms = local.map(({ id, name, type }) => ({
+        summary.firms = local.map(({ id, name, type, districtId }) => ({
           id,
           name,
           region,
           type: type.id,
+          districtId,
           ...firms[id],
           employeeIds: staffIds(s, id),
         }));
@@ -1491,24 +1810,76 @@ export function regionalMarkets(s, details = false) {
   );
 }
 
+function residentPresence(s, resident, life) {
+  const districtId = residentDistrict(s, resident, life);
+  const work = life.employer && firmsById.get(life.employer);
+  const minute = s.time % DAY;
+  const trip = economy(s).activity?.[resident.id]?.trip;
+  let presentDistrictId = districtId;
+  let locationId = null;
+  if (work && life.health >= 42 && economy(s).firms[work.id]?.status === "open" &&
+      (life.region === "istanbul" || workday(day(s))) && minute >= 8 * 60 && minute < 16 * 60) {
+    presentDistrictId = work.districtId;
+    locationId = workSite(presentDistrictId);
+  }
+  if (trip && minute >= 17 * 60) {
+    const route = routeForResident(s, districtId, siteOf(trip.districtId, "social", "meeting")?.id, 17);
+    presentDistrictId = route?.available && minute >= 17 * 60 + route.minutes ? trip.districtId : null;
+  }
+  const legacyKizilay = resident.id === "resident:ankara:0" && presentDistrictId === "ankara:cankaya";
+  const socialVenueId = legacyKizilay ? "ankara:kizilay:social"
+    : siteOf(presentDistrictId, "social", "meeting")?.id ?? null;
+  if (minute >= 18 * 60 && minute < 21 * 60) locationId = socialVenueId;
+  return {
+    districtId, presentDistrictId, socialVenueId,
+    locationId: getPlace(s).districtId === presentDistrictId ? locationId ?? null : null,
+  };
+}
+
+function validActivity(s, activity, id, today) {
+  const e = economy(s);
+  const resident = e.residents[id].life;
+  if (!shape(activity, { "districtId trip contacts history": null }, 1) ||
+      !districtIds.has(activity.districtId) || districtById(activity.districtId).regionId !== resident.region ||
+      !shape(activity.contacts, {}) || Object.keys(activity.contacts).length > 6 ||
+      !Array.isArray(activity.history) || activity.history.length > 8) return false;
+  if (activity.trip !== null && (!shape(activity.trip, { districtId: null, started: [today, today], returnDay: [today + 1, today + 1] }, 1)
+      || !districtIds.has(activity.trip.districtId) || activity.trip.districtId === activity.districtId ||
+      districtById(activity.trip.districtId).regionId !== resident.region)) return false;
+  return Object.entries(activity.contacts).every(([other, row]) => other !== id && residentIndex.has(other) &&
+    shape(row, { generation: [e.residents[other]?.life?.generation, e.residents[other]?.life?.generation],
+      score: [1, 100], day: [1, today] }, 1)) &&
+    activity.history.every((row, index, rows) =>
+      shape(row, { kind: "journey return move health training job eviction death", districtId: null, day: [rows[index - 1]?.day ?? 1, today], generation: [1, 400000] }, 1) &&
+        districtIds.has(row.districtId));
+}
+
+const matchIds = (map, catalog) =>
+  shape(map, { [catalog.map(({ id }) => id).join(" ")]: null }, 1);
+
 export function validateEconomy(s) {
-  const e = s.expansion?.economy,
-    today = day(s);
+  const e = s.expansion?.economy;
+  const today = day(s);
+  const expanded = Boolean(e && Object.hasOwn(e, "activity"));
+  const lots = expanded ? regionHomes : legacyHomes;
+  const firms = expanded ? competitors : legacyFirms;
+  const residents = expanded ? regionalResidents : legacyResidents;
   if (
-    !shape(e, { lastDay: [today, today], "home properties business residents firms": null }, 1) ||
-    !shape(e.properties, { [regionHomes.map(({ id }) => id).join(" ")]: null }, 1) ||
-    !shape(e.firms, { [competitors.map(({ id }) => id).join(" ")]: null }, 1) ||
-    !shape(e.residents, { [regionalResidents.map(({ id }) => id).join(" ")]: null }, 1) ||
-    !(e.home === "" || regionHomes.some(({ id }) => id === e.home))
-  )
-    return false;
-  const profiles = regionalResidents.filter(({ id }) =>
+    !shape(e, { lastDay: [today, today], "home properties business residents firms": null,
+      ...(expanded ? { activity: null } : {}) }, 1) ||
+    !matchIds(e.properties, lots) || !matchIds(e.firms, firms) || !matchIds(e.residents, residents) ||
+    (s.expansion.livingWorld === 2 && !expanded) ||
+    (expanded && !matchIds(e.activity, residents)) ||
+    !(e.home === "" || lots.some(({ id }) => id === e.home))
+  ) return false;
+  const profiles = residents.filter(({ id }) =>
     Object.hasOwn(e.residents[id] ?? {}, "life"),
   );
-  if (profiles.length && profiles.length !== regionalResidents.length) return false;
+  if ((expanded && !profiles.length) || (profiles.length && profiles.length !== residents.length))
+    return false;
   const staffing = new Map(),
     residentRegions = new Map();
-  for (const resident of regionalResidents) {
+  for (const resident of residents) {
     const n = e.residents[resident.id];
     if (
       !shape(
@@ -1528,7 +1899,7 @@ export function validateEconomy(s) {
         !shape(
           life,
           {
-            region: secondaryRegions.join(" "),
+            region: (expanded ? REGIONS : secondaryRegions).join(" "),
             employer: null,
             born: [today - 2700, today - 540],
             generation: [1, 400000],
@@ -1540,7 +1911,7 @@ export function validateEconomy(s) {
       )
         return false;
       if (life.employer) {
-        const job = competitors.find(({ id }) => id === life.employer);
+        const job = firmsById.get(life.employer);
         if (
           !job ||
           job.region !== life.region ||
@@ -1553,10 +1924,11 @@ export function validateEconomy(s) {
       }
     }
     residentRegions.set(resident.id, life?.region ?? resident.region);
+    if (expanded && !validActivity(s, e.activity[resident.id], resident.id, today)) return false;
   }
   const tenants = new Set(),
     owners = new Set();
-  for (const lot of regionHomes) {
+  for (const lot of lots) {
     const p = e.properties[lot.id];
     if (
       !shape(p, { "owner mortgage lease": null, condition: [35, 100] }, 1) ||
@@ -1604,7 +1976,7 @@ export function validateEconomy(s) {
         tenants.has(l.tenant) ||
         (l.tenant === HOUSEHOLD && e.home !== lot.id) ||
         (l.tenant !== HOUSEHOLD &&
-          (p.owner === MARKET ||
+          ((p.owner === MARKET && (!expanded || lot.index < 3 || lot.index % 3 !== 0)) ||
             (citizens.has(l.tenant)
               ? lot.region !== "istanbul"
               : residentRegions.get(l.tenant) !== lot.region)))
@@ -1630,6 +2002,7 @@ export function validateEconomy(s) {
         b,
         {
           region: REGIONS.join(" "),
+          ...(Object.hasOwn(b, "districtId") ? { districtId: null } : {}),
           price: null,
           supplier: "local cooperative",
           workers: 3,
@@ -1641,12 +2014,13 @@ export function validateEconomy(s) {
         },
         1,
       ) ||
+      (Object.hasOwn(b, "districtId") && districtById(b.districtId)?.regionId !== b.region) ||
       ![85, 100, 120].includes(b.price) ||
       (b.principal ? !integer(b.installmentDay, today + 1, today + 30) : b.installmentDay !== 0)
     )
       return false;
   } else if (b !== null || s.deep.business) return false;
-  return competitors.every(({ id }) => {
+  return firms.every(({ id }) => {
     const f = e.firms[id];
     return (
       shape(
@@ -1675,6 +2049,12 @@ export function validateEconomy(s) {
 }
 
 const economyCopy = {
+  "Şu anda hizmet vardiyası yapılamıyor.": ["A service shift is currently unavailable.", "Zmiana usługowa jest niedostępna."],
+  "Şu anda müşteri edinimi yapılamıyor.": ["Customer outreach is currently unavailable.", "Pozyskanie klientów jest niedostępne."],
+  "Onarım Atölyesi": ["Repair workshop", "Warsztat naprawczy"],
+  "Dijital Hizmet": ["Digital services", "Usługi cyfrowe"],
+  "Öğrenme Atölyesi": ["Learning studio", "Pracownia edukacyjna"],
+  "Konutun ilçesine git.": ["Visit the property's district.", "Jedź do dzielnicy nieruchomości."],
   "Tapu bedeli.": ["Purchase price.", "Cena zakupu."],
   "Bedel peşinattır. Aylık %0,8 faiz, %4 anapara. Üç ödenmeyen taksitte tasfiye riski.": [
     "Cost is the deposit. Monthly: 0.8% interest, 4% principal. Three missed payments risk foreclosure.",
@@ -1842,6 +2222,17 @@ const economyCopy = {
   ],
 };
 const economyTemplates = [
+  [/^Evine dön · (.+)$/, "Return home · $1", "Wróć do domu · $1"],
+  [
+    /^(.+) · Uyku enerjisi \+(\d+); stres −16\.$/,
+    "$1 · Sleeping restores $2 energy and reduces stress by 16.",
+    "$1 · Sen przywraca $2 energii i obniża stres o 16.",
+  ],
+  [
+    /^(.+) · Bir erzak; tokluk \+(\d+), zanaat \+1\.$/,
+    "$1 · Uses one grocery pack. Fullness +$2, crafting +1.",
+    "$1 · Zużywa jedną paczkę żywności. Sytość +$2, rzemiosło +1.",
+  ],
   [/^(.+) hanenin mülkiyetine geçti\.$/, "The household now owns $1.", "Gospodarstwo nabyło $1."],
   [
     /^Tapu devredildi, kredi kapandı\. Net satış (-?\d+) TL\.$/,
@@ -1956,7 +2347,8 @@ export function localizeEconomyText(text, language) {
         });
       });
   const [city, dwelling, action] = String(text).split(" · ");
-  if (REGIONS.some((region) => CITIES[region].name === city) && economyCopy[dwelling]) {
+  if ((REGIONS.some((region) => CITIES[region].name === city) ||
+    DISTRICTS.some(({ name }) => name === city)) && economyCopy[dwelling]) {
     const label =
       (language === "en" ? { İstanbul: "Istanbul", İzmir: "Izmir" }[city] : undefined) ?? city;
     return [label, economyCopy[dwelling][index], action && economyCopy[action]?.[index]]

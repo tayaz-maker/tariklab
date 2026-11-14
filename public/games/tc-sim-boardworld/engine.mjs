@@ -282,7 +282,11 @@ export function getAppointmentOptions(state, options) {
 export function migrateState(value) {
   if (!validateState(value)) throw new Error("Geçersiz Boardworld kaydı; yükseltme uygulanmadı.");
   const s = structuredClone(value);
-  if (s.version >= 6) return s;
+  if (s.version >= 6) {
+    if (s.expansion) requireExpansionRuntime().migrateExpansion(s);
+    if (!validateState(s)) throw new Error("Boardworld genişletilmiş kayıt doğrulaması başarısız.");
+    return s;
+  }
   if (s.version === 1) {
     initDeep(s);
     initStories(s);
@@ -1215,7 +1219,7 @@ function makeBaseActions(s) {
     add(
       "work",
       "Vardiyayı çalış",
-      `${j.levels[s.job.level]} · ${j.hours} saat. ${fmt(wage)} TL hak ediş; sonraki maaş günü ${s.job.payDay}. Enerji −16, stres +10; mesleki beceri +1.`,
+      `${j.levels[s.job.level]} · ${j.hours} saat. ${fmt(wage)} TL hak ediş; sonraki maaş günü ${s.job.payDay}. Vardiya etkisi: enerji −${16 + (p.trait === "outgoing" ? 2 : 0)}, stres +10; mesleki beceri +1. Geçen zamanın etkileri toplam öngörüye dahildir.`,
       "work",
       j.hours * 60,
       0,
@@ -2541,7 +2545,17 @@ export function runUntilNext(original) {
   return { state: s, ok: true, message: `${s.time - start} dakika geçti. ${stop}` };
 }
 
-/** Explicit, bounded automation: it can perform routine legal actions, never card choices. */
+function routineHome(s, legal, mode) {
+  const district = API.economyHomeDistrict?.(s);
+  const destination = district ?? home(s).district;
+  const here = district ? API.getPlace(s).districtId : s.location;
+  return {
+    here: here === destination,
+    route: () => legal(`${mode === "free" ? "walk" : "travel"}:${destination}`) ??
+      (district && mode !== "free" ? legal(`district:travel:${destination}`) : null),
+  };
+}
+
 /** A deliberate, bounded needs batch; no background continuation or story choice. */
 export function runCare(original) {
   if (!validateState(original))
@@ -2569,7 +2583,7 @@ export function runCare(original) {
     const all = makeActions(s),
       legal = (id) => all.find((a) => a.id === id && !a.disabled);
     const policy = s.emergent.policy,
-      homeDistrict = home(s).district;
+      housing = routineHome(s, legal, policy.commute);
     let action = null;
     if (s.player.hunger <= 65) {
       action =
@@ -2578,8 +2592,7 @@ export function runCare(original) {
           : policy.meal === "eat"
             ? legal("eat")
             : legal("soup") || legal("cook") || legal("snack");
-      if (!action && policy.meal === "home" && s.location !== homeDistrict)
-        action = legal((policy.commute === "free" ? "walk:" : "travel:") + homeDistrict);
+      if (!action && policy.meal === "home" && !housing.here) action = housing.route();
       if (
         !action &&
         policy.meal === "home" &&
@@ -2595,7 +2608,7 @@ export function runCare(original) {
         blocked = true;
         break;
       }
-    } else action = legal("rest");
+    } else action = legal("rest") || (API.economyHomeDistrict?.(s) ? legal("world:rest") : null);
     if (!action) {
       reason = "Dinlenmenin koşulları şu anda sağlanmıyor.";
       code = "unavailable";
@@ -2761,7 +2774,7 @@ export function runRoutine(original, days = 1) {
     }
     const actions = makeActions(s),
       legal = (id) => actions.find((a) => a.id === id && !a.disabled),
-      homeDistrict = home(s).district,
+      housing = routineHome(s, legal, policy.commute),
       transit = (destination) =>
         legal(`${policy.commute === "free" ? "walk" : "travel"}:${destination}`);
     let candidate = null;
@@ -2782,8 +2795,7 @@ export function runRoutine(original, days = 1) {
           : policy.meal === "eat"
             ? legal("eat")
             : legal("soup") || legal("cook") || legal("snack");
-      if (!candidate && policy.meal === "home" && s.location !== homeDistrict)
-        candidate = transit(homeDistrict);
+      if (!candidate && policy.meal === "home" && !housing.here) candidate = housing.route();
       if (!candidate && policy.meal === "home" && !s.inventory.groceries && settings.shopping)
         candidate = legal("buy:groceries");
       if (!candidate && policy.autoWithdraw && s.cash < 300) candidate = legal("withdraw:1000");
@@ -2797,7 +2809,7 @@ export function runRoutine(original, days = 1) {
       }
     }
     if (!candidate && s.player.energy <= 36 && clock.minute < policy.bedtime)
-      candidate = legal("rest");
+      candidate = legal("rest") || (housing.here && API.economyHomeDistrict?.(s) ? legal("world:rest") : null);
     if (!candidate && needsWork && clock.minute >= leaveAt) {
       candidate = s.location === job.district ? legal("work") : route;
       if (!candidate && policy.autoWithdraw && s.cash < 60) candidate = legal("withdraw:1000");
@@ -2816,7 +2828,7 @@ export function runRoutine(original, days = 1) {
         stopCode = "duty";
         break;
       }
-      candidate = s.location === homeDistrict ? legal("household:chore") : transit(homeDistrict);
+      candidate = housing.here ? legal("household:chore") : housing.route();
       if (!candidate) {
         stop = "Atanmış ev sorumluluğu için zaman, konum veya bütçe yetersiz.";
         stopCode = "duty";
@@ -2886,7 +2898,7 @@ export function runRoutine(original, days = 1) {
       candidate = null;
     }
     if (!candidate && clock.minute >= policy.bedtime)
-      candidate = s.location === homeDistrict ? legal("sleep") : transit(homeDistrict);
+      candidate = housing.here ? legal("sleep") : housing.route();
     if (!candidate) {
       const until = Math.min(
         end - s.time,
