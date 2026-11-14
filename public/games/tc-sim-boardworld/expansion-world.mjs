@@ -9,6 +9,15 @@ const DAY = 1440;
 const whole = (n, min, max) => Number.isSafeInteger(n) && n >= min && n <= max;
 const ownRegion = (id) => Object.hasOwn(REGIONS, id);
 const worldCopy = {
+  "Yerel vardiyayı tamamladın.": ["Local shift completed.", "Ukończono lokalną zmianę."],
+  "Mahallede sıcak yemek yedin.": [
+    "You ate a hot meal nearby.",
+    "Zjedzono ciepły posiłek w okolicy.",
+  ],
+  "Dinlenip enerjini topladın.": [
+    "You rested and regained energy.",
+    "Odpoczęto i odzyskano energię.",
+  ],
   "Ailen, borçların ve mülklerin taşınma sonrasında devam eder.": [
     "Your family, debts and property carry over when you move.",
     "Po przeprowadzce zachowasz rodzinę, długi i nieruchomości.",
@@ -17,6 +26,10 @@ const worldCopy = {
   "Uygun vardiya, yeterli enerji ve bugün tamamlanmamış bir vardiya gerekir.": [
     "You need an available shift and enough energy. You can work once per day.",
     "Potrzebujesz dostępnej zmiany i energii. Możesz pracować raz dziennie.",
+  ],
+  "Ücret ayırabilen açık bir yerel işletme yok.": [
+    "No open local firm has funds for a shift.",
+    "Żadna czynna lokalna firma nie ma środków na zmianę.",
   ],
   "Mahallede yemek ye": ["Eat in the neighborhood", "Zjedz posiłek w okolicy"],
   "Yemek ücreti şehrin fiyat düzeyine göre değişir.": [
@@ -40,11 +53,11 @@ export function localizeWorldText(text, language) {
   const i = language === "en" ? 0 : 1;
   const move = /^(.+) şehrine taşın$/.exec(text);
   if (move) return i === 0 ? `Move to ${move[1]}` : `Przeprowadź się: ${move[1]}`;
-  const wage = /^İş piyasasına bağlı ücret: (\d+) TL\.$/.exec(text);
+  const wage = /^(.+) · Vardiya ücreti: (\d+) TL\.$/.exec(text);
   if (wage)
     return i === 0
-      ? `Local market wage: ${wage[1]} TL.`
-      : `Płaca na lokalnym rynku: ${wage[1]} TL.`;
+      ? `${wage[1]} · Shift pay: ${wage[2]} TL.`
+      : `${wage[1]} · Stawka za zmianę: ${wage[2]} TL.`;
   return worldCopy[text]?.[i] ?? text;
 }
 
@@ -63,6 +76,14 @@ export function initWorld(s) {
   };
 }
 
+export function migratePopulation(s, from, to, count) {
+  const regions = s.expansion.world.regions;
+  regions[from].population -= count;
+  regions[from].exits += count;
+  regions[to].population += count;
+  regions[to].arrivals += count;
+}
+
 export function tickRegions(s, api, markets) {
   const w = s.expansion.world,
     day = api.dayOf(s),
@@ -75,7 +96,7 @@ export function tickRegions(s, api, markets) {
       market = markets?.[id],
       base = REGIONS[id];
     const prior = r.employment;
-    const enterprise = clamp((market?.workers ?? 0) - 4, -4, 6);
+    const enterprise = clamp((market?.workers ?? 0) - 4 - (market?.jobseekers ?? 0), -8, 6);
     r.employment = clamp(
       Math.round((3 * prior + base.employment) / 4) + cycle + enterprise,
       60,
@@ -99,18 +120,14 @@ export function tickRegions(s, api, markets) {
   const to = ordered[0],
     from = ordered.at(-1);
   if (score(to) - score(from) >= 14) {
-    const a = w.regions[from],
-      b = w.regions[to];
+    const a = w.regions[from];
     const moved = Math.min(
       12,
       Math.floor((score(to) - score(from)) / 8),
       Math.floor(a.population / 90),
     );
     if (moved > 0) {
-      a.population -= moved;
-      a.exits += moved;
-      b.population += moved;
-      b.arrivals += moved;
+      migratePopulation(s, from, to, moved);
       api.expansionEvent(s, "migration", from, `${to}:${moved}`);
     }
   }
@@ -146,22 +163,34 @@ export function worldActions(s, api) {
     });
   }
   if (w.region === "istanbul") return actions;
-  const offer = r.employment >= 80 && (day + (s.seed % 7)) % 7 < 5;
-  const available = offer && day > w.lastShiftDay && s.player.energy >= 30;
   const wage = Math.floor((region.wage * r.employment) / 100);
+  const firm = api.regionalShift?.(s, w.region, wage);
+  const available =
+    firm &&
+    r.employment >= 80 &&
+    (day - 1) % 7 < 5 &&
+    day > w.lastShiftDay &&
+    s.player.energy >= 30 &&
+    s.bank + wage <= 1_000_000_000;
   actions.push(
     {
       id: "world:shift",
       category: "world",
       pay: "total",
       label: "Yerel vardiyaya katıl",
-      description: `İş piyasasına bağlı ücret: ${wage} TL.`,
+      description: firm
+        ? `${firm.name} · Vardiya ücreti: ${wage} TL.`
+        : "Ücret ayırabilen açık bir yerel işletme yok.",
       cost: 0,
       minutes: 360,
       disabled: !available,
       reason: "Uygun vardiya, yeterli enerji ve bugün tamamlanmamış bir vardiya gerekir.",
       run(next) {
         next.expansion.world.lastShiftDay = day;
+        const employer = next.expansion.economy.firms[firm.id];
+        employer.cash -= wage;
+        employer.costs = Math.min(1_000_000_000, employer.costs + wage);
+        next.flags.workDays++;
         api.receive(next, wage, "Yerel vardiya", "bank");
         api.change(next, { energy: -17, stress: 7 });
         return "Yerel vardiyayı tamamladın.";

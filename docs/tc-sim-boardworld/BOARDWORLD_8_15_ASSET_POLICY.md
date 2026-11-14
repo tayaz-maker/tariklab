@@ -21,3 +21,10 @@ combined reference, reflecting the independently compressed module boundaries
 and explicit loading/recovery code. Later reductions do not increase either
 ceiling. All emitted files are counted. The package test
 checks each ceiling and the partition sum independently.
+
+The UX/depth candidate may combine the six activated expansion modules into a
+content-hashed `expansion-runtime-*.mjs`, retaining stable forwarding modules.
+The hashed module and every forwarder count toward the existing deferred and
+combined ceilings. Preview and persistence remain separate, and opening an
+opt-in explanation cannot import the simulation bundle. Gold and expansion
+continue to share one engine instance; a cached mismatched core fails safely.

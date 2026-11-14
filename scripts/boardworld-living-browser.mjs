@@ -7,6 +7,7 @@ import { chromium } from "playwright";
 import { createStaticGameServer } from "./static-game-server.mjs";
 import { generatedGameAssets } from "./boardworld-browser-assets.mjs";
 import { checkedUrl } from "./browser-guard.mjs";
+import { openBoardworldTab } from "./boardworld-browser-navigation.mjs";
 const args = process.argv.slice(2);
 const arg = (name, fallback) => (args.includes(name) ? args[args.indexOf(name) + 1] : fallback);
 const output = resolve(process.env.RUNNER_TEMP || "../qa-living", "screenshots/boardworld-living");
@@ -166,7 +167,7 @@ try {
           calendar: engine.getCalendarView(state),
         };
       });
-    const tab = (name) => surface.locator(`.game-tabs [data-tab="${name}"]`).click();
+    const tab = (name) => openBoardworldTab(surface, name);
     const layout = async (stage) => {
       const view = await surface.evaluate(() => ({
         width: innerWidth,
@@ -650,7 +651,7 @@ try {
     if (!event) break;
     await completeAction(page.locator(`[data-action="${event.id}"]`).first(), event.id);
   }
-  await page.locator('.game-tabs [data-tab="wallet"]').click();
+  await openBoardworldTab(page, "wallet");
   const beforeUpgrade = await inspect();
   await completeAction(page.locator('[data-action="finance:reserve:500"]'), "finance:reserve:500");
   const upgraded = await inspect();
@@ -697,7 +698,7 @@ try {
   }
   await page.reload({ waitUntil: "networkidle" });
   assert.deepEqual(await inspect(), upgraded, "reload prefers canonical 5.0 after stale writer");
-  await page.locator('.game-tabs [data-tab="wallet"]').click();
+  await openBoardworldTab(page, "wallet");
   const beforeSync = await inspect();
   await completeAction(page.locator('[data-action="finance:reserve:500"]'), "finance:reserve:500");
   const synced = await inspect();

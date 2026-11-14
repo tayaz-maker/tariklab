@@ -1516,3 +1516,30 @@ The unchanged Gold budget and separately measured deferred/all-files budgets
 are recorded in `tc-sim-boardworld/BOARDWORLD_8_15_ASSET_POLICY.md`.
 Native follow-up: preserve explicit opt-in and the same recovery semantics;
 native work remains paused. PR #259 is the candidate, not a production claim.
+
+### Boardworld UX and causal depth completion — 2026-11-14
+
+Complete the existing systems on isolated branches from exact main `7ded3aa8`.
+Four primary areas and a state-derived life overview expose existing decisions,
+with interactive family relationships, contextual property/company/institution
+views and localized outcomes. Connect six named regional households to nine
+firms through funded payroll, illness, training, housing, migration and family
+succession. Correct personal pension tenure and company overhead ownership and
+settlement. Keep adult-only succession explicit and preserve terminal archives.
+Save schemas, durable authority, Gold rollback, optional activation and every
+fixed byte/performance limit remain unchanged. Source/packed acceptance and
+exact-head CI are release requirements; this entry does not assert publication.
+Native follow-up: preserve these authoritative economic and family transitions
+and the four-area navigation; native development and Social Engine stay paused.
+
+Candidate verification: final runtime `af98b2fd` builds and passes final focused
+UX/depth, typecheck and lint checks. All required Boardworld browser suites pass
+on built `87255a27`; the final two display-only labels pass a rebuilt TR/EN/PL
+browser check. Authentic released v6/v7 saves retain exact initial bytes and
+replay deterministically. The integration unit batch passes 552/553 tests; its
+sole failure is packaging, and it is not claimed as an exact-final-head run.
+Publication remains blocked: final deferred gzip 45627 exceeds 40217 by 5410;
+combined 344049 exceeds 342048 by 2001. Gold aggregate 298422 and initial TR
+199587 remain within their unchanged ceilings. No budget was relaxed, no merge
+or deployment is asserted, and the candidate must remain a draft until all
+existing exact-head release gates pass.

@@ -242,7 +242,8 @@ function tickBackground(s, api, day) {
           100,
       ) +
       retirees.length * 260;
-    const expense = 360 + i * 34 + home.residents.length * 55;
+    const localPrice = s.expansion.world?.regions?.[home.region]?.price ?? 100;
+    const expense = Math.round(((360 + i * 34 + home.residents.length * 55) * localPrice) / 100);
     const income = Math.min(MAX_MONEY - home.cash, earned);
     home.cash += income;
     const paid = Math.min(home.cash, expense + home.arrears);
@@ -300,7 +301,11 @@ function settleFamilyCosts(s, api, children, day) {
   const family = s.expansion.family;
   if (!children.length || (day - 1) % YEAR !== 0) return;
   const expenses = children.reduce((sum, person) => sum + 160 + ageAt(person, day) * 12, 0);
-  const needed = Math.round(expenses * Math.min(2, Math.max(0.7, s.world.priceIndex)));
+  const localPrice =
+    familyRegion(s) === "istanbul"
+      ? s.world.priceIndex
+      : s.expansion.world.regions[familyRegion(s)].price / 100;
+  const needed = Math.round(expenses * Math.min(2, Math.max(0.7, localPrice)));
   const fromReserve = Math.min(family.reserve, needed);
   family.reserve -= fromReserve;
   if (fromReserve) api.record(s, "Çocuk bakımı · aile bütçesi", -fromReserve, "household");
@@ -324,6 +329,7 @@ export function tickFamily(s, api) {
   const day = dayOf(s);
   if (family.lastDay >= day) return;
   family.lastDay = day;
+  if (family.lastEstate) family.lastEstate.workDays ??= s.flags.workDays;
   for (const person of family.people) {
     // The Gold roster is still authoritative for its authored adult NPCs.
     if (person.npcId || !alive(person)) continue;
@@ -350,7 +356,8 @@ export function tickFamily(s, api) {
   }
   const player = select(family, s.expansion.playerId);
   if (alive(player) && player.retired && (day - 1) % YEAR === 0) {
-    const pension = Math.min(1900, 650 + Math.floor(s.flags.workDays / 4) * 10);
+    const worked = s.flags.workDays - (family.lastEstate?.workDays ?? 0);
+    const pension = Math.min(1900, 650 + Math.floor(worked / 4) * 10);
     api.receive(s, pension, "Emekli aylığı", "bank");
   }
   settleFamilyCosts(s, api, dependentChildren(s), day);
@@ -365,6 +372,15 @@ function finishSuccession(s, id, api) {
   delete s.flags.partner;
   for (const relation of Object.values(s.npcs)) relation.romance = 0;
   s.course = null;
+  Object.assign(s.deep.career, {
+    reputation: 20,
+    employerJobId: null,
+    negotiatedBonus: 0,
+    negotiatedDay: 0,
+    noticeDay: 0,
+    lastReviewDay: 0,
+  });
+  for (const job of Object.keys(s.deep.career.experience)) s.deep.career.experience[job] = 0;
   s.player.name = successor.name;
   s.player.education =
     successor.learning >= 70
@@ -388,6 +404,7 @@ function finishSuccession(s, id, api) {
     cash: s.cash,
     bank: s.bank,
     debt: s.debt,
+    workDays: s.flags.workDays,
   };
   family.lastSupportDay = null;
   family.lastFamilyDay = dayOf(s);
@@ -416,91 +433,91 @@ function isDescendant(family, person, root) {
 const COPY = {
   marry: [
     "Evlen",
-    "Birlikte ev kurma kararını resmileştir. Var olan kira ve borçlar korunur.",
+    "Birliği resmileştir. Kira ve borçlar sürer.",
     "Marry",
-    "Formalize your household together. Existing leases and debts continue.",
+    "Formalize the union. Leases and debts remain.",
     "Zawrzyj małżeństwo",
-    "Sformalizuj związek. Umowy najmu i długi pozostają.",
+    "Sformalizuj związek. Najem i długi pozostają.",
   ],
   separate: [
     "Ayrı yaşamaya başla",
-    "Ortak ev paylaşımını kapat. Aile geçmişi ve çocukların bağları korunur.",
+    "Ortak evi kapat. Aile geçmişi ve ebeveynlik korunur.",
     "Separate",
-    "End the shared housing arrangement while keeping family history and parentage.",
+    "End shared housing; family history and parentage remain.",
     "Rozpocznij separację",
-    "Zakończ wspólne mieszkanie, zachowując historię i pokrewieństwo.",
+    "Zakończ wspólne mieszkanie. Historia i pokrewieństwo pozostają.",
   ],
   divorce: [
     "Boşanmayı tamamla",
-    "Ayrılığı resmileştir. Aile borçları ve çocuk bakımı devam eder.",
+    "Boşan; aile borçları ve çocuk bakımı sürer.",
     "Finalize divorce",
-    "Finalize the separation. Family debt and childcare continue.",
+    "Divorce; family debts and childcare remain.",
     "Zakończ rozwód",
-    "Sformalizuj rozstanie. Długi i opieka nad dziećmi pozostają.",
+    "Rozwód; długi i opieka pozostają.",
   ],
   reconcile: [
     "Barışmayı teklif et",
-    "Güven ve yakınlık yeniden oluştuğunda aile birliğini sürdür.",
+    "Güven ve yakınlıkla birliği yeniden kur.",
     "Reconcile",
-    "Renew the union after rebuilding trust and closeness.",
+    "Reunite after rebuilding trust and closeness.",
     "Zaproponuj pojednanie",
-    "Odnów związek po odbudowie zaufania i bliskości.",
+    "Odnów związek po odzyskaniu zaufania i bliskości.",
   ],
   plan: [
     "Çocuk için hazırlan",
-    "Karşılıklı aile kararı ve 24 günlük hazırlık. Çocuk bakımı bütçeyi etkiler.",
+    "Ortak karar; 24 gün hazırlık. Bakım bütçeyi etkiler.",
     "Plan for a child",
-    "A joint decision and 24 days of preparation. Childcare affects the budget.",
+    "Joint decision; 24 days preparation. Childcare costs money.",
     "Zaplanuj dziecko",
-    "Wspólna decyzja i 24 dni przygotowań. Opieka wpływa na budżet.",
+    "Wspólna decyzja, 24 dni przygotowań. Opieka kosztuje.",
   ],
   adopt: [
     "Evlat edinme başvurusu",
-    "Güvenli ev, yeterli bakiye ve aile giderlerini karşılayabilme gerekir.",
+    "Güvenli ev ve aile giderlerine yetecek para gerekir.",
     "Apply to adopt",
-    "Requires stable housing and funds to cover family expenses.",
+    "Requires secure housing and funds for family costs.",
     "Złóż wniosek o adopcję",
-    "Potrzebne są stabilne mieszkanie i środki na utrzymanie rodziny.",
+    "Potrzebne bezpieczne mieszkanie i środki na rodzinę.",
   ],
   reserve: [
     "Aile bütçesine 250 TL ayır",
-    "Kendi paranı ayrı bakım hesabına aktar. Çocuk giderleri önce bu hesaptan karşılanır.",
+    "Paranı bakım hesabına aktar; çocuk giderleri önce buradan ödenir.",
     "Set aside ₺250 for family",
-    "Transfer your own money into a reserve that pays childcare bills first.",
+    "Transfer money to the reserve; childcare draws on it first.",
     "Odłóż 250 TL na rodzinę",
-    "Przenieś środki do rezerwy przeznaczonej w pierwszej kolejności na opiekę.",
+    "Przenieś środki do rezerwy na opiekę w pierwszej kolejności.",
   ],
   arrears: [
     "Aile borcunu öde",
-    "Ödenmemiş bakım giderinin bir bölümünü kapat.",
+    "Bakım borcunun bir bölümünü öde.",
     "Pay family arrears",
-    "Settle part of the unpaid childcare costs.",
+    "Pay part of the childcare arrears.",
     "Spłać zaległości rodzinne",
-    "Ureguluj część niezapłaconych kosztów opieki.",
+    "Spłać część zaległości za opiekę.",
   ],
   retire: [
     "Emekli ol",
-    "Kazandığın ücret ödenir. Emekli aylığı her 30 günde bir bankaya yatar.",
+    "Birikmiş ücret ödenir; emekli aylığı 30 günde bir yatar.",
     "Retire",
-    "Earned wages are paid. The pension is deposited every 30 days.",
+    "Wages are paid; pension is deposited every 30 days.",
     "Przejdź na emeryturę",
-    "Wynagrodzenie zostanie rozliczone. Emerytura wpływa co 30 dni.",
+    "Wypłata zostanie rozliczona; emerytura wpływa co 30 dni.",
   ],
   support: [
     "Yakınını destekle",
-    "Bir aile yakınına zaman ayır. Aile desteği güven ve esenliği artırır.",
+    "Yakınına zaman ayır; destek güven ve esenliği artırır.",
     "Support a relative",
-    "Spend time with a relative to strengthen family support and wellbeing.",
+    "Time with a relative strengthens support and wellbeing.",
     "Wesprzyj krewnego",
-    "Spędź czas z krewnym, wzmacniając więzi i samopoczucie.",
+    "Czas z krewnym wzmacnia więzi i samopoczucie.",
   ],
   care: [
     "Çocuğa zaman ayır",
-    "Bakım ve düzenli ilgi esenliği artırır.",
+    "Bakım ve ilgi esenliği artırır.",
     "Spend time with a child",
-    "Care and regular attention improve wellbeing.",
+    "Care and attention improve wellbeing.",
     "Spędź czas z dzieckiem",
-    "Opieka i regularna uwaga poprawiają samopoczucie.",
+    "Opieka i uwaga poprawiają samopoczucie.",
   ],
   focus: [
     "Eğitim yönünü geliştir",
@@ -512,11 +529,11 @@ const COPY = {
   ],
   successor: [
     "Hayatı devral",
-    "Aynı dünyada devam et. Hane varlıkları ve borçlar birlikte devredilir.",
+    "Aynı dünyada hane varlıklarını ve borçlarını devral.",
     "Continue this life",
-    "Continue in the same world. Inherit household assets together with debts.",
+    "Continue in the same world; inherit household assets and debts.",
     "Kontynuuj życie",
-    "Graj dalej w tym samym świecie, dziedzicząc aktywa i długi gospodarstwa.",
+    "Kontynuuj w tym świecie, dziedzicząc majątek i długi.",
   ],
 };
 const FOCUS_LABELS = {
@@ -532,14 +549,14 @@ const REASONS = {
     "Wymagana jest bliskość i wzajemne zaufanie.",
   ],
   space: [
-    "Önce güvenli ve uygun bir ev düzeni kur.",
+    "Güvenli ve uygun bir ev gerekir.",
     "Establish suitable, secure housing first.",
     "Najpierw zapewnij bezpieczne i odpowiednie mieszkanie.",
   ],
   custody: [
     "Başka bir çocuk planı veya bakım sorumluluğu var.",
-    "There is already a family plan or a childcare commitment.",
-    "Istnieje już plan rodzinny lub obowiązek opieki.",
+    "A child plan or care commitment already exists.",
+    "Istnieje już plan dziecka lub obowiązek opieki.",
   ],
   cooldown: [
     "Bunun için biraz daha bekle.",
@@ -547,9 +564,9 @@ const REASONS = {
     "Odczekaj jeszcze trochę.",
   ],
   finances: [
-    "Yeterli bakiye ve ödenmiş aile giderleri gerekiyor.",
-    "Sufficient funds and settled family bills are required.",
-    "Potrzebne są wystarczające środki i opłacone rachunki.",
+    "Yeterli bakiye ve ödenmiş aile giderleri gerekir.",
+    "Requires funds and settled family bills.",
+    "Potrzebne środki i opłacone rachunki.",
   ],
   age: [
     "Yaş koşulu henüz sağlanmıyor.",
@@ -635,7 +652,7 @@ export function familyActions(s, api) {
     suitable &&
     !family.arrears &&
     (family.lastFamilyDay === null || day - family.lastFamilyDay >= YEAR);
-  if (!union && known)
+  if (!union && known && !familyBlocksRomance(s, partner))
     add("marry", {
       cost: 350,
       minutes: 90,
@@ -1031,7 +1048,8 @@ export function validateFamily(s) {
       f.lastEstate.to !== active ||
       ids.get(f.lastEstate.from).died === null ||
       !int(f.lastEstate.day, ids.get(f.lastEstate.from).died, day) ||
-      !["cash", "bank", "debt"].every((key) => money(f.lastEstate[key])))
+      !["cash", "bank", "debt"].every((key) => money(f.lastEstate[key])) ||
+      (Object.hasOwn(f.lastEstate, "workDays") && !int(f.lastEstate.workDays, 0, s.flags.workDays)))
   )
     return false;
   const houses = new Set(),

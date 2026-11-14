@@ -7,6 +7,7 @@ import { chromium } from "playwright";
 import { createStaticGameServer } from "./static-game-server.mjs";
 import { generatedGameAssets } from "./boardworld-browser-assets.mjs";
 import { checkedUrl } from "./browser-guard.mjs";
+import { openBoardworldTab, waitForBoardworldNavigation } from "./boardworld-browser-navigation.mjs";
 const args = process.argv.slice(2),
   arg = (name, fallback) => (args.includes(name) ? args[args.indexOf(name) + 1] : fallback);
 const serving = arg("--serve", null),
@@ -131,7 +132,7 @@ try {
         };
       });
     const panel = async (tab) => {
-      await surface.locator(`.game-tabs [data-tab="${tab}"]`).click();
+      await openBoardworldTab(surface, tab);
     };
     const layout = async (stage) => {
       const r = await surface.evaluate(() => ({
@@ -370,7 +371,7 @@ try {
     await page.reload({ waitUntil: "networkidle" });
     surface = portal ? await (await page.locator("iframe").elementHandle()).contentFrame() : page;
     try {
-      await surface.locator(".game-tabs").waitFor();
+      await waitForBoardworldNavigation(surface);
     } catch (error) {
       writeFileSync(
         `${output}/reload-failure-${width}.json`,
@@ -389,7 +390,7 @@ try {
     assert.deepEqual(await inspect(), beforeReload, "v5 deep state roundtrip");
     const mirror = await context.newPage();
     await mirror.goto(origin + "/games/tc-sim-boardworld/index.html", { waitUntil: "networkidle" });
-    await mirror.locator(".game-tabs").waitFor();
+    await waitForBoardworldNavigation(mirror);
     await drain();
     await choose(
       (await snapshot()).actions.find((a) => a.id === "schedule:toggle:work" && !a.disabled),
@@ -457,7 +458,7 @@ try {
   assert.ok(migrated.time >= 45 * 1440);
   await oldPage.reload({ waitUntil: "networkidle" });
   assert.deepEqual(await oldPage.evaluate(() => window.boardworldInspect()), migrated);
-  await oldPage.locator(".game-tabs [data-tab=people]").click();
+  await openBoardworldTab(oldPage, "people");
   await oldPage.screenshot({ path: `${output}/migrated-v1.png`, fullPage: true });
   // A still-open 1.0 tab may keep writing its valid old save. Its namespace must
   // never replace the canonical 5.0 state or rolling backup after migration.
@@ -477,7 +478,7 @@ try {
     throw new Error("Migration fixture event queue did not drain");
   };
   await migrationDrain();
-  await oldPage.locator('.game-tabs [data-tab="wallet"]').click();
+  await openBoardworldTab(oldPage, "wallet");
   await oldPage.locator('[data-action="finance:reserve:500"]').click();
   const upgraded = await migrationInspect();
   assert.equal(upgraded.deep.finance.reserve, migrated.deep.finance.reserve + 500);
@@ -546,7 +547,7 @@ try {
     bytes,
     "old writer cannot overwrite immutable original migration backup",
   );
-  await oldPage.locator('.game-tabs [data-tab="wallet"]').click();
+  await openBoardworldTab(oldPage, "wallet");
   await oldPage.locator('[data-action="finance:reserve:500"]').click();
   const afterLegacy = await migrationInspect();
   await legacyWriter.waitForFunction(
@@ -589,7 +590,7 @@ try {
     oldV2Bytes,
   );
   await transitionalPage.reload({ waitUntil: "networkidle" });
-  await transitionalPage.locator(".game-tabs").waitFor();
+  await waitForBoardworldNavigation(transitionalPage);
   assert.deepEqual(
     await transitionalPage.evaluate(() => window.boardworldInspect()),
     expectedV2Migration,

@@ -8,6 +8,7 @@ import { chromium } from "playwright";
 import { createStaticGameServer } from "./static-game-server.mjs";
 import { generatedGameAssets } from "./boardworld-browser-assets.mjs";
 import { checkedUrl } from "./browser-guard.mjs";
+import { openBoardworldTab, boardworldDestinations } from "./boardworld-browser-navigation.mjs";
 const args = process.argv.slice(2);
 const arg = (name, fallback) => (args.includes(name) ? args[args.indexOf(name) + 1] : fallback);
 const output = resolve(
@@ -129,7 +130,7 @@ try {
           life: e.getLifeView(s),
         };
       });
-    const tab = (id) => surface.locator(`.game-tabs [data-tab="${id}"]`).click();
+    const tab = (id) => openBoardworldTab(surface, id);
     const choose = async (id) => {
       const x = await snap(),
         a = x.actions.find((a) => a.id === id);
@@ -230,24 +231,11 @@ try {
       await surface.locator('[data-ui="dismiss-outcome"]').click();
     assert.equal(await surface.locator(".city-node").count(), 3);
     assert.deepEqual(
-      await surface
-        .locator(".game-tabs [data-tab]")
-        .evaluateAll((buttons) => buttons.map((button) => button.dataset.tab)),
+      await boardworldDestinations(surface),
       [
-        "board",
-        "plan",
-        "projects",
-        "work",
-        "enterprise",
-        "life",
-        "expansion",
-        "people",
-        "study",
-        "wallet",
-        "bag",
-        "stories",
-        "goals",
-        "log",
+        "dashboard", "life", "plan", "work", "study", "projects", "goals",
+        "board", "expansion-world", "stories", "log", "people", "expansion",
+        "wallet", "enterprise", "expansion-finance", "bag",
       ],
     );
     await h.layout("compact map");

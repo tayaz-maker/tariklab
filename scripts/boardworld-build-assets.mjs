@@ -102,15 +102,18 @@ export async function packGameAssets({ sourceDir = resolve("public", gamePath), 
     const entries = catalog[index];
     // Delimiter encoding preserves array order and values while avoiding JSON
     // punctuation; fall back when a translation contains the delimiter.
-    const expression = index > 0 && entries.length > 0 && entries.every((entry) => typeof entry === "string" && !entry.includes("|"))
-      ? `${JSON.stringify(entries.join("|"))}.split("|")`
-      : JSON.stringify(entries);
+    const expression =
+      index > 0 &&
+      entries.length > 0 &&
+      entries.every((entry) => typeof entry === "string" && !entry.includes("|"))
+        ? `${JSON.stringify(entries.join("|"))}.split("|")`
+        : JSON.stringify(entries);
     packed.set(file, `export default ${expression};\n`);
   });
   const modules = await packModules(packed, keys);
   await mkdir(targetDir, { recursive: true });
   for (const file of await readdir(targetDir))
-    if (/^bw-runtime-[a-f0-9]{16}\.mjs$/.test(file) && !packed.has(file))
+    if (/^(?:bw|expansion)-runtime-[a-f0-9]{16}\.mjs$/.test(file) && !packed.has(file))
       await unlink(resolve(targetDir, file));
   await Promise.all([...packed].map(([file, text]) => writeFile(resolve(targetDir, file), text)));
   const after = await assetMetrics(targetDir);

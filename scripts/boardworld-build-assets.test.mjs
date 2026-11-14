@@ -17,11 +17,18 @@ test("production packing preserves every translation, template precedence and de
     assert.ok(report.after.gzipBytes < report.before.gzipBytes * 0.94);
     assert.ok(report.after.initialTrGzipBytes < report.before.initialTrGzipBytes * 0.9);
     assert.deepEqual(
-      report.after.assets.map((a) => a.file).filter((f) => !f.startsWith("bw-runtime-")),
+      report.after.assets.map((a) => a.file).filter((f) => !/^(?:bw|expansion)-runtime-/.test(f)),
       report.before.assets.map((a) => a.file),
     );
     assert.equal(report.after.assets.filter((a) => a.file.startsWith("bw-runtime-")).length, 1);
-    assert.equal(report.after.gzipBytes, report.after.goldGzipBytes + report.after.expansionGzipBytes);
+    assert.equal(
+      report.after.assets.filter((a) => a.file.startsWith("expansion-runtime-")).length,
+      1,
+    );
+    assert.equal(
+      report.after.gzipBytes,
+      report.after.goldGzipBytes + report.after.expansionGzipBytes,
+    );
     // Traverse static ESM imports and re-exports starting at the HTML entry. A
     // dynamic import is deliberately not traversed: it is the opt-in boundary.
     const visited = new Set();
@@ -31,14 +38,26 @@ test("production packing preserves every translation, template precedence and de
       const text = await readFile(join(directory, file), "utf8");
       const ast = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true, ts.ScriptKind.JS);
       for (const node of ast.statements) {
-        if ((ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) && node.moduleSpecifier && ts.isStringLiteral(node.moduleSpecifier)) {
+        if (
+          (ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) &&
+          node.moduleSpecifier &&
+          ts.isStringLiteral(node.moduleSpecifier)
+        ) {
           const specifier = node.moduleSpecifier.text;
           if (specifier.startsWith("./")) await visit(specifier.slice(2));
         }
       }
     }
     await visit("app.mjs");
-    assert.ok(![...visited].some((file) => file.startsWith("expansion")), `Initial graph: ${[...visited]}`);
+    assert.ok(
+      ![...visited].some((file) => file.startsWith("expansion")),
+      `Initial graph: ${[...visited]}`,
+    );
+    await visit("expansion-preview.mjs");
+    assert.ok(
+      !visited.has(report.modules.expansionRuntime),
+      "The opt-in preview must not load simulation",
+    );
     const runtime = report.modules.runtime;
     const runtimeText = await readFile(join(directory, runtime), "utf8");
     assert.match(runtimeText, /import\(["']\.\/expansion\.mjs["']\)/);
@@ -119,8 +138,10 @@ test("production packing preserves every translation, template precedence and de
     for (let turn = 0; turn < 36; turn++) {
       assert.deepEqual(packed, original, `Deferred expansion replay turn ${turn}`);
       const available = sourceEngine.getActions(original).filter((action) => !action.disabled);
-      const action = available.find((a) => a.category === "event") ||
-        available.find((a) => a.id === "wait:15") || available[0];
+      const action =
+        available.find((a) => a.category === "event") ||
+        available.find((a) => a.id === "wait:15") ||
+        available[0];
       assert.ok(action);
       const a = sourceEngine.resolveAction(original, action.id);
       const b = engine.resolveAction(packed, action.id);
@@ -136,16 +157,24 @@ test("production packing preserves every translation, template precedence and de
     await mkdir(mixedDirectory);
     await copyFile(join(directory, runtime), join(mixedDirectory, runtime));
     await copyFile(join(directory, "engine.mjs"), join(mixedDirectory, "engine.mjs"));
-    await writeFile(join(mixedDirectory, "expansion.mjs"),
-      `export * from ${JSON.stringify(pathToFileURL(join(directory, "expansion.mjs")).href)};`);
+    await writeFile(
+      join(mixedDirectory, "expansion.mjs"),
+      `export * from ${JSON.stringify(pathToFileURL(join(directory, "expansion.mjs")).href)};`,
+    );
     const mixed = await import(pathToFileURL(join(mixedDirectory, "engine.mjs")).href);
     const gold = mixed.createGame({ seed: 613 });
     const bytes = JSON.stringify(gold);
     await assert.rejects(mixed.loadExpansionRuntime(), /Reload Boardworld/);
     assert.equal(JSON.stringify(gold), bytes);
     assert.ok(mixed.validateState(gold));
-    assert.ok(report.after.goldGzipBytes <= 301836, `Gold aggregate gzip: ${report.after.goldGzipBytes}`);
-    assert.ok(report.after.expansionGzipBytes <= 40217, `Expansion gzip: ${report.after.expansionGzipBytes}`);
+    assert.ok(
+      report.after.goldGzipBytes <= 301836,
+      `Gold aggregate gzip: ${report.after.goldGzipBytes}`,
+    );
+    assert.ok(
+      report.after.expansionGzipBytes <= 40217,
+      `Expansion gzip: ${report.after.expansionGzipBytes}`,
+    );
     assert.ok(report.after.gzipBytes <= 342048, `Combined gzip: ${report.after.gzipBytes}`);
   } finally {
     await rm(directory, { recursive: true, force: true });
