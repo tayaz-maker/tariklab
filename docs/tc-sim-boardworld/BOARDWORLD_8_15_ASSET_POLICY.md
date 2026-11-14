@@ -11,16 +11,34 @@ except the `expansion*.mjs` modules. Expansion is the sum of those modules;
 combined is Gold plus expansion. Initial Turkish excludes both deferred locale
 and expansion files. No emitted file is omitted from the combined total.
 
-The existing Gold ceilings remain 301,836 bytes total and 205,874 bytes
-initial. The first passing partitioned build measured 40,217 deferred bytes;
-its ceiling is frozen at 40,217, compared with the 37,528-byte increment implied by the original
-339,364-byte combined reference and the Gold ceiling. The combined ceiling is
-342,048 bytes, that measured reference total and the sum of its Gold output
-(301,831) and expansion output. This is 2,684 bytes (0.79%) above the original
-combined reference, reflecting the independently compressed module boundaries
-and explicit loading/recovery code. Later reductions do not increase either
-ceiling. All emitted files are counted. The package test
-checks each ceiling and the partition sum independently.
+## User-authorized budget override — 2026-11-14
+
+The user explicitly approved controlled expansion headroom for the existing
+Living Cities & Underworld mission. This replaces the old expansion and combined
+ceilings; it does not authorize increasing Gold or initial-load budgets.
+
+| Measured gzip boundary | Previous limit (bytes) | Current required limit (bytes) |
+| --- | ---: | ---: |
+| Gold aggregate | 301,836 | 301,836 (unchanged) |
+| Initial Turkish load | 205,874 | 205,874 (unchanged) |
+| Optional expansion | 40,217 | 96,000 |
+| Combined emitted package | 342,048 | 400,000 |
+
+Only the two authorized size thresholds change in
+`scripts/boardworld-build-assets.test.mjs`. Measurement, all emitted assets and
+forwarders, partition sums, every functional assertion, the initial static graph,
+preview isolation, source/packed replay and mixed-core rejection remain checked.
+The initial graph cannot download optional city/organization/legal modules.
+The expansion must share the existing Gold engine instance. No content is moved
+into Gold to hide its size. Continue measuring complete emitted output after
+meaningful integration batches so new systems stay within the running budget.
+
+The earlier 40,217/342,048 policy was based on the first partitioned reference.
+Old failed test reports retain those historical limits and failures; the explicit
+user override supersedes their release-blocking size conclusion, not their
+functional evidence. A passing updated package gate is not final feature or
+production acceptance. One final PR, protected merge and Cloudflare Git production
+release still require the complete candidate and all mandatory checks.
 
 The UX/depth candidate may combine the six activated expansion modules into a
 content-hashed `expansion-runtime-*.mjs`, retaining stable forwarding modules.

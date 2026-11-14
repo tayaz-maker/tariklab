@@ -52,7 +52,7 @@ import {
   npcCommitments,
   actionCalendarConflict,
   getCalendarView,
-  getAppointmentOptions,
+  getAppointmentOptions as calendarOptions,
   completeCalendarAttendance,
   createNpcOffer,
   reviseNpcOffer,
@@ -68,7 +68,7 @@ import {
   getLivingView,
   getNpcPlan,
 } from "./world-life.mjs";
-export { getCityView, getCalendarView, getAppointmentOptions, getLivingView };
+export { getCityView, getCalendarView, getLivingView };
 import {
   initLife,
   tickLife,
@@ -274,6 +274,10 @@ const API = {
   societyNpcWork,
   playerPresent: (s, district) => !s._transit && s.location === district,
 };
+
+export function getAppointmentOptions(state, options) {
+  return calendarOptions(state, options, API);
+}
 
 export function migrateState(value) {
   if (!validateState(value)) throw new Error("Geçersiz Boardworld kaydı; yükseltme uygulanmadı.");
@@ -632,11 +636,13 @@ function advance(s, minutes, { sleeping = false } = {}) {
     const lifeBoundary = s.version >= 4 ? nextLifeAt(s) : Infinity;
     const eventBoundary = s.version >= 4 ? nextEmergentAt(s) : Infinity;
     const societyBoundary = s.version >= 5 ? nextSocietyAt(s) : Infinity;
+    const expansionBoundary = s.expansion ? requireExpansionRuntime().nextExpansionAt(s) : Infinity;
     const next = Math.min(
         end,
         lifeBoundary > s.time ? lifeBoundary : Infinity,
         eventBoundary > s.time ? eventBoundary : Infinity,
         societyBoundary > s.time ? societyBoundary : Infinity,
+        expansionBoundary > s.time ? expansionBoundary : Infinity,
         boundary,
         worldBoundary > s.time ? worldBoundary : Infinity,
         calendarBoundary > s.time ? calendarBoundary : Infinity,
@@ -660,6 +666,7 @@ function advance(s, minutes, { sleeping = false } = {}) {
       requireExpansionRuntime().tickExpansion(s, API);
       if (!requireExpansionRuntime().familyCanAct(s)) break;
     }
+    if (s.expansion) requireExpansionRuntime().afterExpansionTime(s, API);
   }
   if (s.version < 3)
     for (const appointment of s.appointments) {
@@ -2096,7 +2103,7 @@ export function resolveAction(state, actionId, payload) {
   const s = structuredClone(state);
   s.revision++;
   spend(s, action.cost, action.label, action.pay || "cash");
-  const message = action.run(s) || action.label;
+  let message = action.run(s) || action.label;
   if (action.category === "travel") s._transit = true;
   if (action.calendarEntry) s._attendance = action.calendarEntry;
   advance(s, action.minutes, { sleeping: Boolean(action.sleeping) });
@@ -2125,7 +2132,8 @@ export function resolveAction(state, actionId, payload) {
     afterFlowAction(s, effectiveId, state);
   }
   if (s.expansion)
-    requireExpansionRuntime().afterExpansionAction(s, effectiveId, state, API, action);
+    message =
+      requireExpansionRuntime().afterExpansionAction(s, effectiveId, state, API, action) || message;
   if (s.version >= 2) tickStories(s, API);
   log(s, message);
   achievements(s);
@@ -2397,6 +2405,18 @@ export function validateState(s) {
   }
 }
 
+// Remote commitments still require a decision. Do not derive a local route
+// from the retained İstanbul district while another region is authoritative.
+function calendarDepartureAt(s, entry) {
+  return (
+    entry.start -
+    30 -
+    (API.planningReason?.(s) || s.city.venue === entry.venue
+      ? 0
+      : travelMinutes(s, s.location, entry.district) + 10)
+  );
+}
+
 /** Bounded time advance shares the same clock, consequence handlers and validation. */
 export function runUntilNext(original) {
   if (!validateState(original))
@@ -2455,14 +2475,15 @@ export function runUntilNext(original) {
       nextSocietyAt(s),
     );
     for (const e of s.calendar.entries.filter((e) => e.status === "confirmed" && e.end > s.time)) {
-      const atVenue = s.city.venue === e.venue;
-      const leave = e.start - 30 - (atVenue ? 0 : travelMinutes(s, s.location, e.district) + 10);
+      const leave = calendarDepartureAt(s, e);
       if (leave <= s.time) {
         limit = s.time;
         code = "appointment";
-        stop = atVenue
-          ? "Taahhüdüne katılma zamanı yaklaşıyor."
-          : "Takvimdeki mekâna gitme zamanı geldi.";
+        stop = API.planningReason?.(s)
+          ? "Takvimdeki taahhüdün yaklaşıyor; katılım ve yolculuk kararını kendin ver."
+          : s.city.venue === e.venue
+            ? "Taahhüdüne katılma zamanı yaklaşıyor."
+            : "Takvimdeki mekâna gitme zamanı geldi.";
         break;
       }
       limit = Math.min(limit, leave);
@@ -2597,11 +2618,7 @@ export function runCare(original) {
         (e) =>
           e.status === "confirmed" &&
           e.end > s.time &&
-          e.start -
-            30 -
-            travelMinutes(s, s.location, e.district) -
-            (s.city.venue === e.venue ? 0 : 10) <=
-            s.time + action.minutes,
+          calendarDepartureAt(s, e) <= s.time + action.minutes,
       )
     ) {
       reason = "Yaklaşan randevu için ulaşım ve katılım payı ayrıldı.";
@@ -2893,11 +2910,7 @@ export function runRoutine(original, days = 1) {
         (e) =>
           e.status === "confirmed" &&
           e.end > s.time &&
-          e.start -
-            30 -
-            travelMinutes(s, s.location, e.district) -
-            (s.city.venue === e.venue ? 0 : 10) <=
-            s.time + candidate.minutes,
+          calendarDepartureAt(s, e) <= s.time + candidate.minutes,
       )
     ) {
       stop = "Takvimdeki taahhüdün yaklaşıyor; katılım ve yolculuk kararını kendin ver.";

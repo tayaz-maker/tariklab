@@ -4,7 +4,7 @@ Baseline: `7ded3aa8d831dda2ab1f35dab35d6a089d3e48d1`, the exact `main` inspected
 
 - All mutations remain in `resolveAction` and deterministic daily/monthly hooks. UI reads existing state and public views, never charges money, ticks time or consumes RNG.
 - Preserve Gold schema 6 and expansion schema 7, stable entity IDs, save envelope, generation lock and migration semantics. Optional fields require deterministic normalization of older expansion saves, validation, round-trip and rollback coverage. Do not change persistence without integration review.
-- Gold initial import graph must not load `expansion*.mjs`; expansion uses the same engine instance. Frozen gzip ceilings remain Gold 301836, initial TR 205574, expansion 40217, combined 342048. Reduce duplication; do not relax checks.
+- Gold initial import graph must not load `expansion*.mjs`; expansion uses the same engine instance. Current user-authorized gzip ceilings are Gold 301836, initial TR 205874, expansion 96000, combined 400000. Only the latter two thresholds were raised by the explicit 2026-11-14 override; other checks remain intact. Older candidate tables below retain their historical limits. See BOARDWORLD_8_15_ASSET_POLICY.md.
 - TR is source, EN and PL stay complete. Locale arrays append only. Terra owns locale arrays; simulation strings localize within their existing module dictionaries.
 - Retain existing `data-tab` destinations and action IDs. Four primary groups contain all existing destinations; utility destinations remain reachable. Dashboard recommendations use available actions and actual needs, calendar, household and finances.
 - Public expansion view retains `world`, `events`, `family`, `economy`, `institutions`; additive view fields require explicit coordination. Family tree uses people/parents/unions; property/business displays only authoritative values. New regional actors must be bounded, persisted, deterministic and included in validation and save tests.
@@ -34,7 +34,7 @@ The final runtime source is `18212092` (the following evidence commit changes do
 | Package measurement                      | Candidate gzip bytes | Frozen ceiling | Result                |
 | ---------------------------------------- | -------------------: | -------------: | --------------------- |
 | Gold aggregate                           |               298475 |         301836 | PASS                  |
-| Initial TR graph                         |               199641 |         205574 | PASS                  |
+| Initial TR graph                         |               199641 |         205874 | PASS                  |
 | Deferred expansion, every asset included |                45628 |          40217 | FAIL: 5411 bytes over |
 | Combined Gold and expansion              |               344103 |         342048 | FAIL: 2055 bytes over |
 

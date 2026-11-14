@@ -1,3 +1,4 @@
+import { renderLiving, localizeLivingText } from './expansion-living-ui.mjs';
 import { t as tx } from "./i18n.mjs";
 import { COURSES } from "./content.mjs";
 import { REGIONS, localizeWorldText } from "./expansion-world.mjs";
@@ -68,21 +69,21 @@ export function translateExpansionAction(action, language) {
   );
 }
 const localize = (text, language) =>
-  localizeEconomyText(
+  localizeLivingText(localizeEconomyText(
     localizeInstitutionText(localizeWorldText(text, language), language),
     language,
-  );
+  ), language);
 const outcomePatterns = [
   [/^Yeni şehir: (.+)\.$/, "New city: $1.", "Nowe miasto: $1."],
   [
     /^(.+) ile tanıştın\. Okul ve bakım seçenekleri artık aile ekranında\.$/,
-    "You met $1. School and care options are now in the family view.",
-    "Poznano $1. Opcje szkoły i opieki są teraz dostępne w widoku rodziny.",
+    "You met $1. Find school and care in Family.",
+    "Poznano $1. Szkoła i opieka są w widoku rodziny.",
   ],
   [
     /^Evlilik başladı\. Ayrı ve ortak bakiyeler kayıtta korunuyor\.$/,
-    "Married. Personal and shared balances are preserved.",
-    "Zawarto małżeństwo. Osobiste i wspólne środki pozostają zachowane.",
+    "Married. Personal and shared balances remain.",
+    "Małżeństwo zawarte. Osobiste i wspólne środki pozostają.",
   ],
   [
     /^Ortak ev sözleşmesi kapandı, çocukların aile bağları korunuyor\.$/,
@@ -93,8 +94,8 @@ const outcomePatterns = [
   [/^Aile birliği yeniden kuruldu\.$/, "The family reunited.", "Rodzina znów jest razem."],
   [
     /^Aile planı başladı\. 24 oyun günü sonra çocuk haneye katılacak\.$/,
-    "Family planning started. A child joins in 24 game days.",
-    "Rozpoczęto planowanie rodziny. Dziecko dołączy za 24 dni gry.",
+    "Family plan started; a child joins in 24 game days.",
+    "Plan rodziny rozpoczęty; dziecko dołączy za 24 dni gry.",
   ],
   [
     /^250 TL aile bütçesine ayrıldı\.$/,
@@ -108,8 +109,8 @@ const outcomePatterns = [
   ],
   [
     /^Emeklilik başladı\. Aylık ödemeler banka hesabına yatırılacak\.$/,
-    "Retired. Monthly payments will enter the bank account.",
-    "Rozpoczęto emeryturę. Miesięczne wypłaty trafią na konto bankowe.",
+    "Retired. Monthly payments go to the bank.",
+    "Emerytura rozpoczęta. Miesięczne wypłaty trafią do banku.",
   ],
   [
     /^(.+) ile zaman geçirdin\. Aile bağı güçlendi\.$/,
@@ -170,9 +171,10 @@ export function renderExpansion({
       retired: label("Emekli", "Retired", "Na emeryturze"),
       open: tx("Açık"),
       closed: tx("Kapalı"),
-      active: tx("Etkin"),
     })[value] || value;
   const nameOf = (id) =>
+    view.underworld?.chapters?.find((chapter) => chapter.id === id)?.name ??
+    view.districts?.districts?.find((district) => district.id === id)?.name ??
     family.people.find((p) => p.id === id)?.name ??
     economy.properties.find((p) => p.id === id)?.name ??
     Object.values(economy.regions)
@@ -222,15 +224,15 @@ export function renderExpansion({
       family.player.died && !actions.some((a) => a.id.startsWith("family:successor"));
     const familyStatus = terminal
       ? label(
-          "Yetişkin bir ardıl yok; bu karakterle oynanabilir yaşam sona erdi. Aile kaydını dışa aktarabilir veya menüden yeni bir yaşam başlatabilirsin.",
-          "No adult successor is available; this life has ended. Export the family save or start a new life from the menu.",
-          "Brak dorosłego następcy; to życie dobiegło końca. Wyeksportuj zapis rodziny lub rozpocznij nowe życie z menu.",
+          "Yetişkin bir ardıl yok; bu yaşam sona erdi. Kaydı dışa aktarabilir veya menüden yeni yaşam başlatabilirsin.",
+          "No adult successor; this life has ended. Export the family save or start a new life from the menu.",
+          "Brak dorosłego następcy; życie dobiegło końca. Eksportuj zapis rodziny lub rozpocznij nowe życie z menu.",
         )
       : family.player.died
         ? label(
             "Karakterin öldü. Uygun bir ardılla devam edebilirsin.",
-            "Your character died. You can continue with an eligible heir.",
-            "Twoja postać zmarła. Możesz kontynuować z uprawnionym następcą.",
+            "Your character died. Continue with an eligible heir.",
+            "Postać zmarła. Kontynuuj z uprawnionym następcą.",
           )
         : "";
     return (
@@ -265,6 +267,7 @@ export function renderExpansion({
     const kind = (type) =>
       eventNames[type]?.[locale] ??
       {
+        underworld: label("Yerel örgüt ve hukuk", "Local organizations and law", "Lokalne organizacje i prawo"),
         "resident.job-loss": label("İş kaybı", "Job loss", "Utrata pracy"),
         "resident.hired": label("İşe alım", "Hired", "Zatrudnienie"),
         "resident.migration": label("Göç", "Migration", "Migracja"),
@@ -320,27 +323,27 @@ export function renderExpansion({
         return esc(text);
       const known = {
         "Borç baskısı nedeniyle satış gerçekleşti.": [
-          "The property was sold under debt pressure.",
-          "Nieruchomość sprzedano z powodu zadłużenia.",
+          "Debt pressure forced the sale.",
+          "Sprzedaż z powodu zadłużenia.",
         ],
         "Üç gün ödenmeyen ücret nedeniyle ekip ayrıldı.": [
-          "The team left after three days of unpaid wages.",
-          "Zespół odszedł po trzech dniach bez wypłaty.",
+          "The team left after three days without wages.",
+          "Zespół odszedł po trzech dniach bez płacy.",
         ],
         "Üç kaçan kredi vadesi nedeniyle üretim durdu.": [
           "Production stopped after three missed loan payments.",
           "Produkcja ustała po trzech niezapłaconych ratach.",
         ],
         "Yerel talep yeni bir bağımsız işletme çekti.": [
-          "Local demand attracted a new independent business.",
-          "Lokalny popyt przyciągnął nowe niezależne przedsiębiorstwo.",
+          "Local demand brought a new independent business.",
+          "Lokalny popyt przyciągnął nową niezależną firmę.",
         ],
         "Giderlerini karşılayamayan işletme kapandı.": [
-          "The business closed because it could not cover costs.",
-          "Firma zamknęła się, bo nie mogła pokryć kosztów.",
+          "The business closed; it could not cover costs.",
+          "Firma zamknięta: nie pokryła kosztów.",
         ],
         "İşletme ve tedarik defteri açıldı.": [
-          "The business and supply ledger opened.",
+          "Business and supply ledger opened.",
           "Otwarto firmę i księgę dostaw.",
         ],
       };
@@ -373,7 +376,7 @@ export function renderExpansion({
         [
           /^Maddi hazırlığı tamamlayan haneye bir çocuk katıldı\.$/,
           "A child joined a financially prepared household.",
-          "Do przygotowanego finansowo gospodarstwa dołączyło dziecko.",
+          "Dziecko dołączyło do przygotowanego finansowo gospodarstwa.",
         ],
         [
           /^Boşalan haneye yeni bir yetişkin yerleşti\.$/,
@@ -382,8 +385,8 @@ export function renderExpansion({
         ],
         [
           /^Hane taşınma giderini karşılayınca yeni bir yetişkin katıldı\.$/,
-          "An adult joined after the household covered moving costs.",
-          "Dorosła osoba dołączyła po pokryciu kosztów przeprowadzki.",
+          "An adult joined after the household paid moving costs.",
+          "Dorosła osoba dołączyła po opłaceniu przeprowadzki.",
         ],
         [
           /^(\d+) TL; peşinat (\d+) TL\.$/,
@@ -396,6 +399,13 @@ export function renderExpansion({
       return `${esc(label("Özgün kayıt", "Original-language record", "Zapis w języku oryginału"))}: <span data-original-record>${esc(text)}</span>`;
     };
     const historySubject = (id) => {
+      if (typeof id === "string" && id.startsWith("union:")) {
+        const union = family.unions.find((entry) => entry.id === id);
+        const member = (personId) => family.people.find((person) => person.id === personId)?.name ||
+          label("Aile üyesi", "Family member", "Członek rodziny");
+        return union ? `${member(union.first)} · ${member(union.second)}` :
+          label("Aile birliği", "Family union", "Związek rodzinny");
+      }
       // Regional account IDs survive succession; their current head is not the
       // person who performed every historical action recorded under that account.
       const household = /^resident:(ankara|izmir):(\d+)$/.exec(id);
@@ -415,7 +425,7 @@ export function renderExpansion({
       institutions.program && COURSES.find((c) => c.id === institutions.program.course);
     const office = institutions.regions.find((r) => r.region === world.region);
     return (
-      header +
+      header + renderLiving({ view, actions, actionCard, esc, language }) +
       `<section class="reference"><h3>${esc(tx("Kurumlar"))}</h3>
     <p>${label("Kredi durumu", "Credit score", "Ocena kredytowa")} ${esc(institutions.credit)} · ${label("Kamu güveni", "Public trust", "Zaufanie publiczne")} ${office.trust}% · ${label("Yerel bütçe", "Local budget", "Budżet lokalny")} ${money(office.treasury)}</p>
     ${institutions.program ? `<p>${tx("Eğitim")}: ${esc(tx(course?.name || "Eğitim"))} · ${institutions.program.sessions}/${institutions.program.requiredSessions} · ${label("Burs", "Grant", "Stypendium")} ${money(institutions.program.grant)}</p>` : ""}

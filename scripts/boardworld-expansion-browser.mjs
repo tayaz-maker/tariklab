@@ -33,6 +33,21 @@ async function savedSlots(page) {
     }
   });
 }
+async function clickSavedAction(page, control) {
+  await page.evaluate(() => {
+    window.__expansionHarnessCompletion = null;
+    window.addEventListener(
+      "boardworld:action-complete",
+      (event) => {
+        window.__expansionHarnessCompletion = event.detail;
+      },
+      { once: true },
+    );
+  });
+  await control.click();
+  await page.waitForFunction(() => window.__expansionHarnessCompletion !== null);
+  assert.equal(await page.evaluate(() => window.__expansionHarnessCompletion.saved), true);
+}
 async function rejectFile(page) {
   const before = await savedSlots(page);
   await page.locator("#import-file").setInputFiles({
@@ -47,8 +62,12 @@ async function rejectFile(page) {
 }
 async function verifyUnavailableRuntime(browser, url, head, state) {
   const slots = new Map(head.slots);
-  assert.ok(slots.get("tariklab.boardworld.v7"));
-  assert.ok(slots.get("tariklab.boardworld.v7.backup"));
+  const key =
+    state.expansion.districts || state.expansion.underworld
+      ? "tariklab.boardworld.v7.living"
+      : "tariklab.boardworld.v7";
+  assert.ok(slots.get(key));
+  assert.ok(slots.get(`${key}.backup`));
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
     const page = await context.newPage();
@@ -167,8 +186,11 @@ try {
   assert.deepEqual([...requested], []);
   await page.locator("#character-name").fill("Deniz Test");
   await page.locator('[data-testid="create-game"]').click();
+  // Creation renders the action controls only after the initial durable save.
+  // Reading localStorage immediately after click can still observe null.
+  await page.locator(".event-choices [data-action]:enabled").first().waitFor();
   const opening = await page.evaluate(() => localStorage.getItem("tariklab.boardworld.v6"));
-  await page.locator(".event-choices [data-action]:enabled").first().click();
+  await clickSavedAction(page, page.locator(".event-choices [data-action]:enabled").first());
   await page.waitForFunction(
     (before) => localStorage.getItem("tariklab.boardworld.v6") !== before,
     opening,
@@ -191,7 +213,7 @@ try {
   const adoption = page.locator('[data-action="family:adopt"]');
   if (!(await adoption.isVisible()))
     await page.locator("details").filter({ has: adoption }).locator("summary").first().click();
-  await page.locator('[data-action="family:adopt"]').click();
+  await clickSavedAction(page, page.locator('[data-action="family:adopt"]'));
   await page.waitForFunction(() =>
     window.boardworldInspect?.()?.expansion.events.some((e) => e.type === "family-adoption"),
   );
@@ -204,7 +226,7 @@ try {
   assert.ok(resumed.has("expansion.mjs") && resumed.has("expansion-ui.mjs"));
   if (await page.locator(".primary-nav").count()) await openBoardworldTab(page, "expansion-world");
   if (await peer.locator(".primary-nav").count()) await openBoardworldTab(peer, "expansion-world");
-  await page.locator('[data-action="world:move:ankara"]').click();
+  await clickSavedAction(page, page.locator('[data-action="world:move:ankara"]'));
   await page.waitForFunction(
     () => window.boardworldInspect?.()?.expansion.world.region === "ankara",
   );
