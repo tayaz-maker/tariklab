@@ -71,6 +71,20 @@ function apply(state, id) {
   return result.state;
 }
 
+function whenAvailable(state, id) {
+  for (let attempt = 0; attempt < 48; attempt++) {
+    const actions = getActions(state);
+    const event = actions.find((action) => action.id.startsWith("event:") && !action.disabled);
+    if (event) {
+      state = apply(state, event.id);
+      continue;
+    }
+    if (actions.some((action) => action.id === id && !action.disabled)) return apply(state, id);
+    state = apply(state, "wait:60");
+  }
+  assert.fail(`Action never became available: ${id}`);
+}
+
 function populatedState() {
   let state = createGame({ expansion: true, scenario: "restart", seed: 303, name: maliciousName });
   state.bank = 160000;
@@ -86,8 +100,11 @@ function populatedState() {
   for (const action of [
     "family:marry",
     "world:move:ankara",
+    "district:visit:ankara:kizilay:housing",
     "economy:mortgage:ankara:room",
     "economy:let:ankara:room",
+    "district:travel:ankara:cankaya",
+    "district:visit:ankara:cankaya:housing",
     "economy:rent:ankara:studio",
     "family:reserve",
     "family:adopt",
@@ -97,7 +114,7 @@ function populatedState() {
     "business:stock:6",
     "business:acquire",
   ])
-    state = apply(state, action);
+    state = whenAvailable(state, action);
 
   // Start from real transactions, then set valid persisted values for rare
   // concurrent conditions whose visible amounts must remain distinct.
@@ -340,11 +357,16 @@ test("selected sections render current family, property, business, institution a
       "institution:clinic",
       "institution:fine",
       "world:move:izmir",
-      "world:shift",
+      "district:visit:ankara:cankaya:work",
     );
+    const recruitment = [...world.cards.values()].filter(({ id }) =>
+      id.startsWith("underworld:recruit:"),
+    );
+    assert.equal(recruitment.length, 2, "both local organizations expose recruitment");
+    assert.ok(recruitment.every(({ disabled }) => disabled), "recruitment requires a social venue");
     for (const id of family.cards.keys()) assert.ok(id.startsWith("family:"));
     for (const id of finance.cards.keys()) assert.ok(id.startsWith("economy:"));
-    for (const id of world.cards.keys()) assert.match(id, /^(institution|world):/);
+    for (const id of world.cards.keys()) assert.match(id, /^(institution|world|district|underworld):/);
     assert.equal(exportGame(state), checkpoint, "rendering any section is read-only");
   }
 });
