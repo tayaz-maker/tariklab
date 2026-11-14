@@ -38,7 +38,7 @@ jobs:
           git cat-file -e "$base^{commit}" || git fetch --no-tags --depth=1 origin "$base"
           node scripts/ci-changes.mjs "$base" "$HEAD"
       - name: Critical routing and release guard regressions
-        run: node --test scripts/ci-changes.test.mjs scripts/cloudflare-deploy.test.mjs
+        run: node --test scripts/ci-changes.test.mjs scripts/cloudflare-deploy.test.mjs scripts/cloudflare-release.test.mjs
       - name: Fetch the exact TC static baseline
         if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
         run: |

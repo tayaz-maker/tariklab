@@ -1660,3 +1660,22 @@ final package gate passes 3/3 at Gold300161, initialTR201145, expansion79763 and
 combined379924. All earlier Gold/deep/living/emergent/society browser suites and
 native stale/legacy/20-cache-race controls passed the preceding packed checkpoint;
 final exact-head CI repeats them unchanged. No release gate or budget is disabled.
+
+## 2026-11-14 — Verified Git release pointer removes the premature build race
+
+Living World 2.0 merged as PR262/main `a5ac07a1` after all protected checks passed.
+Its exact-main checks also passed, but the automatic Cloudflare build exhausted
+the existing 13-minute verification wait before the long Boardworld journey
+finished. The later native Git build retry published Worker `c63cd046` at 100%
+traffic. Both origins matched all 48 game assets (96/96 total) and isolated fresh
+browser travel, work and reload passed. This is release evidence, not a reason
+to relax the guard.
+
+The separately requested permanent CI correction adds a trusted `workflow_run`
+job that advances a protected `cloudflare-production` branch to exact current
+main only after all three main push workflows pass. Serialized fast-forward
+updates and an already-current no-op prevent ordinary duplicate builds. The
+existing production policy and final main recheck remain; budgets, timeouts
+and all game tests remain unchanged. Configuration and actual cross-provider
+trigger verification are required before calling the correction complete.
+See `docs/CLOUDFLARE_VERIFIED_RELEASE.md` for rollout, recovery and evidence.

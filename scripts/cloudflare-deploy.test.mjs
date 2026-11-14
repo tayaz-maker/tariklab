@@ -32,6 +32,13 @@ test("hook branch metadata and push SHA both preserve immutable HEAD validation"
     /full release SHA/,
   );
   requireBuildIdentity({ sha, branch: "main", commit: "main" });
+  for (const commit of [undefined, "", "cloudflare-production", sha])
+    requireBuildIdentity({ sha, branch: "cloudflare-production", commit });
+  for (const commit of ["main", "feature", "b".repeat(40)])
+    assert.throws(
+      () => requireBuildIdentity({ sha, branch: "cloudflare-production", commit }),
+      /does not match Git HEAD/,
+    );
   assert.throws(() => requireRelease({ sha, main: "b".repeat(40), runs }), /Main moved/);
   assert.throws(() => requireRelease({ sha, main: sha, runs: [] }), /Missing mandatory/);
 });
