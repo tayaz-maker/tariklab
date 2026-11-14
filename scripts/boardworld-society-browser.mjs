@@ -7,6 +7,7 @@ import { gzipSync } from "node:zlib";
 import { chromium } from "playwright";
 import { createStaticGameServer } from "./static-game-server.mjs";
 import { checkedUrl } from "./browser-guard.mjs";
+import { openBoardworldTab, boardworldDestinations, boardworldTabControl } from "./boardworld-browser-navigation.mjs";
 const args = process.argv.slice(2),
   arg = (name, fallback) => (args.includes(name) ? args[args.indexOf(name) + 1] : fallback);
 const output = resolve(
@@ -104,7 +105,7 @@ try {
           decision: e.getDecisionView(state, { actions, society: e.getSocietyView(state) }),
         };
       });
-    const tab = (id) => surface.locator(`.game-tabs [data-tab="${id}"]`).click();
+    const tab = (id) => openBoardworldTab(surface, id);
     const expose = async (button) => {
       const ancestors = await button.locator("xpath=ancestor::details[not(@open)]").all();
       for (const el of ancestors.reverse()) await el.locator(":scope > summary").click();
@@ -263,10 +264,10 @@ try {
     assert.notEqual((await h.snap()).decision.routine.code, "weekday");
     await h.choose("flow:payments:authorized");
     assert.equal((await h.inspect()).flow.settlements, "authorized");
-    await surface.locator('.game-tabs [data-tab="plan"]').focus();
+    await (await boardworldTabControl(surface, "plan")).focus();
     await page.keyboard.press("Enter");
     assert.equal(
-      await surface.locator('.game-tabs [data-tab="plan"]').getAttribute("aria-current"),
+      await (await boardworldTabControl(surface, "plan")).getAttribute("aria-current"),
       "page",
       "keyboard opens planner",
     );
@@ -400,9 +401,7 @@ try {
     h = helpers(surface);
     assert.deepEqual(await h.inspect(), saved, "save/reload preserves complete 5.0 state");
     // Every panel stays reachable in selected language; changes never touch simulation.
-    for (const id of await surface
-      .locator(".game-tabs [data-tab]")
-      .evaluateAll((es) => es.map((e) => e.dataset.tab))) {
+    for (const id of await boardworldDestinations(surface)) {
       await h.tab(id);
       await h.layout(`panel ${id}`);
     }
@@ -412,13 +411,13 @@ try {
       await m.chooseLanguage("en");
     });
     assert.deepEqual(await h.inspect(), beforeLanguage);
-    assert.match(await surface.locator(".game-tabs [data-tab=plan]").innerText(), /Planner|Agenda/);
+    assert.match(await (await boardworldTabControl(surface, "plan")).innerText(), /Planner|Agenda/);
     await surface.evaluate(async () => {
       const m = await import("/games/tc-sim-boardworld/i18n.mjs");
       await m.chooseLanguage("pl");
     });
     assert.deepEqual(await h.inspect(), beforeLanguage);
-    assert.ok(!/Ajanda/.test(await surface.locator(".game-tabs [data-tab=plan]").innerText()));
+    assert.ok(!/Ajanda/.test(await (await boardworldTabControl(surface, "plan")).innerText()));
     await surface.evaluate(async (lang) => {
       const m = await import("/games/tc-sim-boardworld/i18n.mjs");
       await m.chooseLanguage(lang);

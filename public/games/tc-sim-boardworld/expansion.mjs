@@ -17,6 +17,9 @@ import {
   tickEconomy,
   validateEconomy,
   economyView,
+  regionalMarkets,
+  regionalShift,
+  payBusinessOverhead,
   adaptEconomyActions,
   afterEconomyAction,
   economyNpcHousingCost,
@@ -54,13 +57,15 @@ export function attachExpansion(api) {
   };
   api.playerPresent = (s, district) =>
     present(s, district) && (!s.expansion || s.expansion.world.region === "istanbul");
+  api.regionalShift = regionalShift;
+  api.payBusinessOverhead = (s) => payBusinessOverhead(s, api);
   api.expansionEvent = expansionEvent;
   api.creditMunicipalTax = creditMunicipalTax;
   api.closeHousehold = (s, reason) => closeHousehold(s, reason, api);
   api.settleCareer = (s) => {
-    if (!s.job) return;
-    api.receive(s, s.job.earned, "İşten ayrılma · kazanılmış ücret", "bank");
+    if (s.job) api.receive(s, s.job.earned, "İşten ayrılma · kazanılmış ücret", "bank");
     s.job = null;
+    Object.assign(s.deep.career, { employerJobId: null, negotiatedBonus: 0, noticeDay: 0 });
   };
   // Property and enterprise stay in the household estate across successors.
 }
@@ -85,7 +90,7 @@ export function tickExpansion(s, api) {
   tickInstitutions(s, api);
   tickFamily(s, api);
   if ((api.dayOf(s) - s.expansion.world.startedDay) % 30 === 0)
-    tickRegions(s, api, economyView(s).regions);
+    tickRegions(s, api, regionalMarkets(s));
 }
 
 export function expansionActions(s, actions, api) {

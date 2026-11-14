@@ -67,17 +67,17 @@ export const institutionCopy = {
   ],
   "Yeterli bakiye yok.": ["Insufficient funds.", "Brak wystarczających środków."],
   "Kurum 08.00–20.00 açık.": ["The office is open 08:00–20:00.", "Urząd jest czynny 08:00–20:00."],
-  "Önce devam eden eğitimini tamamla veya bırak.": [
-    "Finish or leave your current course first.",
-    "Najpierw ukończ lub opuść obecny kurs.",
+  "Önce eğitimini tamamla veya bırak.": [
+    "Finish or leave your course first.",
+    "Najpierw ukończ lub opuść kurs.",
   ],
   "Bu yeterlilik zaten kayıtlı.": [
     "You already hold this qualification.",
     "Masz już te kwalifikacje.",
   ],
-  "Okuluna kayıtlı olduğun şehirde katıl.": [
-    "Attend in the city where you enrolled.",
-    "Weź udział w mieście, w którym się zapisano.",
+  "Kayıtlı olduğun şehirde katıl.": [
+    "Attend in your enrolment city.",
+    "Uczestnicz w mieście zapisu.",
   ],
   "Bugünkü dersi tamamladın.": ["Today's class is complete.", "Dzisiejsze zajęcia są ukończone."],
   "En az 20 enerji gerekir.": [
@@ -85,45 +85,45 @@ export const institutionCopy = {
     "Potrzeba co najmniej 20 energii.",
   ],
   "Güncel bir sağlık sorunu yok.": ["There is no active illness.", "Brak aktywnej choroby."],
-  "Sağlık durumun bu işi güvenli biçimde yapmaya elvermiyor.": [
-    "Your current health makes this work unsafe.",
-    "Stan zdrowia uniemożliwia bezpieczną pracę.",
+  "Sağlık durumun bu iş için uygun değil.": [
+    "Your health makes this work unsafe.",
+    "Zdrowie uniemożliwia bezpieczną pracę.",
   ],
-  "Banka önce gecikmiş borç veya yaptırımın çözülmesini bekliyor.": [
-    "The bank needs overdue debt or sanctions resolved first.",
-    "Bank wymaga najpierw uregulowania zaległości lub sankcji.",
+  "Banka önce gecikmiş borç veya yaptırımın çözümünü bekliyor.": [
+    "Bank requires overdue debt or sanctions resolved.",
+    "Bank wymaga uregulowania zaległości lub sankcji.",
   ],
   "Yeni başvuru için bekleme süresi dolmadı.": [
-    "The petition waiting period is still active.",
-    "Okres oczekiwania na kolejny wniosek jeszcze trwa.",
+    "The petition cooldown is active.",
+    "Okres oczekiwania na wniosek trwa.",
   ],
-  "Bu şehirde bir başvuru zaten işleniyor.": [
-    "A petition is already pending in this city.",
-    "W tym mieście już rozpatruje się wniosek.",
+  "Bu şehirde başvuru işleniyor.": [
+    "A petition is pending in this city.",
+    "W tym mieście rozpatruje się wniosek.",
   ],
   "Önce kurumla güven ilişkisi kur.": [
     "Build trust with the institution first.",
     "Najpierw zbuduj zaufanie instytucji.",
   ],
-  "Bu hafta zaten bir açıklama yaptın.": [
-    "You already issued a statement this week.",
+  "Bu hafta açıklama yaptın.": [
+    "You issued a statement this week.",
     "W tym tygodniu wydano już oświadczenie.",
   ],
-  "Duyurulacak doğrulanmış yeni sonuç yok.": [
-    "There is no new verified outcome to report.",
-    "Brak nowego potwierdzonego wyniku do publikacji.",
+  "Duyurulacak yeni doğrulanmış sonuç yok.": [
+    "No new verified outcome to report.",
+    "Brak nowego potwierdzonego wyniku.",
   ],
-  "Yerel güven veya gönüllülük deneyimi yetersiz.": [
-    "More local trust or volunteering is needed.",
-    "Potrzeba większego zaufania lub doświadczenia w wolontariacie.",
+  "Yerel güven veya gönüllülük yetersiz.": [
+    "Requires more trust or volunteering.",
+    "Potrzeba więcej zaufania lub wolontariatu.",
   ],
   "Meclis bu hafta görüşünü aldı.": [
     "The council already heard you this week.",
     "Rada wysłuchała cię już w tym tygodniu.",
   ],
-  "Başka bir soruşturma devam ediyor.": [
-    "Another investigation is already open.",
-    "Trwa już inne dochodzenie.",
+  "Başka soruşturma sürüyor.": [
+    "Another investigation is open.",
+    "Trwa inne dochodzenie.",
   ],
   "Bu şehirde sonuçlandır.": [
     "Resolve this in the city where it began.",
@@ -146,56 +146,56 @@ export const institutionCopy = {
     "Sixty days must pass between grants.",
     "Między dopłatami musi minąć 60 dni.",
   ],
-  "Ücret ve varsa burs başta kesinleşir. Günde bir ders.": [
-    "The fee and scholarship are set at enrolment. One class per day.",
-    "Opłata i stypendium są ustalane przy zapisie. Jedne zajęcia dziennie.",
+  "Ücret ve burs başta belirlenir; günde bir ders.": [
+    "Fee and scholarship are set on enrolment; one class daily.",
+    "Opłata i stypendium przy zapisie; jedne zajęcia dziennie.",
   ],
-  "Beceri kazan. Son derste geçerli meslek belgesini al.": [
-    "Build skill and earn a vocational certificate in the final class.",
-    "Rozwijaj umiejętności i zdobądź świadectwo na ostatnich zajęciach.",
+  "Beceri kazan; son derste meslek belgesi al.": [
+    "Build skill; earn a certificate in the final class.",
+    "Zdobywaj umiejętności i świadectwo na ostatnich zajęciach.",
   ],
-  "Ödenen ücret iade edilmez, kazanılan beceriler kalır.": [
-    "Fees are non-refundable. You keep the skills you gained.",
-    "Opłata nie podlega zwrotowi. Zachowasz zdobyte umiejętności.",
+  "Ücret iade edilmez; kazanılan beceriler kalır.": [
+    "Fees are non-refundable; skills remain.",
+    "Opłata bezzwrotna; zdobyte umiejętności pozostają.",
   ],
-  "Tedavi hastalığı ve iş üzerindeki etkisini azaltır.": [
-    "Treatment reduces illness and its effects on work.",
-    "Leczenie łagodzi chorobę i jej wpływ na pracę.",
+  "Tedavi hastalığı ve işe etkisini azaltır.": [
+    "Treatment reduces illness and its effect on work.",
+    "Leczenie łagodzi chorobę i wpływ na pracę.",
   ],
   "Günlük zaman ilerler. Yeterli beslenme toparlanmayı hızlandırır.": [
     "Time passes. Adequate food speeds recovery.",
     "Czas płynie. Odpowiednie żywienie przyspiesza powrót do zdrowia.",
   ],
-  "Belediye bölge bütçesini ve başvurunu üç gün içinde değerlendirir.": [
-    "The council reviews your petition and its budget within three days.",
-    "Rada rozpatrzy wniosek i budżet w ciągu trzech dni.",
+  "Belediye başvuruyu ve bütçeyi üç günde değerlendirir.": [
+    "The council reviews the petition and budget within three days.",
+    "Rada oceni wniosek i budżet w trzy dni.",
   ],
-  "Gerçek bir belediye sonucunu yayımla. Yerel güven ve kamuoyu değişir.": [
-    "Publish a verified council outcome. Local trust and opinion respond.",
-    "Opublikuj potwierdzony wynik decyzji rady. Zaufanie i opinia publiczna się zmienią.",
+  "Doğrulanmış belediye sonucunu yayımla; güven ve kamuoyu değişir.": [
+    "Publish a verified council outcome; trust and opinion change.",
+    "Publikuj wynik rady; zaufanie i opinia się zmienią.",
   ],
-  "Görüşün, yerel grupların önceliklerine ve belediye harcamalarına yansır.": [
-    "Your position affects local groups' priorities and council spending.",
-    "Twoje stanowisko wpływa na priorytety lokalnych grup i wydatki rady.",
+  "Görüşün yerel öncelikleri ve belediye harcamalarını etkiler.": [
+    "Your position affects local priorities and council spending.",
+    "Stanowisko wpływa na lokalne priorytety i wydatki rady.",
   ],
   "Teklifi bildir ve kamu güvenini artır.": [
     "Report the offer and build public trust.",
     "Zgłoś ofertę i zwiększ zaufanie publiczne.",
   ],
-  "Belediye bütçesinden ödeme alırsın. Kayıtlı ihale inceleme ve tazmin doğurur.": [
-    "Receive municipal money. The recorded contract triggers review and restitution.",
-    "Otrzymasz środki miejskie. Zarejestrowana umowa oznacza kontrolę i zwrot środków.",
+  "Belediyeden ödeme al; kayıtlı ihale inceleme ve tazmin doğurur.": [
+    "Receive public money; the contract triggers review and restitution.",
+    "Środki miejskie; umowa oznacza kontrolę i zwrot.",
   ],
-  "Tazmin belediyeye döner. Dosya kapanır ve kredi engeli kalkar.": [
-    "Funds return to the council. The case and lending restriction close.",
-    "Środki wrócą do rady. Sprawa i blokada kredytowa zostaną zamknięte.",
+  "Tazmin belediyeye döner; dosya ve kredi engeli kapanır.": [
+    "Funds return to the council; the case and credit restriction end.",
+    "Środki wrócą do rady; sprawa i blokada kredytu się zakończą.",
   ],
-  "Bağımsız inceleme idari cezayı azaltabilir. Alınan kamu parası yine iade edilir.": [
-    "A review can reduce the penalty. Public money must still be returned.",
-    "Kontrola może obniżyć karę. Środki publiczne nadal podlegają zwrotowi.",
+  "İnceleme cezayı azaltabilir; kamu parası yine iade edilir.": [
+    "Review may reduce the penalty; public money must be returned.",
+    "Kontrola może obniżyć karę; środki publiczne trzeba zwrócić.",
   ],
-  "Belediye fonu doğrudan birikmiş kiraya aktarılır.": [
-    "The council fund pays rent arrears directly.",
+  "Belediye fonu doğrudan kira borcuna aktarılır.": [
+    "Council funds pay rent arrears directly.",
     "Fundusz rady bezpośrednio spłaca zaległy czynsz.",
   ],
   "Eğitim kaydı açıldı.": ["School enrolment confirmed.", "Potwierdzono zapis do szkoły."],
@@ -427,12 +427,12 @@ export function institutionActions(s, api) {
       add(
         `school:${course.id}`,
         `${LABELS.school} · ${course.name}`,
-        "Ücret ve varsa burs başta kesinleşir. Günde bir ders.",
+        "Ücret ve burs başta belirlenir; günde bir ders.",
         "education",
         30,
         tuition - grant,
         s.course
-          ? "Önce devam eden eğitimini tamamla veya bırak."
+          ? "Önce eğitimini tamamla veya bırak."
           : x.qualifications.some((record) => record.course === course.id) ||
               existingCertificate(s, course.id)
             ? "Bu yeterlilik zaten kayıtlı."
@@ -457,12 +457,12 @@ export function institutionActions(s, api) {
     add(
       "study",
       LABELS.study,
-      "Beceri kazan. Son derste geçerli meslek belgesini al.",
+      "Beceri kazan; son derste meslek belgesi al.",
       "education",
       course.minutes,
       0,
       program.region !== region
-        ? "Okuluna kayıtlı olduğun şehirde katıl."
+        ? "Kayıtlı olduğun şehirde katıl."
         : program.lastStudyDay === today
           ? "Bugünkü dersi tamamladın."
           : s.player.energy < 20
@@ -499,7 +499,7 @@ export function institutionActions(s, api) {
     add(
       "withdraw",
       LABELS.withdraw,
-      "Ödenen ücret iade edilmez, kazanılan beceriler kalır.",
+      "Ücret iade edilmez; kazanılan beceriler kalır.",
       "education",
       0,
       0,
@@ -517,7 +517,7 @@ export function institutionActions(s, api) {
     add(
       "clinic",
       LABELS.clinic,
-      "Tedavi hastalığı ve iş üzerindeki etkisini azaltır.",
+      "Tedavi hastalığı ve işe etkisini azaltır.",
       "life",
       minutes,
       cost,
@@ -552,12 +552,12 @@ export function institutionActions(s, api) {
     add(
       `petition:${topic}`,
       `${LABELS.petition} · ${topicName[topic]}`,
-      "Belediye bölge bütçesini ve başvurunu üç gün içinde değerlendirir.",
+      "Belediye başvuruyu ve bütçeyi üç günde değerlendirir.",
       "people",
       45,
       0,
       local.petition
-        ? "Bu şehirde bir başvuru zaten işleniyor."
+        ? "Bu şehirde başvuru işleniyor."
         : local.lastPetition && today - local.lastPetition < 15
           ? "Yeni başvuru için bekleme süresi dolmadı."
           : local.trust + Math.min(6, localContacts(s) * 2) < 10
@@ -579,12 +579,12 @@ export function institutionActions(s, api) {
     add(
       `campaign:${topic}`,
       `${LABELS.campaign} · ${topicName[topic]}`,
-      "Görüşün, yerel grupların önceliklerine ve belediye harcamalarına yansır.",
+      "Görüşün yerel öncelikleri ve belediye harcamalarını etkiler.",
       "people",
       90,
       0,
       s.flags.volunteers < 1 && local.trust < 10
-        ? "Yerel güven veya gönüllülük deneyimi yetersiz."
+        ? "Yerel güven veya gönüllülük yetersiz."
         : local.lastCampaign && today - local.lastCampaign < 7
           ? "Meclis bu hafta görüşünü aldı."
           : officeOpen(s, 90),
@@ -601,14 +601,14 @@ export function institutionActions(s, api) {
   add(
     "publish",
     LABELS.publish,
-    "Gerçek bir belediye sonucunu yayımla. Yerel güven ve kamuoyu değişir.",
+    "Doğrulanmış belediye sonucunu yayımla; güven ve kamuoyu değişir.",
     "people",
     45,
     0,
     !local.result || local.result.published
-      ? "Duyurulacak doğrulanmış yeni sonuç yok."
+      ? "Duyurulacak yeni doğrulanmış sonuç yok."
       : local.lastMedia && today - local.lastMedia < 7
-        ? "Bu hafta zaten bir açıklama yaptın."
+        ? "Bu hafta açıklama yaptın."
         : "",
     (next) => {
       const budget = currentRegion(next);
@@ -629,7 +629,7 @@ export function institutionActions(s, api) {
   add(
     "rent-aid",
     LABELS.rentAid,
-    "Belediye fonu doğrudan birikmiş kiraya aktarılır.",
+    "Belediye fonu doğrudan kira borcuna aktarılır.",
     "finance",
     40,
     0,
@@ -664,12 +664,12 @@ export function institutionActions(s, api) {
     add(
       "accept",
       LABELS.accept,
-      "Belediye bütçesinden ödeme alırsın. Kayıtlı ihale inceleme ve tazmin doğurur.",
+      "Belediyeden ödeme al; kayıtlı ihale inceleme ve tazmin doğurur.",
       "people",
       45,
       0,
       x.case
-        ? "Başka bir soruşturma devam ediyor."
+        ? "Başka soruşturma sürüyor."
         : amount < 200
           ? "Yeterli bakiye yok."
           : officeOpen(s, 45),
@@ -703,7 +703,7 @@ export function institutionActions(s, api) {
     add(
       "fine",
       LABELS.fine,
-      "Tazmin belediyeye döner. Dosya kapanır ve kredi engeli kalkar.",
+      "Tazmin belediyeye döner; dosya ve kredi engeli kapanır.",
       "finance",
       30,
       auditAmount(s),
@@ -718,7 +718,7 @@ export function institutionActions(s, api) {
     add(
       "appeal",
       LABELS.appeal,
-      "Bağımsız inceleme idari cezayı azaltabilir. Alınan kamu parası yine iade edilir.",
+      "İnceleme cezayı azaltabilir; kamu parası yine iade edilir.",
       "people",
       60,
       0,
@@ -741,11 +741,11 @@ export function adaptInstitutionActions(s, actions) {
     if (action.disabled) continue;
     let reason = "";
     if ((action.id === "work" || action.id === "world:shift") && x.illness?.severity >= 72)
-      reason = "Sağlık durumun bu işi güvenli biçimde yapmaya elvermiyor.";
+      reason = "Sağlık durumun bu iş için uygun değil.";
     if (action.id === "loan" && (x.credit < 40 || x.case))
-      reason = "Banka önce gecikmiş borç veya yaptırımın çözülmesini bekliyor.";
+      reason = "Banka önce gecikmiş borç veya yaptırımın çözümünü bekliyor.";
     if (action.id.startsWith("enroll:") && x.program)
-      reason = "Önce devam eden eğitimini tamamla veya bırak.";
+      reason = "Önce eğitimini tamamla veya bırak.";
     if (
       action.id.startsWith("enroll:") &&
       x.qualifications.some((q) => q.course === action.id.slice(7))

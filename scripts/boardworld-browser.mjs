@@ -6,6 +6,7 @@ import { chromium } from "playwright";
 import { createStaticGameServer } from "./static-game-server.mjs";
 import { generatedGameAssets } from "./boardworld-browser-assets.mjs";
 import { checkedUrl } from "./browser-guard.mjs";
+import { openBoardworldTab, boardworldDestinations, waitForBoardworldNavigation } from "./boardworld-browser-navigation.mjs";
 const argv = process.argv.slice(2),
   arg = (name, fallback) => (argv.includes(name) ? argv[argv.indexOf(name) + 1] : fallback);
 const serving = arg("--serve", null),
@@ -70,7 +71,7 @@ try {
     await surface.locator("#character-name").fill("Ada <test>");
     await surface.locator("[name=scenario][value=newcomer]").check();
     await surface.locator("[data-testid=create-game]").click();
-    await surface.locator("[data-tab=work]").first().waitFor();
+    await waitForBoardworldNavigation(surface);
     const inspect = () => surface.evaluate(() => window.boardworldInspect());
     const available = () =>
       surface.evaluate(async () => {
@@ -88,7 +89,7 @@ try {
     };
     const act = async (id, tab) => {
       await drain();
-      if (tab) await surface.locator(`[data-tab="${tab}"]`).first().click();
+      if (tab) await openBoardworldTab(surface, tab);
       const a = (await available()).find((a) => a.id === id);
       assert.ok(a, `action ${id} is unavailable at ${JSON.stringify((await inspect()).time)}`);
       await surface.locator(`[data-action="${id}"]`).first().click();
@@ -104,21 +105,22 @@ try {
     assert.ok(worked.job.earned > 0);
     assert.ok(worked.time > initial.time);
     await drain();
-    for (const tab of [
-      "board",
-      "work",
-      "life",
-      "people",
-      "study",
-      "wallet",
-      "bag",
-      "goals",
-      "log",
-    ]) {
-      await surface.locator(`[data-tab="${tab}"]`).first().click();
+    await openBoardworldTab(surface, "work");
+    assert.ok(await surface.locator('[data-action="resign"]').isEnabled(), "leaving the job remains an explicit Career choice");
+    await openBoardworldTab(surface, "dashboard");
+    const recommendations = await surface.locator('.next-steps [data-action]').evaluateAll(buttons => buttons.map(button => button.dataset.action));
+    assert.ok(!recommendations.includes("resign") && !recommendations.includes("career:notice"), "a successful first shift must not recommend leaving a stable job");
+    assert.ok(recommendations.includes("career:review"), "the post-shift overview offers actual career development");
+    assert.equal((await inspect()).job.id, worked.job.id, "viewing recommendations preserves employment");
+    for (const tab of await boardworldDestinations(surface)) {
+      await openBoardworldTab(surface, tab);
       await layout(tab);
+      if (tab === "dashboard") {
+        await surface.evaluate(() => window.scrollTo(0, 0));
+        await page.screenshot({ path: `${out}/dashboard-${width}.png`, fullPage: true });
+      }
     }
-    await surface.locator("[data-tab=board]").first().click();
+    await openBoardworldTab(surface, "board");
     await surface.locator(".neighborhood-select[data-district=besiktas]").click();
     await act("travel:besiktas");
     assert.equal((await inspect()).location, "besiktas");

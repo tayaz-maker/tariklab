@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { createStaticGameServer } from "./static-game-server.mjs";
+import { openBoardworldTab } from "./boardworld-browser-navigation.mjs";
 
 const root = process.argv[2] || "public";
 const server = createStaticGameServer(root);
@@ -82,7 +83,7 @@ async function verifyUnavailableRuntime(browser, url, head, state) {
     await page.waitForFunction(() => window.boardworldInspect?.()?.version === 6);
     assert.ok(requests.has("expansion.mjs"));
     assert.match(await page.locator(".save-state").textContent(), /Nesiller kaydı okunamadı/);
-    await page.locator("[data-tab=expansion]").click();
+    await openBoardworldTab(page, "expansion");
     await page.locator('[role="alert"]').filter({ hasText: "Nesiller kaydı okunamadı" }).waitFor();
     assert.equal(await page.locator('[data-ui="expand"]').count(), 0);
     assert.deepEqual(await savedSlots(page), head);
@@ -175,7 +176,7 @@ try {
   const gold = await page.evaluate(() => localStorage.getItem("tariklab.boardworld.v6"));
   assert.equal(JSON.parse(gold).version, 6);
   assert.deepEqual([...requested], [], "Gold play should request no expansion modules");
-  await page.locator("[data-tab=expansion]").click();
+  await openBoardworldTab(page, "expansion");
   await page.locator("[data-ui=expand]").waitFor();
   await rejectFile(page);
   assert.deepEqual(
@@ -187,12 +188,9 @@ try {
   await page.waitForFunction(() => window.boardworldInspect?.()?.version === 7);
   assert.ok(requested.has("expansion.mjs") && requested.has("expansion-ui.mjs"));
   assert.equal(await page.evaluate(() => localStorage.getItem("tariklab.boardworld.v6")), gold);
-  await page
-    .locator("details")
-    .filter({ has: page.locator('[data-action="family:adopt"]') })
-    .locator("summary")
-    .first()
-    .click();
+  const adoption = page.locator('[data-action="family:adopt"]');
+  if (!(await adoption.isVisible()))
+    await page.locator("details").filter({ has: adoption }).locator("summary").first().click();
   await page.locator('[data-action="family:adopt"]').click();
   await page.waitForFunction(() =>
     window.boardworldInspect?.()?.expansion.events.some((e) => e.type === "family-adoption"),
@@ -204,6 +202,8 @@ try {
     () => window.boardworldInspect?.()?.expansion.world.region === "istanbul",
   );
   assert.ok(resumed.has("expansion.mjs") && resumed.has("expansion-ui.mjs"));
+  if (await page.locator(".primary-nav").count()) await openBoardworldTab(page, "expansion-world");
+  if (await peer.locator(".primary-nav").count()) await openBoardworldTab(peer, "expansion-world");
   await page.locator('[data-action="world:move:ankara"]').click();
   await page.waitForFunction(
     () => window.boardworldInspect?.()?.expansion.world.region === "ankara",

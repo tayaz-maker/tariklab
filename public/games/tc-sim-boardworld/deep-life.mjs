@@ -366,7 +366,8 @@ export function deepDaily(s, api) {
     if (d - Math.max(b.lastServiceDay, b.openedDay) >= 7 && d % 7 === 0)
       b.clients = Math.max(0, b.clients - 1);
     if (d >= b.nextOverheadDay) {
-      if (b.accruedOverhead > 0) {
+      if (s.expansion && api.payBusinessOverhead) api.payBusinessOverhead(s);
+      else if (b.accruedOverhead > 0) {
         const fee = Math.ceil(b.accruedOverhead);
         b.accruedOverhead = 0;
         b.costs = amount(b.costs + fee);
