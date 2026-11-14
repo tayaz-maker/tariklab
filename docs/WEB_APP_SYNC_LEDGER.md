@@ -1532,14 +1532,23 @@ exact-head CI are release requirements; this entry does not assert publication.
 Native follow-up: preserve these authoritative economic and family transitions
 and the four-area navigation; native development and Social Engine stay paused.
 
-Candidate verification: final runtime `af98b2fd` builds and passes final focused
+Candidate verification: final runtime `7eef6579` builds and passes final focused
 UX/depth, typecheck and lint checks. All required Boardworld browser suites pass
 on built `87255a27`; the final two display-only labels pass a rebuilt TR/EN/PL
 browser check. Authentic released v6/v7 saves retain exact initial bytes and
 replay deterministically. The integration unit batch passes 552/553 tests; its
 sole failure is packaging, and it is not claimed as an exact-final-head run.
-Publication remains blocked: final deferred gzip 45627 exceeds 40217 by 5410;
-combined 344049 exceeds 342048 by 2001. Gold aggregate 298422 and initial TR
-199587 remain within their unchanged ceilings. No budget was relaxed, no merge
+Publication remains blocked: final deferred gzip 45628 exceeds 40217 by 5411;
+combined 344106 exceeds 342048 by 2058. Gold aggregate 298478 and initial TR
+199644 remain within their unchanged ceilings. No budget was relaxed, no merge
 or deployment is asserted, and the candidate must remain a draft until all
 existing exact-head release gates pass.
+
+A post-build screenshot review caught an inappropriate resignation recommendation
+after a successful first shift. Runtime `7eef6579` limits fallback suggestions to
+constructive work and study actions while keeping resignation available in Career.
+The real first-shift browser regression failed before the fix and passed after it
+at 1440/390/320; the rebuilt core browser suite and focused lint also passed.
+The production build and unchanged package checks were repeated; the package
+overage above remains a release blocker. Prior full-suite and save evidence keeps
+its original candidate scope.

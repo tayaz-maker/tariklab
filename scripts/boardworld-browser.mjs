@@ -105,6 +105,13 @@ try {
     assert.ok(worked.job.earned > 0);
     assert.ok(worked.time > initial.time);
     await drain();
+    await openBoardworldTab(surface, "work");
+    assert.ok(await surface.locator('[data-action="resign"]').isEnabled(), "leaving the job remains an explicit Career choice");
+    await openBoardworldTab(surface, "dashboard");
+    const recommendations = await surface.locator('.next-steps [data-action]').evaluateAll(buttons => buttons.map(button => button.dataset.action));
+    assert.ok(!recommendations.includes("resign") && !recommendations.includes("career:notice"), "a successful first shift must not recommend leaving a stable job");
+    assert.ok(recommendations.includes("career:review"), "the post-shift overview offers actual career development");
+    assert.equal((await inspect()).job.id, worked.job.id, "viewing recommendations preserves employment");
     for (const tab of await boardworldDestinations(surface)) {
       await openBoardworldTab(surface, tab);
       await layout(tab);

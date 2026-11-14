@@ -29,23 +29,25 @@ The implementation keeps schema 7 readable without eagerly adding resident profi
 
 ## Candidate verification and release blocker
 
-The final runtime source is `af98b2fd` (the following evidence commit changes documentation only). Its production build succeeds, but it is **not release ready**. The unchanged package gate rejects the candidate; no assertion or budget was relaxed.
+The final runtime source is `7eef6579` (the following evidence commit changes documentation only). Its production build succeeds, but it is **not release ready**. The unchanged package gate rejects the candidate; no assertion or budget was relaxed.
 
 | Package measurement                      | Candidate gzip bytes | Frozen ceiling | Result                |
 | ---------------------------------------- | -------------------: | -------------: | --------------------- |
-| Gold aggregate                           |               298422 |         301836 | PASS                  |
-| Initial TR graph                         |               199587 |         205874 | PASS                  |
-| Deferred expansion, every asset included |                45627 |          40217 | FAIL: 5410 bytes over |
-| Combined Gold and expansion              |               344049 |         342048 | FAIL: 2001 bytes over |
+| Gold aggregate                           |               298478 |         301836 | PASS                  |
+| Initial TR graph                         |               199644 |         205874 | PASS                  |
+| Deferred expansion, every asset included |                45628 |          40217 | FAIL: 5411 bytes over |
+| Combined Gold and expansion              |               344106 |         342048 | FAIL: 2058 bytes over |
 
 The exact-source packaging rerun preserves every locale entry, public export, source/packed deterministic replay and deferred graph assertion before failing the expansion byte assertion. The combined overage is independently reported by the build; execution of that later assertion is not claimed. Further literal pooling, language-table transposition and validator factoring probes did not produce a sufficient reduction and were discarded.
 
 Local evidence is deliberately separated by candidate stage:
 
 - The in-progress integration unit batch completed 553 tests: 552 passed, one package-budget failure, no skipped or cancelled tests. It began before the last display-only outcome/UI commits and is not represented as an exact-final-head run. All simulation and endurance checks in that batch passed.
-- After the final feature changes, the 18 new depth/UX tests passed. Final typecheck and lint passed; lint reports 67 pre-existing warnings outside the changed feature code. The exact final package suite reports two passing tests and the expected package-budget failure.
+- After the expansion feature changes, the 18 new depth/UX tests passed. Final typecheck and lint passed; lint reports 67 pre-existing warnings outside the changed feature code. The exact final package suite reports two passing tests and the expected package-budget failure.
 - The built `87255a27` candidate passed all required Boardworld browser scripts, including 1440/390/320 layouts, every destination, keyboard navigation, deep/living/emergent/society/expansion play, 50 concurrent-write races, 20 frozen-cache races, 31 transaction cases, released-tab protection, six legacy-slot cases and seven legacy-bootstrap cases. No browser runtime error was reported.
 - Five authentic saves exported by released main `7ded3aa8` preserved their initial states and export bytes exactly, then each passed 25 authoritative actions spanning 1500 minutes with equal direct versus save/reload replay. Their original files remained unchanged.
 - The final `af98b2fd` rebuild changes only the outcome landmark and tomorrow label. A focused real-browser check passed those labels in TR, EN and PL with no runtime errors. Root independently exercised adoption, relocation, funded local work, property discovery, family links and family reserve payment in the built browser.
+
+- A later screenshot review found that the first successful shift could recommend resigning. The new real-browser regression failed against the previous build, then passed against `7eef6579` at 1440/390/320 after the fallback was limited to constructive work and education actions. The overview offers an enabled career development review; resigning remains an enabled Career choice. The rebuilt core browser suite also passed every destination, work/travel, save/reload, export/import and backup recovery with no runtime errors. Build, targeted lint and the exact package rerun were repeated; the byte gate remains the sole failing package test. Earlier full-suite and save evidence retains its explicitly stated candidate scope.
 
 The remaining release blocker is the measured package overage. A reviewable draft may be published, but merging or deploying requires the same existing byte limits and exact-head required CI to pass. The production main and existing Cloudflare deployment remain the released baseline until then.
