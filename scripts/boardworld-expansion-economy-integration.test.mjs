@@ -41,12 +41,17 @@ test("normal engine actions share stock, leases and ownership with the regional 
   assert.ok(s.living.enterprise.stock < 6);
   apply("economy:mortgage:istanbul:room");
   apply("economy:occupy:istanbul:room");
+  for (let attempts = 0; attempts < 30 && getActions(s).find(a => a.id === "world:move:ankara")?.disabled; attempts++) {
+    while (s.pendingEvents.length) apply(getActions(s).find(a => a.id.startsWith("event:") && !a.disabled).id);
+    apply("wait:60");
+  }
   apply("world:move:ankara");
   assert.equal(e(s).home, "istanbul:room");
   const service = getActions(s).find((a) => a.id === "business:serve");
   assert.ok(service?.disabled);
   assert.ok(getActions(s).find((a) => a.id === "economy:rent:ankara:studio").disabled);
-  apply("district:travel:ankara:cankaya");
+  // Kızılay and this housing office are neighborhoods within the same Çankaya
+  // district; the local venue route below replaces the former pseudo-district hop.
   for (let attempts = 0; attempts < 30; attempts++) {
     while (s.pendingEvents.length)
       apply(getActions(s).find((a) => a.id.startsWith("event:") && !a.disabled).id);

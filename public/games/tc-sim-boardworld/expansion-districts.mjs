@@ -1,38 +1,19 @@
 import { VENUES as GOLD_VENUES } from "./city.mjs";
 import { getSocietyDistrictEffects } from "./society-systems.mjs";
 import { underworldDistrictModifiers } from "./expansion-underworld.mjs";
-import { HOMES } from "./content.mjs";
 import { REGIONS } from "./expansion-world.mjs";
+import { districtEconomyMetrics, getDistrictEmployers, economyLotDistrict } from "./expansion-economy.mjs";
 
 const DAY = 1440;
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
-export const DISTRICTS = [
-  { id: "kadikoy", regionId: "istanbul", name: "Kadıköy" },
-  { id: "besiktas", regionId: "istanbul", name: "Beşiktaş" },
-  { id: "sisli", regionId: "istanbul", name: "Şişli" },
-  { id: "ankara:kizilay", regionId: "ankara", name: "Kızılay" },
-  { id: "ankara:cankaya", regionId: "ankara", name: "Çankaya" },
-  { id: "izmir:konak", regionId: "izmir", name: "Konak" },
-  { id: "izmir:bornova", regionId: "izmir", name: "Bornova" },
-];
-const kinds = {
-  housing: { name: "Konut ofisi", hours: [8, 18], capacity: 8 },
-  work: { name: "İş merkezi", hours: [7, 22], capacity: 12 },
-  institution: { name: "Kamu merkezi", hours: [8, 18], capacity: 8 },
-  social: { name: "Mahalle buluşma yeri", hours: [9, 22], capacity: 12 },
-};
-export const VENUES = DISTRICTS.filter((d) => d.regionId !== "istanbul").flatMap((d) =>
-  Object.entries(kinds).map(([kind, v]) => ({
-    id: `${d.id}:${kind}`,
-    districtId: d.id,
-    kind,
-    ...v,
-  })),
-);
-const district = (id) => DISTRICTS.find((d) => d.id === id);
+import { DISTRICTS, NEIGHBORHOODS, LOCATIONS, districtById, hubDistrict, normalizeDistrictId, routeBetween } from "./expansion-geography.mjs";
+export { DISTRICTS } from "./expansion-geography.mjs";
+const goldDistrict = (id) => ["kadikoy", "besiktas", "sisli"].includes(id);
+export const VENUES = LOCATIONS.filter((v) => !goldDistrict(v.districtId));
+const district = districtById;
 const venue = (id) => VENUES.find((v) => v.id === id);
-const hub = (region) => DISTRICTS.find((d) => d.regionId === region)?.id;
-const FOOD_IDS = DISTRICTS.filter((d) => d.regionId !== "istanbul").map((d) => d.id);
+const hub = hubDistrict;
+const FOOD_IDS = DISTRICTS.filter((d) => !goldDistrict(d.id)).map((d) => d.id);
 // Each independent vendor starts with 12 meals and 1,000 TL. Restocking pays
 // 30 TL per meal to an external wholesaler; no second household ledger is used.
 const defaultMarket = (day) => ({ stock: 12, cash: 1000, wholesaleSpent: 0, lastDay: day });
@@ -48,57 +29,50 @@ const state = (s) =>
     contacts: {},
   });
 export function districtForLot(lotId) {
-  const [region, home] = String(lotId).split(":");
-  if (!REGIONS[region] || !["room", "studio", "apartment"].includes(home)) return null;
-  if (region === "istanbul") return HOMES.find((h) => h.id === home)?.district ?? null;
-  return DISTRICTS.filter((d) => d.regionId === region)[home === "room" ? 0 : 1].id;
+  return economyLotDistrict(lotId);
 }
 export function getPlace(s) {
   const regionId = s.expansion?.world.region ?? "istanbul";
-  if (regionId === "istanbul")
-    return { regionId, districtId: s.location, venueId: s.city?.venue || null };
   const p = s.expansion?.districts?.place;
-  return {
-    regionId,
-    districtId: p && district(p.districtId)?.regionId === regionId ? p.districtId : hub(regionId),
-    venueId: p && district(p.districtId)?.regionId === regionId ? p.venueId : null,
-  };
+  const id = p && district(p.districtId)?.regionId === regionId ? normalizeDistrictId(p.districtId) : regionId === "istanbul" ? s.location : hub(regionId);
+  const venueId = p && district(p.districtId)?.regionId === regionId ? p.venueId : regionId === "istanbul" ? s.city?.venue || null : null;
+  const location = LOCATIONS.find((v) => v.id === venueId);
+  return { countryId: "tr", cityId: regionId, regionId, districtId: id, neighborhoodId: location?.neighborhoodId ?? (p?.districtId === "ankara:kizilay" || (!p && regionId === "ankara") ? "ankara:kizilay" : `${id}:game-neighborhood`), venueId };
+}
+// Call only after loading a copy: old market ledgers retain their balances.
+export function migrateDistricts(s) {
+  const x = s.expansion?.districts;
+  if (!x) return;
+  if (x.foodMarkets) for (const id of FOOD_IDS) x.foodMarkets[id] ||= defaultMarket(day(s));
 }
 export function getDistrictSimulation(s, districtId) {
   const d = district(districtId);
   if (!d || !s.expansion) return null;
   const market = s.expansion.world.regions[d.regionId];
-  const firms = Object.entries(s.expansion.economy.firms).filter(([id]) =>
-    id.startsWith(`${d.regionId}:`),
-  );
-  const open = firms.filter(([, f]) => f.status === "open");
   const modifiers = underworldDistrictModifiers(s, districtId);
-  const localFirms = open.filter(
-    ([id]) => d.regionId === "istanbul" || id.endsWith(":repair") === (hub(d.regionId) === d.id),
-  );
-  const stock = localFirms.reduce((sum, [, f]) => sum + f.stock, 0);
+  const metrics = districtEconomyMetrics(s, d.id);
+  const stock = metrics.materialStock;
   const gold = s.society?.districts?.[districtId];
-  const society = d.regionId === "istanbul" ? getSocietyDistrictEffects(s, districtId) : {};
+  const society = goldDistrict(d.id) ? getSocietyDistrictEffects(s, districtId) : {};
   const food =
-    d.regionId === "istanbul"
+    goldDistrict(d.id)
       ? (gold?.foodStock ?? 0)
       : (s.expansion.districts?.foodMarkets?.[districtId]?.stock ?? 12);
-  const localIndex =
-    { "ankara:kizilay": 5, "ankara:cankaya": -3, "izmir:konak": 4, "izmir:bornova": -2 }[d.id] || 0;
+  const localIndex = {commerce: 6, services: 3, industry: 1, heritage: 2, culture: 4, residential: -3}[d.trait] || 0;
   return {
     demand: clamp(
-      market.employment + localIndex + (society.demand || 0) + (modifiers.demand || 0),
+      market.employment + localIndex + metrics.demandAdjustment + (society.demand || 0) + (modifiers.demand || 0),
       0,
       200,
     ),
     rentPressure: clamp(
-      market.price + localIndex + (society.rentPressure || 0) + (modifiers.rentPressure || 0),
+      market.price + localIndex + metrics.rentAdjustment + (society.rentPressure || 0) + (modifiers.rentPressure || 0),
       0,
       200,
     ),
     foodStock: food,
-    materialStock: d.regionId === "istanbul" ? (gold?.materialStock ?? 0) : stock,
-    jobOpenings: clamp(100 + localFirms.length * 5 + (modifiers.jobOpenings || 0), 0, 200),
+    materialStock: goldDistrict(d.id) ? (gold?.materialStock ?? 0) : stock,
+    jobOpenings: Math.max(0, metrics.jobOpenings),
     serviceDelay: clamp((society.serviceDelay || 0) + (modifiers.serviceDelay || 0), 0, 200),
     security: clamp(70 + (modifiers.security || 0), 0, 100),
     influence: clamp(modifiers.influence || 0, 0, 100),
@@ -113,18 +87,9 @@ const hours = (s, v, minutes = 0) => {
   return start >= v.hours[0] * 60 && start + minutes <= v.hours[1] * 60;
 };
 const employer = (s, p, wage) => {
-  const first = hub(p.regionId) === p.districtId;
-  const types = first ? ["repair"] : ["digital", "teaching"];
   const reserve = Math.round((105 * s.expansion.world.regions[p.regionId].price) / 100);
-  return types
-    .map((type) => ({
-      id: `${p.regionId}:${type}`,
-      firm: s.expansion.economy.firms[`${p.regionId}:${type}`],
-    }))
-    .find(
-      ({ firm }) =>
-        firm && firm.status === "open" && firm.cash >= wage + reserve * firm.workers * 4,
-    );
+  return getDistrictEmployers(s,p.districtId).find(({firm,vacancies}) =>
+    vacancies > 0 && firm.status === "open" && firm.cash >= wage + reserve * firm.workers * 4);
 };
 const problem = (s, minutes) =>
   conflict(s, minutes) ? "Bu süre ajandandaki bir planla çakışıyor." : "";
@@ -150,13 +115,12 @@ const make = (
 });
 export function districtActions(s, api) {
   const p = getPlace(s);
-  if (p.regionId === "istanbul") return [];
   const actions = [];
   for (const target of DISTRICTS.filter(
-    (d) => d.regionId === p.regionId && d.id !== p.districtId,
+    (d) => d.regionId === p.regionId && d.id !== p.districtId && !(goldDistrict(p.districtId) && goldDistrict(d.id)),
   )) {
-    const minutes = 45,
-      cost = 35;
+    const route = routeBetween(s, p.venueId || p.districtId, target.id);
+    const { minutes, cost } = route;
     actions.push(
       make(
         `district:travel:${target.id}`,
@@ -164,7 +128,7 @@ export function districtActions(s, api) {
         "Toplu taşıma ile semt merkezine yolculuk.",
         minutes,
         cost,
-        problem(s, minutes) || (s.player.energy < 10 ? "Yolculuk için enerji gerekir." : ""),
+        problem(s, minutes) || route.reason || (s.player.energy < 10 ? "Yolculuk için enerji gerekir." : ""),
         (n) => {
           n._transit = true;
           return "Yolculuk tamamlandı.";
@@ -173,11 +137,12 @@ export function districtActions(s, api) {
     );
   }
   for (const v of VENUES.filter((v) => v.districtId === p.districtId && v.id !== p.venueId)) {
-    const minutes = 15,
+    const route = routeBetween(s, p.venueId || p.districtId, v.id, { mode: "walk" });
+    const minutes = route.minutes,
       used =
         s.expansion.districts?.visitDay === day(s) ? s.expansion.districts.visits[v.id] || 0 : 0;
     const reason =
-      problem(s, minutes) ||
+      problem(s, minutes) || route.reason ||
       (!hours(s, v, minutes)
         ? "Mekân bu saatte kapalı."
         : used >= v.capacity
@@ -188,8 +153,8 @@ export function districtActions(s, api) {
     actions.push(
       make(
         `district:visit:${v.id}`,
-        `${v.name} ziyaret et`,
-        "Yürüyüş · açık saatler ve günlük kapasite geçerlidir.",
+        `${v.neighborhoodId === "ankara:kizilay" ? "Kızılay · " : ""}${v.name} ziyaret et`,
+        `Yürüyüş · ${String(v.hours[0]).padStart(2,"0")}:00–${String(v.hours[1]).padStart(2,"0")}:00 · günlük kapasite geçerlidir.`,
         minutes,
         0,
         reason,
@@ -203,7 +168,7 @@ export function districtActions(s, api) {
   if (venue(p.venueId)?.kind === "social") {
     const residents = (api.regionalResidents?.(s, p.regionId) || []).filter(
       (person) =>
-        person.health > 0 && person.id.endsWith(":0") === (hub(p.regionId) === p.districtId),
+        person.health > 0 && person.presentDistrictId === p.districtId && (!person.socialVenueId || person.socialVenueId === p.venueId),
     );
     for (const person of residents) {
       const { id, name } = person;
@@ -243,11 +208,11 @@ export function districtActions(s, api) {
       make(
         "district:apply",
         "Yerel işe başvur",
-        "İşletmeyle kalıcı sözleşme kur; ücret işverenin kasasından ödenir.",
+        firm ? `${firm.name} · ücret ${wage} TL / vardiya.` : "İşletmeyle kalıcı sözleşme kur; ücret işverenin kasasından ödenir.",
         30,
         0,
         base ||
-          (getDistrictSimulation(s, p.districtId).jobOpenings < 95
+          (getDistrictSimulation(s, p.districtId).jobOpenings < 1
             ? "Bu semtte açık iş olanağı yok."
             : job
               ? "Zaten bir yerel sözleşmen var."
@@ -269,7 +234,7 @@ export function districtActions(s, api) {
         problem(s, 360) ||
         (!hours(s, venue(p.venueId), 360)
           ? "Mekân bu saatte kapalı."
-          : job.districtId !== p.districtId
+          : normalizeDistrictId(job.districtId) !== p.districtId
             ? "Vardiya sözleşmendeki semtte yapılır."
             : job.lastShiftDay === day(s)
               ? "Bugünkü vardiyan tamamlandı."
@@ -313,10 +278,28 @@ export function districtActions(s, api) {
       : a,
   );
 }
-export function adaptDistrictActions(s, actions) {
+export function adaptDistrictActions(s, actions, api) {
   const p = getPlace(s);
   const kind = venue(p.venueId)?.kind;
   return actions.map((a) => {
+    if (goldDistrict(p.districtId) && a.category === "travel" && a.route && a.destination) {
+      const mode = a.route.mode;
+      const quote = routeBetween(s, p.venueId || p.districtId, a.venue || a.destination, {mode});
+      if (!quote) return {...a, disabled:true, reason:"Bu ulaşım türüyle güzergâh yok."};
+      const targetVenue = a.venue && LOCATIONS.find((v) => v.id === a.venue);
+      const why = problem(s, quote.minutes) || quote.reason ||
+        (mode === "walk" && s.player.energy < 20 ? "Ücretsiz güzergâh için en az 20 enerji gerekir." : "");
+      return {...a, pay:"total", minutes:quote.minutes, cost:quote.cost,
+        route:{...a.route,minutes:quote.minutes,cost:quote.cost,available:quote.available,reason:quote.reason,legs:quote.legs},
+        description:`Ortak güzergâh · ${quote.minutes} dk · ${quote.cost} TL.${targetVenue ? ` Açık ${String(targetVenue.hours[0]).padStart(2,"0")}:00–${String(targetVenue.hours[1]).padStart(2,"0")}:00.` : ""}`, disabled:!!why, reason:why,
+        run(next) {
+          next.city.lastRoute={from:next.location,to:a.destination,mode,minutes:quote.minutes,cost:quote.cost,at:next.time};
+          next.city.visits[a.destination]++;
+          if (next.location !== a.destination) next.flags.travels++;
+          if (mode === "walk" && next.location !== a.destination) api.change(next,{energy:-12});
+          return "Yolculuk tamamlandı.";
+        }};
+    }
     let reason = "";
     if (a.id.startsWith("world:move:"))
       reason = s.calendar.entries.some(
@@ -324,7 +307,7 @@ export function adaptDistrictActions(s, actions) {
       )
         ? "Taşınma ve dönüş süresi ajandandaki bir planla çakışıyor."
         : "";
-    else if (p.regionId === "istanbul") return a;
+    else if (goldDistrict(p.districtId)) return a;
     else if (a.id === "world:shift") reason = "Yerel sözleşme için iş merkezine git.";
     else if (a.id === "world:meal" && kind !== "social")
       reason = "Yemek için mahalle buluşma yerine git.";
@@ -340,7 +323,8 @@ export function adaptDistrictActions(s, actions) {
         problem(s, a.minutes) ||
         (!hours(s, venue(p.venueId), a.minutes) ? "Mekân bu saatte kapalı." : "");
     if (!reason && a.id === "world:meal") {
-      const vendor = s.expansion.districts?.foodMarkets?.[p.districtId] ?? defaultMarket(day(s));
+      const marketId = p.neighborhoodId === "ankara:kizilay" ? "ankara:kizilay" : p.districtId;
+      const vendor = s.expansion.districts?.foodMarkets?.[marketId] ?? defaultMarket(day(s));
       if (vendor.stock < 1 || vendor.cash + a.cost > 1e9) reason = "Bu semtte yemek için stok yok.";
       else {
         const run = a.run;
@@ -349,9 +333,9 @@ export function adaptDistrictActions(s, actions) {
           run(next) {
             const data = state(next);
             data.foodMarkets ||= Object.fromEntries(
-              FOOD_IDS.map((id) => [id, defaultMarket(day(next))]),
+              [...FOOD_IDS, "ankara:kizilay"].map((id) => [id, defaultMarket(day(next))]),
             );
-            const market = data.foodMarkets[p.districtId];
+            const market = data.foodMarkets[marketId] ||= defaultMarket(day(next));
             market.stock--;
             market.cash += a.cost;
             return run(next);
@@ -379,6 +363,7 @@ export function afterDistrictAction(s, id, before, api) {
     if (s.job) api.settleCareer(s);
     s.city.venue = "";
     s.expansion.world.region = to;
+    if (to === "istanbul") s.location = hub("istanbul");
     if (s.expansion.districts) {
       s.expansion.districts.place = null;
       s.expansion.districts.job = null;
@@ -391,7 +376,8 @@ export function afterDistrictAction(s, id, before, api) {
     p = getPlace(before);
   if (id.startsWith("district:travel:")) {
     const destination = id.slice("district:travel:".length);
-    data.place = { districtId: destination, venueId: null };
+    data.place = goldDistrict(destination) ? null : { districtId: destination, venueId: null };
+    if (goldDistrict(destination)) { s.location = destination; s.city.venue = ""; }
     api.change(s, { energy: -5 });
   } else if (id.startsWith("district:visit:")) {
     const destination = id.slice("district:visit:".length);
@@ -506,8 +492,8 @@ export function validateDistricts(s) {
     (!x.foodMarkets ||
       typeof x.foodMarkets !== "object" ||
       Array.isArray(x.foodMarkets) ||
-      Object.keys(x.foodMarkets).length !== FOOD_IDS.length ||
-      FOOD_IDS.some((id) => {
+      ![FOOD_IDS, [...FOOD_IDS, "ankara:kizilay"], ["ankara:kizilay", "ankara:cankaya", "izmir:konak", "izmir:bornova"]].some((ids) => ids.length === Object.keys(x.foodMarkets).length && ids.every((id) => Object.hasOwn(x.foodMarkets,id))) ||
+      Object.keys(x.foodMarkets).some((id) => {
         const m = x.foodMarkets[id];
         return (
           !m ||
@@ -564,8 +550,8 @@ export function validateDistricts(s) {
       Object.keys(x.place).sort().join(",") !== "districtId,venueId" ||
       !district(x.place.districtId) ||
       district(x.place.districtId).regionId !== s.expansion.world.region ||
-      district(x.place.districtId).regionId === "istanbul" ||
-      (x.place.venueId !== null && venue(x.place.venueId)?.districtId !== x.place.districtId))
+      goldDistrict(x.place.districtId) ||
+      (x.place.venueId !== null && venue(x.place.venueId)?.districtId !== normalizeDistrictId(x.place.districtId)))
   )
     return false;
   const j = x.job;
@@ -590,16 +576,25 @@ export function districtView(s) {
   const place = getPlace(s);
   return {
     place,
+    nearestInstitution: (() => {
+      const choices = VENUES.filter((v) => v.kind === "institution" && district(v.districtId)?.regionId === place.regionId)
+        .map((v) => ({...v, route:routeBetween(s, place.venueId || place.districtId, v.districtId)}))
+        .filter((v) => v.route).sort((a,b) => a.route.minutes-b.route.minutes);
+      const v=choices[0];
+      return v ? {districtId:v.districtId,districtName:district(v.districtId).name,name:v.name,hours:v.hours,minutes:v.route.minutes} : null;
+    })(),
+    neighborhoods: NEIGHBORHOODS,
     districts: DISTRICTS.map((d) => ({
       ...d,
       simulation: getDistrictSimulation(s, d.id),
       venues:
-        d.regionId === "istanbul"
+        goldDistrict(d.id)
           ? GOLD_VENUES.filter((v) => v.district === d.id).map(({ id, name, kind }) => ({
               id,
               name,
               kind,
               districtId: d.id,
+              neighborhoodId: `${d.id}:game-neighborhood`,
             }))
           : VENUES.filter((v) => v.districtId === d.id),
     })),
@@ -612,6 +607,14 @@ export function districtView(s) {
   };
 }
 const translations = {
+  "Bu ulaşım türüyle güzergâh yok.": ["No route is available by this mode.", "Brak trasy dla tego środka transportu."],
+  "Ulaşım 06:00–24:00 arasında çalışır.": ["Transit runs from 06:00 to 24:00.", "Transport kursuje od 06:00 do 24:00."],
+  "Üretim atölyesi": ["Production workshop", "Warsztat produkcyjny"],
+  "Ticaret merkezi": ["Trade centre", "Centrum handlowe"],
+  "Kültür atölyesi": ["Cultural workshop", "Warsztat kultury"],
+  "Miras atölyesi": ["Heritage workshop", "Warsztat dziedzictwa"],
+  "Hizmet merkezi": ["Service centre", "Centrum usług"],
+  "Yerel iş merkezi": ["Local work centre", "Lokalne centrum pracy"],
   "Konut ofisi": ["Housing office", "Biuro mieszkaniowe"],
   "İş merkezi": ["Work centre", "Centrum pracy"],
   "Kamu merkezi": ["Public services centre", "Centrum usług publicznych"],
@@ -749,15 +752,23 @@ export function localizeDistrictText(text, language) {
     };
     return `${m[1]} · ${kinds[m[2]][i]}`;
   }
+  m = /^Ortak güzergâh · (\d+) dk · (\d+) TL\.(?: Açık (\d\d):00–(\d\d):00\.)?$/.exec(text);
+  if (m) return i ? `Wspólna trasa · ${m[1]} min · ${m[2]} TL.${m[3] ? ` Otwarte ${m[3]}:00–${m[4]}:00.` : ""}` : `Shared route · ${m[1]} min · ${m[2]} TL.${m[3] ? ` Open ${m[3]}:00–${m[4]}:00.` : ""}`;
+  m = /^Yürüyüş · (\d\d):00–(\d\d):00 · günlük kapasite geçerlidir\.$/.exec(text);
+  if (m) return i ? `Spacer · ${m[1]}:00–${m[2]}:00 · obowiązuje dzienny limit.` : `Walk · ${m[1]}:00–${m[2]}:00 · daily capacity applies.`;
   m = /^(.+) ile sohbet et$/.exec(text);
   if (m) return i ? `Porozmawiaj z ${m[1]}` : `Talk with ${m[1]}`;
   m = /^(.+) semtine git$/.exec(text);
   if (m) return i ? `Jedź do dzielnicy ${m[1]}` : `Travel to ${m[1]}`;
+  m = /^Kızılay · (.+) ziyaret et$/.exec(text);
+  if (m) return i ? `Kızılay · Odwiedź: ${localizeDistrictText(m[1],language)}` : `Kızılay · Visit ${localizeDistrictText(m[1],language)}`;
   m = /^(.+) ziyaret et$/.exec(text);
   if (m)
     return i
       ? `Odwiedź: ${localizeDistrictText(m[1], language)}`
       : `Visit ${localizeDistrictText(m[1], language)}`;
+  m = /^(.+) · ücret (\d+) TL \/ vardiya\.$/.exec(text);
+  if (m) return i ? `${m[1]} · płaca ${m[2]} TL / zmiana.` : `${m[1]} · pay ${m[2]} TL / shift.`;
   m = /^Ücret: (\d+) TL · Her beş vardiyada ilerleme\.$/.exec(text);
   if (m)
     return i

@@ -6,6 +6,26 @@ import { translateFamilyAction } from "./expansion-family.mjs";
 import { localizeInstitutionText } from "./expansion-institutions.mjs";
 import { localizeEconomyText } from "./expansion-economy.mjs";
 
+// Presentation reads the existing contracts; it never mirrors their balances.
+export function householdSummary(state, view, language) {
+  const economy = state.expansion.economy, home = view.economy.properties.find(p => p.id === economy.home);
+  const contract = economy.properties[economy.home]?.lease;
+  const job = view.districts.job;
+  const firm = job && Object.values(view.economy.regions).flatMap(r => r.firms).find(f => f.id === job.firmId);
+  const rentLabel = ({tr:"Kira", en:"Rent", pl:"Czynsz"})[language];
+  const mortgageLabel = ({tr:"Kredi taksiti", en:"Mortgage payment", pl:"Rata hipoteki"})[language];
+  return {
+    housing: contract?.tenant === "household" ? {...state.housing, ...contract} : state.housing,
+    homeName: home ? localizeEconomyText(home.name, language) : null,
+    job: job && {...job, name: localizeEconomyText(firm?.name || job.firmId, language)},
+    jobDescription: ({tr:"Vardiya ve iş yeri Dünya bölümünde. Ücret tamamlanan vardiyada bankaya geçer.", en:"Find your shift and workplace in World. Completed shifts pay directly to your bank.", pl:"Zmiana i miejsce pracy znajdują się w Świecie. Ukończone zmiany są opłacane na konto."})[language],
+    forecast: view.economy.properties.flatMap(p => [
+      ...(p.rentCashFlow && p.leaseDueDay ? [{day:p.leaseDueDay, label:`${rentLabel} · ${localizeEconomyText(p.name, language)}`, amount:p.rentCashFlow - (p.tenancy === "household" ? p.arrears : 0)}] : []),
+      ...(p.ownership === "household" && p.mortgageDueDay ? [{day:p.mortgageDueDay, label:`${mortgageLabel} · ${localizeEconomyText(p.name, language)}`, amount:-p.mortgagePayment}] : []),
+    ]),
+  };
+}
+
 const copy = {
   tr: [
     "Aile ağacı",
@@ -157,7 +177,7 @@ export function renderExpansion({
   const label = (...values) => values[locale] ?? values[0];
   const { world, family, economy, institutions, events } = view;
   const options = (prefix) => {
-    const matches = actions.filter((a) => a.id.startsWith(prefix + ":"));
+    const matches = actions.filter((a) => a.id.startsWith(prefix + ":") && !(prefix === "world" && ["world:meal", "world:rest"].includes(a.id)));
     return matches.length
       ? `<div class="action-grid">${matches.map((a) => actionCard(translateExpansionAction(a, language))).join("")}</div>`
       : "";
@@ -244,17 +264,22 @@ export function renderExpansion({
     );
   }
   if (section === "finance") {
-    const properties = economy.properties
-      .map(
-        (p) =>
-          `<li class="property-card"><strong>${esc(localizeEconomyText(p.name, language))}</strong> · ${esc(REGIONS[p.region]?.name)}<br>${label("Sahiplik", "Owner", "Własność")}: ${esc(stateLabel(p.ownership))} · ${label("Değer", "Value", "Wartość")}: ${money(p.value)} · ${label("Durum", "Condition", "Stan")}: ${esc(p.condition)}%<br>${tx("Kira")}: ${money(p.rent)} · ${label("Kredi", "Mortgage", "Hipoteka")}: ${money(p.mortgage)} · ${label("Gecikme", "Arrears", "Zaległości")}: ${money(p.arrears)}${p.repairCost != null ? `<br>${label("Onarım maliyeti", "Repair cost", "Koszt naprawy")}: ${money(p.repairCost)} · ${label("Sözleşmeye göre kira akışı", "Contractual rent cash flow", "Przepływ czynszu według umowy")}: ${money(p.rentCashFlow)}${p.leaseDueDay ? ` · ${label("Kira günü", "Rent due day", "Termin czynszu")}: ${p.leaseDueDay}` : ""}${p.mortgageDueDay ? ` · ${label("Kredi taksiti", "Mortgage payment", "Rata hipoteki")}: ${money(p.mortgagePayment)} / ${p.mortgageDueDay}` : ""}` : ""}</li>`,
-      )
-      .join("");
+    const propertyCard = (p) =>
+          `<li class="property-card"><strong>${esc(localizeEconomyText(p.name, language))}</strong> · ${esc(REGIONS[p.region]?.name)}<br>${label("Sahiplik", "Owner", "Własność")}: ${esc(stateLabel(p.ownership))} · ${label("Değer", "Value", "Wartość")}: ${money(p.value)} · ${label("Durum", "Condition", "Stan")}: ${esc(p.condition)}%<br>${tx("Kira")}: ${money(p.rent)} · ${label("Kredi", "Mortgage", "Hipoteka")}: ${money(p.mortgage)} · ${label("Gecikme", "Arrears", "Zaległości")}: ${money(p.arrears)}${p.repairCost != null ? `<br>${label("Onarım maliyeti", "Repair cost", "Koszt naprawy")}: ${money(p.repairCost)} · ${label("Sözleşmeye göre kira akışı", "Contractual rent cash flow", "Przepływ czynszu według umowy")}: ${money(p.rentCashFlow)}${p.leaseDueDay ? ` · ${label("Kira günü", "Rent due day", "Termin czynszu")}: ${p.leaseDueDay}` : ""}${p.mortgageDueDay ? ` · ${label("Kredi taksiti", "Mortgage payment", "Rata hipoteki")}: ${money(p.mortgagePayment)} / ${p.mortgageDueDay}` : ""}` : ""}</li>`;
+    const localProperty = (p) => p.districtId === view.districts?.place?.districtId || p.ownership === "household" || p.tenancy === "household" || p.id === economy.home;
+    const localProperties = economy.properties.filter(localProperty);
+    const remoteProperties = economy.properties.filter((p) => !localProperty(p));
+    const propertyOptions = (rows) => {
+      const matches = actions.filter((a) => a.id.startsWith("economy:") && rows.some((p) => a.id.endsWith(`:${p.id}`)));
+      return matches.length ? `<div class="action-grid">${matches.map((a) => actionCard(translateExpansionAction(a, language))).join("")}</div>` : "";
+    };
+    const extraEconomy = actions.filter((a) => a.id.startsWith("economy:") && !economy.properties.some((p) => a.id.endsWith(`:${p.id}`)));
+    const extras = extraEconomy.length ? `<div class="action-grid">${extraEconomy.map((a) => actionCard(translateExpansionAction(a,language))).join("")}</div>` : "";
     const company = economy.business;
     return (
       header +
-      `<section class="reference"><h3>${esc(t[1])}</h3><ul class="property-grid">${properties}</ul>
-    ${company ? `<p>${esc(company.name)} · ${tx("İşletme kasası")} ${money(company.capital)} · ${label("Stok", "Stock", "Zapasy")} ${esc(company.stock)} · ${label("Çalışan", "Employees", "Pracownicy")} ${esc(company.workers)}<br>${label("Gelir", "Revenue", "Przychód")} ${money(company.revenue)} · ${label("Gider", "Costs", "Koszty")} ${money(company.costs)} · ${label("Kâr", "Profit", "Zysk")} ${money(company.revenue - company.costs)}<br>${label("Maaş borcu", "Wages due", "Zaległe płace")} ${money(company.wageDue)} · ${label("Vergi borcu", "Tax due", "Zaległy podatek")} ${money(company.taxDue)}${company.clients != null ? `<br>${tx("Müşteri")}: ${esc(company.clients)} · ${label("İtibar", "Reputation", "Reputacja")}: ${esc(company.reputation)} · ${label("Çalışan vardiya ücreti", "Wage per worker shift", "Płaca za zmianę pracownika")}: ${money(company.wageRate)} · ${label("Birikmiş sabit gider borcu", "Accrued overhead arrears", "Zaległe koszty stałe")}: ${money(company.overhead)}` : ""}</p>` : ""}${options("economy")}</section>`
+      `<section class="reference"><h3>${esc(t[1])}</h3><ul class="property-grid">${localProperties.map(propertyCard).join("")}</ul>${propertyOptions(localProperties)}${remoteProperties.length ? `<details><summary>${label("Diğer bölgeler", "Other districts", "Inne dzielnice")}</summary><ul class="property-grid">${remoteProperties.map(propertyCard).join("")}</ul>${propertyOptions(remoteProperties)}</details>` : ""}
+    ${company ? `<p>${esc(company.name)} · ${tx("İşletme kasası")} ${money(company.capital)} · ${label("Stok", "Stock", "Zapasy")} ${esc(company.stock)} · ${label("Çalışan", "Employees", "Pracownicy")} ${esc(company.workers)}<br>${label("Gelir", "Revenue", "Przychód")} ${money(company.revenue)} · ${label("Gider", "Costs", "Koszty")} ${money(company.costs)} · ${label("Kâr", "Profit", "Zysk")} ${money(company.revenue - company.costs)}<br>${label("Maaş borcu", "Wages due", "Zaległe płace")} ${money(company.wageDue)} · ${label("Vergi borcu", "Tax due", "Zaległy podatek")} ${money(company.taxDue)}${company.clients != null ? `<br>${tx("Müşteri")}: ${esc(company.clients)} · ${label("İtibar", "Reputation", "Reputacja")}: ${esc(company.reputation)} · ${label("Çalışan vardiya ücreti", "Wage per worker shift", "Płaca za zmianę pracownika")}: ${money(company.wageRate)} · ${label("Birikmiş sabit gider borcu", "Accrued overhead arrears", "Zaległe koszty stałe")}: ${money(company.overhead)}` : ""}</p>` : ""}${extras}</section>`
     );
   }
   if (section === "world") {
@@ -432,7 +457,7 @@ export function renderExpansion({
     ${institutions.illness ? `<p>${label("Sağlık takibi", "Active health issue", "Aktualny problem zdrowotny")}: ${label("Şiddet", "Severity", "Nasilenie")} ${institutions.illness.severity} · ${label("Başlangıç günü", "Since day", "Od dnia")} ${institutions.illness.since}</p>` : ""}
     ${office.policy ? `<p>${label("Güncel politika", "Active policy", "Aktywna polityka")}: ${esc({ skills: tx("Eğitim"), health: tx("Sağlık"), housing: label("Konut", "Housing", "Mieszkalnictwo") }[office.policy])} · ${label("Bitiş günü", "Until day", "Do dnia")} ${office.policyUntil}</p>` : ""}
     ${institutions.investigation ? `<p>${label("Açık dosya", "Open case", "Otwarta sprawa")} · ${money(institutions.investigation.total)}</p>` : ""}
-    ${options("institution")}</section>
+    <details><summary>${label("Kurum işlemleri", "Institution services", "Usługi instytucji")}</summary>${options("institution")}</details></section>
     <section><h3>${esc(t[2])}</h3><div class="reference-grid">${cities}</div></section>${options("world")}
     <details class="reference"><summary>${esc(t[3])}</summary><ol>${history}</ol></details>`
     );

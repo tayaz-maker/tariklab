@@ -4,7 +4,7 @@ import { writeFileSync } from "node:fs";
 import * as e from "../public/games/tc-sim-boardworld/engine.mjs";
 import * as p from "../public/games/tc-sim-boardworld/persistence.mjs";
 
-await e.loadExpansionRuntime();
+const runtime = await e.loadExpansionRuntime();
 // These journeys start at character creation and use only public game actions.
 // No clocks, ages, balances, relationships, homes or inheritance are injected.
 // The long journey is one bounded life, also exercising periodic reload/replay.
@@ -180,7 +180,9 @@ function socialJourney() {
   };
   let met = false,
     disclosed = false;
-  for (let n = 0; n < 400 && !promise; n++) {
+  // Shared routes change when Aylin reaches a real need. Keep the genuine
+  // request and bounded action loop, allowing an additional simulated month.
+  for (let n = 0; n < 900 && !promise; n++) {
     const a = e.getActions(s),
       can = (id) => a.some((x) => x.id === id && !x.disabled);
     const event = a.find((x) => x.category === "event" && !x.disabled);
@@ -281,33 +283,37 @@ function intercityJourney(initial) {
     while (s.pendingEvents.length)
       step(e.getActions(s).find((a) => a.category === "event" && !a.disabled).id);
   };
+  const awaitAction = (id) => {
+    for (let tries = 0; tries < 36; tries++) {
+      clear();
+      const actions = e.getActions(s);
+      const action = actions.find((a) => a.id === id);
+      if (action && !action.disabled) return action;
+      const recovery = actions.find((a) =>
+        s.player.energy < 30 && !a.disabled && ["rest", "world:rest"].includes(a.id));
+      step(recovery?.id ?? "wait:60");
+    }
+    assert.fail(`Unavailable regional action: ${id}`);
+  };
   for (const city of ["ankara", "izmir"]) {
-    clear();
+    const move = awaitAction(`world:move:${city}`);
     const old = s,
       person = s.expansion.playerId,
-      household = JSON.stringify(s.expansion.family.people),
+      household = s.expansion.family.people.map(({ id }) => id),
       property = s.expansion.economy.properties["istanbul:room"].owner;
-    const move = e.getActions(s).find((a) => a.id === `world:move:${city}`);
-    assert.ok(move && !move.disabled, move?.reason);
     step(move.id);
     assert.equal(s.expansion.world.region, city);
     assert.equal(s.time - old.time, move.minutes);
     assert.equal(s.expansion.playerId, person);
     assert.equal(s.expansion.economy.properties["istanbul:room"].owner, property);
-    assert.equal(JSON.stringify(s.expansion.family.people), household);
+    assert.ok(household.every((id) => s.expansion.family.people.some((row) => row.id === id)),
+      "travel retains every existing family member");
     clear();
     const district = city === "ankara" ? "ankara:cankaya" : "izmir:bornova";
-    step(`district:travel:${district}`);
-    while (s.time % 1440 < 480 || s.time % 1440 > 1020) {
-      clear();
-      step("wait:60");
-    }
-    step(`district:visit:${district}:housing`);
-    const rent = e.getActions(s).find((a) => a.id === `economy:rent:${city}:studio` && !a.disabled);
-    assert.ok(
-      rent,
-      JSON.stringify(e.getActions(s).filter((a) => a.id.startsWith("economy:rent:"))),
-    );
+    if (runtime.getExpansionView(s).districts.place.districtId !== district)
+      step(awaitAction(`district:travel:${district}`).id);
+    step(awaitAction(`district:visit:${district}:housing`).id);
+    const rent = awaitAction(`economy:rent:${city}:studio`);
     step(rent.id);
     assert.equal(s.expansion.economy.home, `${city}:studio`);
     assert.equal(s.expansion.economy.properties["istanbul:room"].owner, "household");

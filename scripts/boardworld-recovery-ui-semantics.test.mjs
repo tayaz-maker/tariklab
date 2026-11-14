@@ -103,7 +103,6 @@ function populatedState() {
     "district:visit:ankara:kizilay:housing",
     "economy:mortgage:ankara:room",
     "economy:let:ankara:room",
-    "district:travel:ankara:cankaya",
     "district:visit:ankara:cankaya:housing",
     "economy:rent:ankara:studio",
     "family:reserve",

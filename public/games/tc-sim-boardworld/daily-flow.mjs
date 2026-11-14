@@ -15,6 +15,24 @@ export function initFlow(s) {
   };
 }
 
+// Use stable contract terms in consent, never a mutable due date or loan balance.
+function propertyTerms(s) {
+  const e = s.expansion?.economy;
+  if (!e) return [];
+  return Object.keys(e.properties).sort().flatMap((id) => {
+    const property = e.properties[id];
+    if (e.home !== id && !property.mortgage) return [];
+    return [[id, property.owner, property.lease?.tenant ?? "", property.lease?.rent ?? 0,
+      property.lease ? property.lease.dueDay % 30 : null,
+      property.mortgage ? property.mortgage.dueDay % 30 : null]];
+  });
+}
+const propertyConsent = (s) => JSON.stringify(propertyTerms(s));
+const propertyLease = (s) => {
+  const e = s.expansion?.economy;
+  return e?.properties[e.home]?.lease;
+};
+
 // Revision and journals are deliberately absent: recording a failed attempt
 // cannot make that identical attempt legal again.
 export function routineFingerprint(s) {
@@ -58,6 +76,9 @@ export function routineFingerprint(s) {
     s.player.skills,
     s.life.districts,
     s.society?.districts,
+    ...(s.expansion ? [s.expansion.world.region, s.expansion.districts?.place,
+      s.expansion.districts?.job, propertyTerms(s), propertyLease(s)?.dueDay,
+      propertyLease(s)?.arrears] : []),
   ]);
   let a = 2166136261,
     b = 3339675911;
@@ -153,6 +174,7 @@ export function rememberRoutineStop(
 export function flowActions(s) {
   if (!s.flow) return [];
   const current = s.flow.settlements;
+  const terms = propertyConsent(s);
   return ["review", "authorized"]
     .map((mode) => ({
       id: "flow:payments:" + mode,
@@ -179,6 +201,7 @@ export function flowActions(s) {
                 rent: n.housing.rent,
                 debtPresent: n.debt > 0,
                 at: n.time,
+                ...(terms !== "[]" ? { propertyTerms: terms } : {}),
               }
             : null;
         n.flow.stop = null;
@@ -211,7 +234,8 @@ function validConsent(s) {
     s.flow?.settlements === "authorized" &&
     s.deep.finance.autoPay &&
     s.flow.consent?.homeKey === s.life.lease.homeKey &&
-    s.flow.consent.rent === s.housing.rent
+    s.flow.consent.rent === s.housing.rent &&
+    (s.flow.consent.propertyTerms ?? "[]") === propertyConsent(s)
   );
 }
 
@@ -226,6 +250,13 @@ function appendedTransactions(before, next) {
 // Rent and utilities have independent clocks after a move. A weekly principal
 // payment can also reduce debt, so a debt-increase check alone misses it.
 export function settlementBoundary(before, next) {
+  const currentDay = day(before);
+  const nextDay = day(next);
+  if (nextDay !== currentDay && before.expansion?.economy &&
+      Object.entries(before.expansion.economy.properties).some(([id, property]) =>
+        (id === before.expansion.economy.home && property.lease?.dueDay <= nextDay) ||
+        property.mortgage?.dueDay <= nextDay))
+    return true;
   if (
     before.housing.dueDay !== next.housing.dueDay ||
     next.debt > before.debt ||
@@ -254,6 +285,10 @@ export function authorizedSettlement(before, next) {
     before.housing.rent !== next.housing.rent ||
     before.life.lease.homeKey !== next.life.lease.homeKey ||
     next.housing.arrears > before.housing.arrears ||
+    !same(propertyTerms(before), propertyTerms(next)) ||
+    (propertyLease(next)?.arrears ?? 0) > (propertyLease(before)?.arrears ?? 0) ||
+    (before.expansion?.economy && Object.entries(before.expansion.economy.properties).some(([id, property]) =>
+      property.mortgage && next.expansion.economy.properties[id]?.mortgage?.missed > property.mortgage.missed)) ||
     next.deep.finance.bills.some((b) => b.status === "due") ||
     sum(next) < before.deep.routine.budgetFloor
   )
@@ -297,7 +332,8 @@ export function afterFlowAction(s, id, before) {
     ["business:upgrade", "business:pause", "business:close"].includes(id) ||
     (id === "finance:autopay" && !s.deep.finance.autoPay) ||
     before.life.lease.homeKey !== s.life.lease.homeKey ||
-    before.housing.rent !== s.housing.rent
+    before.housing.rent !== s.housing.rent ||
+    !same(propertyTerms(before), propertyTerms(s))
   ) {
     s.flow.consent = null;
     s.flow.settlements = "review";
@@ -406,7 +442,7 @@ export function getRoutineReport(s) {
   };
   for (const id of trace) {
     const category =
-      /^(cook|eat|soup|snack|rest|sleep|buy:groceries|withdraw:\d+|household:chore)$/.test(id)
+      /^(cook|eat|soup|snack|rest|world:rest|sleep|buy:groceries|withdraw:\d+|household:chore)$/.test(id)
         ? "maintenance"
         : id === "work"
           ? "work"
@@ -414,7 +450,7 @@ export function getRoutineReport(s) {
             ? "education"
             : id === "business:serve"
               ? "enterprise"
-              : /^(travel:|walk:)/.test(id)
+              : /^(travel:|walk:|district:travel:)/.test(id)
                 ? "travel"
                 : id.startsWith("wait:")
                   ? "waiting"
@@ -575,7 +611,10 @@ export function validateFlow(s) {
     return false;
   if (
     x.consent !== null &&
-    (!exact(x.consent, ["homeKey", "rent", "debtPresent", "at"]) ||
+    (!exact(x.consent, ["homeKey", "rent", "debtPresent", "at",
+      ...(s.expansion && Object.hasOwn(x.consent, "propertyTerms") ? ["propertyTerms"] : [])]) ||
+      (Object.hasOwn(x.consent, "propertyTerms") && (typeof x.consent.propertyTerms !== "string" ||
+        x.consent.propertyTerms.length > 4000)) ||
       typeof x.consent.homeKey !== "string" ||
       x.consent.homeKey.length > 300 ||
       !integer(x.consent.rent) ||

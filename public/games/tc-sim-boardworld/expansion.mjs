@@ -1,4 +1,6 @@
 import { closeHousehold } from "./life-systems.mjs";
+import { attachExpansionTravel } from "./city.mjs";
+import { routeBetween } from "./expansion-geography.mjs";
 import { EXPANSION_SAVE_VERSION, createGame } from "./engine.mjs";
 import {
   initFamily,
@@ -23,8 +25,10 @@ import {
   adaptEconomyActions,
   afterEconomyAction,
   economyNpcHousingCost,
+  economyHomeDistrict,
   underworldOrder,
   fulfillUnderworldOrder,
+  migrateEconomy,
 } from "./expansion-economy.mjs";
 import {
   initInstitutions,
@@ -54,6 +58,7 @@ import {
   tickDistricts,
   validateDistricts,
   districtView,
+  migrateDistricts,
 } from "./expansion-districts.mjs";
 import {
   underworldActions,
@@ -65,6 +70,7 @@ import {
   underworldDistrictModifiers,
   nextUnderworldAt,
   reconcileUnderworldTime,
+  migrateUnderworld,
 } from "./expansion-underworld.mjs";
 
 export { familyCanAct };
@@ -75,6 +81,7 @@ let runtimeApi;
 // Install expansion-only adapters once; all adapters retain Gold semantics for v6 states.
 export function attachExpansion(api) {
   runtimeApi = api;
+  attachExpansionTravel(routeBetween);
   const housingCost = api.npcHousingCost;
   const present = api.playerPresent;
   api.npcHousingCost = (s, id, base) => {
@@ -82,13 +89,14 @@ export function attachExpansion(api) {
     return s.expansion ? economyNpcHousingCost(s, id, cost) : cost;
   };
   api.playerPresent = (s, district) =>
-    present(s, district) && (!s.expansion || s.expansion.world.region === "istanbul");
+    present(s, district) && (!s.expansion || getPlace(s).districtId === district);
   api.planningReason = calendarPlanningReason;
   api.regionalShift = regionalShift;
   api.payBusinessOverhead = (s) => payBusinessOverhead(s, api);
   api.expansionEvent = expansionEvent;
   api.creditMunicipalTax = creditMunicipalTax;
   api.getPlace = getPlace;
+  api.economyHomeDistrict = economyHomeDistrict;
   api.getDistrictSimulation = getDistrictSimulation;
   api.underworldDistrictModifiers = underworldDistrictModifiers;
   api.underworldOrder = underworldOrder;
@@ -105,11 +113,20 @@ export function attachExpansion(api) {
 
 export function initExpansion(s) {
   s.version = EXPANSION_SAVE_VERSION;
-  s.expansion = { playerId: "player:1", nextEvent: 1, events: [] };
+  s.expansion = { livingWorld: 2, playerId: "player:1", nextEvent: 1, events: [] };
   initWorld(s);
   initFamily(s);
   initEconomy(s);
   initInstitutions(s);
+}
+
+// Called on an already validated clone. Existing balances and history are not
+// replayed; only new geography/schema fields are added deterministically.
+export function migrateExpansion(s) {
+  migrateEconomy(s);
+  migrateDistricts(s);
+  migrateUnderworld(s);
+  s.expansion.livingWorld = 2;
 }
 
 export function expansionEvent(s, type, subject, detail) {
@@ -184,6 +201,7 @@ export function validateExpansion(s) {
     !e ||
     typeof e !== "object" ||
     Array.isArray(e) ||
+    (e.livingWorld !== undefined && e.livingWorld !== 2) ||
     typeof e.playerId !== "string" ||
     !/^(player:1|family:[1-9]\d*)$/.test(e.playerId) ||
     !Number.isSafeInteger(e.nextEvent) ||

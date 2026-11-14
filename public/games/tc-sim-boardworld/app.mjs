@@ -262,7 +262,7 @@ const option = (entry, selected) =>
 
 const presentOutcome = message => expansionUi && state?.expansion ? expansionUi.localizeExpansionOutcome(message, getLanguage()) : message;
 const presentForecast = forecast => !forecast.ok && forecast.message ? { ...forecast, message: presentOutcome(forecast.message) } : forecast;
-const currentPlace = () => state?.expansion ? ({istanbul: "İstanbul", ankara: "Ankara", izmir: "İzmir"})[state.expansion.world.region] : districtName(state.location);
+const currentPlace = () => state?.expansion && expansionUi ? expansionPreview.placeLabel(cachedView("expansion", () => expansionUi.getExpansionView(state)), getLanguage()) : districtName(state.location);
 function announce(message, error = false) {
   const el = $("#notice");
   el.textContent = translateText(presentOutcome(message));
@@ -317,7 +317,13 @@ function renderEvent() {
   );
   return `<section class="event-card" aria-label="Bekleyen olay"><div class="event-heading"><span class="event-mark" aria-hidden="true">!</span><div><span class="eyebrow">OLAY KARTI · ${state.pendingEvents.length} BEKLEYEN</span><h2>${esc(title(event) || "Yeni bir karar")}</h2></div></div><p>${esc(event?.description || event?.text || "Şehir sana yeni bir seçenek sunuyor. Devam etmeden önce kararını ver.")}</p><div class="event-choices">${choices.map((a) => actionCard(a, true)).join("")}</div></section>`;
 }
+function currentHousehold() {
+  return state.expansion && expansionUi
+    ? cachedView(`household:${getLanguage()}`, () => expansionUi.householdSummary(state, cachedView("expansion", () => expansionUi.getExpansionView(state)), getLanguage()))
+    : {housing: state.housing, job: null};
+}
 function renderDashboard() {
+  const summary = currentHousehold(), housing = summary.housing;
   const t = ux(), clock = getClock(state), goal = getGoals(state).find(g => !g.complete),
     expanded = state.expansion && expansionUi ? cachedView("expansion", () => expansionUi.getExpansionView(state)) : null,
     region = currentPlace(),
@@ -329,39 +335,42 @@ function renderDashboard() {
     closest = Object.entries(state.npcs).sort((a, b) => (b[1].affinity + b[1].trust + b[1].romance) - (a[1].affinity + a[1].trust + a[1].romance))[0],
     suggestions = [], recommended = [];
   if (state.player.health < 50 || state.player.energy < 35 || state.player.hunger < 35 || state.player.stress > 70) suggestions.push(["life", t[13]]);
-  if (!state.job) suggestions.push(["work", t[14]]);
-  if (state.housing.arrears || state.cash + state.bank < state.housing.rent || (state.housing.dueDay >= clock.day && state.housing.dueDay - clock.day <= 3)) suggestions.push(["wallet", t[15]]);
+  if (!state.job && !summary.job) suggestions.push(["work", t[14]]);
+  if (housing.arrears || state.cash + state.bank < housing.rent || (housing.dueDay >= clock.day && housing.dueDay - clock.day <= 3)) suggestions.push(["wallet", t[15]]);
   if (next) suggestions.push(["plan", t[16]]);
   if (!suggestions.length) suggestions.push(["goals", t[8]], ["board", t[1]]);
   const available = actions.filter(a => !a.disabled);
   const preferred = state.player.health < 50 ? ["doctor", "medicine", "institution:clinic"] : state.player.hunger < 35 ? ["eat", "cook", "world:meal"] : state.player.energy < 35 ? ["rest", "sleep", "world:rest"] : state.player.stress > 70 ? ["rest", "world:rest"] : [];
   for (const id of preferred) { const a = available.find(item => item.id === id); if (a) recommended.push(a); }
   if (!recommended.length && !state.pendingEvents.length) {
-    const ranked = available.filter(a => !state.job && (a.id.startsWith("apply:") || a.id === "world:shift"));
+    const ranked = available.filter(a => !state.job && !summary.job && (a.id.startsWith("apply:") || a.id === "world:shift"));
     if (!ranked.length) ranked.push(
-      ...["work", "world:shift", "career:review", "career:negotiate", "promote", "study"].flatMap(id => available.filter(a => a.id === id)),
+      ...["district:shift", "work", "world:shift", "career:review", "career:negotiate", "promote", "study"].flatMap(id => available.filter(a => a.id === id)),
       ...available.filter(a => /^(practice:|life:colleague:|enroll:)/.test(a.id)),
     );
     recommended.push(...ranked.slice(0, 2));
   }
-  return `${sectionHeader(t[6], expanded?.family.player.name || state.player.name, `${region} · ${clock.date} · ${clock.time}`)}<div class="life-overview"><section class="overview-card"><span class="eyebrow">${esc(t[9])}</span><h3>${esc(expanded ? (estateHome?.name || region) : (title(home) || region))}</h3><p>${esc(expanded ? ([partner?.name, ...expanded.family.household.children.map(c => c.name)].filter(Boolean).join(", ") || t[10]) : (household?.memberName || household?.roommate || (household?.memberId ? title(lookup(NPCS, household.memberId)) : t[10])))}</p><button class="text-button" data-tab="life">${esc(t[9])} →</button></section><section class="overview-card"><span class="eyebrow">${esc(t[11])}</span><h3>${next ? esc(next.label) : `${esc(t[19])} · ${money(state.housing.rent)}`}</h3><p>${next ? esc(next.timeLabel) : `${state.housing.dueDay}. ${esc(t[20])}`}</p><button class="text-button" data-tab="plan">${esc(t[16])} →</button></section><section class="overview-card"><span class="eyebrow">${esc(t[8])}</span><h3>${esc(goal?.title || t[8])}</h3>${goal ? `<p>${esc(goal.current)} / ${esc(goal.target)}</p>` : ""}<button class="text-button" data-tab="goals">${esc(t[8])} →</button></section><section class="overview-card"><span class="eyebrow">${esc(t[12])}</span><h3>${esc(expanded ? (partner?.name || expanded.family.household.children[0]?.name || t[2]) : title(lookup(NPCS, closest?.[0])))}</h3><p>${!expanded && closest ? `${esc(closest[1].affinity)} / 100` : ""}</p><button class="text-button" ${expanded ? 'data-tab="expansion"' : `data-npc="${esc(closest?.[0] || selectedNpc)}"`}>${esc(t[2])} →</button></section></div><section class="next-steps"><h2>${esc(t[7])}</h2><div>${suggestions.slice(0, 3).map(([id, text]) => `<button class="secondary" data-tab="${id}">${esc(text)} →</button>`).join("")}</div>${recommended.length ? `<h3>${esc(t[21])}</h3><div class="action-grid">${recommended.slice(0, 2).map(a => actionCard(a, true)).join("")}</div>` : ""}</section>`;
+  return `${sectionHeader(t[6], expanded?.family.player.name || state.player.name, `${region} · ${clock.date} · ${clock.time}`)}<div class="life-overview"><section class="overview-card"><span class="eyebrow">${esc(t[9])}</span><h3>${esc(expanded ? (summary.homeName || estateHome?.name || title(home) || region) : (title(home) || region))}</h3><p>${esc(expanded ? ([partner?.name, ...expanded.family.household.children.map(c => c.name)].filter(Boolean).join(", ") || t[10]) : (household?.memberName || household?.roommate || (household?.memberId ? title(lookup(NPCS, household.memberId)) : t[10])))}</p><button class="text-button" data-tab="life">${esc(t[9])} →</button></section><section class="overview-card"><span class="eyebrow">${esc(t[11])}</span><h3>${next ? esc(next.label) : `${esc(t[19])} · ${money(housing.rent)}`}</h3><p>${next ? esc(next.timeLabel) : `${housing.dueDay}. ${esc(t[20])}`}</p><button class="text-button" data-tab="plan">${esc(t[16])} →</button></section><section class="overview-card"><span class="eyebrow">${esc(t[8])}</span><h3>${esc(goal?.title || t[8])}</h3>${goal ? `<p>${esc(goal.current)} / ${esc(goal.target)}</p>` : ""}<button class="text-button" data-tab="goals">${esc(t[8])} →</button></section><section class="overview-card"><span class="eyebrow">${esc(t[12])}</span><h3>${esc(expanded ? (partner?.name || expanded.family.household.children[0]?.name || title(lookup(NPCS, closest?.[0])) || t[2]) : title(lookup(NPCS, closest?.[0])))}</h3><p>${!expanded && closest ? `${esc(closest[1].affinity)} / 100` : ""}</p><button class="text-button" ${expanded && (partner || expanded.family.household.children.length) ? 'data-tab="expansion"' : `data-npc="${esc(closest?.[0] || selectedNpc)}"`}>${esc(t[2])} →</button></section></div><section class="next-steps"><h2>${esc(t[7])}</h2><div>${suggestions.slice(0, 3).map(([id, text]) => `<button class="secondary" data-tab="${id}">${esc(text)} →</button>`).join("")}</div>${recommended.length ? `<h3>${esc(t[21])}</h3><div class="action-grid">${recommended.slice(0, 2).map(a => actionCard(a, true)).join("")}</div>` : ""}</section>`;
 }
 
 function renderBoard() {
-  if (state.expansion && state.expansion.world.region !== "istanbul")
+  if (state.expansion)
     return renderGenerations("expansion-world");
   return `<div class="board-heading">${sectionHeader("İSTANBUL / KARARLARININ ŞEHRİ", "Hayatın bu masada.")}</div>${renderFirstFive(state)}${state.pendingEvents.length ? "" : renderDecisionDesk(decisionView, actions)}${renderCityMap({ state, city: cityView, calendar: calendarView, npcs: NPCS, getLocation: getNpcLocation, selectedDistrict, actions, actionCard, society: societyView, conditions: renderDistrictConditions(lifeView, selectedDistrict) + renderSocietyDistrict(societyView, selectedDistrict, actions) })}${renderToday(calendarView, state, actions)}<section class="intent-entry"><div><span class="eyebrow">SIRADAKİ HAMLE SANA BAĞLI</span><h3>Neyi değiştirmek istersin?</h3></div><button class="secondary" data-intent-open aria-expanded="${intentOpen}">${intentOpen ? "Seçenekleri kapat" : "Hamlelerini keşfet ↗"}</button></section>${intentOpen ? renderIntentComposer({ ...intentFilters, fallbackActions: actions.filter((a) => !a.disabled), results: getIntentActions(state, { query: intentFilters.query, npcId: intentFilters.npcId, location: intentFilters.location }), npcs: [...NPCS, ...lifeView.secondary], districts: DISTRICTS, actionCard }) : ""}<details class="city-news-fold"><summary>Şehrin nabzı ve sana ulaşan haberler</summary>${renderWorldBulletin(livingView)}</details>`;
 }
 
 function renderWork() {
+  const local = currentHousehold();
+  if (local.job) return `${sectionHeader("EMEK & İLERLEME", local.job.name, local.jobDescription)}<section class="status-sheet"><div><span class="eyebrow">MEVCUT SÖZLEŞME</span><h3>${esc(local.job.name)}</h3><p>${esc(local.jobDescription)}</p><button class="secondary" data-tab="board">${esc(ux()[1])} →</button></div><div class="sheet-stats"><span>Vardiya <b>${local.job.shifts}</b></span></div></section>${actions.filter(a => ["district:shift", "district:quit"].includes(a.id)).map(a => actionCard(a)).join("")}`;
   const job = state.job && lookup(JOBS, state.job.id);
   return `${sectionHeader("EMEK & İLERLEME", "Bir işten, bir kariyere.", "Yeterliliklerini geliştir, başvurunu yap ve vardiyalarını planla. İşe alım koşullara bağlıdır.")}<section class="status-sheet"><div><span class="eyebrow">${job ? "MEVCUT SÖZLEŞME" : "İŞ ARAMA DURUMU"}</span><h3>${esc(job ? job.levels?.[state.job.level] || title(job) : "Yeni bir kapı aç")}</h3><p>${esc(job ? job.description : "Başvuru için ilandaki semtte ve mesai saatlerinde bulun. Eksik becerilerini Gelişim bölümünden tamamlayabilirsin.")}</p></div>${job ? `<div class="sheet-stats"><span>Seviye <b>${state.job.level + 1}</b></span><span>Vardiya <b>${state.job.shifts}</b></span><span>Performans <b>${Math.round(state.job.performance)}</b></span><span>Birikmiş maaş <b>${money(state.job.earned)}</b></span><span>Ödeme günü <b>${state.job.payDay}. gün</b></span></div>` : ""}</section>${renderEmployer(lifeView, actions, actionCard)}${renderCareer(deepView.career)}${renderFreelance(deepView.freelance)}${actionList("work")}<details class="reference"><summary>Meslek rehberi · ${JOBS.length} seçenek</summary><div class="reference-grid">${JOBS.map((j) => `<article><h3>${esc(title(j))}</h3><span class="eyebrow">${esc(districtName(j.district))}</span><p>${esc(j.description)}</p>${j.wage ? `<p class="tiny">Temel vardiya ücreti: ${money(j.wage)}</p>` : ""}</article>`).join("")}</div></details>`;
 }
 function renderLife() {
-  const home = lookup(HOMES, state.housing.id);
-  return `${sectionHeader("BİR EV, BİR DÜZEN", "Kendine iyi bak.", "Tokluk ve enerji günlük kararlarını etkiler. Dinlenmek de bir hamledir.")}<section class="status-sheet"><div><span class="eyebrow">YAŞADIĞIN YER</span><h3>${esc(title(home) || "Geçici barınma")}</h3><p>${esc(home?.description || "Kalıcı bir eve geçmek için koşulları tamamla.")}</p></div><div class="sheet-stats"><span>Aylık kira <b>${money(state.housing.rent)}</b></span><span>Sonraki ödeme <b>${state.housing.dueDay}. gün</b></span><span>Gecikmiş kira <b>${money(state.housing.arrears)}</b></span><span>Depozito <b>${money(state.housing.deposit)}</b></span></div></section>${renderHousehold(lifeView, actions, actionCard, householdChoice)}${renderLivingEconomy(livingView, "household")}${renderNeedsActions()}`;
+  const summary = currentHousehold(), housing = summary.housing, home = lookup(HOMES, state.housing.id);
+  return `${sectionHeader("BİR EV, BİR DÜZEN", "Kendine iyi bak.", "Tokluk ve enerji günlük kararlarını etkiler. Dinlenmek de bir hamledir.")}<section class="status-sheet"><div><span class="eyebrow">YAŞADIĞIN YER</span><h3>${esc(summary.homeName || title(home) || "Geçici barınma")}</h3><p>${esc(summary.homeName ? "" : home?.description || "Kalıcı bir eve geçmek için koşulları tamamla.")}</p></div><div class="sheet-stats"><span>Aylık kira <b>${money(housing.rent)}</b></span><span>Sonraki ödeme <b>${housing.dueDay}. gün</b></span><span>Gecikmiş kira <b>${money(housing.arrears)}</b></span><span>Depozito <b>${money(housing.deposit)}</b></span></div></section>${renderHousehold(summary.homeName ? {...lifeView, lease: null, household: null} : lifeView, actions, actionCard, householdChoice)}${summary.homeName ? `<button class="secondary" data-tab="expansion-finance">${esc(ux()[18])} →</button>` : renderLivingEconomy(livingView, "household")}${renderNeedsActions()}`;
 }
 function needRow(a) {
+  if (state.expansion && expansionUi) a = expansionUi.translateExpansionAction(a, getLanguage());
   return `<article class="need-row ${a.disabled ? "unavailable" : ""}"><div class="need-label"><h3>${esc(a.label)}</h3><span>${esc(duration(a.minutes))} · ${a.cost ? money(a.cost) : "Ücretsiz"}</span></div><button class="secondary need-choose" data-action="${esc(a.id)}" data-focus="action:${esc(a.id)}" aria-label="${esc(a.label)}" ${a.disabled ? "disabled" : ""}>${a.disabled ? "Uygun değil" : "Seç →"}</button><details class="need-details"><summary>${a.disabled ? "Eksik koşulları gör" : "Süre ve sonuçlar"}</summary><p>${esc(a.description)}</p>${a.disabled ? `<p class="action-reason">${esc(a.reason)}</p>` : ""}</details><button class="text-button need-preview" data-preview="${esc(a.id)}" aria-label="${esc(a.label)} için sonuç öngörüsü">Öngörü ↗</button></article>`;
 }
 function renderNeedsActions() {
@@ -443,7 +452,8 @@ function renderStudy() {
   return `${sectionHeader("EĞİTİM & UZMANLAŞMA", "Yarınki kendine yatırım.", "Derslere katıl, becerilerini uygulayarak büyüt ve yeni mesleklerin koşullarını aç.")}${renderHabits(emergentView)}<div class="skills-grid">${SKILLS.map((s) => `<div class="skill-card"><span class="eyebrow">${esc(title(s))}</span><strong>${Math.round(state.player.skills[s.id] || 0)}<small>/100</small></strong><progress max="100" value="${state.player.skills[s.id] || 0}" aria-label="${esc(title(s))}"></progress><p>${esc(s.description)}</p></div>`).join("")}</div>${course ? `<div class="status-sheet"><div><span class="eyebrow">DEVAM EDEN EĞİTİM</span><h3>${esc(title(course))}</h3><p>${state.course.sessions} ders tamamlandı. ${esc(course.description)}</p></div></div>` : ""}${actionList("education")}`;
 }
 function renderWallet() {
-  return `${sectionHeader("HESAPLAR & SORUMLULUKLAR", "Paranın bir hikâyesi var.", "Nakit ile banka bakiyesi ayrıdır. Maaş, kira, faturalar ve faiz aynı takvimde işler.")}<div class="balance-grid"><article><span>Nakit</span><strong>${money(state.cash)}</strong></article><article><span>Banka</span><strong>${money(state.bank)}</strong></article><article class="debt"><span>Kredi borcu</span><strong>${money(state.debt)}</strong></article></div>${renderFinance(deepView.finance)}${actionList("finance")}<section class="ledger"><div class="subheading"><h3>Hesap hareketleri</h3><span class="tiny">Son ${Math.min(state.transactions.length, 30)} işlem</span></div>${
+  const summary = currentHousehold(), finance = summary.forecast ? {...deepView.finance, forecast: [...deepView.finance.forecast.filter(f => !(f.label === "Kira" && state.expansion.economy.home)), ...summary.forecast].sort((a,b) => a.day-b.day)} : deepView.finance;
+  return `${sectionHeader("HESAPLAR & SORUMLULUKLAR", "Paranın bir hikâyesi var.", "Nakit ile banka bakiyesi ayrıdır. Maaş, kira, faturalar ve faiz aynı takvimde işler.")}<div class="balance-grid"><article><span>Nakit</span><strong>${money(state.cash)}</strong></article><article><span>Banka</span><strong>${money(state.bank)}</strong></article><article class="debt"><span>Kredi borcu</span><strong>${money(state.debt)}</strong></article></div>${renderFinance(finance)}${actionList("finance")}<section class="ledger"><div class="subheading"><h3>Hesap hareketleri</h3><span class="tiny">Son ${Math.min(state.transactions.length, 30)} işlem</span></div>${
     state.transactions.length
       ? `<div class="transaction-list">${state.transactions
           .slice(-30)
@@ -589,6 +599,7 @@ function renderLog() {
   }</section></div>`;
 }
 function renderAgenda() {
+  const summary = currentHousehold(), housing = summary.housing;
   const clock = getClock(state),
     upcoming = calendarView.entries
       .filter((a) => ["confirmed", "counter"].includes(a.status) && a.end >= state.time)
@@ -599,7 +610,7 @@ function renderAgenda() {
         location: a.district,
       }))
       .sort((a, b) => a.start - b.start);
-  return `<aside class="daybook"><section class="daybook-section"><div class="subheading"><span class="eyebrow">GÜNÜN RİTMİ</span><span class="day-count">${clock.day}. GÜN</span></div><div class="week-strip">${Array.from({ length: 7 }, (_, i) => `<div class="${i === 0 ? "today" : ""}"><small>${i === 0 ? "BUGÜN" : i === 1 ? "Yarın" : `+${i} GÜN`}</small><b>${clock.day + i}</b>${upcoming.some((a) => a.day === clock.day + i) || state.housing.dueDay === clock.day + i || state.job?.payDay === clock.day + i ? "<i></i>" : ""}</div>`).join("")}</div><ul class="agenda-list">${state.job ? `<li><span class="agenda-icon">▤</span><div><strong>${esc(lookup(JOBS, state.job.id)?.levels?.[state.job.level] || title(lookup(JOBS, state.job.id)))}</strong><small>${state.job.lastWorkDay === clock.day ? "Bugünkü vardiya tamamlandı" : "Vardiya saatlerini Kariyer bölümünde gör"}</small></div></li>` : `<li><span class="agenda-icon">↗</span><div><strong>İlk fırsatını bul</strong><small>İlanları incele; aynı semtte başvur.</small></div></li>`}<li><span class="agenda-icon">⌂</span><div><strong>Kira · ${money(state.housing.rent)}</strong><small>${state.housing.dueDay}. gün${state.housing.arrears ? " · Gecikmiş ödeme var" : ""}</small></div></li>${upcoming
+  return `<aside class="daybook"><section class="daybook-section"><div class="subheading"><span class="eyebrow">GÜNÜN RİTMİ</span><span class="day-count">${clock.day}. GÜN</span></div><div class="week-strip">${Array.from({ length: 7 }, (_, i) => `<div class="${i === 0 ? "today" : ""}"><small>${i === 0 ? "BUGÜN" : i === 1 ? "Yarın" : `+${i} GÜN`}</small><b>${clock.day + i}</b>${upcoming.some((a) => a.day === clock.day + i) || housing.dueDay === clock.day + i || state.job?.payDay === clock.day + i ? "<i></i>" : ""}</div>`).join("")}</div><ul class="agenda-list">${summary.job ? `<li><span class="agenda-icon">▤</span><div><strong>${esc(summary.job.name)}</strong><small>${esc(summary.jobDescription)}</small><button class="text-button" data-tab="work">${esc(ux()[1])} →</button></div></li>` : state.job ? `<li><span class="agenda-icon">▤</span><div><strong>${esc(lookup(JOBS, state.job.id)?.levels?.[state.job.level] || title(lookup(JOBS, state.job.id)))}</strong><small>${state.job.lastWorkDay === clock.day ? "Bugünkü vardiya tamamlandı" : "Vardiya saatlerini Kariyer bölümünde gör"}</small></div></li>` : `<li><span class="agenda-icon">↗</span><div><strong>İlk fırsatını bul</strong><small>İlanları incele; aynı semtte başvur.</small></div></li>`}<li><span class="agenda-icon">⌂</span><div><strong>Kira · ${money(housing.rent)}</strong><small>${housing.dueDay}. gün${housing.arrears ? " · Gecikmiş ödeme var" : ""}</small></div></li>${upcoming
     .slice(0, 3)
     .map(
       (a) =>
@@ -610,8 +621,8 @@ function renderAgenda() {
     )}</ul><button class="text-button" data-tab="plan">Ajanda & rutinler →</button></section><section class="daybook-section"><span class="eyebrow">KARAKTER KARTI</span><div class="character-summary"><span class="player-token big">${esc(initials(state.player.name))}</span><div><h3>${esc(state.player.name)}</h3><p>${esc(title(lookup(TRAITS, state.player.trait)))} · ${esc(title(lookup(EDUCATIONS, state.player.education)))}</p></div></div><div class="mini-skills">${SKILLS.map((s) => `<span>${esc(title(s))}<b>${Math.round(state.player.skills[s.id] || 0)}</b></span>`).join("")}</div><button class="text-button" data-tab="study">Kendini geliştir →</button></section><section class="daybook-section"><div class="subheading"><span class="eyebrow">SON HAMLE</span><button class="text-button" data-tab="log">Günlük ↗</button></div><p class="last-entry">${esc(state.history.at(-1)?.text || "Hayatın ilk sayfası açıldı.")}</p></section><p class="save-state" role="status">${esc(saveStatus || "Her hamleden sonra otomatik kayıt")}</p></aside>`;
 }
 function renderObligations() {
-  const next = calendarView.nextEvent;
-  return `<div class="obligation-rail" aria-label="Konum ve sıradaki sorumluluklar"><span class="rail-location">◈ ${esc(currentPlace())}</span><button data-tab="plan">${next ? `${esc(next.timeLabel)} · ${esc(next.label)}` : "Bugünün planını kur"} ↗</button><button data-tab="wallet">Kira ${state.housing.dueDay}. gün · ${money(state.housing.rent)}</button></div>`;
+  const next = calendarView.nextEvent, housing = currentHousehold().housing;
+  return `<div class="obligation-rail" aria-label="Konum ve sıradaki sorumluluklar"><span class="rail-location">◈ ${esc(currentPlace())}</span><button data-tab="plan">${next ? `${esc(next.timeLabel)} · ${esc(next.label)}` : "Bugünün planını kur"} ↗</button><button data-tab="wallet">Kira ${housing.dueDay}. gün · ${money(housing.rent)}</button></div>`;
 }
 // Resolver states are immutable. Reuse public views during menu/selection changes only.
 let viewState = null,
@@ -625,7 +636,7 @@ function cachedView(key, factory) {
   return viewCache.get(key);
 }
 function renderGame() {
-  const cityBoard = tab === "board" && (!state.expansion || state.expansion.world.region === "istanbul");
+  const cityBoard = tab === "board" && !state.expansion;
   actions = cachedView("actions", () => getActions(state));
   if (cityBoard || ["plan", "people", "stories", "log"].includes(tab))
     societyView = cachedView("society", () => getSocietyView(state));
