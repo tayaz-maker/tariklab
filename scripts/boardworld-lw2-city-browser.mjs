@@ -16,7 +16,7 @@ const cities = {
 const gold = new Set(['kadikoy','besiktas','sisli']);
 const server = createStaticGameServer(process.argv[2] || 'public');
 await new Promise(r=>server.listen(0,'127.0.0.1',r));
-const browser = await chromium.launch({headless:true, ...(process.env.BOARDWORLD_CHROME ? {executablePath:process.env.BOARDWORLD_CHROME} : {})});
+const browser = await chromium.launch({headless:true, executablePath:process.env.BOARDWORLD_CHROME || process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH});
 const context = await browser.newContext({viewport:{width:390,height:844}});
 const page = await context.newPage();
 const errors=[]; page.on('pageerror',e=>errors.push(e.message));
