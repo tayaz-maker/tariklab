@@ -1,3 +1,4 @@
+import { hubDistrict, routeBetween } from "./expansion-geography.mjs";
 export const REGIONS = {
   istanbul: { name: "İstanbul", price: 115, employment: 109, population: 1860, wage: 510 },
   ankara: { name: "Ankara", price: 94, employment: 103, population: 840, wage: 465 },
@@ -7,6 +8,8 @@ const regionIds = Object.keys(REGIONS);
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const DAY = 1440;
 const ownRegion = (id) => Object.hasOwn(REGIONS, id);
+const goldPlace = (s) => s.expansion.world.region === "istanbul" &&
+  ["kadikoy", "besiktas", "sisli"].includes(s.expansion.districts?.place?.districtId ?? s.location);
 const worldCopy = {
   "Yeni İstanbul planları için önce İstanbul'a dön.": [
     "Return to Istanbul before making new Istanbul plans.",
@@ -99,7 +102,8 @@ export function tickRegions(s, api, markets) {
       market = markets?.[id],
       base = REGIONS[id];
     const prior = r.employment;
-    const enterprise = clamp((market?.workers ?? 0) - 4 - (market?.jobseekers ?? 0), -8, 6);
+    const enterprise = clamp(Math.round(3 * ((market?.workers ?? 0) - (market?.jobseekers ?? 0)) /
+      Math.max(1, market?.businesses ?? 3)) - 4, -8, 6);
     r.employment = clamp(
       Math.round((3 * prior + base.employment) / 4) + cycle + enterprise,
       60,
@@ -144,23 +148,26 @@ export function worldActions(s, api) {
   const actions = [];
   for (const [id, target] of Object.entries(REGIONS)) {
     if (id === w.region) continue;
+    const place = api.getPlace(s);
+    const route = routeBetween(s, place.venueId || place.districtId, hubDistrict(id));
     actions.push({
       id: `world:move:${id}`,
       category: "world",
       pay: "total",
       label: `${target.name} şehrine taşın`,
       description: "Taşınınca aile, borç ve mülk korunur.",
-      cost: id === "istanbul" || w.region === "istanbul" ? 780 : 620,
-      minutes: 360,
-      disabled: false,
-      reason: "",
+      cost: route.cost,
+      minutes: route.minutes,
+      disabled: !route.available,
+      reason: route.reason,
+      route,
       run(next) {
         next._transit = true;
         return `Yeni şehir: ${target.name}.`;
       },
     });
   }
-  if (w.region === "istanbul") return actions;
+  if (goldPlace(s)) return actions;
   const wage = Math.floor((region.wage * r.employment) / 100);
   const firm = api.regionalShift?.(s, w.region, wage);
   const available =
@@ -230,19 +237,18 @@ export function worldActions(s, api) {
 }
 
 export function calendarPlanningReason(s) {
-  return s.expansion && s.expansion.world.region !== "istanbul"
+  return s.expansion && !goldPlace(s)
     ? "Yeni İstanbul planları için önce İstanbul'a dön."
     : "";
 }
 
 export function adaptWorldActions(s, actions) {
-  if (s.expansion.world.region === "istanbul") return actions;
+  if (goldPlace(s)) return actions;
   // Gold's district, routes and appointments still represent İstanbul.
   // Explicit regional actions supply local work, care and transport.
-  return actions.filter((a) =>
-    /^(district:|underworld:|world:|family:|economy:|institution:|business:|event:|wait:|deposit:|withdraw:|repay:|finance:|calendar:(cancel|decline|repeat-stop):)/.test(
-      a.id,
-    ),
+  return actions.filter(({ id }) =>
+    /^(district:|underworld:|world:|family:|economy:|institution:|business:|event:|wait:|deposit:|withdraw:|repay:|finance:|arrears:pay$|household:collect:|calendar:(cancel|decline|repeat-stop):)/.test(id) ||
+    (s.expansion.economy.home && /^(?:sleep$|cook$|buy:groceries$|household:(?:buy:|maintain$)|flow:(?:care$|payments:))/.test(id)),
   );
 }
 

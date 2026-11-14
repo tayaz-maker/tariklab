@@ -2951,4 +2951,5 @@ export default [
   "Farklı kayıt kopyaları korundu. İndirip dosyadan yükleyebilirsin.",
   "Korunan kayıt kopyasını indir",
   "Bu tarayıcıya kaydedildi. Farklı bir kayıt kopyası korundu. Kayıt menüsünden indirip dosyadan yükleyebilirsin; mevcut kaydın değiştirilmedi.",
+  "{0} · {1} saat. {2} TL hak ediş; sonraki maaş günü {3}. Vardiya etkisi: enerji −{4}, stres +10; mesleki beceri +1. Geçen zamanın etkileri toplam öngörüye dahildir.",
 ];

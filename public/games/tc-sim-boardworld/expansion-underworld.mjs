@@ -1,6 +1,8 @@
 // The optional v7 organization and criminal-case authority. Time comes from the
 // ordinary resolver and day hook. Gold place, firms and household funds stay in
 // their existing owners.
+import { cityDistricts, districtById, NEIGHBORHOODS, normalizeDistrictId, routeBetween } from "./expansion-geography.mjs";
+
 const DAY = 1440;
 const MAX = 1_000_000_000;
 const MAX_STOCK = 18;
@@ -56,7 +58,13 @@ const CHAPTERS = [
   officeVenue: regionId === "istanbul" ? `${districtId}-academy` : `${districtId}:institution`,
 }));
 const catalog = new Map(CHAPTERS.map((chapter) => [chapter.id, chapter]));
-const byDistrict = new Map(CHAPTERS.map((chapter) => [chapter.districtId, chapter]));
+const chapterDistrict = (chapter) => normalizeDistrictId(chapter.districtId);
+const MAX_TERRITORIES = 4;
+const SERVICE_HOURS = {
+  work: ["İş merkezi", 8, 21],
+  social: ["Mahalle buluşma yeri", 9, 21],
+  office: ["Kamu merkezi", 8, 18],
+};
 const rivals = CHAPTERS.flatMap((first) =>
   CHAPTERS.filter((second) => second.index > first.index && first.regionId === second.regionId).map(
     (second) => [first.id, second.id],
@@ -136,6 +144,7 @@ function makeState(lastDay) {
     lastDay,
     nextTask: 1,
     nextIncident: 1,
+    territory: emptyTerritory(),
     chapters: Object.fromEntries(
       CHAPTERS.map((chapter) => [
         chapter.id,
@@ -154,7 +163,7 @@ function makeState(lastDay) {
             purse: 0,
             generation: staffGeneration(chapter, index, lastDay),
           })),
-          ledger: Object.fromEntries(ledgerKeys.map((key) => [key, 0])),
+          ledger: Object.fromEntries([...ledgerKeys, "outreach"].map((key) => [key, 0])),
         },
       ]),
     ),
@@ -173,6 +182,15 @@ function makeState(lastDay) {
     incidents: [],
     cases: [],
   };
+}
+
+const emptyTerritory = () => Object.fromEntries(CHAPTERS.map(({ id }) => [id, {}]));
+
+export function migrateUnderworld(s) {
+  const x = state(s);
+  if (!x || Object.hasOwn(x, "territory")) return;
+  x.territory = emptyTerritory();
+  for (const chapter of Object.values(x.chapters)) chapter.ledger.outreach = 0;
 }
 
 function ensure(s) {
@@ -195,9 +213,6 @@ const CASE_STATES = {
 const EVIDENCE_NAMES = { stock: "Depo sayım kaydı", witness: "Doğrudan tanık ifadesi" };
 const CAPACITY_REASON = "Önce açık dosya veya üyelik kayıtları sonuçlanmalı.";
 const MONEY_REASON = "Kayıtlı kaynaklar bu işlemi karşılamıyor.";
-const WORK_REASON = "Örgütün iş yerine git ve işlemi açık saatlerde tamamla.";
-const SOCIAL_REASON = "Örgütün buluşma yerine git ve görüşmeyi açık saatlerde tamamla.";
-const OFFICE_REASON = "Dosya için ilgili semtin kamu hizmet noktasına açık saatlerde git.";
 const TASK_REASON = "Önce açık görevi tamamla veya süresinin dolmasını bekle.";
 const TRUST_REASON = "Daha fazla güven ve tamamlanmış görev gerekiyor.";
 const RESTRICTION_REASON = "Kişisel yaptırım nedeniyle bu işlem geçici olarak kapalı.";
@@ -211,13 +226,13 @@ function reservations(x, chapterId) {
   return { treasury: task?.reward ?? 0, stock: task?.stock ?? 0 };
 }
 
-function canTransferOrder(s, api, chapter, units) {
+function canTransferOrder(s, api, chapter, units, districtId) {
   if (!units) return null;
   // The first qualifying funded buyer in canonical order. The depot only ships
   // when the firm can buy the complete quantity at the current quoted price.
   return (
     [0, 1, 2]
-      .map((index) => api.underworldOrder(s, chapter.regionId, index))
+      .map((index) => api.underworldOrder(s, chapter.regionId, index, districtId))
       .find((order) => order?.capacity >= units) ?? null
   );
 }
@@ -361,6 +376,11 @@ function decision(s, x, api, row, incident) {
   if (corroborated) {
     row.restrictionUntil = dayOf(s.time) + RESTRICTION_DAYS;
     row.compensationDue = RESTITUTION;
+    if (incident.offscreen) {
+      const account = x.chapters[chapter.id];
+      account.heat = clamp(account.heat + 15);
+      account.readiness = clamp(account.readiness - 12);
+    }
     if (incident.offscreen || alive(s, incident.personId)) row.fineDue = FINE;
     else row.fineWaived = FINE;
     if (!incident.offscreen && subject.id === s.expansion.playerId && alive(s, subject.id)) {
@@ -597,12 +617,46 @@ function settleRelations(s, x, api, today, sales) {
   }
 }
 
+function settleTerritory(s, x, api, chapter, today) {
+  const control = x.territory[chapter.id];
+  const account = x.chapters[chapter.id];
+  const assistants = account.roster.filter(rostered).length;
+  const reserved = reservations(x, chapter.id);
+  const available = () => account.treasury - reserved.treasury;
+  for (const [id, influence] of Object.entries(control)) {
+    const rivalPressure = CHAPTERS.reduce((pressure, other) =>
+      other === chapter ? pressure : Math.max(pressure, x.territory[other.id][id] ?? 0), 0);
+    const extension = influence - 3 - Number(rivalPressure > influence) * 4 - Math.floor(account.heat / 9);
+    if (extension <= 0) {
+      delete control[id];
+      api.expansionEvent(s, "underworld.withdrawal", id, chapter.name);
+    } else control[id] = extension;
+  }
+  if (account.influence < 17 || account.heat >= 50 || assistants < 2) return;
+  const home = chapterDistrict(chapter);
+  const connected = cityDistricts(chapter.regionId).filter(({ id }) => id !== home);
+  const offset = Math.floor(today / 7) + chapter.index * 3;
+  const district = connected[(offset * 3 + chapter.index) % connected.length];
+  if (!control[district.id] && Object.keys(control).length >= MAX_TERRITORIES) return;
+  const route = routeBetween(s, home, district.id, { actor: "npc", at: s.time + 9 * 60 });
+  if (!route?.available || route.minutes > 120) return;
+  const travel = route.cost * 2;
+  const order = canTransferOrder(s, api, chapter, 1, district.id);
+  if (account.stock - reserved.stock < 1 || available() < travel + 110 ||
+      !sell(s, api, chapter, account, 1, order)) return;
+  account.treasury -= travel;
+  account.ledger.outreach += travel;
+  if (!control[district.id]) api.expansionEvent(s, "underworld.outreach", district.id, chapter.name);
+  control[district.id] = clamp((control[district.id] ?? 0) + 25 + assistants * 2, 0, 85);
+}
+
 export function tickUnderworld(s, api) {
   if (!s.expansion) return;
   const x = state(s) ?? (s.expansion.underworld = makeState(Math.max(1, api.dayOf(s) - 1)));
   reconcileDeaths(s, x, api);
   const today = api.dayOf(s);
   if (x.lastDay >= today) return;
+  migrateUnderworld(s);
   x.lastDay = today;
   if (x.offer?.until < s.time || (x.offer && !alive(s, x.offer.personId))) x.offer = null;
   reconcileUnderworldTime(s, api);
@@ -617,17 +671,33 @@ export function tickUnderworld(s, api) {
   for (let offset = 0; offset < CHAPTERS.length; offset++) {
     const chapter = CHAPTERS[(today + offset) % CHAPTERS.length];
     if (runChapterDay(s, x, api, chapter, today)) sales.add(chapter.id);
+    if ((today + chapter.index) % 7 === 0) settleTerritory(s, x, api, chapter, today);
   }
   settleRelations(s, x, api, today, sales);
   raidOffscreen(s, x, api, today);
 }
 
+function districtInfluence(x, chapter, id) {
+  return chapterDistrict(chapter) === id
+    ? x.chapters[chapter.id].influence
+    : x.territory?.[chapter.id]?.[id] ?? 0;
+}
+
 export function underworldDistrictModifiers(s, districtId) {
   const x = state(s);
-  const chapter = byDistrict.get(districtId);
-  const account = x?.chapters[chapter?.id];
-  const influence = account?.influence ?? 0;
-  const heat = account?.heat ?? 0;
+  const id = normalizeDistrictId(districtId);
+  let influence = 0, secondary = 0, heat = 0;
+  if (x) for (const chapter of CHAPTERS) {
+    const strength = districtInfluence(x, chapter, id);
+    const home = chapterDistrict(chapter) === id;
+    if (strength >= influence) {
+      secondary = influence;
+      influence = strength;
+    } else secondary = Math.max(secondary, strength);
+    if (home || strength) heat += Math.floor(x.chapters[chapter.id].heat * (home ? 1 : strength / 100));
+  }
+  // Rival operators also increase delays and risk in shared districts.
+  heat = clamp(heat + Math.floor(secondary / 2));
   return {
     demand: Math.floor(influence * 0.12) - Math.floor(heat * 0.12),
     rentPressure: Math.floor(influence * 0.1) - Math.floor(heat * 0.1),
@@ -641,19 +711,18 @@ export function underworldDistrictModifiers(s, districtId) {
 function localReason(s, api, chapter, minutes, site) {
   const place = api.getPlace(s);
   const minute = minuteOf(s.time);
-  if (s._transit || place.districtId !== chapter.districtId)
-    return site === "work" ? WORK_REASON : site === "social" ? SOCIAL_REASON : OFFICE_REASON;
-  if (site === "work")
-    return place.venueId === chapter.workVenue && minute >= 480 && minute + minutes <= 1260
-      ? ""
-      : WORK_REASON;
-  if (site === "social")
-    return place.venueId === chapter.socialVenue && minute >= 540 && minute + minutes <= 1260
-      ? ""
-      : SOCIAL_REASON;
-  return place.venueId === chapter.officeVenue && minute >= 480 && minute + minutes <= 1080
-    ? ""
-    : OFFICE_REASON;
+  const key = site + "Venue";
+  const labels = chapter.districtId;
+  const district = districtById(labels);
+  const neighborhood = NEIGHBORHOODS.find(({ id }) => id === labels)?.name;
+  const [defaultLabel, open, close] = SERVICE_HOURS[site];
+  const name = chapter.regionId === "istanbul"
+    ? ({ social: "Mahalle kafesi", office: "Eğitim merkezi" }[site] ?? defaultLabel)
+    : defaultLabel;
+  if (!s._transit && normalizeDistrictId(place.districtId) === district.id &&
+      place.venueId === chapter[key] && minute >= open * 60 && minute + minutes <= close * 60) return "";
+  const location = neighborhood ? `${district.name} / ${neighborhood}` : district.name;
+  return `Git: ${location} / ${name} · ${String(open).padStart(2, "0")}:00–${close}:00`;
 }
 
 function activePenalty(s, id) {
@@ -1271,7 +1340,8 @@ function validChapter(s, x, chapter, today) {
     !inRange(account.lastSupportDay, 0, today) ||
     !list(account.roster, 3) ||
     account.roster.length !== 3 ||
-    !keys(account.ledger, ledgerKeys) ||
+    !keys(account.ledger, x.territory ? [...ledgerKeys, "outreach"] : ledgerKeys) ||
+    (x.territory && !inRange(account.ledger.outreach, 0, Number.MAX_SAFE_INTEGER)) ||
     !ledgerKeys.every((key) => inRange(account.ledger[key], 0, Number.MAX_SAFE_INTEGER))
   )
     return false;
@@ -1314,7 +1384,8 @@ function validChapter(s, x, chapter, today) {
         l.wholesale -
         l.payroll -
         l.alliedSpent -
-        l.liability &&
+        l.liability -
+        (l.outreach ?? 0) &&
     account.stock === 6 + l.purchased + l.stolenIn + l.sharedIn - l.sold - l.stolenOut - l.sharedOut
   );
 }
@@ -1572,8 +1643,11 @@ export function validateUnderworld(s) {
   const x = e.underworld;
   const today = dayOf(s.time);
   const pairIds = rivals.map(([first, second]) => `${first}:${second}`);
+  const territory = x && Object.hasOwn(x, "territory");
   if (
+    (e.livingWorld === 2 && !territory) ||
     !keys(x, [
+      ...(territory ? ["territory"] : []),
       "lastDay",
       "nextTask",
       "nextIncident",
@@ -1597,6 +1671,17 @@ export function validateUnderworld(s) {
     x.cases.length !== x.incidents.length
   )
     return false;
+  if (territory && (!keys(x.territory, CHAPTERS.map(({ id }) => id)) ||
+    !CHAPTERS.every((chapter) => {
+      const entries = x.territory[chapter.id];
+      return entries && Object.getPrototypeOf(entries) === Object.prototype &&
+        Object.keys(entries).length <= MAX_TERRITORIES &&
+        Object.entries(entries).every(([id, value]) =>
+          id !== chapterDistrict(chapter) &&
+          normalizeDistrictId(id) === id &&
+          districtById(id)?.regionId === chapter.regionId &&
+          inRange(value, 1, 85));
+    }))) return false;
   const taskIds = new Set();
   const membershipIds = new Set();
   let active = false;
@@ -1659,7 +1744,13 @@ export function underworldView(s, api) {
       return {
         id: chapter.id,
         name: chapter.name,
-        districtId: chapter.districtId,
+        districtId: chapterDistrict(chapter),
+        socialVenueId: chapter.socialVenue,
+        workVenueId: chapter.workVenue,
+        officeVenueId: chapter.officeVenue,
+        territory: Object.entries(x.territory?.[chapter.id] ?? {}).map(([districtId, influence]) => ({
+          districtId, influence, name: districtById(districtId).name,
+        })),
         influence: account.influence,
         recruiting: recruiting(account),
         leader: known
@@ -1720,7 +1811,7 @@ export function underworldView(s, api) {
         {
           id: row.id,
           scope: own ? "personal" : incident.offscreen ? "public" : "estate",
-          districtId: chapter.districtId,
+          districtId: chapterDistrict(chapter),
           subject: incident.offscreen
             ? staffName(catalog.get(incident.offenderChapterId), incident.personId)
             : person(s, incident.personId).name,
@@ -1921,21 +2012,11 @@ const TRANSLATIONS = new Map(
       "The available funds or stock cannot cover this.",
       "Dostępne środki lub zapasy nie wystarczą.",
     ],
-    [
-      WORK_REASON,
-      "Go to the organization’s workplace and finish during opening hours.",
-      "Udaj się do miejsca pracy organizacji i zakończ przed zamknięciem.",
-    ],
-    [
-      SOCIAL_REASON,
-      "Go to the organization’s meeting place during opening hours.",
-      "Udaj się do miejsca spotkań organizacji w godzinach otwarcia.",
-    ],
-    [
-      OFFICE_REASON,
-      "Visit the district public service office during opening hours.",
-      "Odwiedź urząd w tej dzielnicy w godzinach otwarcia.",
-    ],
+    ["İş merkezi", "Work centre", "Centrum pracy"],
+    ["Mahalle buluşma yeri", "Community meeting place", "Miejsce spotkań"],
+    ["Kamu merkezi", "Public service centre", "Centrum usług publicznych"],
+    ["Mahalle kafesi", "Neighbourhood café", "Kawiarnia osiedlowa"],
+    ["Eğitim merkezi", "Education centre", "Centrum edukacyjne"],
     [
       TASK_REASON,
       "Complete the open task or wait for its deadline.",
@@ -2097,6 +2178,11 @@ export function localizeUnderworldText(text, language) {
   if ((language !== "en" && language !== "pl") || typeof text !== "string") return text;
   const index = language === "pl" ? 1 : 0;
   if (TRANSLATIONS.has(text)) return TRANSLATIONS.get(text)[index];
+  const destination = /^Git: (.+) \/ ([^/]+) · (\d{2}:00–\d{2}:00)$/.exec(text);
+  if (destination) {
+    const [, district, venue, hours] = destination;
+    return `${index ? "Udaj się do" : "Go to"} ${district} / ${TRANSLATIONS.get(venue)?.[index] ?? venue} · ${hours}`;
+  }
   for (const [pattern, en, pl] of FORMATS)
     if (pattern.test(text)) return text.replace(pattern, index ? pl : en);
   if (text.includes(" · "))

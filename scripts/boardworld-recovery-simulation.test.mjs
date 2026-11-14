@@ -18,11 +18,11 @@ const languages = ["tr", "en", "pl"];
 
 test("regional contracts and property preserve terms, money and save bytes across replay", () => {
   let state = createGame({ scenario: "restart", seed: 303, expansion: true });
-  // Exact initial v7 bytes captured by running the released recovery baseline
-  // at 9626ee6b with this scenario and seed.
+  // Exact LW2 initial bytes after the additive31-district capability migration.
+  // Frozen released byte preservation is tested in boardworld-lw2-save.test.mjs.
   assert.equal(
     createHash("sha256").update(exportGame(state)).digest("hex"),
-    "d822c3271839268668e5a335695352df1f52f419f0a7014ece5a03bd934d38d4",
+    "28f77d0ecb86901dae8e10805388b78cbdfbcf54fbeb7fd3b5f47d015a56c26b",
   );
   // Prepared budget for the property and business transactions in this trace.
   state.bank = 140000;
@@ -58,6 +58,10 @@ test("regional contracts and property preserve terms, money and save bytes acros
     for (const id of ids) {
       while (state.pendingEvents.length)
         take(getActions(state).find((a) => a.id.startsWith("event:") && !a.disabled).id);
+      for (let attempt=0; attempt<48 && getActions(state).find(a=>a.id===id)?.disabled; attempt++) {
+        const event=getActions(state).find(a=>a.id.startsWith("event:")&&!a.disabled);
+        take(event?.id || "wait:60");
+      }
       take(id);
     }
   }
@@ -96,7 +100,6 @@ test("regional contracts and property preserve terms, money and save bytes acros
   follow([
     "district:visit:ankara:kizilay:social",
     "world:meal",
-    "district:travel:ankara:cankaya",
     "district:visit:ankara:cankaya:housing",
     "economy:rent:ankara:studio",
     "business:start:repair",

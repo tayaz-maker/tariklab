@@ -2951,4 +2951,5 @@ export default [
   "Different save copies were preserved. Download them and import a file to choose one.",
   "Download preserved save copy",
   "Saved in this browser. A different save copy was preserved. Download it from the Save menu and import it explicitly; your current save was kept.",
+  "{0} · {1} hours. Earn {2} TL; next payday {3}. Shift effects: energy −{4}, stress +10; professional skill +1. The total forecast also includes the effects of elapsed time.",
 ];

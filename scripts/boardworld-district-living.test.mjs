@@ -43,19 +43,20 @@ test("pure lazy place, canonical lots, and real travel resolver", () => {
   engine.getActions(s);
   assert.equal(exportGame(s), initial);
   assert.equal(districtForLot("istanbul:studio"), "besiktas");
-  assert.equal(districtForLot("ankara:room"), "ankara:kizilay");
+  assert.equal(districtForLot("ankara:room"), "ankara:cankaya");
   assert.equal(districtForLot("izmir:apartment"), "izmir:bornova");
   s = step(s, "world:move:ankara");
-  assert.equal(getPlace(s).districtId, "ankara:kizilay");
+  assert.equal(getPlace(s).districtId, "ankara:cankaya");
+  assert.equal(getPlace(s).neighborhoodId, "ankara:kizilay");
   assert.equal(s.location, "kadikoy");
   assert.equal(s.expansion.districts, undefined);
-  const action = "district:travel:ankara:cankaya";
+  const action = "district:travel:ankara:altindag";
   s = ready(s, action);
   const start = s.time,
     prior = structuredClone(s);
   const result = step(s, action);
-  assert.equal(result.time - start, 45);
-  assert.equal(getPlace(result).districtId, "ankara:cankaya");
+  assert.equal(result.time - start, 25);
+  assert.equal(getPlace(result).districtId, "ankara:altindag");
   assert.equal(result.location, s.location);
   assert.deepEqual(step(prior, action), result);
   assert.equal(engine.resolveAction(result, action).ok, false);
@@ -186,7 +187,8 @@ test("Istanbul conditions retain the existing society effects and stocks", () =>
 
 test("prepared death-boundary fixture does not complete an intercity arrival", () => {
   let s = clear(engine.createGame({ seed: 49, expansion: true }));
-  while (s.time % 1440 < 20 * 60) s = step(clear(s), "wait:60");
+  while (s.time % 60) s = step(s, s.cash >= 500 ? "deposit:500" : "withdraw:1000");
+  while (s.time % 1440 < 18 * 60) s = step(clear(s), "wait:60");
   // Rare branch: prepare an otherwise valid founder to die at the next day tick.
   const player = s.expansion.family.people.find((p) => p.id === s.expansion.playerId);
   player.born = Math.floor(s.time / 1440) + 2 - player.lifespan * 30;

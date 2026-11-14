@@ -2,6 +2,8 @@ import { DISTRICTS, HOMES, JOBS, COURSES, NPCS } from "./content.mjs";
 import { DISTRICT_RULES } from "./deep-content.mjs";
 
 const names = Object.fromEntries(DISTRICTS.map((d) => [d.id, d.name]));
+let expansionTravel;
+export function attachExpansionTravel(provider) { expansionTravel = provider; }
 export const VENUES = DISTRICTS.flatMap((d) => [
   {
     id: `${d.id}-cafe`,
@@ -136,6 +138,8 @@ export function getRoute(s, from, to, mode = "transit", at = s.time) {
   };
 }
 export function travelMinutes(s, from, to, at = s.time) {
+  if (s.expansion && expansionTravel)
+    return expansionTravel(s, from, to, { at, actor: "npc" })?.minutes ?? 1000000;
   return getRoute(s, from, to, "transit", at)?.minutes ?? 1000000;
 }
 export function cityActions(s, api) {

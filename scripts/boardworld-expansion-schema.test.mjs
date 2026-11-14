@@ -90,12 +90,23 @@ const withMortgage = (s) => {
   p(s, "ankara:room").mortgage = mortgage(s);
 };
 const legacy = (s) => {
-  for (const account of Object.values(economy(s).residents)) delete account.life;
+  const e = economy(s);
+  delete s.expansion.livingWorld;
+  delete e.activity;
+  for (const [id, account] of Object.entries(e.residents)) {
+    if (/^resident:(ankara|izmir):[0-2]$/.test(id)) delete account.life;
+    else delete e.residents[id];
+  }
+  for (const id of Object.keys(e.properties))
+    if (id.split(":").length > 2) delete e.properties[id];
+  for (const id of Object.keys(e.firms))
+    if (id.split(":").length > 2) delete e.firms[id];
 };
 function actorMove(s) {
   n(s).life.region = "izmir";
+  economy(s).activity["resident:ankara:0"].districtId = "izmir:konak";
   n(s).life.employer = "izmir:repair";
-  firm(s, "izmir:repair").workers++;
+  firm(s, "izmir:repair").workers = 2;
 }
 const unassign = (s) => {
   n(s).employment = "searching";

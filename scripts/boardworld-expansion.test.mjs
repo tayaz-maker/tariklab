@@ -22,6 +22,7 @@ import {
 } from "../public/games/tc-sim-boardworld/expansion-world.mjs";
 import { initExpansion } from "../public/games/tc-sim-boardworld/expansion.mjs";
 import { familyView } from "../public/games/tc-sim-boardworld/expansion-family.mjs";
+import { packSave } from "../public/games/tc-sim-boardworld/save-codec.mjs";
 
 function act(state, id) {
   const result = resolveAction(state, id);
@@ -33,12 +34,12 @@ test("Gold cannot validate, create, or run expansion state before loading the ru
   const gold = createGame();
   const expanded = structuredClone(gold);
   initExpansion(expanded);
-  const expandedPayload = JSON.stringify(expanded);
+  const expandedPayload = JSON.stringify(packSave(expanded));
   let checksum = 2166136261;
   for (let i = 0; i < expandedPayload.length; i++)
     checksum = Math.imul(checksum ^ expandedPayload.charCodeAt(i), 16777619) >>> 0;
   const bytes = JSON.stringify({
-    format: "tc-sim-boardworld",
+    format: "tc-sim-boardworld-living-world-2-dictionary-1",
     version: 7,
     checksum: checksum.toString(16).padStart(8, "0"),
     payload: expandedPayload,

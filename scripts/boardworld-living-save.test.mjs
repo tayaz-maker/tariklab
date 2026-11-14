@@ -112,13 +112,13 @@ test("slot identity is part of CAS, and corrupt or empty living slots retain aut
   assert.equal(h.slots().get(legacy), "old-valid");
 });
 
-test("real day advancement opts into the living capability; corrupt living slots never restore a legacy branch", async () => {
+test("new worlds use their declared capability; corrupt living slots never restore a legacy branch", async () => {
   const engine = await import("../public/games/tc-sim-boardworld/engine.mjs");
   const persistence = await import("../public/games/tc-sim-boardworld/persistence.mjs");
   await engine.loadExpansionRuntime();
   let current = engine.createGame({ seed: 49, expansion: true });
   const original = persistence.exportGame(current);
-  assert.equal(JSON.parse(original).format, "tc-sim-boardworld-dictionary-1");
+  assert.equal(JSON.parse(original).format, "tc-sim-boardworld-living-world-2-dictionary-1");
   for (let n = 0; !current.expansion.underworld && n < 35; n++) {
     const event = engine.getActions(current).find((a) => a.category === "event" && !a.disabled);
     const result = engine.resolveAction(current, event ? event.id : "wait:60");
@@ -128,7 +128,7 @@ test("real day advancement opts into the living capability; corrupt living slots
   assert.ok(current.expansion.underworld);
   const encoded = persistence.exportGame(current);
   const envelope = JSON.parse(encoded);
-  assert.equal(envelope.format, "tc-sim-boardworld-living-dictionary-1");
+  assert.equal(envelope.format, "tc-sim-boardworld-living-world-2-dictionary-1");
   assert.deepEqual(persistence.importGame(encoded).state, current);
   envelope.format = "tc-sim-boardworld-dictionary-1";
   assert.equal(persistence.importGame(JSON.stringify(envelope)).state, null);
