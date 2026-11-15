@@ -69,9 +69,14 @@ test("parallel TC groups retain every released test command without changing its
     for (const step of matches)
       assert.equal(createHash("sha256").update(step.run.trim()).digest("hex"), hash, name);
   }
-  assert.deepEqual(w.jobs.browser.strategy.matrix.suite, ["performance", "interface", "banking-mobile"]);
+  assert.deepEqual(w.jobs.browser.strategy.matrix.suite, ["performance", "outcome", "navigation-regions", "banking-mobile"]);
   for (const step of w.jobs.browser.steps.filter(step => originalChecks.some(([name]) => name === step.name)))
-    assert.match(step.if, /matrix\.suite == '(performance|interface|banking-mobile)'/);
+    assert.match(step.if, /matrix\.suite == '(performance|outcome|navigation-regions|banking-mobile)'/);
+  for (const [name, suite] of [
+    ["Built candidate — 18 matrix cases and 4 mobile hidden-panel regressions", "outcome"],
+    ["TC SIM 2.0 navigation, preferences and status", "navigation-regions"],
+    ["TC SIM 2 regions — 23 destinations, four viewports and three languages", "navigation-regions"],
+  ]) assert.ok(w.jobs.browser.steps.find(step => step.name === name).if.endsWith(`matrix.suite == '${suite}'`));
 });
 test("protected TC check is an unconditional all-dependency gate and every browser uses the same exact build", () => {
   const w = workflow(), gate = w.jobs["outcome-browser"];

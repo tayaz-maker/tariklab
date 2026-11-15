@@ -1677,3 +1677,12 @@ Generation harness overhead is reduced while keeping real visible actions and
 the full natural succession assertions. Hosted full-journey timing and automatic
 production publication remain required; the local partial trace is not treated
 as a release pass. See `docs/CI_PARALLEL_VERIFICATION.md`.
+
+
+## 2026-11-15 — Remove the measured TC browser scheduling bottleneck
+
+The first hosted parallel TC run passed in 11m12, with 610 seconds in the combined interface browser group. Run its unchanged outcome command independently from the navigation/regions commands, yielding four exact-artifact browser groups. All test arguments and evidence names remain bound by the existing command hashes; added routing assertions require each moved command in its intended group. Focused gate and deployment tests pass. No TC runtime or Cloudflare setting changes.
+
+## 2026-11-15 — Preserve nested suite assertions on a standard ARM runner
+
+Hosted candidate da9956c8 passed full Boardworld verification in 9m42 with the original 730-name inventory and an exact 1377-action generation trace, including the natural day1501 estate and unchanged 48 runtime hashes. The unchanged Social Engine wrapper still needed 17m38 on its isolated Ubuntu x64 runner, so the candidate remained draft. Move that one job to GitHub's standard macos-15 ARM runner, retaining Node22, its OS/architecture-specific dependency cache, all existing assertions and the same 60-minute failure ceiling. A parity test freezes the released wrapper hash. No game code, wrapper, platform configuration, release guard or budget changes; hosted timing and automatic exact-main Git publication remain mandatory.

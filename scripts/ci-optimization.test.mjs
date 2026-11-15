@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
+import {createHash} from 'node:crypto';
 const yaml=createRequire(import.meta.url)('js-yaml');
 const read=name=>yaml.load(readFileSync(new URL('../.github/'+name,import.meta.url),'utf8'));
 const ci=read('workflows/ci.yml');
@@ -51,4 +52,14 @@ test('production checks move behind exact-main release verification and preserve
   assert.equal(production.jobs['post-release'].needs,'production');
   const post=runs(production.jobs['post-release']);
   for(const script of ['duel-production.mjs','campaign-production.mjs','tc-sim-job-start-outcome-browser.mjs','esik-save-browser.mjs'])assert.ok(post.includes(script),script);
+});
+
+test('the unchanged nested suite uses a standard ARM runner with the same Node major',()=>{
+  const isolated=ci.jobs['isolated-unit'];
+  assert.equal(isolated['runs-on'],'macos-15');
+  assert.equal(isolated['timeout-minutes'],60);
+  assert.equal(isolated.steps.find(s=>s.run)?.run,'node scripts/ci-parallel.mjs run isolated 0 1');
+  const setup=read('actions/ci-node/action.yml').runs.steps.find(s=>s.uses==='actions/setup-node@v4');
+  assert.equal(setup.with['node-version'],'22');
+  assert.equal(createHash('sha256').update(readFileSync(new URL('./social-engine-core.test.mjs',import.meta.url))).digest('hex'),'c4e1d29ca12b7e375f9586733611ecb6e89bcb364679dac6b39a7defeeedd855','Released wrapper and all its assertions remain byte-identical');
 });

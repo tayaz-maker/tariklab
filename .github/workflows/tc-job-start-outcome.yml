@@ -96,7 +96,8 @@ jobs:
       matrix:
         suite:
           - performance
-          - interface
+          - outcome
+          - navigation-regions
           - banking-mobile
     steps:
       - uses: actions/checkout@v4
@@ -133,13 +134,13 @@ jobs:
         if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'performance'
         run: node scripts/tc-sim-job-start-performance.mjs
       - name: Built candidate — 18 matrix cases and 4 mobile hidden-panel regressions
-        if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'interface'
+        if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'outcome'
         run: node scripts/tc-sim-job-start-outcome-browser.mjs --serve .output/public --label built
       - name: TC SIM 2.0 navigation, preferences and status
-        if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'interface'
+        if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'navigation-regions'
         run: node scripts/tc-sim-2-ux-browser.mjs .output/public built
       - name: TC SIM 2 regions — 23 destinations, four viewports and three languages
-        if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'interface'
+        if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'navigation-regions'
         run: >-
           node scripts/tc-sim-2-regions-browser.mjs --serve .output/public --expected-sha "${{ github.sha }}"
           --out "${{ runner.temp }}/screenshots/tc-sim-2-regions"
@@ -152,7 +153,7 @@ jobs:
         if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'banking-mobile'
         run: node scripts/tc-sim-job-start-mobile.mjs .output/public
       - uses: actions/upload-artifact@v4
-        if: always() && needs.prepare.outputs.tc == 'true' && matrix.suite == 'interface'
+        if: always() && needs.prepare.outputs.tc == 'true' && matrix.suite == 'navigation-regions'
         with:
           name: tc-sim-2-regions-built
           path: ${{ runner.temp }}/screenshots/tc-sim-2-regions
@@ -167,7 +168,7 @@ jobs:
           name: tc-mobile-final
           path: ${{ runner.temp }}/screenshots/tc-mobile-final
       - uses: actions/upload-artifact@v4
-        if: always() && needs.prepare.outputs.tc == 'true' && matrix.suite == 'interface'
+        if: always() && needs.prepare.outputs.tc == 'true' && matrix.suite == 'outcome'
         with:
           name: tc-job-start-outcome-built
           path: ${{ runner.temp }}/screenshots/tc-job-start-outcome/built
