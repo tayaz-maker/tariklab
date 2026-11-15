@@ -39,7 +39,7 @@ test("Gold cannot validate, create, or run expansion state before loading the ru
   for (let i = 0; i < expandedPayload.length; i++)
     checksum = Math.imul(checksum ^ expandedPayload.charCodeAt(i), 16777619) >>> 0;
   const bytes = JSON.stringify({
-    format: "tc-sim-boardworld-living-world-2-dictionary-1",
+    format: "tc-sim-boardworld-living-world-3-dictionary-1",
     version: 7,
     checksum: checksum.toString(16).padStart(8, "0"),
     payload: expandedPayload,

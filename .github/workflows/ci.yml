@@ -239,7 +239,9 @@ jobs:
         if: needs.changes.outputs.docs != 'true'
       - name: Fetch immutable Boardworld released-save reference
         if: needs.changes.outputs.docs != 'true'
-        run: git fetch --no-tags --depth=1 origin 2b1ede2be7466348e3933eba26b83a3831241bce
+        run: |
+          git fetch --no-tags --depth=1 origin 2b1ede2be7466348e3933eba26b83a3831241bce
+          git fetch --no-tags --depth=1 origin d2c1810da439dd831fff07992c1c278788a64a4c
       - name: Affected critical unit tests
         if: needs.changes.outputs.docs != 'true'
         env:

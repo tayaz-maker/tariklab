@@ -47,7 +47,7 @@ test("released Kızılay center and venue retain identity, balances, family and 
 });
 
 test("LW2 promotion archives exact released slots and stale or refreshed released writers cannot replace it",async()=>{
-  const s=original(), bytes=oldIo.exportGame(s), oldKey="tariklab.boardworld.v7.living", newKey="tariklab.boardworld.v7.living-world-2";
+  const s=original(), bytes=oldIo.exportGame(s), oldKey="tariklab.boardworld.v7.living", newKey="tariklab.boardworld.v7.living-world-3";
   let slots=new Map([[oldKey,bytes],[`${oldKey}.backup`,bytes]]),generation=0;
   const locks={request:(_key,fn)=>fn()};
   const transact=(_storage,operation)=>{

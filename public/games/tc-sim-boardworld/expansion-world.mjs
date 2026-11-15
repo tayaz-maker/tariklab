@@ -247,7 +247,7 @@ export function adaptWorldActions(s, actions) {
   // Gold's district, routes and appointments still represent İstanbul.
   // Explicit regional actions supply local work, care and transport.
   return actions.filter(({ id }) =>
-    /^(district:|underworld:|world:|family:|economy:|institution:|business:|event:|wait:|deposit:|withdraw:|repay:|finance:|arrears:pay$|household:collect:|calendar:(cancel|decline|repeat-stop):)/.test(id) ||
+    /^(district:|underworld:|story:|world:|family:|economy:|institution:|business:|event:|wait:|deposit:|withdraw:|repay:|finance:|arrears:pay$|household:collect:|calendar:(cancel|decline|repeat-stop):)/.test(id) ||
     (s.expansion.economy.home && /^(?:sleep$|cook$|buy:groceries$|household:(?:buy:|maintain$)|flow:(?:care$|payments:))/.test(id)),
   );
 }

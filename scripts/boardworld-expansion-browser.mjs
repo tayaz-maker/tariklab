@@ -62,7 +62,7 @@ async function rejectFile(page) {
 }
 async function verifyUnavailableRuntime(browser, url, head, state) {
   const slots = new Map(head.slots);
-  const key = state.expansion.livingWorld === 2 ? "tariklab.boardworld.v7.living-world-2" :
+  const key = state.expansion.deepSociety === 3 ? "tariklab.boardworld.v7.living-world-3" : state.expansion.livingWorld === 2 ? "tariklab.boardworld.v7.living-world-2" :
     state.expansion.districts || state.expansion.underworld
       ? "tariklab.boardworld.v7.living"
       : "tariklab.boardworld.v7";

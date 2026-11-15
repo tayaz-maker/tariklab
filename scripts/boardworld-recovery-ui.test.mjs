@@ -307,37 +307,39 @@ test("recovery preserves rendered expansion snapshots", async () => {
         out[`${language}/${name}/${section}`] = createHash("sha256").update(html).digest("hex");
       }
   }
+  // Reviewed DS3 addition: localized progressive organization/territory details.
+  // All family/finance snapshots and existing World content remain unchanged.
   // Reviewed LW2 changes:31 districts, connected routes, funded territory,
   // contextual property eligibility and compact organization/property sections.
   // Full action fields, family output and escaped content remain snapshotted.
   const expected = {
     "tr/initial/family": "8a4a64b0ad91daf0cb8762dabef571f0de6b89f406f83af0b5701e6c44ec6007",
     "tr/initial/finance": "593453d9ec9c4ed1fd4c1a36062f88ffaa27329484ea0e22e41bd0ec61c21248",
-    "tr/initial/world": "0df4bdb03a48f5b7529fa3cfb467bd9fc8f8de6fba8d0a5885c701867239102d",
+    "tr/initial/world": "6b3ff2c07d3674c989b4811e190f12d1bccca52e74479561e38302da06ba260e",
     "tr/populated/family": "8d05f4bb0069161dfe559309d4847262d0ee88133a271cedd354b94f011717ce",
     "tr/populated/finance": "6d9fccbedba05dee64eeba03e87a776f4b7bdc55449e4b30653175993d30812c",
-    "tr/populated/world": "2a42a38be23c54249aad5a2dba3ff18cce12eb434aa2277c3c648e034fd15377",
+    "tr/populated/world": "0e0e15b8554a3309b305f1dda8eee367ecd2123217417f43825478ae5ead955a",
     "tr/heir/family": "f11eb8c0b90f31a933909e121d05e8216c7a84a29787812def084b811a506642",
     "tr/heir/finance": "6d9fccbedba05dee64eeba03e87a776f4b7bdc55449e4b30653175993d30812c",
-    "tr/heir/world": "2a42a38be23c54249aad5a2dba3ff18cce12eb434aa2277c3c648e034fd15377",
+    "tr/heir/world": "0e0e15b8554a3309b305f1dda8eee367ecd2123217417f43825478ae5ead955a",
     "en/initial/family": "754fed20538784efde0bc97846c4fe5d04ee5fd3e3bb81c98cdb834ad153fd29",
     "en/initial/finance": "c36fd92520cd063ccf9dc61aaa5547d545520c1be196e6038b786b280902bb1a",
-    "en/initial/world": "4d6d533ebb34e98a06d7cc17e9443b3dd636959da4e8bd1aaa6355b0245cb9fa",
+    "en/initial/world": "006a5f2065474d83f61fd2def1a8b828b99378b909dbc9c355905cc04b66c918",
     "en/populated/family": "3535f467513aa9b4eea9912f0203bfb291537c8814a3610eca843b50ec15c16a",
     "en/populated/finance": "dc117a030df2e8284ad371502e5bc449d570f1a0504eec6d1e181193f84fba00",
-    "en/populated/world": "d416fcfbf51ef0c36a61957ef9092c98d67a05530b1f4e333fce2738ec6229fd",
+    "en/populated/world": "76b6ff702eb3b6b21fec5a378e02f622b80aa5b969c77b2831576ff23a80ae38",
     "en/heir/family": "7e7554fd47a7b97a393c286b52352ee0a408f5fc7964b73306de155ca092b5ea",
     "en/heir/finance": "dc117a030df2e8284ad371502e5bc449d570f1a0504eec6d1e181193f84fba00",
-    "en/heir/world": "d416fcfbf51ef0c36a61957ef9092c98d67a05530b1f4e333fce2738ec6229fd",
+    "en/heir/world": "76b6ff702eb3b6b21fec5a378e02f622b80aa5b969c77b2831576ff23a80ae38",
     "pl/initial/family": "146f825c308b5e048a7bcead9fe1e641d777062063b6a9e675f879e557394217",
     "pl/initial/finance": "083b45a89a6bbc0f3636cca48e8a66edfe11f88de00fa6c5bbb5f4ae35ab6e94",
-    "pl/initial/world": "0780768e85c6c2da3f8ed1ad41a50afd06724911c19b3955df3d0d1ea55d7f46",
+    "pl/initial/world": "65a1e00f8682e9178be06373b687a5a8c59efe267ae2fd244eb249dedf72e16c",
     "pl/populated/family": "bd8145681ee28e0b41f18600ea70e9449260d69e965a4a61ba4aba0e0421db4a",
     "pl/populated/finance": "a2700e0eb5024fe833a077e529afdaf8857ba38cbe30c1c1edcbf5fabf240284",
-    "pl/populated/world": "1819f86a9424d8086a01fe401a732d6c96399f16bd2c72ce423db6a94e6a3937",
+    "pl/populated/world": "e40054fbf8e9f7d6263326adf0bd296681aa50b148335f0ee07fca1adf0db51e",
     "pl/heir/family": "00cfa7f37ca3d9113832b18e4fff775f48783e17057c0817e088eb39292513f2",
     "pl/heir/finance": "a2700e0eb5024fe833a077e529afdaf8857ba38cbe30c1c1edcbf5fabf240284",
-    "pl/heir/world": "1819f86a9424d8086a01fe401a732d6c96399f16bd2c72ce423db6a94e6a3937"
+    "pl/heir/world": "e40054fbf8e9f7d6263326adf0bd296681aa50b148335f0ee07fca1adf0db51e"
 };
   for (const [name, digest] of Object.entries(out)) assert.equal(digest, expected[name], name);
 });

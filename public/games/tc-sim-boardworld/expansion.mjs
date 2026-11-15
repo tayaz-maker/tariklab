@@ -1,4 +1,6 @@
 import { closeHousehold } from "./life-systems.mjs";
+import { initSociety, migrateSociety, tickSociety, societyActions, societyView, validateSociety } from "./expansion-society.mjs";
+import { initStories, migrateStories, tickStories, storyActions, afterStoryAction, storyView, validateStories } from "./expansion-stories.mjs";
 import { attachExpansionTravel } from "./city.mjs";
 import { routeBetween } from "./expansion-geography.mjs";
 import { EXPANSION_SAVE_VERSION, createGame } from "./engine.mjs";
@@ -29,6 +31,7 @@ import {
   underworldOrder,
   fulfillUnderworldOrder,
   migrateEconomy,
+  payResidentDebt,
 } from "./expansion-economy.mjs";
 import {
   initInstitutions,
@@ -101,6 +104,7 @@ export function attachExpansion(api) {
   api.underworldDistrictModifiers = underworldDistrictModifiers;
   api.underworldOrder = underworldOrder;
   api.fulfillUnderworldOrder = fulfillUnderworldOrder;
+  api.payResidentDebt = payResidentDebt;
   api.regionalResidents = (s, region) => regionalMarkets(s, true)[region]?.residents ?? [];
   api.closeHousehold = (s, reason) => closeHousehold(s, reason, api);
   api.settleCareer = (s) => {
@@ -113,11 +117,13 @@ export function attachExpansion(api) {
 
 export function initExpansion(s) {
   s.version = EXPANSION_SAVE_VERSION;
-  s.expansion = { livingWorld: 2, playerId: "player:1", nextEvent: 1, events: [] };
+  s.expansion = { livingWorld: 2, deepSociety: 3, playerId: "player:1", nextEvent: 1, events: [] };
   initWorld(s);
   initFamily(s);
   initEconomy(s);
   initInstitutions(s);
+  initSociety(s);
+  initStories(s);
 }
 
 // Called on an already validated clone. Existing balances and history are not
@@ -127,6 +133,9 @@ export function migrateExpansion(s) {
   migrateDistricts(s);
   migrateUnderworld(s);
   s.expansion.livingWorld = 2;
+  migrateSociety(s);
+  migrateStories(s);
+  s.expansion.deepSociety = 3;
 }
 
 export function expansionEvent(s, type, subject, detail) {
@@ -143,6 +152,8 @@ export function tickExpansion(s, api) {
     tickRegions(s, api, regionalMarkets(s));
   tickDistricts(s, api);
   tickUnderworld(s, api);
+  tickSociety(s, api);
+  tickStories(s, api);
 }
 
 export const nextExpansionAt = nextUnderworldAt;
@@ -158,6 +169,8 @@ export function expansionActions(s, actions, api) {
     worldActions(s, api),
     districtActions(s, api),
     underworldActions(s, api),
+    societyActions(s, api),
+    storyActions(s, api),
   );
   const retired = familyIsRetired(s);
   const eligible = combined.filter((a) => {
@@ -179,7 +192,9 @@ export function afterExpansionAction(s, id, before, api, action) {
   const districtMessage = afterDistrictAction(s, id, before, api, action);
   afterInstitutionAction(s, id, before, api);
   const underworldMessage = afterUnderworldAction(s, id, before, api, action);
-  return underworldMessage || districtMessage;
+  const storyMessage = afterStoryAction(s, id, before, api, action);
+  tickStories(s, api);
+  return storyMessage || underworldMessage || districtMessage;
 }
 
 export function getExpansionView(s) {
@@ -192,6 +207,8 @@ export function getExpansionView(s) {
     institutions: institutionsView(s),
     districts: districtView(s, runtimeApi),
     underworld: underworldView(s, runtimeApi),
+    society: societyView(s, runtimeApi),
+    stories: storyView(s),
   };
 }
 
@@ -202,6 +219,8 @@ export function validateExpansion(s) {
     typeof e !== "object" ||
     Array.isArray(e) ||
     (e.livingWorld !== undefined && e.livingWorld !== 2) ||
+    (e.deepSociety !== undefined && e.deepSociety !== 3) ||
+    (e.deepSociety === undefined && (e.society !== undefined || e.stories !== undefined)) ||
     typeof e.playerId !== "string" ||
     !/^(player:1|family:[1-9]\d*)$/.test(e.playerId) ||
     !Number.isSafeInteger(e.nextEvent) ||
@@ -233,6 +252,8 @@ export function validateExpansion(s) {
     validateEconomy(s) &&
     validateInstitutions(s) &&
     validateDistricts(s) &&
-    validateUnderworld(s)
+    validateUnderworld(s) &&
+    validateSociety(s) &&
+    validateStories(s)
   );
 }

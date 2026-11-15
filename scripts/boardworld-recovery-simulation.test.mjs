@@ -18,11 +18,11 @@ const languages = ["tr", "en", "pl"];
 
 test("regional contracts and property preserve terms, money and save bytes across replay", () => {
   let state = createGame({ scenario: "restart", seed: 303, expansion: true });
-  // Exact LW2 initial bytes after the additive31-district capability migration.
-  // Frozen released byte preservation is tested in boardworld-lw2-save.test.mjs.
+  // Exact DS3 initial bytes after the additive society/story capability migration.
+  // The original LW2 digest and unchanged old fields are frozen in boardworld-ds3-save.test.mjs.
   assert.equal(
     createHash("sha256").update(exportGame(state)).digest("hex"),
-    "28f77d0ecb86901dae8e10805388b78cbdfbcf54fbeb7fd3b5f47d015a56c26b",
+    "c93c13cd061d432fa1e5d7474ea59548933f988ff1d32124f828646eb5e2d24f",
   );
   // Prepared budget for the property and business transactions in this trace.
   state.bank = 140000;

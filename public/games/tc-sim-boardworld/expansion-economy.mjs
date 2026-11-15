@@ -141,6 +141,39 @@ const isResident = (id) => citizens.has(id) || residentIndex.has(id);
 const validOwner = (id) => id === MARKET || id === HOUSEHOLD || isResident(id);
 const residentAccount = (s, id) => (citizens.has(id) ? s.deep.npcs[id] : economy(s).residents[id]);
 
+// The caller pays through its own action. This settles only the existing liability
+// and reports the amount usable if the debt changed before the appointment finished.
+export function payResidentDebt(s, id, amount) {
+  if (!economy(s) || !isResident(id) || !Number.isSafeInteger(amount) || amount < 1 || amount > MAX) return 0;
+  const resident = residentAccount(s, id);
+  if (!resident || resident.life?.health === 0) return 0;
+  const paid = Math.min(resident.debt, amount);
+  resident.debt -= paid;
+  return paid;
+}
+
+const temperaments = [
+  { temperament: "cautious", ambition: 42, risk: 25, loyalty: 65 },
+  { temperament: "driven", ambition: 85, risk: 70, loyalty: 40 },
+  { temperament: "loyal", ambition: 55, risk: 40, loyalty: 86 },
+  { temperament: "sociable", ambition: 64, risk: 53, loyalty: 62 },
+];
+
+export function residentPersonality(s, id, generation) {
+  let identity = (s.seed ^ generation) >>> 0;
+  for (const char of id) identity = Math.imul(identity ^ char.charCodeAt(0), 16777619) >>> 0;
+  const n = residentAccount(s, id);
+  // Gold's existing priorities already drive promotions, savings and household moves.
+  const goldPriority = n?.priority;
+  const goldIndex = { security: 0, career: 1, home: 2, community: 3 }[goldPriority];
+  const traits = temperaments[goldIndex ?? ((identity >>> 12) % temperaments.length)];
+  const goldGoal = { security: "security", career: "advancement", home: "stability", community: "connections" }[goldPriority];
+  const goal = goldGoal ?? (n && (n.debt > npcFunds(n) || npcFunds(n) < 400) ? "security"
+    : traits.temperament === "driven" ? "advancement"
+      : traits.temperament === "cautious" ? "stability" : "connections");
+  return { ...traits, goal };
+}
+
 function residentLife(s, resident, index = residentIndex.get(resident.id)) {
   const n = residentAccount(s, resident.id);
   if (n.life) return n.life;
@@ -1472,7 +1505,7 @@ const routeForResident = (s, from, to, hour) => routeBetween(s, from, to, {
 const siteOf = (id, ...kinds) => venuesByDistrict.get(id)?.find(({ kind }) => kinds.includes(kind));
 const workSite = (id) => siteOf(id, "work")?.id;
 
-function residentOffer(s, n, homeDistrict, home) {
+function residentOffer(s, n, homeDistrict, home, profile) {
   const { life } = n;
   const local = life.region;
   let winner = null;
@@ -1497,7 +1530,13 @@ function residentOffer(s, n, homeDistrict, home) {
     if (!route?.available || (!move && route.minutes > 100)) continue;
     const commute = move ? 0 : route.cost * 2 + Math.floor(route.minutes / 8);
     const margin = Math.floor((wage - commute) * 5 / 7) - expenseByRegion[firm.region];
-    const value = margin + (retained ? 26 : 0) - (move ? 40 + Math.ceil(route.cost / 12) : 0);
+    // A funded offer competes with trusted coworkers, relocation risk and skill use.
+    const setback = profile && !retained && profile.risk < 40 && account.failed ? 30 : 0;
+    const loyalty = profile ? Math.floor(profile.loyalty / 3) : 26;
+    const advancement = profile?.goal === "advancement" ? Math.floor(firm.type.required / 2) : 0;
+    const relocation = move ? 40 + Math.ceil(route.cost / 12) +
+      (profile ? 60 - profile.risk - (profile.goal === "security" ? 18 : 0) : 0) : 0;
+    const value = margin + (retained ? loyalty : 0) + advancement - relocation - setback;
     if (move && (npcFunds(n) < route.cost + 400 || s.expansion.world.regions[local].population <= 1))
       continue;
     if (!winner || winner.value < value) winner = { firm, route, move, value };
@@ -1505,10 +1544,10 @@ function residentOffer(s, n, homeDistrict, home) {
   return winner;
 }
 
-function regionalDecision(s, api, resident, n, home) {
+function regionalDecision(s, api, resident, n, home, profile) {
   const { life } = n;
   const districtId = residentDistrict(s, resident, life, home);
-  const offer = residentOffer(s, n, districtId, home);
+  const offer = residentOffer(s, n, districtId, home, profile);
   if (!offer || offer.firm.id === life.employer) return;
   const activity = economy(s).activity[resident.id];
   if (offer.move) {
@@ -1663,19 +1702,22 @@ function settleRegionalResidents(s, api) {
       n.savings += saved;
     }
     if (!decisionDay) continue;
-    if ((d + index) % 14 === 0) residentSocialTrip(s, api, resident, n, districtId);
+    const profile = s.expansion.society && residentPersonality(s, id, life.generation);
+    const socialDays = profile?.goal === "connections" ? 7 : profile?.goal === "security" ? 28 : 14;
+    const seekingWork = profile && age < 67 && !life.employer;
+    if (!seekingWork && (d + index) % socialDays === 0) residentSocialTrip(s, api, resident, n, districtId);
     if (age >= 67 || activity.trip) continue;
     if (
-      n.cash >= 680 &&
+      n.cash >= (life.employer ? 1700 : 680) &&
       life.health >= 55 &&
       life.skill < 72 &&
-      !life.employer &&
+      (!life.employer || profile?.goal === "advancement") &&
       residentService(s, api, resident, n, "skills", districtId)
     ) {
-      life.skill += 4;
+      life.skill += profile?.goal === "advancement" ? 6 : 4;
       event(s, api, "resident.training", id, "Ücretli eğitim mesleki beceriyi geliştirdi.");
     }
-    if (life.health >= 42) regionalDecision(s, api, resident, n, home);
+    if (life.health >= 42) regionalDecision(s, api, resident, n, home, profile);
   }
 }
 
