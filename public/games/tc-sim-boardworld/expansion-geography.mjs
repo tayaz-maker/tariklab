@@ -44,6 +44,7 @@ const networks = {
   ankara: [['ankara:cankaya','ankara:altindag',25],['ankara:altindag','ankara:kecioren',25],['ankara:altindag','ankara:mamak',25],['ankara:cankaya','ankara:yenimahalle',30],['ankara:yenimahalle','ankara:etimesgut',30],['ankara:etimesgut','ankara:sincan',25],['ankara:cankaya','ankara:golbasi',45]],
   izmir: [['izmir:konak','izmir:karsiyaka',30],['izmir:karsiyaka','izmir:bayrakli',20],['izmir:bayrakli','izmir:bornova',20],['izmir:konak','izmir:buca',30],['izmir:konak','izmir:balcova',30],['izmir:konak','izmir:karabaglar',25],['izmir:karabaglar','izmir:gaziemir',25]],
 };
+export const cityLinks = (cityId) => networks[cityId]?.map(([from, to]) => [from, to]) ?? [];
 const asian = new Set(['kadikoy','istanbul:uskudar','istanbul:umraniye','istanbul:atasehir','istanbul:maltepe','istanbul:kartal','istanbul:pendik']);
 function shortest(city, from, to, mode) {
   const best = new Map([[from,{minutes:0,legs:[]}]]), todo = new Set(cityDistricts(city).map((d) => d.id));

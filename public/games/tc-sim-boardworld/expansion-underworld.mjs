@@ -762,41 +762,6 @@ function settleRelations(s, x, api, today, sales) {
   }
 }
 
-function settleTerritory(s, x, api, chapter, today) {
-  const politics = politicsOf(s, chapter);
-  if (politics) return planTerritory(s, x, api, chapter, today, politics);
-  const control = x.territory[chapter.id];
-  const account = x.chapters[chapter.id];
-  const assistants = account.roster.filter(rostered).length;
-  const reserved = reservations(x, chapter.id);
-  const available = () => account.treasury - reserved.treasury;
-  for (const [id, influence] of Object.entries(control)) {
-    const rivalPressure = CHAPTERS.reduce((pressure, other) =>
-      other === chapter ? pressure : Math.max(pressure, x.territory[other.id][id] ?? 0), 0);
-    const extension = influence - 3 - Number(rivalPressure > influence) * 4 - Math.floor(account.heat / 9);
-    if (extension <= 0) {
-      delete control[id];
-      api.expansionEvent(s, "underworld.withdrawal", id, chapter.name);
-    } else control[id] = extension;
-  }
-  if (account.influence < 17 || account.heat >= 50 || assistants < 2) return;
-  const home = chapterDistrict(chapter);
-  const connected = cityDistricts(chapter.regionId).filter(({ id }) => id !== home);
-  const offset = Math.floor(today / 7) + chapter.index * 3;
-  const district = connected[(offset * 3 + chapter.index) % connected.length];
-  if (!control[district.id] && Object.keys(control).length >= MAX_TERRITORIES) return;
-  const route = routeBetween(s, home, district.id, { actor: "npc", at: s.time + 9 * 60 });
-  if (!route?.available || route.minutes > 120) return;
-  const travel = route.cost * 2;
-  const order = canTransferOrder(s, api, chapter, 1, district.id);
-  if (account.stock - reserved.stock < 1 || available() < travel + 110 ||
-      !sell(s, api, chapter, account, 1, order)) return;
-  account.treasury -= travel;
-  account.ledger.outreach += travel;
-  if (!control[district.id]) api.expansionEvent(s, "underworld.outreach", district.id, chapter.name);
-  control[district.id] = clamp((control[district.id] ?? 0) + 25 + assistants * 2, 0, 85);
-}
-
 function territoryTerms(s, x, api, chapter, id) {
   const district = api.getDistrictSimulation(s, id);
   const account = x.chapters[chapter.id];
@@ -819,59 +784,83 @@ function territoryTerms(s, x, api, chapter, id) {
   };
 }
 
-function planTerritory(s, x, api, chapter, today, politics) {
-  const account = x.chapters[chapter.id];
-  const control = x.territory[chapter.id];
-  const staff = account.roster.filter(rostered).length;
-  const reserve = reservations(x, chapter.id);
-  const available = () => account.treasury - reserve.treasury;
-  const footprint = Object.keys(control).length;
-  for (const [id, influence] of Object.entries(control)) {
-    const terms = territoryTerms(s, x, api, chapter, id);
-    const funded = terms.accessible && available() >= terms.cost + 80 && staff >= 2;
-    if (funded) {
-      account.treasury -= terms.cost;
-      account.ledger.outreach += terms.cost;
-    }
-    const decay = (funded ? 7 + footprint * 2 : 24) + Math.floor(terms.attention / 6) + (terms.rivalry > influence ? 8 : 0);
-    if (influence > decay) control[id] -= decay;
-    else {
-      delete control[id];
-      politicalMemory(politics, funded ? "pressure" : "withdrawal", today, { districtId: id });
-      api.expansionEvent(s, "underworld.withdrawal", id, chapter.name);
-    }
-  }
-  if (account.influence < 17 || account.heat >= 50 || staff < 2 || account.stock <= reserve.stock) return;
-  const strategyReserve = politics.strategy === "security" ? 340 : politics.strategy === "expansion" ? 95 : 160;
+function chooseTerritory(s, x, api, chapter, today, strategy, budget, control) {
   const home = chapterDistrict(chapter);
-  const capacity = politics.strategy === "security" ? 1 : politics.strategy === "trade" ? 2 : MAX_TERRITORIES;
+  const options = cityDistricts(chapter.regionId);
+  if (!strategy) {
+    const connected = options.filter(({ id }) => id !== home);
+    const offset = Math.floor(today / 7) + chapter.index * 3;
+    const { id } = connected[(offset * 3 + chapter.index) % connected.length];
+    if (!control[id] && Object.keys(control).length >= MAX_TERRITORIES) return;
+    const route = routeBetween(s, home, id, { actor: "npc", at: s.time + 9 * 60 });
+    if (!route?.available || route.minutes > 120 || budget < route.cost * 2 + 110) return;
+    return { districtId: id, cost: route.cost * 2, rivalry: 0 };
+  }
+  const strategyReserve = strategy === "security" ? 340 : strategy === "expansion" ? 95 : 160;
+  const capacity = strategy === "security" ? 1 : strategy === "trade" ? 2 : MAX_TERRITORIES;
   const atCapacity = Object.keys(control).length >= capacity;
   let choice;
   let best = -Infinity;
-  const options = cityDistricts(chapter.regionId);
   for (const [index, { id }] of options.entries()) {
     if (id === home || (atCapacity && !control[id])) continue;
     const terms = territoryTerms(s, x, api, chapter, id);
-    if (!terms.accessible || !terms.connections || available() < terms.cost + strategyReserve) continue;
+    if (!terms.accessible || !terms.connections || budget < terms.cost + strategyReserve) continue;
     const priority = terms.demand + terms.sentiment + 5 * terms.connections + terms.recruitment
       - terms.attention - Math.floor(terms.cost / 3) - Math.floor(terms.influence / 2)
-      + (politics.strategy === "expansion" ? Math.min(18, Math.floor(terms.rivalry / 3)) : -Math.floor(terms.rivalry / 2))
-      + (politics.strategy === "security" && control[id] ? 45 : 0)
+      + (strategy === "expansion" ? Math.min(18, Math.floor(terms.rivalry / 3)) : -Math.floor(terms.rivalry / 2))
+      + (strategy === "security" && control[id] ? 45 : 0)
       + ((Math.floor(today / 7) + index * 7 + chapter.index * 3) % options.length) * 3;
     if (priority > best) {
       best = priority;
       choice = terms;
     }
   }
-  if (!choice || !sell(s, api, chapter, account, 1, canTransferOrder(s, api, chapter, 1, choice.districtId))) return;
+  return choice;
+}
+
+function settleTerritory(s, x, api, chapter, today) {
+  const politics = politicsOf(s, chapter);
+  const account = x.chapters[chapter.id];
+  const control = x.territory[chapter.id];
+  const staff = account.roster.filter(rostered).length;
+  const reserve = reservations(x, chapter.id);
+  const available = () => account.treasury - reserve.treasury;
+  const spend = (cost) => {
+    account.treasury -= cost;
+    account.ledger.outreach += cost;
+  };
+  const footprint = Object.keys(control).length;
+  for (const [districtId, influence] of Object.entries(control)) {
+    let funded = false;
+    let decay;
+    if (politics) {
+      const terms = territoryTerms(s, x, api, chapter, districtId);
+      funded = terms.accessible && available() >= terms.cost + 80 && staff >= 2;
+      if (funded) spend(terms.cost);
+      decay = (funded ? 7 + footprint * 2 : 24) + Math.floor(terms.attention / 6) + (terms.rivalry > influence ? 8 : 0);
+    } else {
+      const rivalry = CHAPTERS.some((other) => other !== chapter && x.territory[other.id][districtId] > influence);
+      decay = 3 + Number(rivalry) * 4 + Math.floor(account.heat / 9);
+    }
+    if (influence > decay) control[districtId] -= decay;
+    else {
+      delete control[districtId];
+      if (politics) politicalMemory(politics, funded ? "pressure" : "withdrawal", today, { districtId });
+      api.expansionEvent(s, "underworld.withdrawal", districtId, chapter.name);
+    }
+  }
+  if (account.influence < 17 || account.heat >= 50 || staff < 2 || account.stock <= reserve.stock) return;
+  const choice = chooseTerritory(s, x, api, chapter, today, politics?.strategy, available(), control);
+  if (!choice) return;
   const { districtId, cost, rivalry } = choice;
-  account.treasury -= cost;
-  account.ledger.outreach += cost;
-  if (!control[districtId]) {
-    politicalMemory(politics, rivalry ? "contested" : "outreach", today, { districtId, cost });
-    api.expansionEvent(s, "underworld.outreach", districtId, chapter.name);
-  } else politicalMemory(politics, "reinforcement", today, { districtId, cost });
-  control[districtId] = clamp((control[districtId] ?? 0) + 24 + staff * 2 - Math.floor(rivalry / 9), 0, 85);
+  if (!sell(s, api, chapter, account, 1, canTransferOrder(s, api, chapter, 1, districtId))) return;
+  spend(cost);
+  const existing = control[districtId] ?? 0;
+  if (politics) politicalMemory(politics,
+    existing ? "reinforcement" : rivalry ? "contested" : "outreach", today, { districtId, cost });
+  if (!existing) api.expansionEvent(s, "underworld.outreach", districtId, chapter.name);
+  const gain = politics ? 24 - Math.floor(rivalry / 9) : 25;
+  control[districtId] = clamp(existing + gain + staff * 2, 0, 85);
 }
 
 export function tickUnderworld(s, api) {
@@ -971,6 +960,21 @@ function outstandingClaims(s, id) {
 
 function recruiting(account) {
   return account.treasury >= 350 && account.readiness >= 20;
+}
+
+export function recruitmentLead(s, place) {
+  const x = state(s);
+  if (membershipOf(x, s.expansion.playerId)) return null;
+  return CHAPTERS.filter((chapter) => chapter.regionId === place.regionId &&
+      !politicsOf(s, chapter)?.closedDay && (!x || recruiting(x.chapters[chapter.id])))
+    .map((chapter) => ({
+      action: `underworld:recruit:${chapter.id}`,
+      districtId: chapterDistrict(chapter),
+      venueId: chapter.socialVenue,
+      name: chapter.name,
+      minutes: routeBetween(s, place.venueId || place.districtId, chapterDistrict(chapter)).minutes,
+    }))
+    .sort((a, b) => a.minutes - b.minutes)[0] ?? null;
 }
 
 function resultEvent(s, api, text, subject = person(s).name) {

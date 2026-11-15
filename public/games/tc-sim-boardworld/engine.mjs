@@ -372,6 +372,9 @@ function updateLocations(s) {
   for (const npc of NPCS) s.npcs[npc.id].location = getNpcLocation(s, npc.id);
 }
 export function createGame(options = {}) {
+  const setup = options.startingDistrict !== undefined || options.lifePath !== undefined
+    ? requireExpansionRuntime().resolveLifePathStart(options)
+    : null;
   const scenario = lookup(SCENARIOS, options.scenario) || SCENARIOS[0];
   const education =
     lookup(EDUCATIONS, options.education) ||
@@ -380,7 +383,8 @@ export function createGame(options = {}) {
   const seed = Number.isSafeInteger(options.seed) ? options.seed >>> 0 : 2026;
   const skills = { ...scenario.skills };
   skills[education.skill] += education.bonus;
-  const h = lookup(HOMES, scenario.home);
+  const h = (setup && HOMES.find((item) => item.rent && item.district === setup.district.id)) ||
+    lookup(HOMES, scenario.home);
   const s = {
     version: 6,
     revision: 0,
@@ -405,7 +409,7 @@ export function createGame(options = {}) {
     cash: scenario.cash,
     bank: scenario.bank,
     debt: scenario.debt,
-    housing: { id: h.id, rent: h.rent, dueDay: 31, deposit: h.deposit, arrears: 0 },
+    housing: { id: h.id, rent: setup ? 0 : h.rent, dueDay: 31, deposit: setup ? 0 : h.deposit, arrears: 0 },
     job: null,
     inventory: { phone: 1, groceries: 3, snack: 1 },
     documents: [],
@@ -414,8 +418,8 @@ export function createGame(options = {}) {
       NPCS.map((n, i) => [
         n.id,
         {
-          affinity: n.id === "leyla" ? 20 : 8,
-          trust: n.id === "leyla" ? 25 : 10,
+          affinity: !setup && n.id === "leyla" ? 20 : 8,
+          trust: !setup && n.id === "leyla" ? 25 : 10,
           romance: 0,
           mood: 55 + (i % 4) * 8,
           location: n.home,
@@ -426,13 +430,13 @@ export function createGame(options = {}) {
           lastDateDay: 0,
           lastMentorDay: 0,
           memories: [
-            {
+            ...(!setup ? [{
               day: 1,
               text:
                 n.id === "leyla"
                   ? "İlk ayın kira ödemesini ve oda anahtarını teslim ettik."
                   : "Mahallede yeni bir yüz olduğunu duydum.",
-            },
+            }] : []),
           ],
         },
       ]),
@@ -441,10 +445,10 @@ export function createGame(options = {}) {
     world: {
       weather: "Açık",
       priceIndex: 1,
-      news: [{ day: 1, text: "Eylül İstanbul’u. İş ilanları açık; ilk ayın barınması hazır." }],
+      news: setup ? [] : [{ day: 1, text: "Eylül İstanbul’u. İş ilanları açık; ilk ayın barınması hazır." }],
     },
-    pendingEvents: [{ id: "welcome", day: 1 }],
-    resolvedEvents: [],
+    pendingEvents: setup ? [] : [{ id: "welcome", day: 1 }],
+    resolvedEvents: setup ? ["welcome"] : [],
     flags: { travels: 0, volunteers: 0, coursesCompleted: 0, workDays: 0, billsPaid: 0 },
     history: [],
     transactions: [],
@@ -455,7 +459,7 @@ export function createGame(options = {}) {
     s,
     "identity",
     "Kimlik ve ikamet",
-    "İstanbul’da yaşayan yetişkin bir karakter. Tüm NPC’ler yetişkindir.",
+    setup ? `${setup.district.name} · İkamet kaydı` : "İstanbul’da yaşayan yetişkin bir karakter. Tüm NPC’ler yetişkindir.",
   );
   document(
     s,
@@ -463,7 +467,7 @@ export function createGame(options = {}) {
     `${education.name} diploması`,
     "Başlangıç eğitim belgesi. İş ve kurs koşullarında kullanılır.",
   );
-  document(
+  if (!setup) document(
     s,
     "lease-1",
     h.name + " · kira sözleşmesi",
@@ -476,7 +480,7 @@ export function createGame(options = {}) {
       "Eski borç sözleşmesi",
       `${fmt(s.debt)} TL anapara; 30 günde bir %3 faiz. Erken ödeme cezası yok.`,
     );
-  log(s, "Yeni hayat başladı. Önce başlangıç kartını seç; ardından iş ve günlük düzenini kur.");
+  if (!setup) log(s, "Yeni hayat başladı. Önce başlangıç kartını seç; ardından iş ve günlük düzenini kur.");
   initDeep(s);
   initStories(s);
   initCity(s);
@@ -487,7 +491,7 @@ export function createGame(options = {}) {
   initSociety(s);
   initFlow(s);
   updateLocations(s);
-  if (options.expansion) requireExpansionRuntime().initExpansion(s);
+  if (setup || options.expansion) requireExpansionRuntime().initExpansion(s, setup);
   return s;
 }
 
@@ -686,7 +690,13 @@ function advance(s, minutes, { sleeping = false } = {}) {
     }
   updateLocations(s);
 }
+const GOLD_NEIGHBORHOOD_EVENTS = new Set([
+  "book-club", "repair-home", "mentor", "wallet", "friend-help", "power-cut", "rain",
+  "craft-project", "community", "festival",
+]);
 function condition(s, id) {
+  if (s.expansion?.lifePath?.origin && GOLD_NEIGHBORHOOD_EVENTS.has(id) &&
+      !has(DISTRICTS, API.getPlace(s).districtId)) return false;
   const d = dayOf(s),
     p = s.player;
   switch (id) {
@@ -1796,7 +1806,8 @@ function makeActions(s) {
     s.version === EXPANSION_SAVE_VERSION || s.expansion ? requireExpansionRuntime() : null;
   if (expansion && !expansion.familyCanAct(s)) return expansion.expansionActions(s, [], API);
   let actions = makeBaseActions(s);
-  if (s.version < 3 || s.pendingEvents.length) return actions;
+  if (s.version < 3 || s.pendingEvents.length)
+    return s.expansion?.lifePath ? actions.concat(expansion.lifePathActions(s)) : actions;
   actions = actions.filter(
     (a) =>
       !a.id.startsWith("travel:") &&

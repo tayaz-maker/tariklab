@@ -1,11 +1,41 @@
 import { renderStories, renderFamilyStories, renderBusinessStories, renderSociety, localizeStoryText } from "./expansion-stories-ui.mjs";
 import { renderLiving, localizeLivingText } from './expansion-living-ui.mjs';
-import { t as tx } from "./i18n.mjs";
-import { COURSES } from "./content.mjs";
+import { getLanguage, t as tx } from "./i18n.mjs";
+import { COURSES, EDUCATIONS, SCENARIOS, TRAITS } from "./content.mjs";
+import { DISTRICTS } from "./expansion-geography.mjs";
+import { getLifePathCopy, LIFE_PATHS } from "./expansion-life-paths.mjs";
 import { REGIONS, localizeWorldText } from "./expansion-world.mjs";
 import { translateFamilyAction } from "./expansion-family.mjs";
 import { localizeInstitutionText } from "./expansion-institutions.mjs";
 import { localizeEconomyText } from "./expansion-economy.mjs";
+
+export function renderLifePath(view, actions, actionCard, esc) {
+  const path = view.lifePath;
+  if (!path) return "";
+  const first = actions.filter((action) => path.firstActionIds.includes(action.id));
+  const target = path.target;
+  const local = target?.districtId === view.districts.place.districtId;
+  const travel = target && actions.find((action) => local
+    ? action.venue === target.venueId || action.id === `district:visit:${target.venueId}`
+    : action.id === `district:travel:${target.districtId}` || (action.destination === target.districtId && !action.venue));
+  const next = first.find((action) => !action.disabled) || travel || first[0];
+  const wait = next?.disabled && actions.find((a) => a.id === "wait:60" && !a.disabled);
+  const choices = actions.filter((action) => action.id.startsWith("life-path:choose:"));
+  return `<section class="reference" data-life-path="${esc(path.id)}" aria-labelledby="life-path-title">
+    <h3 id="life-path-title">${esc(tx(path.title))}</h3>
+    <p data-life-path-objective><strong>${esc(tx(path.completed ? "Tamamlandı" : "İlk adım"))}</strong> · ${esc(tx(path.objective))}</p>
+    ${path.contact ? `<p>${esc(tx("Tanıdık"))} · ${esc(path.contact.name)}</p>` : ""}
+    ${next ? actionCard(next, true) : ""}
+    ${wait ? `<button class="text-button" data-action="${wait.id}">${esc(tx(wait.label))}</button>` : ""}
+    <details><summary>${esc(tx("Yaşam hedefi"))}</summary>
+      <p>${esc(tx(path.description))}</p><p>${esc(tx(path.advantage))} ${esc(tx(path.drawback))}</p>
+      ${path.opportunities.map((line) => `<p>${esc(tx(line))}</p>`).join("")}<p>${esc(tx(path.goal))}</p>
+      ${choices.length ? `<div class="action-grid" aria-label="${esc(tx("Hedefi değiştir"))}">${choices.map((a) =>
+        `<button class="secondary" data-action="${esc(a.id)}" aria-pressed="${a.disabled}"${a.disabled ? " disabled" : ""}>${esc(tx(a.label))}</button>`,
+      ).join("")}</div>` : ""}
+    </details>
+  </section>`;
+}
 
 // Presentation reads the existing contracts; it never mirrors their balances.
 export function householdSummary(state, view, language) {
@@ -79,6 +109,7 @@ const eventNames = {
 };
 
 export function translateExpansionAction(action, language) {
+  if (language === "tr") return action;
   const prefix = action.id.split(":")[0];
   if (prefix === "story") return Object.fromEntries(Object.entries(action).map(([key,value]) => [key, ["label", "description", "reason"].includes(key) ? localizeStoryText(value, language) : value]));
   if (prefix === "family") return translateFamilyAction(action, language);
@@ -167,13 +198,15 @@ export function localizeExpansionOutcome(text, language) {
 export function renderExpansion({
   view,
   actions,
-  actionCard,
+  actionCard: renderCard,
   sectionHeader,
   money,
   esc,
   language,
   section = "family",
+  selectedDistrict,
 }) {
+  const actionCard = (action, compact) => renderCard(translateExpansionAction(action, language), compact, true);
   // Like Gold's other views, render after chooseLanguage has selected `language`.
   // Existing catalog labels are shared; expansion-only copy stays in this module.
   const t = copy[language] ?? copy.tr;
@@ -181,9 +214,9 @@ export function renderExpansion({
   const label = (...values) => values[locale] ?? values[0];
   const { world, family, economy, institutions, events } = view;
   const options = (prefix) => {
-    const matches = actions.filter((a) => a.id.startsWith(prefix + ":") && !(prefix === "world" && ["world:meal", "world:rest"].includes(a.id)));
+    const matches = actions.filter((a) => a.id.startsWith(prefix + ":"));
     return matches.length
-      ? `<div class="action-grid">${matches.map((a) => actionCard(translateExpansionAction(a, language))).join("")}</div>`
+      ? `<div class="action-grid">${matches.map((a) => actionCard(a)).join("")}</div>`
       : "";
   };
   const stateLabel = (value) =>
@@ -264,7 +297,7 @@ export function renderExpansion({
       `<section class="status-sheet"><div><h3>${esc(t[0])}</h3><p>${esc(family.player.name)} · ${esc(t[7])} ${family.player.age}${family.player.retired ? ` · ${esc(t[10])}` : ""}</p>
     ${familyStatus ? `<p role="status">${esc(familyStatus)}</p>${terminal ? `<button class="secondary" data-ui="export">${label("Kaydı dışa aktar", "Export save", "Eksportuj zapis")}</button>` : ""}` : ""}
     <p>${label("Hane birikimi", "Household reserve", "Oszczędności gospodarstwa")} ${money(home.reserve)} · ${label("Hane borcu", "Household arrears", "Zaległości gospodarstwa")} ${money(home.arrears)}</p><div class="family-tree">${familyRows}</div></div></section>
-    ${renderFamilyStories({view, actions, actionCard, esc, language, translate: translateFamilyAction})}${options("family")}`
+    ${renderFamilyStories({view, actions, actionCard, esc, language})}${options("family")}`
     );
   }
   if (section === "finance") {
@@ -275,14 +308,14 @@ export function renderExpansion({
     const remoteProperties = economy.properties.filter((p) => !localProperty(p));
     const propertyOptions = (rows) => {
       const matches = actions.filter((a) => a.id.startsWith("economy:") && rows.some((p) => a.id.endsWith(`:${p.id}`)));
-      return matches.length ? `<div class="action-grid">${matches.map((a) => actionCard(translateExpansionAction(a, language))).join("")}</div>` : "";
+      return matches.length ? `<div class="action-grid">${matches.map((a) => actionCard(a)).join("")}</div>` : "";
     };
     const extraEconomy = actions.filter((a) => a.id.startsWith("economy:") && !economy.properties.some((p) => a.id.endsWith(`:${p.id}`)));
-    const extras = extraEconomy.length ? `<div class="action-grid">${extraEconomy.map((a) => actionCard(translateExpansionAction(a,language))).join("")}</div>` : "";
+    const extras = extraEconomy.length ? `<div class="action-grid">${extraEconomy.map((a) => actionCard(a)).join("")}</div>` : "";
     const company = economy.business;
     return (
       header +
-      `${renderBusinessStories({view, actions, actionCard, esc, language, translate: translateExpansionAction})}<section class="reference"><h3>${esc(t[1])}</h3><ul class="property-grid">${localProperties.map(propertyCard).join("")}</ul>${propertyOptions(localProperties)}${remoteProperties.length ? `<details><summary>${label("Diğer bölgeler", "Other districts", "Inne dzielnice")}</summary><ul class="property-grid">${remoteProperties.map(propertyCard).join("")}</ul>${propertyOptions(remoteProperties)}</details>` : ""}
+      `${renderBusinessStories({view, actions, actionCard, esc, language})}<section class="reference"><h3>${esc(t[1])}</h3><ul class="property-grid">${localProperties.map(propertyCard).join("")}</ul>${propertyOptions(localProperties)}${remoteProperties.length ? `<details><summary>${label("Diğer bölgeler", "Other districts", "Inne dzielnice")}</summary><ul class="property-grid">${remoteProperties.map(propertyCard).join("")}</ul>${propertyOptions(remoteProperties)}</details>` : ""}
     ${company ? `<p>${esc(company.name)} · ${tx("İşletme kasası")} ${money(company.capital)} · ${label("Stok", "Stock", "Zapasy")} ${esc(company.stock)} · ${label("Çalışan", "Employees", "Pracownicy")} ${esc(company.workers)}<br>${label("Gelir", "Revenue", "Przychód")} ${money(company.revenue)} · ${label("Gider", "Costs", "Koszty")} ${money(company.costs)} · ${label("Kâr", "Profit", "Zysk")} ${money(company.revenue - company.costs)}<br>${label("Maaş borcu", "Wages due", "Zaległe płace")} ${money(company.wageDue)} · ${label("Vergi borcu", "Tax due", "Zaległy podatek")} ${money(company.taxDue)}${company.clients != null ? `<br>${tx("Müşteri")}: ${esc(company.clients)} · ${label("İtibar", "Reputation", "Reputacja")}: ${esc(company.reputation)} · ${label("Çalışan vardiya ücreti", "Wage per worker shift", "Płaca za zmianę pracownika")}: ${money(company.wageRate)} · ${label("Birikmiş sabit gider borcu", "Accrued overhead arrears", "Zaległe koszty stałe")}: ${money(company.overhead)}` : ""}</p>` : ""}${extras}</section>`
     );
   }
@@ -454,7 +487,7 @@ export function renderExpansion({
       institutions.program && COURSES.find((c) => c.id === institutions.program.course);
     const office = institutions.regions.find((r) => r.region === world.region);
     return (
-      header + renderLiving({ view, actions, actionCard, esc, language }) + renderStories({ view, actions, actionCard, esc, language }) + renderSociety({ view, esc, language }) +
+      header + renderLifePath(view, actions, actionCard, esc) + renderLiving({ view, actions, actionCard, esc, language, selectedDistrict }) + renderStories({ view, actions, actionCard, esc, language }) + renderSociety({ view, esc, language }) +
       `<section class="reference"><h3>${esc(tx("Kurumlar"))}</h3>
     <p>${label("Kredi durumu", "Credit score", "Ocena kredytowa")} ${esc(institutions.credit)} · ${label("Kamu güveni", "Public trust", "Zaufanie publiczne")} ${office.trust}% · ${label("Yerel bütçe", "Local budget", "Budżet lokalny")} ${money(office.treasury)}</p>
     ${institutions.program ? `<p>${tx("Eğitim")}: ${esc(tx(course?.name || "Eğitim"))} · ${institutions.program.sessions}/${institutions.program.requiredSessions} · ${label("Burs", "Grant", "Stypendium")} ${money(institutions.program.grant)}</p>` : ""}
@@ -462,9 +495,28 @@ export function renderExpansion({
     ${office.policy ? `<p>${label("Güncel politika", "Active policy", "Aktywna polityka")}: ${esc({ skills: tx("Eğitim"), health: tx("Sağlık"), housing: label("Konut", "Housing", "Mieszkalnictwo") }[office.policy])} · ${label("Bitiş günü", "Until day", "Do dnia")} ${office.policyUntil}</p>` : ""}
     ${institutions.investigation ? `<p>${label("Açık dosya", "Open case", "Otwarta sprawa")} · ${money(institutions.investigation.total)}</p>` : ""}
     <details><summary>${label("Kurum işlemleri", "Institution services", "Usługi instytucji")}</summary>${options("institution")}</details></section>
-    <section><h3>${esc(t[2])}</h3><div class="reference-grid">${cities}</div></section>${options("world")}
+    <section><h3>${esc(t[2])}</h3><div class="reference-grid">${cities}</div></section>
     <details class="reference"><summary>${esc(t[3])}</summary><ol>${history}</ol></details>`
     );
   }
   return header;
+}
+
+export function renderStart({app, esc, option, languageControl}) {
+  const language = getLanguage();
+  const l = (tr,en,pl) => ({tr,en,pl}[language] || tr);
+  const header = `<main class="onboarding" id="main"><section class="start-story"><a href="/" target="_top" class="back-link">← TarikLab</a><div class="edition">BOARDWORLD / 31</div><div class="brand-lockup"><span class="brand-seal">TC</span><span>SIM<span class="brand-small">BOARDWORLD</span></span></div><h1>${l("Bir hayat, üç şehir.","One life, three cities.","Jedno życie, trzy miasta.")}</h1><p class="start-lead">${l("İş bul, insanları tanı ve kendi yolunu çiz.","Find work, meet people and make your own way.","Znajdź pracę, poznaj ludzi i wybierz własną drogę.")}</p><p class="start-note">İstanbul · Ankara · İzmir</p></section><section class="creation"><span class="eyebrow">${l("YENİ HAYAT","NEW LIFE","NOWE ŻYCIE")}</span><h2>${l("Başlangıcını seç.","Choose your beginning.","Wybierz swój początek.")}</h2><p class="muted">${l("Seçimlerin başlangıcını şekillendirir; geleceğini sınırlamaz.","Your choices shape your start, not your future.","Wybory kształtują początek, nie ograniczają przyszłości.")}</p>`;
+
+  app.innerHTML = `${header}<form id="create-form"><label class="field">1 · ${tx("Karakter adı")}<input name="name" id="character-name" autocomplete="off" minlength="2" maxlength="32" required value="Deniz"></label><div class="field-row"><label class="field">2 · ${tx("Şehir")}<select name="startCity">${Object.entries(REGIONS).map(([id,{name}])=>`<option value="${id}">${name}</option>`).join("")}</select></label><label class="field">3 · ${l("İlçe","District","Dzielnica")}<select name="startingDistrict">${DISTRICTS.map(d=>`<option value="${esc(d.id)}" data-city="${d.cityId}" ${d.cityId!=="istanbul"?"hidden disabled":""}>${esc(d.name)}</option>`).join("")}</select></label></div><fieldset class="scenario-list"><legend>4 · ${l("Başlangıç hedefi","Starting ambition","Początkowa ambicja")}</legend>${LIFE_PATHS.map((id, i) => {
+    const {title, description} = getLifePathCopy(id, language);
+    return `<label class="scenario-option"><input type="radio" name="lifePath" value="${id}" ${i===0?"checked":""}><span class="scenario-number">0${i+1}</span><span><strong>${esc(title)}</strong><small>${esc(description)}</small></span><span class="radio-dot"></span></label>`;
+  }).join("")}</fieldset><details><summary>5 · ${l("İsteğe bağlı arka plan","Optional background","Opcjonalne tło")}</summary><label class="field">${l("Başlangıç koşulları","Starting circumstances","Warunki początkowe")}<select name="scenario">${SCENARIOS.map((e)=>option(e,SCENARIOS[0].id)).join("")}</select></label><div class="field-row"><label class="field">${l("Eğitim","Education","Edukacja")}<select name="education">${EDUCATIONS.map(e=>option(e,"highschool")).join("")}</select></label><label class="field">${tx("Kişilik")}<select name="trait">${TRAITS.map(e=>option(e,"balanced")).join("")}</select></label></div><p class="creation-detail" id="trait-description">${esc(TRAITS[0]?.description || "")}</p></details><p id="start-summary" aria-live="polite"></p><button class="primary start-button" type="submit" data-testid="create-game">${tx("Hayatına başla")} →</button></form><div class="start-foot">${languageControl()}<button class="text-button" data-ui="import">${l("Kayıt dosyası yükle","Import save","Wczytaj zapis")}</button><button class="text-button" data-ui="help">${l("Nasıl oynanır?","How to play","Jak grać?")}</button></div></section></main>`;
+  updateStartSummary();
+}
+export function updateStartSummary() {
+  const form = document.querySelector("#create-form"); if (!form) return;
+  const data = new FormData(form), district = DISTRICTS.find(d => d.id === data.get("startingDistrict"));
+  const path = getLifePathCopy(data.get("lifePath"), getLanguage()).title;
+  const city = REGIONS[district?.cityId]?.name;
+  document.querySelector("#start-summary").textContent = `${data.get("name")} · ${city} / ${district?.name} · ${path}`;
 }

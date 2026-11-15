@@ -21,7 +21,6 @@ import {
 } from "./engine.mjs";
 import {
   DISTRICTS,
-  SCENARIOS,
   JOBS,
   NPCS,
   COURSES,
@@ -215,14 +214,16 @@ async function saveCurrent(current, expected = saveToken) {
   return result;
 }
 let expansionUi, expansionPreview;
+let creationUi;
+async function prepareCreation() {
+  creationUi ??= await import("./expansion-ui.mjs");
+}
 async function prepareExpansionPreview() {
   expansionPreview ??= await import("./expansion-preview.mjs");
 }
 async function prepareExpansion() {
-  const [runtime, ui] = await Promise.all([
-    loadExpansionRuntime(), import("./expansion-ui.mjs"), prepareExpansionPreview(),
-  ]);
-  expansionUi = { ...ui, getExpansionView: runtime.getExpansionView };
+  const [runtime] = await Promise.all([loadExpansionRuntime(), prepareCreation(), prepareExpansionPreview()]);
+  expansionUi = { ...creationUi, getExpansionView: runtime.getExpansionView };
 }
 const EXPANSION_LOAD_ERROR = "Nesiller yüklenemedi. Mevcut kayıt korundu.";
 let initialLoad;
@@ -252,7 +253,7 @@ try {
     message: "Tarayıcı kaydına ulaşılamadı. Oyunu oynayabilir, kaydını dosyaya indirebilirsin.",
   };
 }
-if (state) selectedDistrict = state.location;
+if (state) selectedDistrict = state.expansion && expansionUi ? expansionUi.getExpansionView(state).districts.place.districtId : state.location;
 const languageControl = () =>
   embedded
     ? ""
@@ -283,7 +284,7 @@ function sectionHeader(eyebrow, heading, copy = "") {
 function renderGenerations(panel = tab) {
   return expansionPreview.renderGenerations(
     state, expansionUi, cachedView, actions, actionCard, sectionHeader,
-    money, esc, getLanguage(), expansionProblem, panel,
+    money, esc, getLanguage(), expansionProblem, panel, selectedDistrict,
   );
 }
 
@@ -292,10 +293,11 @@ function meter(label, value, inverse = false) {
   return `<div class="meter ${inverse ? "inverse" : ""} ${inverse ? (v > 70 ? "low" : "") : v < 30 ? "low" : ""}"><span>${esc(label)} <b>${v}</b></span><meter min="0" max="100" value="${v}" aria-label="${esc(label)}">${v}</meter></div>`;
 }
 function renderStart() {
-  app.innerHTML = `<main class="onboarding" id="main"><section class="start-story"><a href="/" target="_top" class="back-link">← TarikLab oyunları</a><div class="edition">İSTANBUL / BİRBİRİNE BAĞLI HAYATLAR / 07</div><div class="brand-lockup"><span class="brand-seal">TC</span><span>SIM<span class="brand-small">BOARDWORLD</span></span></div><h1>Bu şehirde<br>bir hayatın var.</h1><p class="start-lead">İşini seç. İnsanları tanı. Bir ev kur.<br>Bir düzen kur. Kararlarının izini şehirde gör.</p><div class="start-board" aria-hidden="true"><span class="start-route"></span><span class="mini-place mini-one">01 <b>Şişli</b><small>Kariyer &amp; eğitim</small></span><span class="mini-place mini-two">02 <b>Beşiktaş</b><small>Sahil &amp; sosyal çevre</small></span><span class="mini-place mini-three">03 <b>Kadıköy</b><small>Yeni başlangıçlar</small><i class="player-piece"></i></span><span class="mini-water">İSTANBUL BOĞAZI</span></div><p class="start-note">Tek oyunculu · Zaman yalnızca karar verdiğinde ilerler.</p></section><section class="creation"><span class="eyebrow">KARAKTER KARTIN</span><h2>İlk sayfayı sen yaz.</h2><p class="muted">Başlangıcın koşullarını değiştirir; geleceğini belirlemez.</p><form id="create-form"><label class="field">Karakter adı<input name="name" id="character-name" autocomplete="off" minlength="2" maxlength="32" required value="Deniz" placeholder="Karakterinin adı"></label><fieldset class="scenario-list"><legend>Nereden başlıyorsun?</legend>${SCENARIOS.map((s, i) => `<label class="scenario-option"><input type="radio" name="scenario" value="${esc(s.id)}" ${i === 0 ? "checked" : ""}><span class="scenario-number">0${i + 1}</span><span><strong>${esc(title(s))}</strong><small>${esc(s.description)}</small></span><span class="radio-dot"></span></label>`).join("")}</fieldset><div class="field-row"><label class="field">Eğitim<select name="education">${EDUCATIONS.map((e) => option(e, "highschool")).join("")}</select></label><label class="field">Kişilik<select name="trait">${TRAITS.map((e) => option(e, "balanced")).join("")}</select></label></div><p class="creation-detail" id="trait-description">${esc(lookup(TRAITS, "balanced")?.description || "")}</p><button class="primary start-button" type="submit" data-testid="create-game">Hayatına başla <span aria-hidden="true">→</span></button></form><div class="start-foot">${languageControl()}<button class="text-button" data-ui="import">Kayıt dosyası yükle</button><button class="text-button" data-ui="help">Nasıl oynanır?</button></div><p class="privacy">Kayıtların bu tarayıcıda tutulur. Cihaz değiştirmek için kayıt dosyanı indir.</p></section></main>`;
+  creationUi.renderStart({app, esc, option, languageControl});
 }
-function actionCard(a, compact = false) {
-  if (state?.expansion && expansionUi) a = expansionUi.translateExpansionAction(a, getLanguage());
+
+function actionCard(a, compact = false, localized = false) {
+  if (!localized && state?.expansion && expansionUi) a = expansionUi.translateExpansionAction(a, getLanguage());
   const aid = `reason-${a.id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
   const zeroCost = a.id.startsWith("business:")
     ? ({ tr: "Kişisel ödeme yok", en: "No personal payment", pl: "Brak płatności osobistej" })[getLanguage()] || "Kişisel ödeme yok"
@@ -356,7 +358,7 @@ function renderDashboard() {
 function renderBoard() {
   if (state.expansion)
     return renderGenerations("expansion-world");
-  return `<div class="board-heading">${sectionHeader("İSTANBUL / KARARLARININ ŞEHRİ", "Hayatın bu masada.")}</div>${renderFirstFive(state)}${state.pendingEvents.length ? "" : renderDecisionDesk(decisionView, actions)}${renderCityMap({ state, city: cityView, calendar: calendarView, npcs: NPCS, getLocation: getNpcLocation, selectedDistrict, actions, actionCard, society: societyView, conditions: renderDistrictConditions(lifeView, selectedDistrict) + renderSocietyDistrict(societyView, selectedDistrict, actions) })}${renderToday(calendarView, state, actions)}<section class="intent-entry"><div><span class="eyebrow">SIRADAKİ HAMLE SANA BAĞLI</span><h3>Neyi değiştirmek istersin?</h3></div><button class="secondary" data-intent-open aria-expanded="${intentOpen}">${intentOpen ? "Seçenekleri kapat" : "Hamlelerini keşfet ↗"}</button></section>${intentOpen ? renderIntentComposer({ ...intentFilters, fallbackActions: actions.filter((a) => !a.disabled), results: getIntentActions(state, { query: intentFilters.query, npcId: intentFilters.npcId, location: intentFilters.location }), npcs: [...NPCS, ...lifeView.secondary], districts: DISTRICTS, actionCard }) : ""}<details class="city-news-fold"><summary>Şehrin nabzı ve sana ulaşan haberler</summary>${renderWorldBulletin(livingView)}</details>`;
+  return `<section class="reference"><h2>${({tr:"Dünyanın tamamını aç",en:"Open the full world",pl:"Otwórz cały świat"})[getLanguage()]}</h2><p>${({tr:"Mevcut hayatınla üç şehri ve 31 ilçeyi keşfet.",en:"Explore three cities and 31 districts with your current life.",pl:"Odkrywaj trzy miasta i 31 dzielnic w obecnym życiu."})[getLanguage()]}</p><button class="primary" data-ui="expand">${({tr:"Dünyayı aç",en:"Open world",pl:"Otwórz świat"})[getLanguage()]}</button></section><div class="board-heading">${sectionHeader("İSTANBUL / KARARLARININ ŞEHRİ", "Hayatın bu masada.")}</div>${renderFirstFive(state)}${state.pendingEvents.length ? "" : renderDecisionDesk(decisionView, actions)}${renderCityMap({ state, city: cityView, calendar: calendarView, npcs: NPCS, getLocation: getNpcLocation, selectedDistrict, actions, actionCard, society: societyView, conditions: renderDistrictConditions(lifeView, selectedDistrict) + renderSocietyDistrict(societyView, selectedDistrict, actions) })}${renderToday(calendarView, state, actions)}<section class="intent-entry"><div><span class="eyebrow">SIRADAKİ HAMLE SANA BAĞLI</span><h3>Neyi değiştirmek istersin?</h3></div><button class="secondary" data-intent-open aria-expanded="${intentOpen}">${intentOpen ? "Seçenekleri kapat" : "Hamlelerini keşfet ↗"}</button></section>${intentOpen ? renderIntentComposer({ ...intentFilters, fallbackActions: actions.filter((a) => !a.disabled), results: getIntentActions(state, { query: intentFilters.query, npcId: intentFilters.npcId, location: intentFilters.location }), npcs: [...NPCS, ...lifeView.secondary], districts: DISTRICTS, actionCard }) : ""}<details class="city-news-fold"><summary>Şehrin nabzı ve sana ulaşan haberler</summary>${renderWorldBulletin(livingView)}</details>`;
 }
 
 function renderWork() {
@@ -489,7 +491,10 @@ function renderBag() {
   }</div><div class="subheading"><h3>Belge dosyan</h3><span class="tiny">${state.documents.length} belge</span></div><div class="documents">${state.documents.map((d) => `<details class="document"><summary><span class="document-stamp">TC</span><span><strong>${esc(d.title)}</strong><small>${d.day}. gün · Kişisel arşiv</small></span><span aria-hidden="true">＋</span></summary><p>${esc(d.text)}</p></details>`).join("") || '<p class="empty-state">Sözleşme ve sertifikaların burada saklanacak.</p>'}</div>`;
 }
 function renderGoals() {
-  return `${sectionHeader("YAŞAM HEDEFLERİ", "İyi bir hayatın tek tarifi yok.", "Hedeflerini kendi hızında tamamla. Başardıktan sonra şehirde yaşamaya devam edebilirsin.")}<div class="goal-grid">${getGoals(
+  const guide = state.expansion && expansionUi ? expansionUi.renderLifePath(
+    cachedView("expansion", () => expansionUi.getExpansionView(state)), actions, actionCard, esc,
+  ) : "";
+  return `${sectionHeader("YAŞAM HEDEFLERİ", "İyi bir hayatın tek tarifi yok.", "Hedeflerini kendi hızında tamamla. Başardıktan sonra şehirde yaşamaya devam edebilirsin.")}${guide}<div class="goal-grid">${getGoals(
     state,
   )
     .map(
@@ -737,7 +742,8 @@ async function commit(id, payload) {
     // remains busy, and only the verified write may announce a saved state.
     const saving = saveCurrent(state);
     saveStatus = "Kaydediliyor…";
-    if (state.location !== before.location) selectedDistrict = state.location;
+    if (state.expansion && /^(district:travel:|travel:|world:move:)/.test(id)) selectedDistrict = expansionUi.getExpansionView(state).districts.place.districtId;
+    else if (state.location !== before.location) selectedDistrict = state.location;
     render({
       focus:
         id === "calendar:propose" || id.startsWith("calendar:reschedule:")
@@ -783,6 +789,7 @@ async function handleUi(id) {
   if (id === "expand" && state && !state.expansion) {
     busy = true;
     try {
+      await prepareExpansionPreview();
       const saved = await expansionPreview.activateExpansion(state, saveToken, prepareExpansion);
       recoverySaves = saved.recoverySaves ?? recoverySaves;
       if (!saved.ok) {
@@ -792,6 +799,7 @@ async function handleUi(id) {
       unsaved = false;
       expansionToken = saved.token;
       state = saved.state;
+      selectedDistrict = expansionUi.getExpansionView(state).districts.place.districtId;
       expansionProblem = "";
       saveStatus = saved.message;
       render();
@@ -853,6 +861,7 @@ async function handleUi(id) {
     return;
   }
   if (id === "confirm-restart") {
+    await prepareCreation();
     dialog.close();
     restartFrom = state;
     state = null;
@@ -1067,6 +1076,11 @@ document.addEventListener("click", async (event) => {
     }
     return;
   }
+  if (button.dataset.worldDistrict) {
+    selectedDistrict = button.dataset.worldDistrict;
+    render();
+    return;
+  }
   if (button.dataset.district) {
     selectedDistrict = button.dataset.district;
     render();
@@ -1128,19 +1142,22 @@ document.addEventListener("submit", async (event) => {
   }
   busy = true;
   const previousLife = restartFrom;
+  await prepareExpansion();
   state = createGame({
     name,
     scenario: String(data.get("scenario")),
     education: String(data.get("education")),
     trait: String(data.get("trait")),
     seed: 2026,
-    expansion: Boolean(previousLife?.expansion),
+    expansion: true,
+    startingDistrict: String(data.get("startingDistrict")),
+    lifePath: String(data.get("lifePath")),
   });
-  tab = state.expansion ? "expansion" : "dashboard";
+  tab = "board";
   calendarDay = null;
   appointmentDraft = null;
   editingEntry = "";
-  selectedDistrict = state.location;
+  selectedDistrict = expansionUi.getExpansionView(state).districts.place.districtId;
   const saved = await saveCurrent(state);
   busy = false;
   saveStatus = saved.message;
@@ -1153,12 +1170,18 @@ document.addEventListener("submit", async (event) => {
   }
   restartFrom = null;
   render();
-  announce(
-    "Hayatın başladı. Önce başlangıç olay kartından bir seçim yap; sonra Kariyer bölümündeki işleri incele.",
-  );
+  announce("Hayatın başladı.");
   $("#panel-heading")?.focus({ preventScroll: true });
 });
 document.addEventListener("change", (event) => {
+  if (event.target.closest("#create-form")) {
+    if (event.target.name === "startCity") {
+      const select = event.target.form.elements.startingDistrict;
+      for (const option of select.options) option.hidden = option.disabled = option.dataset.city !== event.target.value;
+      select.value = [...select.options].find(option => !option.disabled).value;
+    }
+    creationUi.updateStartSummary();
+  }
   if (event.target.matches("[data-game-language]")) {
     void chooseLanguage(event.target.value);
     return;
@@ -1294,6 +1317,7 @@ window.addEventListener("storage", async (event) => {
     busy = false;
   }
 });
+if (!state) await prepareCreation();
 await initLocale(() => {
   dialog.close();
   $("#notice").classList.remove("visible");

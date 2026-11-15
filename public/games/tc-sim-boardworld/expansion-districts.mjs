@@ -39,6 +39,14 @@ export function getPlace(s) {
   const location = LOCATIONS.find((v) => v.id === venueId);
   return { countryId: "tr", cityId: regionId, regionId, districtId: id, neighborhoodId: location?.neighborhoodId ?? (p?.districtId === "ankara:kizilay" || (!p && regionId === "ankara") ? "ankara:kizilay" : `${id}:game-neighborhood`), venueId };
 }
+
+export function setExpansionDistrict(s, districtId) {
+  const d = district(districtId);
+  s.expansion.world.region = d.regionId;
+  s.city.venue = "";
+  state(s).place = goldDistrict(d.id) ? null : { districtId: d.id, venueId: null };
+  if (goldDistrict(d.id)) s.location = d.id;
+}
 // Call only after loading a copy: old market ledgers retain their balances.
 export function migrateDistricts(s) {
   const x = s.expansion?.districts;
@@ -194,16 +202,16 @@ export function districtActions(s, api) {
       );
     }
   }
-  const workplace = p.venueId && venue(p.venueId)?.kind === "work";
+  const workplace = (s.expansion.lifePath ? LOCATIONS.find((v) => v.id === p.venueId) : venue(p.venueId));
   const job = s.expansion.districts?.job;
   const wage = Math.floor(
     (REGIONS[p.regionId].wage * s.expansion.world.regions[p.regionId].employment) / 100,
   );
   const firm = employer(s, p, wage);
   const jobFirm = job && s.expansion.economy.firms[job.firmId];
-  if (workplace) {
+  if (workplace?.kind === "work") {
     const base =
-      problem(s, 30) || (!hours(s, venue(p.venueId), 30) ? "Mekân bu saatte kapalı." : "");
+      problem(s, 30) || (!hours(s, workplace, 30) ? "Mekân bu saatte kapalı." : "");
     actions.push(
       make(
         "district:apply",
@@ -214,7 +222,7 @@ export function districtActions(s, api) {
         base ||
           (getDistrictSimulation(s, p.districtId).jobOpenings < 1
             ? "Bu semtte açık iş olanağı yok."
-            : job
+            : job || s.job
               ? "Zaten bir yerel sözleşmen var."
               : !firm
                 ? "Ücret ayırabilen açık bir yerel işletme yok."
@@ -232,7 +240,7 @@ export function districtActions(s, api) {
         wage + Math.min(Math.floor(job.shifts / 5), Math.floor(s.player.skills[skill] / 10)) * 25;
       const why =
         problem(s, 360) ||
-        (!hours(s, venue(p.venueId), 360)
+        (!hours(s, workplace, 360)
           ? "Mekân bu saatte kapalı."
           : normalizeDistrictId(job.districtId) !== p.districtId
             ? "Vardiya sözleşmendeki semtte yapılır."
@@ -307,8 +315,9 @@ export function adaptDistrictActions(s, actions, api) {
       )
         ? "Taşınma ve dönüş süresi ajandandaki bir planla çakışıyor."
         : "";
+    else if (a.id.startsWith("apply:") && s.expansion.districts?.job)
+      reason = "Zaten bir yerel sözleşmen var.";
     else if (goldDistrict(p.districtId)) return a;
-    else if (a.id === "world:shift") reason = "Yerel sözleşme için iş merkezine git.";
     else if (a.id === "world:meal" && kind !== "social")
       reason = "Yemek için mahalle buluşma yerine git.";
     else if (a.id.startsWith("institution:") && kind !== "institution")
@@ -533,7 +542,7 @@ export function validateDistricts(s) {
         n.score < 1 ||
         n.score > 100 ||
         !Number.isSafeInteger(n.lastDay) ||
-        n.lastDay < 1 ||
+        n.lastDay < 0 ||
         n.lastDay > day(s),
     )
   )

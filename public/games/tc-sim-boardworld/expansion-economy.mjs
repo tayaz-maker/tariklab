@@ -4,7 +4,7 @@ import { BUSINESS_TYPES } from "./deep-content.mjs";
 import { closeHousehold, syncLifeHousing } from "./life-systems.mjs";
 import { SOCIETY_COPY } from "./society-content.mjs";
 import { REGIONS as CITIES, migratePopulation } from "./expansion-world.mjs";
-import { getDistrictSimulation, getPlace } from "./expansion-districts.mjs";
+import { getDistrictSimulation, getPlace, setExpansionDistrict } from "./expansion-districts.mjs";
 import { residentServiceQuote } from "./expansion-institutions.mjs";
 import {
   DISTRICTS, LOCATIONS, cityDistricts, districtById, hubDistrict, normalizeDistrictId, routeBetween,
@@ -280,7 +280,7 @@ function payOwner(s, owner, amount, api, label) {
   // Market receipts and amounts beyond safe balance limits leave the local economy.
 }
 
-function neutralHousing(s, id, api, relocate = true) {
+function neutralHousing(s, id, api) {
   const current = s.housing;
   if (s.life.household) closeHousehold(s, "Konut sözleşmesi değişti", api);
   const offset = Math.min(current.deposit, current.arrears);
@@ -289,11 +289,6 @@ function neutralHousing(s, id, api, relocate = true) {
   if (refund) api.receive(s, Math.min(refund, MAX - s.bank), "Kira depozitosu iadesi", "bank");
   s.housing = { id, rent: 0, deposit: 0, arrears: current.arrears - offset, dueDay: day(s) + 30 };
   const home = HOMES.find((home) => home.id === id);
-  if (relocate) {
-    if (s.city.venue) s.city.venue = "";
-    if (s.expansion.districts) s.expansion.districts.place = null;
-    s.location = home.district;
-  }
   api.document?.(
     s,
     `property-${s.revision}-${id}`,
@@ -324,19 +319,15 @@ function vacate(s, api, shelter) {
   const p = e.properties[e.home];
   const outstanding = p.lease?.tenant === HOUSEHOLD ? releaseLease(s, p, api) : 0;
   s.housing.arrears = asMoney(s.housing.arrears + outstanding);
-  const local = e.home.startsWith(regionOf(s) + ":");
   e.home = "";
-  if (shelter) neutralHousing(s, "shelter", api, local);
+  if (shelter) neutralHousing(s, "shelter", api);
 }
 
 function occupy(s, lot, api) {
   vacate(s, api, false);
   neutralHousing(s, lot.anchor, api);
   economy(s).home = lot.id;
-  if (s.location !== lot.districtId || lot.region !== "istanbul") {
-    const place = s.expansion.districts ??= { place: null, job: null, visits: {}, visitDay: day(s), contacts: {} };
-    place.place = { districtId: lot.districtId, venueId: null };
-  }
+  setExpansionDistrict(s, lot.districtId);
 }
 
 function takeTitle(s, lot, amount, down, api) {
@@ -443,6 +434,20 @@ export function initEconomy(s) {
     firms: Object.fromEntries(legacyFirms.map((firm, index) => [firm.id, newFirm(firm, index)])),
   };
   migrateEconomy(s);
+}
+
+export function initStartingLease(s, districtId, api) {
+  const lot = lotsInDistrict.get(districtId)[0];
+  const property = playerProperty(s, lot);
+  const rent = propertyRent(s, lot, property);
+  // Scenario balances are post-move balances. The opening month is prepaid
+  // and the furnished rental carries no refundable deposit.
+  property.lease = { ...leaseTerms(s, HOUSEHOLD, rent), deposit: 0 };
+  economy(s).home = lot.id;
+  s.housing.id = lot.anchor;
+  syncLifeHousing(s, api);
+  api.document(s, "lease-1", `${lot.name} · kira sözleşmesi`,
+    `İlk dönem peşin ödendi. Aylık kira ${rent} TL. Sonraki vade gün 31. Depozito yok.`);
 }
 
 export function migrateEconomy(s) {

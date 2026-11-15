@@ -8,7 +8,7 @@ import { transform as transformCss } from "lightningcss";
 import { packModules } from "./boardworld-pack-modules.mjs";
 
 const gamePath = "games/tc-sim-boardworld";
-const styles = ["style.css", "deep.css", "living.css", "emergent.css", "society.css"];
+const styles = ["style.css", "deep.css", "living.css", "emergent.css", "society.css", "world-map.css"];
 const locales = ["locale-keys.mjs", "locale-en.mjs", "locale-pl.mjs"];
 const isAsset = (name) => /\.(mjs|css|html|svg)$/.test(name);
 const options = { minify: true, charset: "utf8", target: "es2022", legalComments: "none" };

@@ -32,7 +32,21 @@ async function compact(code) {
     })
   ).code;
 }
-async function shareDistantLiterals(text) {
+
+async function finishBundle(text) {
+  const grouped = groupHoistedFunctions(text);
+  // Once declaration order settles, recalculating names can improve gzip
+  // without reopening the string table's deliberately shared references.
+  const renamed = (await minify(grouped, {
+    module: true,
+    ecma: 2022,
+    compress: { passes: 2, reduce_vars: false },
+    mangle: true,
+    format: { comments: false, ascii_only: false },
+  })).code;
+  return gzipSync(renamed).length < gzipSync(grouped).length ? renamed : grouped;
+}
+async function shareDistantLiterals(text, distance = 8000, templateFragments = false) {
   const ast = ts.createSourceFile(
     "expansion-bundle.mjs",
     text,
@@ -43,9 +57,12 @@ async function shareDistantLiterals(text) {
   const groups = new Map();
   function visit(node) {
     const parent = node.parent;
+    const template = parent && ts.isTemplateSpan(parent) ? parent.parent : parent;
     if (
-      ts.isStringLiteral(node) &&
+      (ts.isStringLiteral(node) || (templateFragments && literal(node))) &&
       node.text !== "__proto__" &&
+      !ts.isTaggedTemplateExpression(parent) &&
+      !ts.isTaggedTemplateExpression(template.parent) &&
       !ts.isImportDeclaration(parent) &&
       !ts.isExportDeclaration(parent) &&
       !ts.isExpressionStatement(parent) &&
@@ -62,9 +79,9 @@ async function shareDistantLiterals(text) {
   // beyond its sliding window, leaving module paths, directives and prototypes alone.
   const selected = [...groups].filter(
     ([value, nodes]) =>
-      value.length >= 12 &&
+      value.length >= (templateFragments ? 20 : 12) &&
       nodes.length > 1 &&
-      nodes.at(-1).getStart() - nodes[0].getStart() > 32000,
+      nodes.at(-1).getStart() - nodes[0].getStart() > distance,
   );
   if (!selected.length) return text;
   let prefix = "__bwLiteral";
@@ -76,7 +93,10 @@ async function shareDistantLiterals(text) {
     .flatMap(([, nodes]) => nodes)
     .sort((a, b) => b.getStart() - a.getStart())) {
     const name = ids.get(node.text);
-    const replacement = node.parent.name === node ? `[${name}]` : name;
+    let replacement = node.parent.name === node ? `[${name}]` : `(${name})`;
+    if (ts.isTemplateHead(node)) replacement = "`${" + name + "}${";
+    if (ts.isTemplateMiddle(node)) replacement = "}${" + name + "}${";
+    if (ts.isTemplateTail(node)) replacement = "}${" + name + "}`";
     code = code.slice(0, node.getStart()) + replacement + code.slice(node.end);
   }
   const declarations = values
@@ -94,9 +114,37 @@ async function shareDistantLiterals(text) {
   return gzipSync(pooled).length < gzipSync(text).length ? pooled : text;
 }
 
+// Module-scope function declarations are hoisted. Keep initializer order and
+// try grouping declarations to bring distant repetitions inside gzip's window.
+function groupHoistedFunctions(text) {
+  const ast = ts.createSourceFile("bundle.mjs", text, ts.ScriptTarget.Latest, true, ts.ScriptKind.JS);
+  const functions = [], statements = [];
+  for (const node of ast.statements)
+    (ts.isFunctionDeclaration(node) ? functions : statements).push(node.getText());
+  const candidates = [
+    text,
+    functions.concat(statements).join("\n"),
+    statements.concat(functions.toReversed()).join("\n"),
+  ];
+  return candidates.reduce((shortest, current) =>
+    gzipSync(current).length < gzipSync(shortest).length ? current : shortest);
+}
+
+function sharedStringSource(strings) {
+  // Empty positions are deferred locale keys. Use a lossless vector spelling
+  // when a delimiter is absent from all strings and null is unambiguous.
+  const delimiter = ["|", "~", "¦", "¶"].find((separator) =>
+    strings.every((value) => value === null || (value.length && !value.includes(separator))));
+  const expression = delimiter
+    ? `${JSON.stringify(strings.join(delimiter))}.split(${JSON.stringify(delimiter)}).map(value=>value||null)`
+    : JSON.stringify(strings);
+  return `export const s=${expression};`;
+}
+
 export async function packModules(packed, keys) {
   const parsed = new Map(),
-    occurrences = new Map();
+    occurrences = new Map(),
+    deferredLiterals = new Set();
   for (const [file, text] of packed) {
     if (!file.endsWith(".mjs")) continue;
     const ast = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true, ts.ScriptKind.JS);
@@ -118,7 +166,8 @@ export async function packModules(packed, keys) {
         !(ts.isCallExpression(p) && p.expression.kind === ts.SyntaxKind.ImportKeyword)
       ) {
         nodes.push(n);
-        if (!file.startsWith("expansion")) {
+        if (file.startsWith("expansion")) deferredLiterals.add(n.text);
+        else {
           if (!occurrences.has(n.text)) occurrences.set(n.text, new Set());
           occurrences.get(n.text).add(file);
         }
@@ -162,7 +211,14 @@ export async function packModules(packed, keys) {
   const strings = [
     ...keySlots,
     ...[...occurrences]
-      .filter(([value, files]) => files.size >= 2 && !keys.includes(value))
+      .filter(([value, files]) => {
+        if (keys.includes(value)) return false;
+        if (files.size >= 2) return true;
+        // Reuse literal content already needed by the core. Deferred-only
+        // prose stays in the deferred package.
+        return value.length >= 20 && deferredLiterals.has(value) &&
+          [...files].some((file) => !file.startsWith("locale-"));
+      })
       .map(([value]) => value)
       .sort(),
   ];
@@ -214,7 +270,7 @@ export async function packModules(packed, keys) {
     if (used) result = "import {s as __bwS} from './shared-strings.mjs';\n" + result;
     packed.set(file, (await transform(result, options)).code);
   }
-  packed.set("shared-strings.mjs", `export const s=${JSON.stringify(strings)};`);
+  packed.set("shared-strings.mjs", sharedStringSource(strings));
   // The UI is started only by app.mjs. Importing an engine/locale URL must not
   // start a second UI in an already-open older tab or require a DOM in Node.
   const appAst = ts.createSourceFile(
@@ -275,7 +331,9 @@ export async function packModules(packed, keys) {
       },
     ],
   });
-  const code = await compact(bundle.outputFiles[0].text);
+  const code = await finishBundle(
+    await shareDistantLiterals(await compact(bundle.outputFiles[0].text), 32000),
+  );
   const name = `bw-runtime-${createHash("sha256").update(code).digest("hex").slice(0, 16)}.mjs`;
   for (const [file, pairs] of forwards)
     packed.set(
@@ -324,19 +382,25 @@ export async function packModules(packed, keys) {
         ),
     );
   }
+  packed.set("expansion-preview.mjs", await compact(packed.get("expansion-preview.mjs")));
   const deferred = [...parsed].filter(
     ([file]) =>
       file.startsWith("expansion") &&
       !["expansion-preview.mjs", "expansion-persistence.mjs"].includes(file),
   );
   const deferredForwards = new Map();
-  let deferredEntry = "",
-    deferredIndex = 0;
+  const deferredEntries = new Map();
+  let deferredIndex = 0;
   for (const [file, data] of deferred) {
     const pairs = data.exports.map((original) => [original, exportName(deferredIndex++)]);
     deferredForwards.set(file, pairs);
-    deferredEntry += `export {${pairs.map(([original, alias]) => `${original} as ${alias}`).join(",")}} from './${file}';\n`;
+    deferredEntries.set(file, `export {${pairs.map(([original, alias]) => `${original} as ${alias}`).join(",")}} from './${file}';`);
   }
+  // Start with the activation interface so its dependency graph sets module
+  // order. The remaining entrypoints retain their public re-exports.
+  const activation = deferredEntries.get("expansion.mjs");
+  deferredEntries.delete("expansion.mjs");
+  const deferredEntry = [activation, ...deferredEntries.values()].join("\n");
   // Generated Gold forwarders contain only re-exports. Resolve their bindings
   // through one build-only bridge so esbuild can share identical imports across
   // expansion modules. Keep the hashed Gold runtime external: never bundle a
@@ -403,9 +467,10 @@ export async function packModules(packed, keys) {
       },
     ],
   });
-  const deferredCode = await shareDistantLiterals(
-    await compact(deferredBundle.outputFiles[0].text),
+  const deferredLayout = await finishBundle(
+    await shareDistantLiterals(await compact(deferredBundle.outputFiles[0].text)),
   );
+  const deferredCode = await shareDistantLiterals(deferredLayout, 60000, true);
   const deferredName = `expansion-runtime-${createHash("sha256").update(deferredCode).digest("hex").slice(0, 16)}.mjs`;
   for (const [file, pairs] of deferredForwards)
     packed.set(

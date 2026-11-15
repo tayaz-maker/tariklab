@@ -57,7 +57,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [regression, generation]
+        suite: [regression, generation, foundation]
     steps:
       - uses: actions/checkout@v4
       - name: Fetch every immutable released compatibility reference
@@ -84,6 +84,9 @@ jobs:
           else
             npx playwright install --with-deps chromium --only-shell
           fi
+      - name: Fresh world and ambition journeys across all districts
+        if: matrix.suite == 'foundation'
+        run: BOARDWORLD_ASSETS=.output/public node --test scripts/boardworld-foundation-browser.mjs
       - name: Real play, reload, recovery and responsive production assets
         if: matrix.suite == 'regression'
         run: node scripts/boardworld-browser.mjs --serve .output/public
