@@ -1,12 +1,13 @@
 /** Frozen released-v7 migration and writer isolation, not a player journey. */
 import test, { after } from "node:test";
+import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { spawnSync } from "node:child_process";
-import { loadExpansionRuntime, resolveAction, validateState } from "../public/games/tc-sim-boardworld/engine.mjs";
+import { createGame, loadExpansionRuntime, resolveAction, validateState } from "../public/games/tc-sim-boardworld/engine.mjs";
 import { exportGame, importGame, loadExpansionLocked, saveExpansionLocked } from "../public/games/tc-sim-boardworld/persistence.mjs";
 import { getPlace } from "../public/games/tc-sim-boardworld/expansion-districts.mjs";
 
@@ -88,4 +89,15 @@ test("DS3 capability rejects downgrade, missing domains and malformed marker",()
   }
   const broken=structuredClone(state); broken.expansion.deepSociety=4;
   assert.equal(validateState(broken),false);
+});
+
+// Retain the published initial-byte contract independently of the new envelope.
+test("DS3 adds only declared domains to the frozen LW2 initial state",()=>{
+  const options={seed:303,scenario:"restart",expansion:true};
+  const prior=old.createGame(options), current=createGame(options);
+  assert.equal(createHash("sha256").update(oldIo.exportGame(prior)).digest("hex"),
+    "28f77d0ecb86901dae8e10805388b78cbdfbcf54fbeb7fd3b5f47d015a56c26b");
+  const clone=structuredClone(current);
+  for(const field of ["deepSociety","society","stories"]) delete clone.expansion[field];
+  assert.deepEqual(clone,prior);
 });

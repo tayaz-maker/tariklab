@@ -1704,7 +1704,8 @@ function settleRegionalResidents(s, api) {
     if (!decisionDay) continue;
     const profile = s.expansion.society && residentPersonality(s, id, life.generation);
     const socialDays = profile?.goal === "connections" ? 7 : profile?.goal === "security" ? 28 : 14;
-    if ((d + index) % socialDays === 0) residentSocialTrip(s, api, resident, n, districtId);
+    const seekingWork = profile && age < 67 && !life.employer;
+    if (!seekingWork && (d + index) % socialDays === 0) residentSocialTrip(s, api, resident, n, districtId);
     if (age >= 67 || activity.trip) continue;
     if (
       n.cash >= (life.employer ? 1700 : 680) &&
