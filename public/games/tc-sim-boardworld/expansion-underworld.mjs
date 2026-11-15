@@ -12,6 +12,9 @@ const SHRINK_AFTER = 60 * DAY;
 const RESTRICTION_DAYS = 30;
 const RESTITUTION = 120;
 const FINE = 420;
+const RECOVERY = 280;
+const recoveryLabel = "Örgütü yeniden faaliyete geçir";
+const recoveryDetail = "Ödeme örgüt kasasına girer; ikinci bir çalışan dönünce faaliyet yeniden başlar.";
 const CREDIT_REASONS = /^(?:loan$|economy:(?:mortgage:|business-credit$))/;
 const LICENSE_REASONS = /^(?:institution:accept$|district:apply$)/;
 const CHAPTERS = [
@@ -94,6 +97,10 @@ const staffGeneration = (chapter, index, day) =>
 const currentStaffId = (chapter, account, index) =>
   staffId(chapter, index, account.roster[index].generation);
 const rostered = (row) => row.joinedDay !== null && row.leftDay === null;
+const strategies = ["security", "trade", "expansion"];
+const politicsOf = (s, chapter) => s.expansion.society?.organizations?.[chapter.id];
+const factionOf = (chapter, row, index) =>
+  strategies[(chapter.index + index + row.generation - 1) % strategies.length];
 function staffIdentity(chapter, id) {
   if (typeof id !== "string") return null;
   const [org, kind, slot, version, ...extra] = id.split(":");
@@ -186,6 +193,19 @@ function makeState(lastDay) {
 
 const emptyTerritory = () => Object.fromEntries(CHAPTERS.map(({ id }) => [id, {}]));
 
+export function initOrganizationPolitics(s) {
+  const x = state(s) ?? makeState(dayOf(s.time));
+  return Object.fromEntries(CHAPTERS.map(({ id }) => [id, {
+    leaderId: x.chapters[id].leader, legitimacy: 67, strategy: "trade", lastPolicyDay: 0,
+    closedDay: null, capital: 0, history: [],
+  }]));
+}
+
+function politicalMemory(politics, kind, day, details = {}) {
+  politics.history.push({ kind, day, ...details });
+  if (politics.history.length > 8) politics.history.shift();
+}
+
 export function migrateUnderworld(s) {
   const x = state(s);
   if (!x || Object.hasOwn(x, "territory")) return;
@@ -263,6 +283,12 @@ function replaceLeader(x, chapter) {
   account.leader = currentStaffId(chapter, account, candidates[0].index);
 }
 
+function observeLeader(politics, account, today) {
+  if (politics.leaderId === account.leader) return;
+  politics.leaderId = account.leader;
+  politicalMemory(politics, "succession", today, { actorId: account.leader });
+}
+
 function closeMembership(s, x, api, member, died) {
   const chapter = catalog.get(member.chapterId);
   if (taskOpen(member.task)) {
@@ -271,7 +297,11 @@ function closeMembership(s, x, api, member, died) {
   }
   member.leftAt = s.time;
   member.trust = clamp(member.trust - (died ? 0 : 12));
-  if (x.chapters[chapter.id].leader === member.personId) replaceLeader(x, chapter);
+  if (x.chapters[chapter.id].leader === member.personId) {
+    replaceLeader(x, chapter);
+    const politics = politicsOf(s, chapter);
+    if (politics) observeLeader(politics, x.chapters[chapter.id], dayOf(s.time));
+  }
   const subject = person(s, member.personId).name;
   if (died) event(s, api, subject, "Üyelik ölümle sona erdi.");
   else api.expansionEvent(s, "underworld", subject, "Örgüt üyeliği sona erdi.");
@@ -366,10 +396,15 @@ function openCase(s, api, incident, row, automatic = true) {
 
 function decision(s, x, api, row, incident) {
   const chapter = catalog.get(incident.offenderChapterId);
+  const victim = catalog.get(incident.chapterId);
   const subject = incident.offscreen
     ? staffIdentity(chapter, incident.personId)
     : person(s, incident.personId);
-  const corroborated = incident.evidence.length === 2;
+  const corroborated = incident.evidence.some(({ kind, source, observedAt }) =>
+    kind === "stock" && source === victim.id && observedAt === incident.at) &&
+    incident.evidence.some(({ kind, source, observedAt }) =>
+      kind === "witness" && observedAt === incident.at && source !== incident.personId &&
+      staffIdentity(victim, source));
   row.status = corroborated ? "convicted" : "acquitted";
   row.decidedAt = s.time;
   row.reviewDay = null;
@@ -483,6 +518,7 @@ function reserveDepartingFines(s, x, api, chapter, actorId, staff) {
 
 function renewRoster(s, x, api, chapter, today) {
   const account = x.chapters[chapter.id];
+  const closed = politicsOf(s, chapter)?.closedDay;
   let leaderLeft = false;
   for (const [index, member] of account.roster.entries()) {
     const generation = staffGeneration(chapter, index, today);
@@ -492,7 +528,10 @@ function renewRoster(s, x, api, chapter, today) {
     reserveDepartingFines(s, x, api, chapter, departingId, member);
     // Retiring workers keep earnings above their personal case reserve.
     // The new staff member starts with a separate identity and zero wages.
-    Object.assign(member, { generation, loyalty: 52, joinedDay: today, leftDay: null, purse: 0 });
+    const active = !closed || rostered(member);
+    Object.assign(member, {
+      generation, loyalty: active ? 52 : 0, joinedDay: active ? today : null, leftDay: null, purse: 0,
+    });
   }
   if (leaderLeft) {
     replaceLeader(x, chapter);
@@ -544,11 +583,14 @@ function runChapterDay(s, x, api, chapter, today) {
       Object.assign(reserveStaff, { loyalty: 52, joinedDay: today });
   }
 
-  if (today % 7 !== 1 && account.stock < 8) {
+  const strategy = politicsOf(s, chapter)?.strategy;
+  const stockTarget = strategy === "security" ? 6 : 8;
+  const reserves = strategy === "expansion" ? 55 : strategy === "security" ? 145 : 80;
+  if (today % 7 !== 1 && account.stock < stockTarget) {
     const units = Math.min(
       3,
-      8 - account.stock,
-      Math.max(0, Math.floor((available() - 80) / wholesale)),
+      stockTarget - account.stock,
+      Math.max(0, Math.floor((available() - reserves) / wholesale)),
     );
     // Independent wholesale supplier sells real depot units. No other ledger
     // represents these deliveries, and the chapter pays the supplier once.
@@ -565,6 +607,105 @@ function runChapterDay(s, x, api, chapter, today) {
   account.readiness = clamp(account.readiness + (sold ? 2 : -1));
   account.heat = clamp(account.heat - 1);
   return sold;
+}
+
+function factionMembers(chapter, account) {
+  return account.roster.flatMap((row, index) => rostered(row) ? [{
+    row, index, faction: factionOf(chapter, row, index), id: currentStaffId(chapter, account, index),
+    ambition: [55, 82, 67][(index + row.generation - 1) % 3],
+  }] : []);
+}
+
+function tickOrganizationPolitics(s, x, api, today) {
+  for (const chapter of CHAPTERS) {
+    const account = x.chapters[chapter.id];
+    const politics = politicsOf(s, chapter);
+    observeLeader(politics, account, today);
+    if (politics.closedDay !== null) continue;
+    if ((today + chapter.index) % 7 !== 0) continue;
+    const oldRoster = account.roster.find((row) => row.leftDay !== null && row.leftDay + 14 <= today);
+    if (oldRoster && account.treasury >= 280 && account.readiness >= 34) {
+      oldRoster.joinedDay = today;
+      oldRoster.leftDay = null;
+      oldRoster.loyalty = 54;
+      politicalMemory(politics, "reorganization", today, {
+        actorId: currentStaffId(chapter, account, account.roster.indexOf(oldRoster)),
+      });
+    }
+    const members = factionMembers(chapter, account);
+    const playerLeader = membershipOf(x, account.leader);
+    const stressed = account.treasury < 550 || account.readiness < 42;
+    for (const { row, faction, ambition } of members) {
+      const disagreement = stressed || (ambition >= 80 && politics.strategy === "expansion");
+      row.loyalty = clamp(row.loyalty + (faction === politics.strategy ? 4 : disagreement ? -14 : -4));
+    }
+    const mood = members.reduce((sum, { row }) => sum + row.loyalty, 0) / Math.max(1, members.length);
+    politics.legitimacy = clamp(Math.round(mood + (account.readiness - account.heat - 45) / 3));
+    const challengers = members.filter(({ id }) => id !== account.leader);
+    const contender = challengers.filter(({ ambition, row, faction }) =>
+      ambition >= 65 && row.loyalty >= 43 && faction !== politics.strategy)
+      .sort((a, b) => b.ambition + b.row.loyalty - a.ambition - a.row.loyalty)[0];
+    if (contender && politics.legitimacy < (playerLeader ? 36 : 54 + Math.floor((contender.ambition - 65) / 3))) {
+      if (playerLeader) playerLeader.rank = 2;
+      account.leader = contender.id;
+      politics.strategy = contender.faction;
+      politics.legitimacy = Math.max(44, politics.legitimacy);
+      observeLeader(politics, account, today);
+      api.expansionEvent(s, "underworld.succession", chapter.id, contender.id);
+      continue;
+    }
+    const deserter = challengers.find(({ row, faction, ambition }) =>
+      row.loyalty <= 31 && faction !== politics.strategy && ambition >= 65);
+    if (deserter && members.length >= 2) {
+      deserter.row.leftDay = today;
+      account.readiness = clamp(account.readiness - 16);
+      account.influence = clamp(account.influence - 10);
+      politicalMemory(politics, "betrayal", today, { actorId: deserter.id });
+      api.expansionEvent(s, "underworld.betrayal", chapter.id, deserter.id);
+    }
+    if (playerLeader) continue;
+    const leader = members.find(({ id }) => id === account.leader);
+    if (!leader) continue;
+    const strategy = stressed || account.heat >= 35 ? "security"
+      : account.treasury >= 900 ? leader.faction : "trade";
+    if (strategy !== politics.strategy) {
+      politics.strategy = strategy;
+      politicalMemory(politics, strategy, today, { actorId: leader.id });
+    }
+  }
+}
+
+function reorganize(account, politics, today) {
+  const hire = account.roster.find((row) => !rostered(row));
+  if (hire && account.roster.filter(rostered).length < 2)
+    Object.assign(hire, { loyalty: 54, joinedDay: today, leftDay: null });
+  politics.closedDay = null;
+  politics.strategy = "security";
+  account.readiness = Math.max(35, account.readiness);
+  politicalMemory(politics, "reorganization", today, { actorId: account.leader });
+}
+
+function chapterOperates(s, x, api, chapter, today) {
+  const politics = politicsOf(s, chapter);
+  if (!politics) return true;
+  const account = x.chapters[chapter.id];
+  const reserve = reservations(x, chapter.id);
+  if (politics.closedDay !== null) {
+    if (account.treasury - reserve.treasury >= RECOVERY) {
+      reorganize(account, politics, today);
+      return true;
+    }
+    if (account.stock > reserve.stock) sell(s, api, chapter, account, 1, canTransferOrder(s, api, chapter, 1));
+    account.heat = clamp(account.heat - 1);
+    return false;
+  }
+  if (account.treasury - reserve.treasury >= 120 || account.readiness >= 28 || account.roster.filter(rostered).length >= 2) return true;
+  if (x.offer?.chapterId === chapter.id) x.offer = null;
+  politics.closedDay = today;
+  account.influence = 0;
+  x.territory[chapter.id] = {};
+  politicalMemory(politics, "dissolution", today, { actorId: account.leader });
+  return false;
 }
 
 function tradeAllies(x, first, second, today) {
@@ -597,12 +738,16 @@ function settleRelations(s, x, api, today, sales) {
   for (const [first, second] of rivals) {
     const left = catalog.get(first),
       right = catalog.get(second);
+    if (politicsOf(s, left)?.closedDay || politicsOf(s, right)?.closedDay) continue;
     const link = x.relations[pairId(left, right)];
     if (link.standing >= 30 && (today + left.index) % 3 === 0) tradeAllies(x, left, right, today);
     if ((today + right.index) % 7 !== 0) continue;
     const previous = link.standing;
-    if (sales.has(first) !== sales.has(second)) link.standing = clamp(link.standing - 8, -100);
-    else link.standing = clamp(link.standing + 4, -100);
+    const strategiesInMarket = [politicsOf(s, left)?.strategy, politicsOf(s, right)?.strategy];
+    const contestedSuppliers = sales.has(first) && sales.has(second) && strategiesInMarket.includes("expansion");
+    if (sales.has(first) !== sales.has(second) || contestedSuppliers) link.standing = clamp(link.standing - 8, -100);
+    else link.standing = clamp(link.standing +
+      (previous >= 0 && strategiesInMarket.every((policy) => policy === "trade") ? 6 : 4), -100);
     if (previous >= -45 && link.standing < -45) {
       for (const id of [first, second]) {
         const account = x.chapters[id];
@@ -618,6 +763,8 @@ function settleRelations(s, x, api, today, sales) {
 }
 
 function settleTerritory(s, x, api, chapter, today) {
+  const politics = politicsOf(s, chapter);
+  if (politics) return planTerritory(s, x, api, chapter, today, politics);
   const control = x.territory[chapter.id];
   const account = x.chapters[chapter.id];
   const assistants = account.roster.filter(rostered).length;
@@ -650,6 +797,83 @@ function settleTerritory(s, x, api, chapter, today) {
   control[district.id] = clamp((control[district.id] ?? 0) + 25 + assistants * 2, 0, 85);
 }
 
+function territoryTerms(s, x, api, chapter, id) {
+  const district = api.getDistrictSimulation(s, id);
+  const account = x.chapters[chapter.id];
+  const influence = districtInfluence(x, chapter, id);
+  const rivalry = CHAPTERS.reduce((pressure, other) =>
+    other === chapter ? pressure : Math.max(pressure, districtInfluence(x, other, id)), 0);
+  const home = chapterDistrict(chapter);
+  const route = id === home ? { available: true, minutes: 0, cost: 0 }
+    : routeBetween(s, home, id, { actor: "npc", at: (dayOf(s.time) - 1) * DAY + 9 * 60 });
+  const attention = clamp(account.heat + Math.floor(rivalry / 3));
+  const sentiment = clamp(district.security + Math.floor((influence - attention) / 4));
+  return {
+    districtId: id, influence, rivalry, attention, sentiment,
+    name: districtById(id).name,
+    demand: district.demand, security: district.security,
+    recruitment: clamp(60 - district.jobOpenings * 4 - Math.floor(rivalry / 3)),
+    connections: api.underworldOrder(s, chapter.regionId, 0, id)?.capacity ?? 0,
+    cost: (route?.cost ?? 0) * 2 + 22 + Math.floor((attention + influence) / 4),
+    accessible: Boolean(route?.available && route.minutes <= 120),
+  };
+}
+
+function planTerritory(s, x, api, chapter, today, politics) {
+  const account = x.chapters[chapter.id];
+  const control = x.territory[chapter.id];
+  const staff = account.roster.filter(rostered).length;
+  const reserve = reservations(x, chapter.id);
+  const available = () => account.treasury - reserve.treasury;
+  const footprint = Object.keys(control).length;
+  for (const [id, influence] of Object.entries(control)) {
+    const terms = territoryTerms(s, x, api, chapter, id);
+    const funded = terms.accessible && available() >= terms.cost + 80 && staff >= 2;
+    if (funded) {
+      account.treasury -= terms.cost;
+      account.ledger.outreach += terms.cost;
+    }
+    const decay = (funded ? 7 + footprint * 2 : 24) + Math.floor(terms.attention / 6) + (terms.rivalry > influence ? 8 : 0);
+    if (influence > decay) control[id] -= decay;
+    else {
+      delete control[id];
+      politicalMemory(politics, funded ? "pressure" : "withdrawal", today, { districtId: id });
+      api.expansionEvent(s, "underworld.withdrawal", id, chapter.name);
+    }
+  }
+  if (account.influence < 17 || account.heat >= 50 || staff < 2 || account.stock <= reserve.stock) return;
+  const strategyReserve = politics.strategy === "security" ? 340 : politics.strategy === "expansion" ? 95 : 160;
+  const home = chapterDistrict(chapter);
+  const capacity = politics.strategy === "security" ? 1 : politics.strategy === "trade" ? 2 : MAX_TERRITORIES;
+  const atCapacity = Object.keys(control).length >= capacity;
+  let choice;
+  let best = -Infinity;
+  const options = cityDistricts(chapter.regionId);
+  for (const [index, { id }] of options.entries()) {
+    if (id === home || (atCapacity && !control[id])) continue;
+    const terms = territoryTerms(s, x, api, chapter, id);
+    if (!terms.accessible || !terms.connections || available() < terms.cost + strategyReserve) continue;
+    const priority = terms.demand + terms.sentiment + 5 * terms.connections + terms.recruitment
+      - terms.attention - Math.floor(terms.cost / 3) - Math.floor(terms.influence / 2)
+      + (politics.strategy === "expansion" ? Math.min(18, Math.floor(terms.rivalry / 3)) : -Math.floor(terms.rivalry / 2))
+      + (politics.strategy === "security" && control[id] ? 45 : 0)
+      + ((Math.floor(today / 7) + index * 7 + chapter.index * 3) % options.length) * 3;
+    if (priority > best) {
+      best = priority;
+      choice = terms;
+    }
+  }
+  if (!choice || !sell(s, api, chapter, account, 1, canTransferOrder(s, api, chapter, 1, choice.districtId))) return;
+  const { districtId, cost, rivalry } = choice;
+  account.treasury -= cost;
+  account.ledger.outreach += cost;
+  if (!control[districtId]) {
+    politicalMemory(politics, rivalry ? "contested" : "outreach", today, { districtId, cost });
+    api.expansionEvent(s, "underworld.outreach", districtId, chapter.name);
+  } else politicalMemory(politics, "reinforcement", today, { districtId, cost });
+  control[districtId] = clamp((control[districtId] ?? 0) + 24 + staff * 2 - Math.floor(rivalry / 9), 0, 85);
+}
+
 export function tickUnderworld(s, api) {
   if (!s.expansion) return;
   const x = state(s) ?? (s.expansion.underworld = makeState(Math.max(1, api.dayOf(s) - 1)));
@@ -670,11 +894,13 @@ export function tickUnderworld(s, api) {
   const sales = new Set();
   for (let offset = 0; offset < CHAPTERS.length; offset++) {
     const chapter = CHAPTERS[(today + offset) % CHAPTERS.length];
+    if (!chapterOperates(s, x, api, chapter, today)) continue;
     if (runChapterDay(s, x, api, chapter, today)) sales.add(chapter.id);
     if ((today + chapter.index) % 7 === 0) settleTerritory(s, x, api, chapter, today);
   }
   settleRelations(s, x, api, today, sales);
   raidOffscreen(s, x, api, today);
+  if (s.expansion.society) tickOrganizationPolitics(s, x, api, today);
 }
 
 function districtInfluence(x, chapter, id) {
@@ -837,6 +1063,7 @@ function raidOffscreen(s, x, api, today) {
     const left = catalog.get(first),
       right = catalog.get(second);
     if (
+      politicsOf(s, left)?.closedDay || politicsOf(s, right)?.closedDay ||
       (today + left.index * 3 + right.index) % 19 !== 0 ||
       x.relations[pairId(left, right)].standing >= -18
     )
@@ -941,6 +1168,48 @@ function settleClaim(s, x, row, incident, api, payFine, amount) {
 const completion = new WeakMap();
 const disabledForFunds = (s, cost) => (funds(s) < cost ? "Bu işlem için yeterli bakiye yok." : "");
 
+function underworldAction(s, actions, key, label, description, minutes, reason, run, cost = 0, category = "underworld") {
+  const problem = reason || disabledForFunds(s, cost);
+  const action = {
+    id: `underworld:${key}`, label, description, category, minutes, cost, pay: "total",
+    disabled: Boolean(problem), reason: problem, run: () => PENDING,
+  };
+  completion.set(action, run);
+  actions.push(action);
+}
+
+const policyText = {
+  security: ["Güvenliğe öncelik ver", "Stok hedefini düşür; mevcut bölgelere ve nakit rezervine öncelik ver."],
+  trade: ["Ticarete öncelik ver", "Alıcılara ve ticaret yanlısı örgütlerle ilişkilere öncelik ver."],
+  expansion: ["Yayılmaya öncelik ver", "Daha çok bölgede faaliyet göster; nakit rezervi ve kadro desteği azalabilir."],
+};
+const policyReason = "Yeni bir karar için altı gün geçmeli.";
+
+export function organizationPolicyActions(s, api) {
+  const x = state(s);
+  const member = membershipOf(x, s.expansion?.playerId);
+  const chapter = catalog.get(member?.chapterId);
+  if (member?.rank !== 3 || !alive(s) || !api || api.getPlace(s).regionId !== chapter.regionId) return [];
+  const politics = politicsOf(s, chapter);
+  if (!politics || politics.closedDay !== null) return [];
+  const actions = [];
+  for (const strategy of strategies) {
+    if (strategy === politics.strategy) continue;
+    const reason = localReason(s, api, chapter, 25, "social") ||
+      (politics.lastPolicyDay && dayOf(s.time) - politics.lastPolicyDay < 6 ? policyReason : "");
+    underworldAction(s, actions, `policy:${strategy}`, ...policyText[strategy], 25, reason, (next, nextState) => {
+      if (nextState.chapters[chapter.id].leader !== member.personId) return "İşlem tamamlanmadı.";
+      const agenda = politicsOf(next, chapter);
+      const today = dayOf(next.time);
+      agenda.strategy = strategy;
+      agenda.lastPolicyDay = today;
+      politicalMemory(agenda, strategy, today, { actorId: member.personId });
+      return resultEvent(next, api, policyText[strategy][0], chapter.name);
+    });
+  }
+  return actions;
+}
+
 export function underworldActions(s, api) {
   if (!s.expansion || !alive(s) || !api) return [];
   const x = state(s) ?? makeState(dayOf(s.time));
@@ -949,27 +1218,26 @@ export function underworldActions(s, api) {
   const local = api.getPlace(s);
   const actions = [];
 
-  function add(key, label, description, minutes, reason, run, cost = 0, category = "underworld") {
-    const problem = reason || disabledForFunds(s, cost);
-    const action = {
-      id: `underworld:${key}`,
-      label,
-      description,
-      category,
-      minutes,
-      cost,
-      pay: "total",
-      disabled: Boolean(problem),
-      reason: problem,
-      run: () => PENDING,
-    };
-    completion.set(action, run);
-    actions.push(action);
-  }
+  const add = (...args) => underworldAction(s, actions, ...args);
 
   for (const chapter of CHAPTERS) {
     if (chapter.regionId !== local.regionId) continue;
     const account = x.chapters[chapter.id];
+    if (politicsOf(s, chapter)?.closedDay) {
+      const amount = Math.max(0, RECOVERY + reservations(x, chapter.id).treasury - account.treasury);
+      add(`reorganize:${chapter.id}`, recoveryLabel, recoveryDetail, 25,
+        localReason(s, api, chapter, 25, "work"), (next, nextState) => {
+          const restored = nextState.chapters[chapter.id];
+          const politics = politicsOf(next, chapter);
+          restored.treasury += amount;
+          politics.capital += amount;
+          reorganize(restored, politics, dayOf(next.time));
+          return resultEvent(next, api, recoveryLabel, chapter.name);
+        }, amount);
+      if (member?.chapterId === chapter.id)
+        memberActions(s, x, api, chapter, member, (key, ...args) => { if (key === "leave") add(key, ...args); });
+      continue;
+    }
     if (!member) {
       const capacity =
         x.memberships.length >= MAX_MEMBERSHIPS && !formerOf(x, id, chapter.id)
@@ -1012,7 +1280,7 @@ export function underworldActions(s, api) {
       memberActions(s, x, api, chapter, member, add);
     } else {
       const ownChapter = catalog.get(member.chapterId);
-      if (ownChapter.regionId === chapter.regionId) {
+      if (ownChapter.regionId === chapter.regionId && !politicsOf(s, ownChapter)?.closedDay) {
         const ownAccount = x.chapters[ownChapter.id];
         const link = x.relations[pairId(ownChapter, chapter)];
         const raidReason = activePenalty(s, id)
@@ -1232,7 +1500,10 @@ function memberActions(s, x, api, chapter, member, add) {
         (activePenalty(s, member.personId) ? RESTRICTION_REASON : ""),
       (next, nextState) => {
         getMember(nextState).rank = 3;
-        nextState.chapters[chapter.id].leader = member.personId;
+        const promoted = nextState.chapters[chapter.id];
+        promoted.leader = member.personId;
+        const politics = politicsOf(next, chapter);
+        if (politics) observeLeader(politics, promoted, dayOf(next.time));
         return resultEvent(next, api, "Örgütün liderliğini üstlendin.", chapter.name);
       },
     );
@@ -1380,7 +1651,8 @@ function validChapter(s, x, chapter, today) {
         chapter.index * 90 +
         l.sales +
         l.alliedEarned +
-        l.restored -
+        l.restored +
+        (politicsOf(s, chapter)?.capital ?? 0) -
         l.wholesale -
         l.payroll -
         l.alliedSpent -
@@ -1729,6 +2001,72 @@ const relationStatus = (standing) =>
   standing >= 30 ? "İttifak" : standing <= -20 ? "Rekabet" : "Tarafsız";
 const ownActions = (actions, keys) => actions.map(({ id }) => id).filter((id) => keys.test(id));
 
+export function organizationSocietyView(s, api) {
+  const x = state(s) ?? makeState(dayOf(s.time));
+  const member = membershipOf(x, s.expansion.playerId);
+  return CHAPTERS.map((chapter) => {
+    const account = x.chapters[chapter.id];
+    const politics = politicsOf(s, chapter);
+    const known = member?.chapterId === chapter.id || x.offer?.chapterId === chapter.id;
+    const members = known ? factionMembers(chapter, account) : [];
+    return {
+      id: chapter.id, name: chapter.name, districtId: chapterDistrict(chapter),
+      leader: known ? staffName(chapter, account.leader) ?? person(s, account.leader)?.name : null,
+      leaderId: known ? account.leader : null,
+      legitimacy: politics.legitimacy,
+      strategy: politics.strategy,
+      dissolved: politics.closedDay !== null,
+      reorganizing: politics.closedDay !== null || account.treasury < 180 || account.readiness < 25,
+      factions: known ? strategies.map((id) => {
+        const faction = members.filter(({ faction }) => faction === id);
+        return {
+          id, support: Math.round(faction.reduce((sum, { row }) => sum + row.loyalty, 0) / Math.max(1, faction.length)),
+          members: faction.map(({ id: actorId, row, ambition }) => ({
+            id: actorId, name: staffName(chapter, actorId), loyalty: row.loyalty, ambition,
+            role: account.leader === actorId ? "leader" : ambition >= 65 ? "organizer" : "member",
+          })),
+        };
+      }) : [],
+      history: known ? politics.history.map((row) => ({
+        ...row, actor: row.actorId && (staffName(chapter, row.actorId) ?? person(s, row.actorId)?.name),
+      })) : politics.history.filter(({ districtId }) => districtId),
+      territories: [chapterDistrict(chapter), ...Object.keys(x.territory?.[chapter.id] ?? {})]
+        .map((id) => territoryTerms(s, x, api, chapter, id)),
+      treasury: known ? account.treasury : null,
+      stock: known ? account.stock : null,
+      actionIds: politics.closedDay !== null ? [`underworld:reorganize:${chapter.id}`]
+        : member?.chapterId === chapter.id && member.rank === 3
+        ? strategies.filter((id) => id !== politics.strategy).map((id) => `underworld:policy:${id}`) : [],
+    };
+  });
+}
+
+export function validateOrganizationPolitics(s, organizations, today) {
+  if (!keys(organizations, CHAPTERS.map(({ id }) => id))) return false;
+  return CHAPTERS.every((chapter) => {
+    const row = organizations[chapter.id];
+    const actor = (id) => typeof id === "string" && Boolean(staffIdentity(chapter, id) || person(s, id));
+    if (!keys(row, ["leaderId", "legitimacy", "strategy", "lastPolicyDay", "closedDay", "capital", "history"]) ||
+        !actor(row.leaderId) || !inRange(row.legitimacy, 0, 100) ||
+        !inRange(row.capital, 0, Number.MAX_SAFE_INTEGER) ||
+        (row.closedDay !== null && (!inRange(row.closedDay, 1, today) ||
+          !state(s) || state(s).chapters[chapter.id].influence !== 0 ||
+          Object.keys(state(s).territory?.[chapter.id] ?? {}).length > 0)) ||
+        !strategies.includes(row.strategy) || !inRange(row.lastPolicyDay, 0, today) || !list(row.history, 8)) return false;
+    return row.history.every((entry, index) => {
+      if (!inRange(entry?.day, index ? row.history[index - 1].day : 1, today)) return false;
+      const { kind, districtId, actorId, cost } = entry;
+      if (["succession", "betrayal", "dissolution", "reorganization", ...strategies].includes(kind))
+        return keys(entry, ["kind", "day", "actorId"]) && typeof actorId === "string" && actor(actorId);
+      const district = districtById(districtId);
+      if (!district || district.id !== districtId || district.regionId !== chapter.regionId || districtId === chapterDistrict(chapter)) return false;
+      if (kind === "pressure" || kind === "withdrawal") return keys(entry, ["kind", "day", "districtId"]);
+      return ["outreach", "reinforcement", "contested"].includes(kind) &&
+        keys(entry, ["kind", "day", "districtId", "cost"]) && inRange(cost, 1, MAX);
+    });
+  });
+}
+
 export function underworldView(s, api) {
   if (!s.expansion) return null;
   const x = state(s) ?? makeState(dayOf(s.time));
@@ -1752,7 +2090,7 @@ export function underworldView(s, api) {
           districtId, influence, name: districtById(districtId).name,
         })),
         influence: account.influence,
-        recruiting: recruiting(account),
+        recruiting: !politicsOf(s, chapter)?.closedDay && recruiting(account),
         leader: known
           ? (staffName(chapter, account.leader) ?? person(s, account.leader)?.name ?? null)
           : null,
@@ -1768,7 +2106,7 @@ export function underworldView(s, api) {
           }),
         actionIds: ownActions(
           actions,
-          new RegExp(`^underworld:(?:recruit|join|raid|negotiate):${chapter.id}$`),
+          new RegExp(`^underworld:(?:recruit|join|raid|negotiate|reorganize):${chapter.id}$`),
         ),
       };
     }),
@@ -1816,6 +2154,7 @@ export function underworldView(s, api) {
             ? staffName(catalog.get(incident.offenderChapterId), incident.personId)
             : person(s, incident.personId).name,
           status: own || incident.offscreen ? CASE_STATES[row.status] : "Tereke tazminatı",
+          stage: own || incident.offscreen ? row.status : "estate",
           reportedAt: row.reportedAt,
           reviewDay: row.reviewDay,
           decidedAt: row.decidedAt,
@@ -2173,6 +2512,18 @@ const FORMATS = [
     "Awans wymaga $1 zaufania i $2 odpowiedzialności.",
   ],
 ];
+
+for (const [source, en, pl] of [
+  [recoveryLabel, "Reorganize the chapter", "Zreorganizuj oddział"],
+  [recoveryDetail, "The payment goes into the treasury. Operations resume when a second worker returns.", "Wpłata trafia do kasy. Działalność zostanie wznowiona, gdy wróci drugi pracownik."],
+  [policyText.security[0], "Prioritize security", "Daj pierwszeństwo bezpieczeństwu"],
+  [policyText.security[1], "Lower the stock target and prioritize existing districts and cash reserves.", "Obniż cel zapasów i chroń obecne dzielnice oraz rezerwy gotówki."],
+  [policyText.trade[0], "Prioritize trade", "Daj pierwszeństwo handlowi"],
+  [policyText.trade[1], "Prioritize buyers and relations with trade-oriented organizations.", "Skup się na kupcach i relacjach z organizacjami nastawionymi na handel."],
+  [policyText.expansion[0], "Prioritize expansion", "Daj pierwszeństwo ekspansji"],
+  [policyText.expansion[1], "Operate in more districts. Cash reserves and roster support may fall.", "Działaj w większej liczbie dzielnic. Rezerwy gotówki i poparcie załogi mogą spaść."],
+  [policyReason, "Wait six days before changing policy again.", "Odczekaj sześć dni przed kolejną zmianą strategii."],
+]) TRANSLATIONS.set(source, [en, pl]);
 
 export function localizeUnderworldText(text, language) {
   if ((language !== "en" && language !== "pl") || typeof text !== "string") return text;

@@ -41,6 +41,7 @@ jobs:
           git fetch --no-tags --depth=1 origin d695119186cad42c079a911a60c372f201b3b64b
           git fetch --no-tags --depth=1 origin b0c25495a7c162eb4a653e32c0d999144aefb300
           git fetch --no-tags --depth=1 origin 2b1ede2be7466348e3933eba26b83a3831241bce
+          git fetch --no-tags --depth=1 origin d2c1810da439dd831fff07992c1c278788a64a4c
       - uses: ./.github/actions/ci-node
       - name: Every deterministic case and save recovery workload
         run: node scripts/ci-parallel.mjs run boardworld ${{ matrix.shard }} 4
@@ -64,6 +65,7 @@ jobs:
           git fetch --no-tags --depth=1 origin d695119186cad42c079a911a60c372f201b3b64b
           git fetch --no-tags --depth=1 origin b0c25495a7c162eb4a653e32c0d999144aefb300
           git fetch --no-tags --depth=1 origin 2b1ede2be7466348e3933eba26b83a3831241bce
+          git fetch --no-tags --depth=1 origin d2c1810da439dd831fff07992c1c278788a64a4c
       - uses: ./.github/actions/ci-node
       - uses: actions/download-artifact@v4
         with:
@@ -107,7 +109,12 @@ jobs:
           node scripts/boardworld-lw2-simulation-browser.mjs .output/public
       - name: Released v7 native browser writer isolation
         if: matrix.suite == 'regression'
-        run: node scripts/boardworld-lw2-legacy-browser.mjs .output/public
+        run: |
+          node scripts/boardworld-lw2-legacy-browser.mjs .output/public
+          BOARDWORLD_LEGACY_REFERENCE=d2c1810da439dd831fff07992c1c278788a64a4c node scripts/boardworld-lw2-legacy-browser.mjs .output/public
+      - name: Deep Society choices, localization and durable consequences
+        if: matrix.suite == 'regression'
+        run: node scripts/boardworld-ds3-browser.mjs .output/public
       - name: Gold native cross-tab transaction and import races
         if: matrix.suite == 'regression'
         run: |

@@ -1,3 +1,4 @@
+import { renderStories, renderFamilyStories, renderBusinessStories, renderSociety, localizeStoryText } from "./expansion-stories-ui.mjs";
 import { renderLiving, localizeLivingText } from './expansion-living-ui.mjs';
 import { t as tx } from "./i18n.mjs";
 import { COURSES } from "./content.mjs";
@@ -79,6 +80,7 @@ const eventNames = {
 
 export function translateExpansionAction(action, language) {
   const prefix = action.id.split(":")[0];
+  if (prefix === "story") return Object.fromEntries(Object.entries(action).map(([key,value]) => [key, ["label", "description", "reason"].includes(key) ? localizeStoryText(value, language) : value]));
   if (prefix === "family") return translateFamilyAction(action, language);
   // Expansion also adapts Gold business/work actions while preserving their IDs.
   return Object.fromEntries(
@@ -155,6 +157,8 @@ const outcomePatterns = [
 ];
 export function localizeExpansionOutcome(text, language) {
   if (language === "tr") return text;
+  const story = localizeStoryText(text, language);
+  if (story !== text) return story;
   for (const [pattern, en, pl] of outcomePatterns)
     if (pattern.test(text)) return text.replace(pattern, language === "pl" ? pl : en);
   return localize(text, language);
@@ -260,7 +264,7 @@ export function renderExpansion({
       `<section class="status-sheet"><div><h3>${esc(t[0])}</h3><p>${esc(family.player.name)} · ${esc(t[7])} ${family.player.age}${family.player.retired ? ` · ${esc(t[10])}` : ""}</p>
     ${familyStatus ? `<p role="status">${esc(familyStatus)}</p>${terminal ? `<button class="secondary" data-ui="export">${label("Kaydı dışa aktar", "Export save", "Eksportuj zapis")}</button>` : ""}` : ""}
     <p>${label("Hane birikimi", "Household reserve", "Oszczędności gospodarstwa")} ${money(home.reserve)} · ${label("Hane borcu", "Household arrears", "Zaległości gospodarstwa")} ${money(home.arrears)}</p><div class="family-tree">${familyRows}</div></div></section>
-    ${options("family")}`
+    ${renderFamilyStories({view, actions, actionCard, esc, language, translate: translateFamilyAction})}${options("family")}`
     );
   }
   if (section === "finance") {
@@ -278,7 +282,7 @@ export function renderExpansion({
     const company = economy.business;
     return (
       header +
-      `<section class="reference"><h3>${esc(t[1])}</h3><ul class="property-grid">${localProperties.map(propertyCard).join("")}</ul>${propertyOptions(localProperties)}${remoteProperties.length ? `<details><summary>${label("Diğer bölgeler", "Other districts", "Inne dzielnice")}</summary><ul class="property-grid">${remoteProperties.map(propertyCard).join("")}</ul>${propertyOptions(remoteProperties)}</details>` : ""}
+      `${renderBusinessStories({view, actions, actionCard, esc, language, translate: translateExpansionAction})}<section class="reference"><h3>${esc(t[1])}</h3><ul class="property-grid">${localProperties.map(propertyCard).join("")}</ul>${propertyOptions(localProperties)}${remoteProperties.length ? `<details><summary>${label("Diğer bölgeler", "Other districts", "Inne dzielnice")}</summary><ul class="property-grid">${remoteProperties.map(propertyCard).join("")}</ul>${propertyOptions(remoteProperties)}</details>` : ""}
     ${company ? `<p>${esc(company.name)} · ${tx("İşletme kasası")} ${money(company.capital)} · ${label("Stok", "Stock", "Zapasy")} ${esc(company.stock)} · ${label("Çalışan", "Employees", "Pracownicy")} ${esc(company.workers)}<br>${label("Gelir", "Revenue", "Przychód")} ${money(company.revenue)} · ${label("Gider", "Costs", "Koszty")} ${money(company.costs)} · ${label("Kâr", "Profit", "Zysk")} ${money(company.revenue - company.costs)}<br>${label("Maaş borcu", "Wages due", "Zaległe płace")} ${money(company.wageDue)} · ${label("Vergi borcu", "Tax due", "Zaległy podatek")} ${money(company.taxDue)}${company.clients != null ? `<br>${tx("Müşteri")}: ${esc(company.clients)} · ${label("İtibar", "Reputation", "Reputacja")}: ${esc(company.reputation)} · ${label("Çalışan vardiya ücreti", "Wage per worker shift", "Płaca za zmianę pracownika")}: ${money(company.wageRate)} · ${label("Birikmiş sabit gider borcu", "Accrued overhead arrears", "Zaległe koszty stałe")}: ${money(company.overhead)}` : ""}</p>` : ""}${extras}</section>`
     );
   }
@@ -450,7 +454,7 @@ export function renderExpansion({
       institutions.program && COURSES.find((c) => c.id === institutions.program.course);
     const office = institutions.regions.find((r) => r.region === world.region);
     return (
-      header + renderLiving({ view, actions, actionCard, esc, language }) +
+      header + renderLiving({ view, actions, actionCard, esc, language }) + renderStories({ view, actions, actionCard, esc, language }) + renderSociety({ view, esc, language }) +
       `<section class="reference"><h3>${esc(tx("Kurumlar"))}</h3>
     <p>${label("Kredi durumu", "Credit score", "Ocena kredytowa")} ${esc(institutions.credit)} · ${label("Kamu güveni", "Public trust", "Zaufanie publiczne")} ${office.trust}% · ${label("Yerel bütçe", "Local budget", "Budżet lokalny")} ${money(office.treasury)}</p>
     ${institutions.program ? `<p>${tx("Eğitim")}: ${esc(tx(course?.name || "Eğitim"))} · ${institutions.program.sessions}/${institutions.program.requiredSessions} · ${label("Burs", "Grant", "Stypendium")} ${money(institutions.program.grant)}</p>` : ""}

@@ -6,8 +6,11 @@ import {join} from "node:path";
 import {spawnSync} from "node:child_process";
 import {chromium} from "playwright";
 import {createStaticGameServer} from "./static-game-server.mjs";
+const released=process.env.BOARDWORLD_LEGACY_REFERENCE || "2b1ede2be7466348e3933eba26b83a3831241bce";
+const world2=released==="d2c1810da439dd831fff07992c1c278788a64a4c";
+assert.ok(world2 || released==="2b1ede2be7466348e3933eba26b83a3831241bce");
 const dir=mkdtempSync(join(tmpdir(),"boardworld-old-v7-browser-"));
-const archive=spawnSync("git",["archive","2b1ede2be7466348e3933eba26b83a3831241bce","public/games/tc-sim-boardworld"],{maxBuffer:8e6});
+const archive=spawnSync("git",["archive",released,"public/games/tc-sim-boardworld"],{maxBuffer:8e6});
 assert.equal(archive.status,0,archive.stderr?.toString());
 assert.equal(spawnSync("tar",["-x","-C",dir],{input:archive.stdout}).status,0);
 const server=createStaticGameServer(process.argv[2]||"public");await new Promise(r=>server.listen(0,"127.0.0.1",r));
@@ -42,17 +45,17 @@ try{
     const saved=await io.saveExpansionLocked(state,undefined,loaded.token);if(!saved.ok)throw Error(saved.message);
     return {state,bytes:io.exportGame(state),key:saved.token.key};
   });
-  assert.equal(canonical.key,"tariklab.boardworld.v7.living-world-2");
+  assert.equal(canonical.key,"tariklab.boardworld.v7.living-world-3");
   const stale=await old.evaluate(async()=>{const io=await import("./persistence.mjs");return io.saveExpansionLocked(window.oldState,undefined,window.oldToken);});
   assert.equal(stale.conflict,true);
   await old.reload();await old.waitForFunction(()=>window.boardworldInspect?.()?.version===7);
-  assert.equal(await old.evaluate(()=>window.boardworldInspect().expansion.livingWorld),undefined);
+  assert.equal(await old.evaluate(()=>window.boardworldInspect().expansion.livingWorld),world2?2:undefined);
   const oldWrite=await old.evaluate(async()=>{
     const engine=await import("./engine.mjs"),io=await import("./persistence.mjs"),loaded=await io.loadExpansionLocked();
     const state=engine.resolveAction(loaded.state,"wait:15").state;
     return io.saveExpansionLocked(state,undefined,loaded.token);
   });
-  assert.equal(oldWrite.ok,true);assert.equal(oldWrite.token.key,"tariklab.boardworld.v7.living");
+  assert.equal(oldWrite.ok,true);assert.equal(oldWrite.token.key,world2?"tariklab.boardworld.v7.living-world-2":"tariklab.boardworld.v7.living");
   await current.reload();await current.waitForFunction(()=>window.boardworldInspect?.()?.expansion?.livingWorld===2);
   assert.deepEqual(await current.evaluate(()=>window.boardworldInspect()),canonical.state);
   const slots=await current.evaluate(async()=>{
@@ -63,5 +66,5 @@ try{
   });
   const stored=new Map(slots);assert.equal(stored.get(canonical.key),canonical.bytes);
   assert.equal(stored.get(`${canonical.key}.backup`),initial.bytes);
-  console.log(JSON.stringify({ok:true,reference:"2b1ede2b",nativeIndexedDB:true,nativeWebLocks:true,staleRejected:true,refreshedOldBranchPreservesCanonical:true,exactOriginalBackup:true,method:"prepared save compatibility probe"}));
+  console.log(JSON.stringify({ok:true,reference:released,nativeIndexedDB:true,nativeWebLocks:true,staleRejected:true,refreshedOldBranchPreservesCanonical:true,exactOriginalBackup:true,method:"prepared save compatibility probe"}));
 }finally{await browser.close();await new Promise(r=>server.close(r));rmSync(dir,{recursive:true,force:true});}
