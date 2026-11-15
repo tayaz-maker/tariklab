@@ -151,9 +151,11 @@ try {
     const firstPaint = await surface.evaluate(
       () => performance.getEntriesByName("first-contentful-paint")[0]?.startTime || null,
     );
-    await surface.locator("[name=scenario][value=restart]").check();
+    await surface.locator('#create-form details > summary').click();
+    await surface.locator('select[name=scenario]').selectOption('restart');
     await surface.locator("#character-name").fill("Yaşayan Şehir");
     await surface.locator("[data-testid=create-game]").click();
+    await surface.waitForFunction(() => window.boardworldInspect?.()?.version === 7);
     const inspect = () => surface.evaluate(() => window.boardworldInspect());
     const snapshot = () =>
       surface.evaluate(async () => {
@@ -203,8 +205,8 @@ try {
       if (action.category !== "event") await tab(categories[action.category] || "board");
       if (action.category === "travel") {
         const district = action.destination || action.id.split(":")[1].split("-")[0];
-        if (await surface.locator(`[data-district="${district}"]`).count())
-          await surface.locator(`[data-district="${district}"]`).first().click();
+        if (await surface.locator(`[data-world-district="${district}"], [data-district="${district}"]`).count())
+          await surface.locator(`[data-world-district="${district}"], [data-district="${district}"]`).first().click();
       }
       if (id.startsWith("project:start:")) {
         await surface.locator("#project-form [name=type]").selectOption(id.split(":")[2]);
@@ -277,11 +279,11 @@ try {
       return after.calendar.entries.at(-1);
     };
     await drain();
-    assert.equal((await inspect()).version, 6);
+    assert.equal((await inspect()).version, 7);
     await tab("board");
-    assert.equal(await surface.locator(".city-node").count(), 3);
-    assert.equal(await surface.locator(".neighborhood-select").count(), 3);
-    assert.ok((await surface.locator(".venue-card").count()) >= 4);
+    assert.equal(await surface.locator(".world-node").count(), 15);
+    assert.equal(await surface.locator(".world-cities [data-world-district]").count(), 3);
+    assert.ok((await surface.locator(".world-inspector li").count()) >= 4);
     await layout("connected map");
     await surface.evaluate(() => scrollTo(0, 0));
     await page.screenshot({ path: `${output}/map-${width}.png`, fullPage: true });
@@ -455,19 +457,15 @@ try {
       const proposal = await surface.evaluate(async () => {
         const e = await import("/games/tc-sim-boardworld/engine.mjs"),
           s = window.boardworldInspect();
-        const base = {
-          kind: "meeting",
-          npcId: "leyla",
-          subjectId: "",
-          day: Math.floor(s.time / 1440) + 2,
-          venue: "besiktas-cafe",
-          duration: 60,
-          repeat: "none",
-        };
-        const slot = e
-          .getAppointmentOptions(s, base)
-          .slots.find((t) => t.available && t.counterExpected && !t.rejectionExpected);
-        return slot ? { ...base, minute: slot.minute } : null;
+        const {NPCS} = await import('/games/tc-sim-boardworld/content.mjs');
+        const today=Math.floor(s.time/1440)+1;
+        for (const npc of NPCS) for (let offset=1;offset<=7;offset++) {
+          const base={kind:'meeting',npcId:npc.id,subjectId:'',day:today+offset,
+            venue:`${npc.home}-cafe`,duration:60,repeat:'none'};
+          const slot=e.getAppointmentOptions(s,base).slots.find(t=>t.available && t.counterExpected && !t.rejectionExpected);
+          if(slot) return {...base,minute:slot.minute};
+        }
+        return null;
       });
       assert.ok(proposal, "busy NPC offers a deterministic counterproposal");
       const counter = await propose(proposal);

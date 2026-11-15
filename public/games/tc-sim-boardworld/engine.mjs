@@ -1954,12 +1954,15 @@ export function getActions(s) {
 }
 export function getIntentActions(s, { category = "", query = "", npcId = "", location = "" } = {}) {
   const q = String(query).slice(0, 100).toLocaleLowerCase("tr-TR");
+  const matchesLocation = location && s.expansion
+    ? requireExpansionRuntime().intentLocationFilter(s, location)
+    : (a) => !location || !a.destination || a.destination === location;
   return getActions(s).filter(
     (a) =>
       (!category || a.category === category) &&
       (!q || `${a.label} ${a.description}`.toLocaleLowerCase("tr-TR").includes(q)) &&
       (!npcId || a.id.includes(npcId) || a.id.startsWith("calendar:")) &&
-      (!location || !a.destination || a.destination === location),
+      matchesLocation(a),
   );
 }
 export function getDecisionView(s, options = {}) {

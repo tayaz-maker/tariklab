@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { createStaticGameServer } from "./static-game-server.mjs";
 import { checkedUrl } from "./browser-guard.mjs";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 const args = process.argv.slice(2),
   arg = (key, fallback) => (args.includes(key) ? args[args.indexOf(key) + 1] : fallback);
@@ -26,9 +26,12 @@ try {
     window.addEventListener("storage", (e) => e.stopImmediatePropagation(), true);
   });
   const url = `${origin}/games/tc-sim-boardworld/index.html`;
+  // This suite exercises the released v6 writer and migration isolation.
+  // New characters now start directly in v7, so begin from an authentic v6 save.
+  const legacy=readFileSync(resolve('scripts/fixtures/boardworld/v6-fresh-newcomer.json'),'utf8');
+  await a.addInitScript(bytes => { if (!localStorage.getItem('tariklab.boardworld.v6')) localStorage.setItem('tariklab.boardworld.v6',bytes); },legacy);
   await a.goto(url);
-  await a.locator("#character-name").fill("Save Audit");
-  await a.locator("[data-testid=create-game]").click();
+  await a.waitForFunction(() => window.boardworldInspect?.()?.version === 6);
   await b.goto(url);
   const slots = (p) =>
     p.evaluate(() => [

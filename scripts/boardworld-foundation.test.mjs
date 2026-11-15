@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createGame, getActions, loadExpansionRuntime, resolveAction, validateState } from "../public/games/tc-sim-boardworld/engine.mjs";
+import { createGame, getActions, getIntentActions, loadExpansionRuntime, resolveAction, validateState } from "../public/games/tc-sim-boardworld/engine.mjs";
 import { DISTRICTS } from "../public/games/tc-sim-boardworld/expansion-geography.mjs";
 import { economyHomeDistrict } from "../public/games/tc-sim-boardworld/expansion-economy.mjs";
 import { getLifePathCopy, getLifePathView, LIFE_PATHS } from "../public/games/tc-sim-boardworld/expansion-life-paths.mjs";
@@ -145,4 +145,14 @@ test("malformed setup is rejected and legacy expansion saves retain their origin
   assert.equal(place(restored).districtId, "kadikoy");
   assert.equal(restored.expansion.lifePath, undefined);
   assert.equal(restored.pendingEvents[0].id, "welcome");
+});
+
+test("the World intent filter separates current actions from their travel destinations", () => {
+  const state = fresh("ankara:mamak");
+  const at = (location, query = "") => getIntentActions(state, { location, query }).map(({ id }) => id);
+  assert.ok(at("ankara:mamak", "bekle").includes("wait:15"));
+  assert.deepEqual(at("izmir:konak", "bekle"), []);
+  assert.ok(at("ankara:cankaya").includes("district:travel:ankara:cankaya"));
+  assert.ok(at("izmir:konak").includes("world:move:izmir"));
+  assert.ok(!at("izmir:gaziemir").includes("world:move:izmir"));
 });

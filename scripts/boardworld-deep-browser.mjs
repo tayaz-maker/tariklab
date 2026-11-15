@@ -113,9 +113,11 @@ try {
       firstContentfulPaintMs:
         performance.getEntriesByName("first-contentful-paint")[0]?.startTime || null,
     }));
-    await surface.locator("[name=scenario][value=restart]").check();
+    await surface.locator('#create-form details > summary').click();
+    await surface.locator('select[name=scenario]').selectOption('restart');
     await surface.locator("#character-name").fill("Derin Hayat");
     await surface.locator("[data-testid=create-game]").click();
+    await surface.waitForFunction(() => window.boardworldInspect?.()?.version === 7);
     const inspect = () => surface.evaluate(() => window.boardworldInspect());
     const snapshot = () =>
       surface.evaluate(async () => {
@@ -159,8 +161,8 @@ try {
       if (action.category !== "event") await panel(tabs[action.category] || "board");
       if (action.category === "travel")
         await surface
-          .locator(`.neighborhood-select[data-district="${action.id.split(":")[1]}"]`)
-          .click();
+          .locator(`[data-world-district="${action.destination || action.id.split(":")[1]}"], [data-district="${action.destination || action.id.split(":")[1]}"]`)
+          .first().click();
       if (action.category === "social") {
         const info = await snapshot();
         const id = info.deep.npcs.find((n) => action.id.split(":").includes(n.id))?.id;
@@ -188,11 +190,11 @@ try {
       throw new Error("Event queue did not drain");
     };
     await drain();
-    assert.equal((await inspect()).version, 6);
+    assert.equal((await inspect()).version, 7);
     assert.ok((await inspect()).deep);
     await panel("board");
-    assert.equal(await surface.locator(".neighborhood-art").count(), 3);
-    assert.equal(await surface.locator(".neighborhood-select").count(), 3);
+    assert.equal(await surface.locator(".world-node").count(), 15);
+    assert.equal(await surface.locator(".world-cities [data-world-district]").count(), 3);
     await layout("2.5D board");
     await surface.evaluate(() => scrollTo(0, 0));
     await page.screenshot({ path: `${output}/board-${width}.png`, fullPage: true });
@@ -387,7 +389,7 @@ try {
       );
       throw error;
     }
-    assert.deepEqual(await inspect(), beforeReload, "v5 deep state roundtrip");
+    assert.deepEqual(await inspect(), beforeReload, "expanded deep state roundtrip");
     const mirror = await context.newPage();
     await mirror.goto(origin + "/games/tc-sim-boardworld/index.html", { waitUntil: "networkidle" });
     await waitForBoardworldNavigation(mirror);
@@ -426,7 +428,7 @@ try {
     assert.deepEqual(errors, []);
     results.push({
       width,
-      version: 6,
+      version: 7,
       preview: true,
       networkKeyboard: true,
       routineSettings: true,

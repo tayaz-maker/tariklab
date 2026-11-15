@@ -183,9 +183,17 @@ try {
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto(origin + "/games/tc-sim-boardworld/index.html");
   await page.locator("#character-name").waitFor();
-  assert.deepEqual([...requested], []);
-  await page.locator("#character-name").fill("Deniz Test");
-  await page.locator('[data-testid="create-game"]').click();
+  // The current creation flow always starts in v7. Seed an actual v6 save to
+  // continue testing the released Gold-to-expansion promotion path separately.
+  await page.evaluate(async () => {
+    const engine=await import('./engine.mjs'), io=await import('./persistence.mjs');
+    const loaded=await io.loadGameLocked();
+    const result=await io.saveGameLocked(engine.createGame({name:'Deniz Test'}),undefined,loaded.token);
+    if (!result.ok) throw Error(result.message);
+  });
+  requested.clear();
+  await page.reload({waitUntil:'networkidle'});
+  await page.waitForFunction(() => window.boardworldInspect?.()?.version === 6);
   // Creation renders the action controls only after the initial durable save.
   // Reading localStorage immediately after click can still observe null.
   await page.locator(".event-choices [data-action]:enabled").first().waitFor();
@@ -218,6 +226,9 @@ try {
     window.boardworldInspect?.()?.expansion.events.some((e) => e.type === "family-adoption"),
   );
   const peer = await context.newPage();
+  // Simulate a suspended tab that missed the advisory refresh notification;
+  // stale writes must still fail at the authoritative compare-and-swap.
+  await peer.addInitScript(() => { window.BroadcastChannel = undefined; });
   const resumed = expansionRequests(peer);
   await peer.goto(page.url());
   await peer.waitForFunction(
@@ -226,14 +237,16 @@ try {
   assert.ok(resumed.has("expansion.mjs") && resumed.has("expansion-ui.mjs"));
   if (await page.locator(".primary-nav").count()) await openBoardworldTab(page, "expansion-world");
   if (await peer.locator(".primary-nav").count()) await openBoardworldTab(peer, "expansion-world");
-  await clickSavedAction(page, page.locator('[data-action="world:move:ankara"]'));
+  await page.locator('[data-world-district="ankara:cankaya"]').first().click();
+  await clickSavedAction(page, page.locator('[data-action="world:move:ankara"]').first());
   await page.waitForFunction(
     () => window.boardworldInspect?.()?.expansion.world.region === "ankara",
   );
   await page.waitForFunction(
     () => !document.querySelector(".save-state")?.textContent.includes("Kaydediliyor"),
   );
-  await peer.locator('[data-action="world:move:izmir"]').click();
+  await peer.locator('[data-world-district="izmir:konak"]').first().click();
+  await peer.locator('[data-action="world:move:izmir"]').first().click();
   await peer
     .getByRole("status")
     .filter({ hasText: "Başka bir sekme kaydı değiştirdi" })

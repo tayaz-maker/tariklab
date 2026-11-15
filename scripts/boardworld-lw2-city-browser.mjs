@@ -53,9 +53,21 @@ async function maintain() {
   }
   if(s.player.hunger<35 && gold.has(place)){await life(); if(await page.locator('[data-action="soup"]:enabled').count()) await action('soup'); else if(await page.locator('[data-action="eat"]:enabled').count()) await action('eat');}
 }
+async function selectMapDestination(page, id) {
+  const cityHub={istanbul:'kadikoy',ankara:'ankara:cankaya',izmir:'izmir:konak'};
+  const target=id.startsWith('world:move:') ? cityHub[id.slice('world:move:'.length)] :
+    id.startsWith('district:travel:') ? id.slice('district:travel:'.length) :
+    id.startsWith('travel:') ? id.slice('travel:'.length) : null;
+  if (target) {
+    const node=page.locator(`[data-world-district="${target}"]`).first();
+    assert.ok(await node.count(),`map exposes ${target}`);
+    await node.click();
+  }
+}
 async function waitUntilEnabled(id) {
   for(let i=0;i<30;i++){
     await maintain(); await world();
+    await selectMapDestination(page,id);
     const b=page.locator(`[data-action="${id}"]`).first();
     if(await b.count() && await b.isEnabled()) return;
     await life();
@@ -70,9 +82,8 @@ try {
   await page.goto(`http://127.0.0.1:${server.address().port}/games/tc-sim-boardworld/index.html`);
   await page.locator('#character-name').fill('Deniz Yolcu');
   await page.locator('[data-testid="create-game"]').click();
-  await page.locator('.event-choices [data-action]:enabled').first().waitFor();
+  await page.waitForFunction(() => window.boardworldInspect?.()?.version === 7);
   await clearEvents(); await openBoardworldTab(page,'expansion');
-  await page.locator('[data-ui="expand"]').click();
   await page.waitForFunction(()=>window.boardworldInspect?.()?.version===7);
   if(process.env.BOARDWORLD_LIFE_ONLY) {
     await waitUntilEnabled('district:travel:istanbul:uskudar'); await action('district:travel:istanbul:uskudar');
@@ -201,10 +212,9 @@ try {
   const board=page.locator('.primary-nav [data-tab="board"]');
   await board.focus(); await page.keyboard.press('Enter');
   assert.equal(await board.getAttribute('aria-current'),'page');
-  const detail=page.locator('details').filter({has:page.locator('[data-action^="district:travel:"]')}).first();
-  if(await detail.getAttribute('open')!==null) await detail.locator(':scope > summary').click();
-  const summary=detail.locator(':scope > summary'); await summary.focus(); await page.keyboard.press('Enter');
-  assert.notEqual(await detail.getAttribute('open'),null,'keyboard opens district choices');
+  const destination=page.locator('.world-node').filter({hasText:'Konak'}).first();
+  await destination.focus(); await page.keyboard.press('Enter');
+  assert.match(await page.locator('.world-inspector > h3').innerText(), /Konak/, 'keyboard selects district');
   await life();
   const waitButton=page.locator('[data-action="wait:60"]:enabled').first();
   const beforeKey=await inspect();
@@ -214,7 +224,7 @@ try {
   assert.equal((await page.evaluate(()=>window.__keyboardDone)).saved,true,'keyboard action saved');
   const afterKey=await inspect(); assert.ok(afterKey.revision>beforeKey.revision && afterKey.time>beforeKey.time,'keyboard action changes revision and time');
   assert.deepEqual(errors,[]);
-  const report={visited, languages:['tr','en','pl'], reload:true, mobile:true, keyboard:['navigation','disclosure','saved action'], paidShift:jobDone, lease:true, course:true, contractDisplay:["employer/daybook", "employer/career", "rent/dashboard", "rent/daybook", "rent/obligations", "rent/life", "rent/finance"], screenshots:evidence};
+  const report={visited, languages:['tr','en','pl'], reload:true, mobile:true, keyboard:['navigation','district selection','saved action'], paidShift:jobDone, lease:true, course:true, contractDisplay:["employer/daybook", "employer/career", "rent/dashboard", "rent/daybook", "rent/obligations", "rent/life", "rent/finance"], screenshots:evidence};
   writeFileSync(join(evidence,'report.json'),JSON.stringify(report,null,2)+'\n');
   console.log(JSON.stringify(report));
   }

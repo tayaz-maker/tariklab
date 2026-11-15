@@ -117,8 +117,8 @@ try {
       if (a.category !== "event") await tab(categories[a.category] || "board");
       if (a.category === "travel") {
         const d = a.destination || id.split(":")[1].split("-")[0];
-        if (await surface.locator(`[data-district="${d}"]`).count())
-          await surface.locator(`[data-district="${d}"]`).first().click();
+        if (await surface.locator(`[data-world-district="${d}"], [data-district="${d}"]`).count())
+          await surface.locator(`[data-world-district="${d}"], [data-district="${d}"]`).first().click();
       }
       if (a.category === "social") {
         const npc =
@@ -172,8 +172,11 @@ try {
       throw Error("Event queue did not drain");
     };
     const importFixture = async (name) => {
+      const expected=JSON.parse(JSON.parse(readFileSync(fixture(name),'utf8')).payload);
+      const wasExpanded=Boolean((await inspect())?.expansion);
       await surface.locator("#import-file").setInputFiles(fixture(name));
-      await surface.waitForFunction(() => window.boardworldInspect()?.version === 6);
+      await surface.waitForFunction(({time,name}) => window.boardworldInspect()?.time === time && window.boardworldInspect()?.player.name === name, {time:expected.time,name:expected.player.name});
+      assert.equal((await inspect()).version,wasExpanded?7:6, 'import respects the existing save mode');
       return inspect();
     };
     const layout = async (label) => {
@@ -227,9 +230,11 @@ try {
     const firstPaint = await surface.evaluate(
       () => performance.getEntriesByName("first-contentful-paint")[0]?.startTime || null,
     );
-    await surface.locator("[name=scenario][value=restart]").check();
+    await surface.locator('#create-form details > summary').click();
+    await surface.locator('select[name=scenario]').selectOption('restart');
     await surface.locator("#character-name").fill("Deniz Kaya");
     await surface.locator("[data-testid=create-game]").click();
+    await surface.waitForFunction(() => window.boardworldInspect?.()?.version === 7);
     await h.drain();
     if (lang !== "tr") {
       const bankLabel = await surface.locator('.cash-resource [data-tab="wallet"]').innerText();
@@ -249,6 +254,7 @@ try {
     await h.tab("plan");
     const weekday = Math.floor((await h.inspect()).time / 1440) % 7;
     await h.choose(`policy:day:${weekday}`);
+    await h.drain();
     const blocked = await h.snap();
     assert.equal(blocked.decision.routine.code, "weekday");
     assert.equal(blocked.decision.routine.retryAllowed, false);
@@ -373,9 +379,10 @@ try {
     // Entrepreneur: actual material stock and business capital settle together, then voluntary debt repayment.
     await h.importFixture("v4-active-enterprise");
     await h.tab("board");
-    await surface.locator('[data-society="district"] > summary').click();
-    await h.layout("district supply");
     const beforeStock = await h.inspect();
+    const stock=beforeStock.society.districts[beforeStock.deep.business.location].materialStock;
+    assert.match(await surface.locator('main').innerText(),new RegExp(`Malzeme stoğu\\s*${stock}|Material stock\\s*${stock}|Zapas materiałów\\s*${stock}`), 'district supply is visible');
+    await h.layout("district supply");
     await h.choose("business:stock:3");
     const afterStock = await h.inspect(),
       district = beforeStock.deep.business.location;

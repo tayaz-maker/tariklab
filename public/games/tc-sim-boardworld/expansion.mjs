@@ -2,7 +2,7 @@ import { closeHousehold } from "./life-systems.mjs";
 import { initSociety, migrateSociety, tickSociety, societyActions, societyView, validateSociety } from "./expansion-society.mjs";
 import { initStories, migrateStories, tickStories, storyActions, afterStoryAction, storyView, validateStories } from "./expansion-stories.mjs";
 import { attachExpansionTravel } from "./city.mjs";
-import { routeBetween } from "./expansion-geography.mjs";
+import { hubDistrict, routeBetween } from "./expansion-geography.mjs";
 import { initLifePath, lifePathActions, afterLifePathAction, getLifePathView, validateLifePath } from "./expansion-life-paths.mjs";
 export { lifePathActions, resolveLifePathStart } from "./expansion-life-paths.mjs";
 import { EXPANSION_SAVE_VERSION, createGame } from "./engine.mjs";
@@ -214,6 +214,15 @@ export function getExpansionView(s) {
     society: societyView(s, runtimeApi),
     stories: storyView(s),
     lifePath: getLifePathView(s),
+  };
+}
+
+export function intentLocationFilter(s, districtId) {
+  const current = getPlace(s).districtId;
+  return ({ id, destination }) => {
+    if (id.startsWith("district:travel:")) destination = id.slice("district:travel:".length);
+    if (id.startsWith("world:move:")) destination = hubDistrict(id.slice("world:move:".length));
+    return (destination || current) === districtId;
   };
 }
 

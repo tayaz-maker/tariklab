@@ -31,14 +31,17 @@ async function setup({ district='ankara:mamak', path='ordinary', language='tr', 
   await page.locator('.world-map').waitFor({timeout:30000});
   return {context,page,errors};
 }
+async function actionResult(page, button) {
+  await page.evaluate(() => { window.__journeyCompletion = new Promise(resolve => window.addEventListener('boardworld:action-complete', event => resolve(event.detail), {once:true})); });
+  await button.click();
+  return page.evaluate(() => window.__journeyCompletion);
+}
 async function action(page,id) {
   const before = await inspect(page);
   const button=page.locator(`[data-action="${id}"]:visible`).first();
   assert.ok(await button.count(), `Action ${id} must be available in the player interface`);
   assert.ok(await button.isEnabled(), `Action ${id} must be enabled`);
-  await page.evaluate(() => { window.__journeyCompletion = new Promise(resolve => window.addEventListener('boardworld:action-complete', event => resolve(event.detail), {once:true})); });
-  await button.click();
-  const result=await page.evaluate(() => window.__journeyCompletion);
+  const result=await actionResult(page,button);
   assert.ok(result?.ok && result.saved,`${id}: completed and saved`);
   assert.ok((await inspect(page)).revision>before.revision,`${id}: state advanced`);
   return inspect(page);
@@ -107,6 +110,7 @@ test('world map exposes all districts at desktop and mobile in TR, EN and PL', {
     const {context,page,errors}=await setup({language,width});
     try {
       assert.equal(await page.locator('html').getAttribute('lang'),language);
+      assert.ok(await page.locator('.world-map').evaluate(map => map.getBoundingClientRect().top + scrollY < innerHeight), `${language}/${width}: map starts in first viewport`);
       const objective=await page.locator('[data-life-path-objective]').innerText();
       assert.ok(objective.trim(),`${language}: objective visible`);
       objectives.set(language,objective);
@@ -122,6 +126,49 @@ test('world map exposes all districts at desktop and mobile in TR, EN and PL', {
     } finally {await context.close();}
   }
   assert.equal(new Set(objectives.values()).size,3,'first objective is localized in each language');
+});
+
+test('World intent actions synchronize clean v7 tabs and preserve stale-write protection', {timeout:60000}, async () => {
+  const {context,page,errors}=await setup({width:390});
+  async function search(tab, query, location) {
+    const form=tab.locator('#intent-form');
+    await form.locator('[name=query]').fill(query);
+    await form.locator('[name=location]').selectOption(location);
+    await form.locator('button[type=submit]').click();
+  }
+  try {
+    const watching=await context.newPage(), stale=await context.newPage();
+    for (const tab of [watching, stale]) tab.on('pageerror', error => errors.push(error.message));
+    await stale.addInitScript(() => Reflect.deleteProperty(globalThis, 'BroadcastChannel'));
+    await Promise.all([watching.goto(base), stale.goto(base)]);
+    await Promise.all([watching, stale].map(tab =>
+      tab.waitForFunction(() => window.boardworldInspect?.()?.version === 7),
+    ));
+
+    await page.locator('.secondary[data-intent-open]').click();
+    assert.equal(await page.locator('#intent-form [name=location] option').count(), DISTRICTS.length + 1);
+    await search(page,'bekle','izmir:konak');
+    assert.ok(await page.locator('.intent-results .empty-state').isVisible(), 'waiting only matches the current district');
+    await search(page,'olmayaneylem123','ankara:mamak');
+    assert.ok(await page.locator('.intent-results [data-action]:enabled').count(), 'a missing query offers real alternatives');
+    await search(page,'bekle','ankara:mamak');
+    const start=await inspect(page);
+    const saved=await actionResult(page,page.locator('.intent-results [data-action="wait:15"]'));
+    assert.ok(saved.saved);
+    await watching.waitForFunction(time => window.boardworldInspect?.()?.time === time, start.time + 15);
+    assert.deepEqual((await inspect(watching)).expansion.districts.place, start.expansion.districts.place);
+
+    assert.equal((await inspect(stale)).time,start.time);
+    await openBoardworldTab(stale,'board');
+    await stale.locator('.secondary[data-intent-open]').click();
+    await search(stale,'bekle','ankara:mamak');
+    const rejected=await actionResult(stale,stale.locator('.intent-results [data-action="wait:60"]'));
+    assert.deepEqual([rejected.saved,rejected.conflict],[false,true]);
+    await watching.reload();
+    await watching.waitForFunction(() => window.boardworldInspect?.()?.version === 7);
+    assert.equal((await inspect(watching)).time,start.time+15,'the verified save survives the stale action');
+    assert.deepEqual(errors,[]);
+  } finally {await context.close();}
 });
 
 test('six ambitions lead to real actions and can be changed through the UI', {timeout:180000}, async () => {

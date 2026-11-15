@@ -9,6 +9,18 @@ import { translateFamilyAction } from "./expansion-family.mjs";
 import { localizeInstitutionText } from "./expansion-institutions.mjs";
 import { localizeEconomyText } from "./expansion-economy.mjs";
 
+// Publish only a wake-up signal. Reads and writes remain in the locked IDB store.
+export function observeExpansionSaves(refresh) {
+  if (typeof BroadcastChannel !== "function") return null;
+  try {
+    const updates = new BroadcastChannel("tariklab.boardworld.expansion.saved");
+    updates.onmessage = refresh;
+    return updates;
+  } catch {
+    return null;
+  }
+}
+
 export function renderLifePath(view, actions, actionCard, esc) {
   const path = view.lifePath;
   if (!path) return "";
@@ -487,7 +499,10 @@ export function renderExpansion({
       institutions.program && COURSES.find((c) => c.id === institutions.program.course);
     const office = institutions.regions.find((r) => r.region === world.region);
     return (
-      header + renderLifePath(view, actions, actionCard, esc) + renderLiving({ view, actions, actionCard, esc, language, selectedDistrict }) + renderStories({ view, actions, actionCard, esc, language }) + renderSociety({ view, esc, language }) +
+      header + renderLiving({
+        view, actions, actionCard, esc, language, selectedDistrict,
+        afterMap: renderLifePath(view, actions, actionCard, esc),
+      }) + renderStories({ view, actions, actionCard, esc, language }) + renderSociety({ view, esc, language }) +
       `<section class="reference"><h3>${esc(tx("Kurumlar"))}</h3>
     <p>${label("Kredi durumu", "Credit score", "Ocena kredytowa")} ${esc(institutions.credit)} · ${label("Kamu güveni", "Public trust", "Zaufanie publiczne")} ${office.trust}% · ${label("Yerel bütçe", "Local budget", "Budżet lokalny")} ${money(office.treasury)}</p>
     ${institutions.program ? `<p>${tx("Eğitim")}: ${esc(tx(course?.name || "Eğitim"))} · ${institutions.program.sessions}/${institutions.program.requiredSessions} · ${label("Burs", "Grant", "Stypendium")} ${money(institutions.program.grant)}</p>` : ""}

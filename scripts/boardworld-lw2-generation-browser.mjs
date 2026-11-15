@@ -98,13 +98,17 @@ function select(s){
 try{
   await page.goto(`http://127.0.0.1:${server.address().port}/games/tc-sim-boardworld/`);
   await page.locator('#character-name').fill("Yaşam Yolculuğu");
-  await page.locator('[name=scenario][value=restart]').check();
+  await page.locator('#create-form details > summary').click();
+    await page.locator('select[name=scenario]').selectOption('restart');
   await page.locator('[data-testid=create-game]').click();
   await page.waitForFunction(()=>window.boardworldInspect?.());
   for(let i=0;i<2;i++){const s=await snap(),a=getActions(s).find(a=>!a.disabled&&a.id.startsWith("event:"));if(a)await choose(a,s);}
-  await openBoardworldTab(page,"expansion");await page.locator('[data-ui=expand]').click();
+  await openBoardworldTab(page,"expansion");
   await page.waitForFunction(()=>window.boardworldInspect?.()?.expansion?.livingWorld===2);
   let current=await snap();
+  const home=current.expansion.economy.home;
+  assert.ok(current.expansion.economy.properties[home]?.lease?.rent>0,"starting home has an actual lease");
+  milestones.housing=current.time;
   for(let i=0;i<18000&&!milestones.succession;i++){
     const a=select(current);assert.ok(a,`legal next step day${Math.floor(current.time/1440)+1}`);
     current=await choose(a,current);
