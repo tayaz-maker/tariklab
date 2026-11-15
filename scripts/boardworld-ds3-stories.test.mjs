@@ -149,7 +149,7 @@ test('controlled resident fixtures: training, debt conservation and trusted refe
 test('controlled case fixture records only a reported personal case and disclosed evidence',()=>{
   const s=engine.createGame({seed:49,expansion:true});
   const owner=s.expansion.playerId;
-  s.expansion.underworld={cases:[{id:'case:1',reportedAt:100,status:'investigation'},{id:'case:2',reportedAt:null,status:'unreported'}],incidents:[{id:'case:1',personId:owner,evidence:[{learnedAt:300},{learnedAt:null}]},{id:'case:2',personId:owner,evidence:[]}]};
+  s.expansion.underworld={cases:[{id:1,reportedAt:100,status:'investigation'},{id:2,reportedAt:null,status:'unreported'}],incidents:[{id:1,personId:owner,evidence:[{learnedAt:300},{learnedAt:null}]},{id:2,personId:owner,evidence:[]}]};
   tickStories(s); assert.equal(s.expansion.stories.justice.length,1);
   assert.equal(s.expansion.stories.justice[0].evidence,1);
   s.expansion.underworld.cases[0].status='review'; s.expansion.underworld.incidents[0].evidence[1].learnedAt=400;
