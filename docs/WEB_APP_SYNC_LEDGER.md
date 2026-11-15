@@ -1660,3 +1660,33 @@ final package gate passes 3/3 at Gold300161, initialTR201145, expansion79763 and
 combined379924. All earlier Gold/deep/living/emergent/society browser suites and
 native stale/legacy/20-cache-race controls passed the preceding packed checkpoint;
 final exact-head CI repeats them unchanged. No release gate or budget is disabled.
+
+## 2026-11-15 — Parallel TC gates preserve the main Git release path
+
+Split the existing TC job into an exact-build preparation job, unchanged unit commands, and three independent browser groups. Every browser group restores the same immutable same-run build and checks its source SHA. The protected `TC job-start / built` name now belongs to an unconditional aggregate that rejects failed, skipped, cancelled or missing dependencies. Baseline fetches, all existing browser/unit command arguments, locale/viewports and uploaded evidence remain; command-hash parity tests bind these checks to released a5ac07a1. Main, Cloudflare settings, game assets, package limits and publication guards are unchanged. Focused gate/guard/scope tests and lint passed; hosted timing and an automatic main production deployment remain the integration acceptance gates.
+## 2026-11-15 — Main-preserving parallel release verification candidate
+
+The owner renewed the build-failure correction while explicitly retaining the
+existing main-based Cloudflare Git publication configuration. Independent CI
+work now runs in parallel without changing production settings or the existing
+exact-main wait/three-workflow guard. SHA-bound unit receipts, the frozen 730
+original-test inventory, complete Gold/Emergent case catalogs, sealed build
+artifacts and unconditional aggregate checks preserve mandatory coverage.
+The Social Engine wrapper remains byte-identical on an isolated worker.
+Generation harness overhead is reduced while keeping real visible actions and
+the full natural succession assertions. Hosted full-journey timing and automatic
+production publication remain required; the local partial trace is not treated
+as a release pass. See `docs/CI_PARALLEL_VERIFICATION.md`.
+
+
+## 2026-11-15 — Remove the measured TC browser scheduling bottleneck
+
+The first hosted parallel TC run passed in 11m12, with 610 seconds in the combined interface browser group. Run its unchanged outcome command independently from the navigation/regions commands, yielding four exact-artifact browser groups. All test arguments and evidence names remain bound by the existing command hashes; added routing assertions require each moved command in its intended group. Focused gate and deployment tests pass. No TC runtime or Cloudflare setting changes.
+
+## 2026-11-15 — Preserve nested suite assertions on a standard ARM runner
+
+Hosted candidate da9956c8 passed full Boardworld verification in 9m42 with the original 730-name inventory and an exact 1377-action generation trace, including the natural day1501 estate and unchanged 48 runtime hashes. The unchanged Social Engine wrapper still needed 17m38 on its isolated Ubuntu x64 runner, so the candidate remained draft. Move that one job to GitHub's standard macos-15 ARM runner, retaining Node22, its OS/architecture-specific dependency cache, all existing assertions and the same 60-minute failure ceiling. A parity test freezes the released wrapper hash. No game code, wrapper, platform configuration, release guard or budget changes; hosted timing and automatic exact-main Git publication remain mandatory.
+
+## 2026-11-15 — Remove VM test-global overhead without changing worker assertions
+
+The ARM trial did not remove the nested suite's single-case bottleneck. A real bundled-worker ABBA experiment instead isolated Node VM contextification overhead: an ordinary separate global realm retained the same canonical state, interleaved command and cadence assertions while reducing the short trace from roughly7.1–7.5s to1.0–1.2s. The final harness uses Node22-supported DONT_CONTEXTIFY and the exact existing mock bindings; all six worker assertion bodies, both100000-tick traces and the original full-suite wrapper remain unchanged. The unpublished nested-file partition is discarded and the standard Ubuntu runner retained. No production Social Engine or other game runtime changes, no release guard/window/budget or Cloudflare configuration changes. Full Node22 worker, complete hosted workflows and automatic exact-main publication remain required.

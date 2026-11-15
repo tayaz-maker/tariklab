@@ -17,7 +17,7 @@ const runtimeSha256=hashes();
 mkdirSync(out,{recursive:true});
 const server=createStaticGameServer(root);await new Promise(r=>server.listen(0,"127.0.0.1",r));
 const browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH});
-const page=await browser.newPage({viewport:{width:1280,height:900}}),errors=[],trace=[],milestones={};
+const page=await browser.newPage({viewport:{width:1280,height:900},reducedMotion:"reduce"}),errors=[],trace=[],milestones={};
 page.on("pageerror",e=>errors.push(e.message));
 const snap=()=>page.evaluate(()=>window.boardworldInspect());
 let skipRoutineAt=-1;
@@ -25,9 +25,10 @@ async function reveal(control){
   const folds=control.locator('xpath=ancestor::details[not(@open)]');
   for(let i=await folds.count()-1;i>=0;i--)await folds.nth(i).locator(':scope > summary').click();
 }
-async function choose(action){
+async function choose(action,before){
   const id=action.id,policy=id.startsWith("policy:")&&!id.startsWith("policy:day:"),selector=policy?`[data-policy-field="${id.split(":")[1]}"]`:`[data-action="${id}"]`;
   let button=page.locator(selector).first();
+  if(await button.count()) await reveal(button);
   if(!await button.count() || !await button.isVisible()){
     const tab=id.startsWith("family:")?"expansion":
       id.startsWith("systemic:")?"stories":
@@ -35,7 +36,10 @@ async function choose(action){
       id.startsWith("economy:")?"expansion-finance":
       /^(policy:|flow:|schedule:)/.test(id)?"plan":
       ({travel:"board",life:"life",household:"life",work:"work",education:"study",social:"people",finance:"wallet",business:"enterprise",story:"stories",project:"projects",calendar:"plan",shopping:"bag"})[action.category];
-    if(tab)await openBoardworldTab(page,tab);
+    if(tab){
+      const current=page.locator(`.section-nav > [data-tab="${tab}"][aria-current="page"]`);
+      if(!await current.count()) await openBoardworldTab(page,tab);
+    }
     if(action.category==="social"){
       const contact=id.split(":").find(part=>["mert","ece","selin","cem","derya","emre","aylin","baran","naz","okan","leyla","arda"].includes(part));
       if(contact){const control=page.locator(`.contact[data-npc="${contact}"]`);if(await control.count())await control.click();}
@@ -44,11 +48,17 @@ async function choose(action){
   }
   assert.equal(await button.count(),1,`${id} reachable from its real UI panel`);
   await reveal(button);assert.ok(await button.isVisible(),`${id} visible`);assert.ok(await button.isEnabled(),`${id} enabled`);
-  const before=await snap();
-  await page.evaluate(()=>{window.__lw2Action=null;window.addEventListener("boardworld:action-complete",e=>window.__lw2Action=e.detail,{once:true});});
+  // The previous action's saved snapshot is the current state: navigation and
+  // opening disclosures only change presentation. Arm before the real click so
+  // even a fast IndexedDB commit cannot outrun the completion listener.
+  await page.evaluate(expected=>{window.__lw2Ack=new Promise((resolve,reject)=>{
+    const timer=setTimeout(()=>{window.removeEventListener("boardworld:action-complete",done);reject(Error("Action completion timed out"));},30000);
+    function done(e){if(e.detail?.id!==expected)return;clearTimeout(timer);window.removeEventListener("boardworld:action-complete",done);resolve(e.detail);}
+    window.addEventListener("boardworld:action-complete",done);
+  });},id);
+  const ack=page.evaluate(()=>window.__lw2Ack).catch(error=>({error:error.message}));
   if(policy)await button.selectOption(id);else await button.click();
-  await page.waitForFunction(()=>window.__lw2Action!==null,{},{timeout:30000});
-  const completion=await page.evaluate(()=>window.__lw2Action);assert.equal(completion.saved,true,`${id} durable save`);
+  const completion=await ack;assert.equal(completion.saved,true,`${id} durable save: ${completion.error||""}`);
   const after=await snap();assert.ok(after.revision>before.revision,`${id} committed`);
   trace.push({id,from:before.time,to:after.time});
   if(id.startsWith("schedule:run:"))skipRoutineAt=after.time===before.time?after.time:-1;
@@ -91,16 +101,17 @@ try{
   await page.locator('[name=scenario][value=restart]').check();
   await page.locator('[data-testid=create-game]').click();
   await page.waitForFunction(()=>window.boardworldInspect?.());
-  for(let i=0;i<2;i++){const s=await snap(),a=getActions(s).find(a=>!a.disabled&&a.id.startsWith("event:"));if(a)await choose(a);}
+  for(let i=0;i<2;i++){const s=await snap(),a=getActions(s).find(a=>!a.disabled&&a.id.startsWith("event:"));if(a)await choose(a,s);}
   await openBoardworldTab(page,"expansion");await page.locator('[data-ui=expand]').click();
   await page.waitForFunction(()=>window.boardworldInspect?.()?.expansion?.livingWorld===2);
+  let current=await snap();
   for(let i=0;i<18000&&!milestones.succession;i++){
-    const s=await snap(),a=select(s);assert.ok(a,`legal next step day${Math.floor(s.time/1440)+1}`);
-    await choose(a);
-    if(i%50===0){console.log(JSON.stringify({step:i,day:Math.floor((await snap()).time/1440)+1,last:a.id,milestones}));assert.deepEqual(errors,[]);}
-    if(i%250===249){const before=await snap();await page.reload();await page.waitForFunction(()=>window.boardworldInspect?.()?.expansion);assert.deepEqual(await snap(),before);}
+    const a=select(current);assert.ok(a,`legal next step day${Math.floor(current.time/1440)+1}`);
+    current=await choose(a,current);
+    if(i%50===0){console.log(JSON.stringify({step:i,day:Math.floor(current.time/1440)+1,last:a.id,milestones}));assert.deepEqual(errors,[]);}
+    if(i%250===249){const before=current;await page.reload();await page.waitForFunction(()=>window.boardworldInspect?.()?.expansion);current=await snap();assert.deepEqual(current,before);}
   }
-  const state=await snap();
+  const state=current;
   assert.ok(milestones.work&&milestones.housing&&milestones.relationship&&milestones.marriage&&milestones.adoption&&milestones.succession,JSON.stringify(milestones));
   assert.ok(state.expansion.family.lastEstate);assert.notEqual(state.expansion.playerId,"player:1");
   // The heir can inherit a pending event. Resolve it through its visible choice
@@ -109,7 +120,7 @@ try{
   for(let i=0;i<20&&continued.time===state.time;i++){
     const legal=getActions(continued).filter(a=>!a.disabled);
     const next=legal.find(a=>a.id.startsWith("event:"))||legal.find(a=>a.id==="wait:60")||select(continued);
-    assert.ok(next,"successor has a legal UI continuation");continued=await choose(next);
+    assert.ok(next,"successor has a legal UI continuation");continued=await choose(next,continued);
   }
   assert.ok(continued.time>state.time,"successor continues the shared clock");
   await page.reload();await page.waitForFunction(()=>window.boardworldInspect?.()?.expansion);

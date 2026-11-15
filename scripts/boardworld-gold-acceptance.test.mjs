@@ -10,12 +10,8 @@ import {
   maintenanceAction,
   normalizeAction,
 } from "./boardworld-emergent-scenarios.mjs";
-import {
-  GOLD_STARTS,
-  GOLD_STRATEGIES,
-  GOLD_SEEDS,
-  selectGoldLifeAction,
-} from "./boardworld-gold-scenarios.mjs";
+import { selectGoldLifeAction } from "./boardworld-gold-scenarios.mjs";
+import { selectedBoardworldCases } from "./boardworld-ci-cases.mjs";
 
 const reports = [];
 const hash = (text) => createHash("sha256").update(text).digest("hex");
@@ -200,13 +196,6 @@ function runGoldLife(scenario, strategy, seed, days) {
     );
 }
 
-for (const scenario of GOLD_STARTS)
-  for (const strategy of GOLD_STRATEGIES)
-    for (const seed of GOLD_SEEDS)
-      test(`Gold6 ${scenario}/${strategy}/${seed}:365 legal days with exact persisted replay`, () => {
-        runGoldLife(scenario, strategy, seed, 365);
-      });
-
-test("Gold6 restart/career/91373:730 legal days retain history, bounded population and exact replay", () => {
-  runGoldLife("restart", "career", 91373, 730);
-});
+for (const { scenario, strategy, seed, days, name } of selectedBoardworldCases("boardworld-gold-acceptance.test.mjs")) {
+  test(name, () => runGoldLife(scenario, strategy, seed, days));
+}

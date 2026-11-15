@@ -18,12 +18,18 @@ import {
   normalizeAction,
 } from "./boardworld-emergent-scenarios.mjs";
 
+import { EMERGENT_FOCUSED_ID, selectedBoardworldCases } from "./boardworld-ci-cases.mjs";
+
+const selectedCases = selectedBoardworldCases("boardworld-emergent-acceptance.test.mjs");
+const selectedFocused = selectedCases.some(({ id }) => id === EMERGENT_FOCUSED_ID);
+const focusedTest = selectedFocused ? test : () => {};
+
 const dayOf = (s) => Math.floor(s.time / 1440) + 1;
 const funds = (s) => s.cash + s.bank;
 const summaries = [];
-for (const style of ["career", "social", "entrepreneur"])
-  for (const seed of [2026, 91373])
-    test(`${style}/${seed}:365 legal days retain meaningful delayed choices, solvency and exact save replay`, () => {
+for (const { id, style, seed, name } of selectedCases) {
+  if (id !== EMERGENT_FOCUSED_ID) {
+    test(name, () => {
       const births = new Set(),
         families = new Set(),
         finishes = [],
@@ -233,6 +239,8 @@ for (const style of ["career", "social", "entrepreneur"])
           JSON.stringify({ lives: summaries }, null, 2) + "\n",
         );
     });
+  }
+}
 
 function take(s, id, payload) {
   const before = structuredClone(s),
@@ -256,7 +264,7 @@ function sharedDay31() {
 }
 
 for (const auto of [true, false])
-  test(`earned shared household pays the full next monthly bill once with autoPay=${auto}`, () => {
+  focusedTest(`earned shared household pays the full next monthly bill once with autoPay=${auto}`, () => {
     let s = sharedDay31();
     if (!auto) s = take(s, "finance:autopay");
     const memory = {};
@@ -314,7 +322,7 @@ for (const auto of [true, false])
     assert.ok(getActions(s).length > 0);
   });
 
-test("a real shared household survives warning periods, then forced lease loss refunds escrow once", () => {
+focusedTest("a real shared household survives warning periods, then forced lease loss refunds escrow once", () => {
   let s = sharedDay31();
   // Focused stress fixture: an existing earned household faces accumulated rent.
   // All warning dates, choices, work, needs, eviction and recovery remain real actions.
@@ -423,7 +431,7 @@ function closeRealFollowup(s, id, destination) {
   return final;
 }
 
-test("romance follow-up requires a real later date after an earned relationship and seven lived days", () => {
+focusedTest("romance follow-up requires a real later date after an earned relationship and seven lived days", () => {
   let s = focusFamily(historical("v3-social-day91.json"), "romance");
   s = pursue(s, "date:mert", (n) => getNpcLocation(n, "mert"));
   s = pursue(s, "date:mert", (n) => getNpcLocation(n, "mert"));
@@ -442,7 +450,7 @@ test("romance follow-up requires a real later date after an earned relationship 
   );
 });
 
-test("transport follow-up is earned by a real changed home and actual commuting over five days", () => {
+focusedTest("transport follow-up is earned by a real changed home and actual commuting over five days", () => {
   let s = focusFamily(historical("v3-career-day91.json"), "transport");
   s = pursue(s, "move:studio", "besiktas");
   assert.equal(s.housing.id, "studio");
@@ -456,7 +464,7 @@ test("transport follow-up is earned by a real changed home and actual commuting 
   assert.ok(s.flags.travels >= trips + 2);
 });
 
-test("health follow-up consumes real clinical care and recovery days instead of granting immediate full health", () => {
+focusedTest("health follow-up consumes real clinical care and recovery days instead of granting immediate full health", () => {
   let s = historical("v3-career-day91.json");
   s.player.health = 60; // A valid focused illness precursor, not endurance progression.
   s.pendingEvents = [];
@@ -475,7 +483,7 @@ test("health follow-up consumes real clinical care and recovery days instead of 
   assert.ok(s.player.health >= 70);
 });
 
-test("six people enter through real local actions; a seventh encounter cannot duplicate the conserved city population", () => {
+focusedTest("six people enter through real local actions; a seventh encounter cannot duplicate the conserved city population", () => {
   let s = historical("v3-career-day91.json");
   s = pursue(s, "work");
   assert.ok(s.life.secondary.some((n) => n.id === "hakan"));
@@ -536,7 +544,7 @@ test("six people enter through real local actions; a seventh encounter cannot du
   assert.deepEqual(importGame(exportGame(s)).state, s);
 });
 
-test("cash-poor routine stops honestly by default, while explicit withdrawal cooks with existing bank money", () => {
+focusedTest("cash-poor routine stops honestly by default, while explicit withdrawal cooks with existing bank money", () => {
   let s = historical("v3-career-day91.json");
   s.pendingEvents = [];
   s.resolvedEvents = EVENTS.map((e) => e.id);

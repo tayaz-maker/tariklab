@@ -11,16 +11,11 @@ concurrency:
   group: tc-job-start-outcome-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
-  outcome-browser:
-    name: TC job-start / ${{ matrix.label }}
+  prepare:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - label: built
-            origin: ""
+    timeout-minutes: 10
+    outputs:
+      tc: ${{ steps.scope.outputs.tc }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -38,23 +33,94 @@ jobs:
           git cat-file -e "$base^{commit}" || git fetch --no-tags --depth=1 origin "$base"
           node scripts/ci-changes.mjs "$base" "$HEAD"
       - name: Critical routing and release guard regressions
-        run: node --test scripts/ci-changes.test.mjs scripts/cloudflare-deploy.test.mjs
+        run: >-
+          node --test scripts/ci-changes.test.mjs scripts/cloudflare-deploy.test.mjs
+          scripts/tc-ci-gate.test.mjs
+      - run: npm run build
+        if: steps.scope.outputs.tc == 'true'
+      - name: Package exact TC candidate
+        if: steps.scope.outputs.tc == 'true'
+        run: |-
+          git rev-parse HEAD > .tc-build-sha
+          tar -czf "$RUNNER_TEMP/tc-build.tgz" .output .tc-build-sha
+      - uses: actions/upload-artifact@v4
+        if: steps.scope.outputs.tc == 'true'
+        with:
+          name: tc-exact-build
+          path: ${{ runner.temp }}/tc-build.tgz
+          compression-level: 0
+          retention-days: 7
+  unit:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: ./.github/actions/ci-node
+        if: needs.prepare.outputs.tc == 'true'
       - name: Fetch the exact TC static baseline
-        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
+        if: needs.prepare.outputs.tc == 'true'
         run: |
           git fetch --no-tags --depth=1 origin 9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56
           git fetch --no-tags --depth=1 origin 539df6ee8cd3fe1e56b4a7833bffcc8953765488
       - name: Pinned archive, import closure and fail-closed regressions
-        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
+        if: needs.prepare.outputs.tc == 'true'
         run: node --test scripts/tc-sim-job-start-baseline.test.mjs
       - name: Targeted outcome, origin and safe-server regressions
-        run: node --test scripts/tc-sim-balance-final.test.mjs scripts/tc-sim-gameplay-language.test.mjs scripts/tc-sim-city-life.test.mjs scripts/tc-sim-marriage-depth.test.mjs scripts/tc-sim-household.test.mjs scripts/tc-sim-parenthood.test.mjs scripts/tc-sim-intimacy.test.mjs scripts/tc-sim-body-visual.test.mjs scripts/tc-sim-depth-4.test.mjs scripts/tc-sim-job-start-outcome.test.mjs scripts/tc-sim-job-start-target.test.mjs scripts/tc-sim-2-regions-target.test.mjs scripts/tc-sim-job-start-i18n.test.mjs scripts/tc-sim-job-start-layout.test.mjs scripts/tc-sim-weekly-feedback.test.mjs scripts/tc-sim-lifetime-ui.test.mjs scripts/static-game-server.test.mjs
-        if: steps.scope.outputs.tc == 'true'
+        run: >-
+          node --test scripts/tc-sim-balance-final.test.mjs scripts/tc-sim-gameplay-language.test.mjs
+          scripts/tc-sim-city-life.test.mjs scripts/tc-sim-marriage-depth.test.mjs
+          scripts/tc-sim-household.test.mjs scripts/tc-sim-parenthood.test.mjs
+          scripts/tc-sim-intimacy.test.mjs scripts/tc-sim-body-visual.test.mjs scripts/tc-sim-depth-4.test.mjs
+          scripts/tc-sim-job-start-outcome.test.mjs scripts/tc-sim-job-start-target.test.mjs
+          scripts/tc-sim-2-regions-target.test.mjs scripts/tc-sim-job-start-i18n.test.mjs
+          scripts/tc-sim-job-start-layout.test.mjs scripts/tc-sim-weekly-feedback.test.mjs
+          scripts/tc-sim-lifetime-ui.test.mjs scripts/static-game-server.test.mjs
+        if: needs.prepare.outputs.tc == 'true'
       - name: TC SIM 2.0 banking — migration, conservation, arrears and estate
-        if: steps.scope.outputs.tc == 'true'
-        run: node --test scripts/tc-sim-2-banking.test.mjs scripts/tc-sim-2-banking-target.test.mjs scripts/tc-sim-2-estate.test.mjs scripts/tc-sim-monthly-cash.test.mjs scripts/tc-sim-bank-business.test.mjs scripts/tc-sim-credit-policy.test.mjs scripts/tc-sim-mortgage-enforcement.test.mjs
-      - run: npm run build
-        if: steps.scope.outputs.tc == 'true'
+        if: needs.prepare.outputs.tc == 'true'
+        run: >-
+          node --test scripts/tc-sim-2-banking.test.mjs scripts/tc-sim-2-banking-target.test.mjs
+          scripts/tc-sim-2-estate.test.mjs scripts/tc-sim-monthly-cash.test.mjs
+          scripts/tc-sim-bank-business.test.mjs scripts/tc-sim-credit-policy.test.mjs
+          scripts/tc-sim-mortgage-enforcement.test.mjs
+  browser:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        suite:
+          - performance
+          - outcome
+          - navigation-regions
+          - banking-mobile
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: ./.github/actions/ci-node
+        if: needs.prepare.outputs.tc == 'true'
+      - uses: actions/download-artifact@v4
+        if: needs.prepare.outputs.tc == 'true'
+        with:
+          name: tc-exact-build
+          path: ${{ runner.temp }}/tc-exact-build
+      - name: Restore and verify exact same-run candidate
+        if: needs.prepare.outputs.tc == 'true'
+        run: |-
+          tar -xzf "$RUNNER_TEMP/tc-exact-build/tc-build.tgz"
+          test "$(cat .tc-build-sha)" = "$(git rev-parse HEAD)"
+      - name: Fetch the exact TC static baseline
+        if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'performance'
+        run: |
+          git fetch --no-tags --depth=1 origin 9e50404c0573e1cf9e2dd7e623c9c8bd98b95e56
+          git fetch --no-tags --depth=1 origin 539df6ee8cd3fe1e56b4a7833bffcc8953765488
       - name: Chromium
         run: |
           browser_path="$(command -v google-chrome || command -v chromium || true)"
@@ -63,47 +129,72 @@ jobs:
           else
             npx playwright install --with-deps chromium --only-shell
           fi
-        if: steps.scope.outputs.tc == 'true'
+        if: needs.prepare.outputs.tc == 'true'
       - name: Same-browser cold static baseline and candidate comparison
-        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
+        if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'performance'
         run: node scripts/tc-sim-job-start-performance.mjs
       - name: Built candidate — 18 matrix cases and 4 mobile hidden-panel regressions
-        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
+        if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'outcome'
         run: node scripts/tc-sim-job-start-outcome-browser.mjs --serve .output/public --label built
       - name: TC SIM 2.0 navigation, preferences and status
-        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
+        if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'navigation-regions'
         run: node scripts/tc-sim-2-ux-browser.mjs .output/public built
       - name: TC SIM 2 regions — 23 destinations, four viewports and three languages
-        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
-        run: node scripts/tc-sim-2-regions-browser.mjs --serve .output/public --expected-sha "${{ github.sha }}" --out "${{ runner.temp }}/screenshots/tc-sim-2-regions"
+        if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'navigation-regions'
+        run: >-
+          node scripts/tc-sim-2-regions-browser.mjs --serve .output/public --expected-sha "${{ github.sha }}"
+          --out "${{ runner.temp }}/screenshots/tc-sim-2-regions"
       - name: Built banking — 12 language and viewport cases with exact assets
-        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
-        run: node scripts/tc-sim-2-banking-browser.mjs --serve .output/public --label built --out "$RUNNER_TEMP/screenshots/tc-sim-2-banking/built"
+        if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'banking-mobile'
+        run: >-
+          node scripts/tc-sim-2-banking-browser.mjs --serve .output/public --label built --out
+          "$RUNNER_TEMP/screenshots/tc-sim-2-banking/built"
       - name: Mobile final — five viewports, all menus and gameplay controls
-        if: steps.scope.outputs.tc == 'true' && (matrix.label == 'built')
+        if: needs.prepare.outputs.tc == 'true' && matrix.suite == 'banking-mobile'
         run: node scripts/tc-sim-job-start-mobile.mjs .output/public
       - uses: actions/upload-artifact@v4
-        if: always() && steps.scope.outputs.tc == 'true'
+        if: always() && needs.prepare.outputs.tc == 'true' && matrix.suite == 'navigation-regions'
         with:
-          name: tc-sim-2-regions-${{ matrix.label }}
+          name: tc-sim-2-regions-built
           path: ${{ runner.temp }}/screenshots/tc-sim-2-regions
       - uses: actions/upload-artifact@v4
-        if: always() && steps.scope.outputs.tc == 'true'
+        if: always() && needs.prepare.outputs.tc == 'true' && matrix.suite == 'banking-mobile'
         with:
-          name: tc-sim-2-banking-${{ matrix.label }}
-          path: ${{ runner.temp }}/screenshots/tc-sim-2-banking/${{ matrix.label }}
+          name: tc-sim-2-banking-built
+          path: ${{ runner.temp }}/screenshots/tc-sim-2-banking/built
       - uses: actions/upload-artifact@v4
-        if: always() && steps.scope.outputs.tc == 'true'
+        if: always() && needs.prepare.outputs.tc == 'true' && matrix.suite == 'banking-mobile'
         with:
           name: tc-mobile-final
           path: ${{ runner.temp }}/screenshots/tc-mobile-final
       - uses: actions/upload-artifact@v4
-        if: always() && steps.scope.outputs.tc == 'true'
+        if: always() && needs.prepare.outputs.tc == 'true' && matrix.suite == 'outcome'
         with:
-          name: tc-job-start-outcome-${{ matrix.label }}
-          path: ${{ runner.temp }}/screenshots/tc-job-start-outcome/${{ matrix.label }}
+          name: tc-job-start-outcome-built
+          path: ${{ runner.temp }}/screenshots/tc-job-start-outcome/built
       - uses: actions/upload-artifact@v4
-        if: always() && steps.scope.outputs.tc == 'true'
+        if: always() && needs.prepare.outputs.tc == 'true' && matrix.suite == 'performance'
         with:
           name: tc-job-start-outcome-performance
           path: ${{ runner.temp }}/screenshots/tc-job-start-outcome/performance
+  outcome-browser:
+    name: TC job-start / built
+    if: always()
+    needs:
+      - prepare
+      - unit
+      - browser
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Require every TC dependency to succeed
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: node scripts/tc-ci-gate.mjs

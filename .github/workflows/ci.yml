@@ -66,6 +66,7 @@ jobs:
     timeout-minutes: 15
     strategy:
       fail-fast: false
+      max-parallel: 4
       matrix:
         suite:
           - wave1-save
@@ -151,6 +152,8 @@ jobs:
       - changes
       - build-core
       - unit
+      - isolated-unit
+      - unit-coverage
       - browser-regression
       - campaign-browser
       - campaign-balance
@@ -164,7 +167,7 @@ jobs:
       - name: Require every build dependency to succeed
         env:
           NEEDS_JSON: ${{ toJSON(needs) }}
-        run: node scripts/ci-required-gate.mjs
+        run: node scripts/ci-required-gate.mjs isolated-unit unit-coverage
   campaign-browser:
     needs:
       - changes
@@ -219,9 +222,7 @@ jobs:
           name: campaign-balance
           path: campaign-balance*.json
   unit:
-    needs:
-      - changes
-      - build-core
+    needs: changes
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     strategy:
@@ -245,4 +246,50 @@ jobs:
           CI_FULL: ${{ needs.changes.outputs.full }}
           CI_ROUTES: ${{ needs.changes.outputs.routes }}
           CI_SHARD: ${{ matrix.shard }}
-        run: node scripts/ci-test-plan.mjs
+        run: node scripts/ci-parallel.mjs run general ${{ matrix.shard }} 4
+      - uses: actions/upload-artifact@v4
+        if: always() && needs.changes.outputs.docs != 'true'
+        with:
+          name: ci-unit-${{ matrix.shard }}
+          path: ${{ runner.temp }}/ci-general-${{ matrix.shard }}
+  isolated-unit:
+    needs: changes
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ci-node
+        if: needs.changes.outputs.docs != 'true'
+      - name: Existing nested domain suites on an uncontended runner
+        if: needs.changes.outputs.docs != 'true'
+        run: node scripts/ci-parallel.mjs run isolated 0 1
+      - uses: actions/upload-artifact@v4
+        if: always() && needs.changes.outputs.docs != 'true'
+        with:
+          name: ci-isolated-0
+          path: ${{ runner.temp }}/ci-isolated-0
+  unit-coverage:
+    if: ${{ always() }}
+    needs: [changes, unit, isolated-unit]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ci-node
+      - name: Require all unit workers
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: node scripts/boardworld-ci-gate.mjs changes unit isolated-unit
+      - uses: actions/download-artifact@v4
+        if: needs.changes.outputs.docs != 'true'
+        with:
+          pattern: ci-*
+          path: ${{ runner.temp }}/ci-unit-results
+      - name: Every selected unit case executed exactly once
+        if: needs.changes.outputs.docs != 'true'
+        env:
+          CI_FULL: ${{ needs.changes.outputs.full }}
+          CI_ROUTES: ${{ needs.changes.outputs.routes }}
+        run: |
+          node scripts/ci-parallel.mjs verify general 0 4 "$RUNNER_TEMP/ci-unit-results"
+          node scripts/ci-parallel.mjs verify isolated 0 1 "$RUNNER_TEMP/ci-unit-results"

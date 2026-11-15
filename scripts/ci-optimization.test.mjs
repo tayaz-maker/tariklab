@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
+import {createHash} from 'node:crypto';
 const yaml=createRequire(import.meta.url)('js-yaml');
 const read=name=>yaml.load(readFileSync(new URL('../.github/'+name,import.meta.url),'utf8'));
 const ci=read('workflows/ci.yml');
@@ -23,7 +24,7 @@ test('one candidate build is reused with same-run and exact-SHA validation',()=>
 test('every shard and browser suite remains mandatory with no allowed failures',()=>{
   assert.deepEqual(ci.jobs.unit.strategy.matrix.shard,[0,1,2,3]);
   assert.equal(ci.jobs.unit.strategy['fail-fast'],false);
-  assert.deepEqual(new Set(ci.jobs.build.needs),new Set(['changes','build-core','unit','browser-regression','campaign-browser','campaign-balance']));
+  assert.deepEqual(new Set(ci.jobs.build.needs),new Set(['changes','build-core','unit','isolated-unit','unit-coverage','browser-regression','campaign-browser','campaign-balance']));
   assert.equal(ci.jobs.build.if,'${{ always() }}');
   for(const [name,job]of Object.entries(ci.jobs)){
     assert.equal(job['continue-on-error'],undefined,name);
@@ -51,4 +52,17 @@ test('production checks move behind exact-main release verification and preserve
   assert.equal(production.jobs['post-release'].needs,'production');
   const post=runs(production.jobs['post-release']);
   for(const script of ['duel-production.mjs','campaign-production.mjs','tc-sim-job-start-outcome-browser.mjs','esik-save-browser.mjs'])assert.ok(post.includes(script),script);
+});
+
+test('the complete nested suite retains Node22, its wrapper and every worker assertion',()=>{
+  const isolated=ci.jobs['isolated-unit'];
+  assert.equal(isolated['runs-on'],'ubuntu-24.04');
+  assert.equal(isolated['timeout-minutes'],60);
+  assert.equal(isolated.steps.find(s=>s.run)?.run,'node scripts/ci-parallel.mjs run isolated 0 1');
+  const setup=read('actions/ci-node/action.yml').runs.steps.find(s=>s.uses==='actions/setup-node@v4');
+  assert.equal(setup.with['node-version'],'22');
+  assert.equal(createHash('sha256').update(readFileSync(new URL('./social-engine-core.test.mjs',import.meta.url))).digest('hex'),'c4e1d29ca12b7e375f9586733611ecb6e89bcb364679dac6b39a7defeeedd855','Released wrapper and all its assertions remain byte-identical');
+  const worker=readFileSync(new URL('../src/games/social-engine/tests/worker.test.ts',import.meta.url),'utf8');
+  assert.ok(worker.includes('Object.assign(vm.createContext(vm.constants.DONT_CONTEXTIFY), {'));
+  assert.equal(createHash('sha256').update(worker.slice(worker.indexOf('test("GD16'))).digest('hex'),'be660c67d52ec21681d32f7c861bf908a9c4cec1db82234470e08f083202c361','All six released worker test bodies, including both100000-tick traces, remain byte-identical');
 });
