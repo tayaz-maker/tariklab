@@ -69,7 +69,8 @@ try {
     await page.screenshot({ path: `${out}/creation-${width}.png`, fullPage: true });
     await surface.evaluate(() => localStorage.setItem("tariklab::tc-sim:1", "untouched"));
     await surface.locator("#character-name").fill("Ada <test>");
-    await surface.locator("[name=scenario][value=newcomer]").check();
+    await surface.locator('#create-form details > summary').click();
+    await surface.locator('select[name=scenario]').selectOption('newcomer');
     await surface.locator("[data-testid=create-game]").click();
     await waitForBoardworldNavigation(surface);
     const inspect = () => surface.evaluate(() => window.boardworldInspect());
@@ -121,7 +122,7 @@ try {
       }
     }
     await openBoardworldTab(surface, "board");
-    await surface.locator(".neighborhood-select[data-district=besiktas]").click();
+    await surface.locator("[data-world-district=besiktas]").click();
     await act("travel:besiktas");
     assert.equal((await inspect()).location, "besiktas");
     await drain();
@@ -147,13 +148,23 @@ try {
     assert.deepEqual(await inspect(), saved, "export/import preserves exact state");
     await surface.locator("[data-ui=menu]").click();
     await surface.locator("#menu-dialog [data-ui=save]").click();
+    // New games use the v7 IndexedDB authority. Corrupt its primary slot and
+    // verify recovery from its actual backup, rather than mutating a Gold mirror.
     const backup = await surface.evaluate(async () => {
-      const { BACKUP_KEY, importGame } = await import("/games/tc-sim-boardworld/persistence.mjs");
-      return importGame(localStorage.getItem(BACKUP_KEY)).state;
-    });
-    await surface.evaluate(async () => {
-      const { SAVE_KEY } = await import("/games/tc-sim-boardworld/persistence.mjs");
-      localStorage.setItem(SAVE_KEY, "{broken");
+      const io = await import("/games/tc-sim-boardworld/persistence.mjs");
+      const loaded = await io.loadExpansionLocked();
+      const expected = io.importGame(loaded.token.backup).state;
+      if (!expected) throw Error("Expansion backup is missing");
+      const db = await new Promise((resolve,reject) => {
+        const request=indexedDB.open(`${io.SAVE_KEY}.transactions`,1);
+        request.onsuccess=()=>resolve(request.result); request.onerror=()=>reject(request.error);
+      });
+      await new Promise((resolve,reject) => {
+        const tx=db.transaction('state','readwrite'), store=tx.objectStore('state'), read=store.get('head');
+        read.onsuccess=()=>{const head=read.result; head.slots=head.slots.map(([key,value])=>[key,key===loaded.token.key?'{broken':value]); store.put(head,'head');};
+        tx.oncomplete=resolve; tx.onerror=()=>reject(tx.error); tx.onabort=()=>reject(tx.error);
+      });
+      db.close(); return expected;
     });
     await page.reload({ waitUntil: "networkidle" });
     surface = portal ? await (await page.locator("iframe").elementHandle()).contentFrame() : page;

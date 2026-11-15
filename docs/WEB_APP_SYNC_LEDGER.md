@@ -1694,3 +1694,13 @@ The ARM trial did not remove the nested suite's single-case bottleneck. A real b
 ## 2026-11-15 — Boardworld Deep Society 3 integration
 
 Extend the optional Boardworld world with deterministic resident priorities, organization factions and strategic costs, and persistent character decisions using existing financial, family and legal authorities. Preserve four primary areas and TR/EN/PL. Introduce a reader-capability envelope and canonical slot for the new bounded society/story domains, retaining previous slots and native stale-writer protection. Baseline d2c1810d and its previous production publication were independently reconciled before release work. Existing package ceilings, 730-case inventory and all required CI/browser gates remain; new compatibility and gameplay checks are additive. See docs/tc-sim-boardworld/DEEP_SOCIETY_3_VERIFICATION.md for evidence methods and final release status. Native remains paused; audio and unrelated games are unchanged.
+
+## 2026-11-15 — Boardworld gameplay foundation (unreleased work)
+
+Prepare a schematic three-city world map, 31 selectable starting districts, local housing and six changeable ambitions. Existing save authority and paid gameplay actions remain in use. The production-packed browser suite passes all 31 district starts, work, transport, housing and reload; the six ambitions, social actions, languages and desktop/mobile map are exercised. Focused simulation and compatibility tests also pass. This candidate is not released: production package budgets currently fail (Gold 301,367 / 301,836; initial TR 199,547 / 205,874; expansion 97,601 / 96,000; combined 398,968 / 400,000 gzip bytes), and full CI, complete real-browser acceptance and deployment remain outstanding. Audio and unrelated games remain unchanged.
+
+The follow-up territorial settlement refactor preserves the 365-day legacy replay and passes 23 focused tests; it saves 75 gzip bytes. The mandatory package test still fails at the unchanged Expansion ceiling, so no PR, merge or production publication is authorized by this release gate.
+
+## 2026-11-15 — Authorized Gameplay Foundation package budgets
+
+The user explicitly authorized expansion 96,000 → 104,000 and combined 400,000 → 410,000 gzip bytes. Gold 301,836 and initial Turkish 205,874 remain unchanged. Every emitted asset remains counted, with the existing lazy-loading and shared Gold-engine checks intact. The previously rejected validation refactor was not applied. Full CI and production verification remain required.

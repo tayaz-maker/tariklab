@@ -38,7 +38,7 @@ function fact(html, label, value) {
   assert.match(text, pattern, `expected ${label} with value ${value}`);
 }
 
-function section(state, language, name) {
+function section(state, language, name, selectedDistrict) {
   const actions = getActions(state);
   const cards = new Map();
   const html = renderExpansion({
@@ -60,6 +60,7 @@ function section(state, language, name) {
     esc: escape,
     language,
     section: name,
+    selectedDistrict,
   });
   assert.doesNotMatch(html, /undefined|NaN|<svg onload=|<img src=x onerror=/);
   return { html, cards };
@@ -355,9 +356,11 @@ test("selected sections render current family, property, business, institution a
       "institution:study",
       "institution:clinic",
       "institution:fine",
-      "world:move:izmir",
       "district:visit:ankara:cankaya:work",
     );
+    assert.match(world.html, /data-world-district="izmir:konak"/);
+    const izmir = section(state, language, "world", "izmir:konak");
+    expectCards(izmir.cards, "world:move:izmir");
     const recruitment = [...world.cards.values()].filter(({ id }) =>
       id.startsWith("underworld:recruit:"),
     );

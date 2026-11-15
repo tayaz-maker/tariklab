@@ -138,7 +138,7 @@ try {
       if (a.category !== "event") await tab(categories[a.category] || "board");
       if (a.category === "travel")
         await surface
-          .locator(`[data-district="${a.destination || id.split(":")[1].split("-")[0]}"]`)
+          .locator(`[data-world-district="${a.destination || id.split(":")[1].split("-")[0]}"], [data-district="${a.destination || id.split(":")[1].split("-")[0]}"]`)
           .first()
           .click();
       if (id.startsWith("household:invite:"))
@@ -221,15 +221,17 @@ try {
     const firstPaint = await surface.evaluate(
       () => performance.getEntriesByName("first-contentful-paint")[0]?.startTime || null,
     );
-    await surface.locator("[name=scenario][value=restart]").check();
+    await surface.locator('#create-form details > summary').click();
+    await surface.locator('select[name=scenario]').selectOption('restart');
     await surface.locator("#character-name").fill("Birbirine Bağlı Hayat");
     await surface.locator("[data-testid=create-game]").click();
+    await surface.waitForFunction(() => window.boardworldInspect?.()?.version === 7);
     await h.drain();
-    assert.equal((await h.inspect()).version, 6);
+    assert.equal((await h.inspect()).version, 7);
     await h.tab("board");
     if (await surface.locator('[data-ui="dismiss-outcome"]').count())
       await surface.locator('[data-ui="dismiss-outcome"]').click();
-    assert.equal(await surface.locator(".city-node").count(), 3);
+    assert.equal(await surface.locator(".world-node").count(), 15);
     assert.deepEqual(
       await boardworldDestinations(surface),
       [
@@ -261,7 +263,7 @@ try {
       assert.ok(ratio >= 4.5, `${name} text on paper contrast ${ratio}`);
 
     const board = await surface.evaluate(() => {
-      const el = document.querySelector(".living-map"),
+      const el = document.querySelector(".world-map"),
         r = el.getBoundingClientRect();
       return {
         mapDocumentY: r.top + scrollY,
@@ -272,10 +274,11 @@ try {
     });
     assert.ok(board.mapDocumentY < board.viewportHeight, "map starts in first viewport");
     assert.ok(board.locationVisible, "mobile and desktop location visible");
-    const venueWidth = await surface.evaluate(() => ({
-      available: document.querySelector(".local-venues").getBoundingClientRect().width,
-      used: document.querySelector(".venue-grid").getBoundingClientRect().width,
-    }));
+    const venueWidth = await surface.evaluate(() => {
+      const panel=document.querySelector(".world-inspector"), style=getComputedStyle(panel);
+      return {available:panel.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight),
+        used:panel.querySelector("ul").getBoundingClientRect().width};
+    });
     assert.ok(
       venueWidth.used >= venueWidth.available * 0.95,
       "venue grid uses its available width",
@@ -283,9 +286,10 @@ try {
 
     await surface.evaluate(() => scrollTo(0, 0));
     await page.screenshot({ path: `${output}/board-${width}.png`, fullPage: true });
-    await surface.locator('[data-emergent="onboarding"] > summary').click();
-    assert.equal(await surface.locator(".guide-step").count(), 4);
-    await surface.locator('.guide-step[data-tab="work"]').click();
+    const guide=surface.locator('[data-life-path]');
+    assert.ok(await guide.locator('[data-life-path-objective]').innerText(), 'first objective is explained');
+    assert.ok(await guide.locator('[data-action]:enabled').count(), 'first objective has an actionable step');
+    await h.tab('work');
     assert.ok(await surface.locator(".career-context").count());
     await h.tab("board");
     const before = await h.inspect();
@@ -293,7 +297,8 @@ try {
       const e = await import("/games/tc-sim-boardworld/engine.mjs");
       return e.previewAction(window.boardworldInspect(), "travel:besiktas");
     });
-    await surface.locator('.route-go[data-action="travel:besiktas"]').click();
+    await surface.locator('[data-world-district="besiktas"]').first().click();
+    await surface.locator('[data-action="travel:besiktas"]').first().click();
     assert.equal((await h.inspect()).location, "besiktas");
     assert.equal((await h.inspect()).time - before.time, forecast.minutes);
     assert.equal((await h.inspect()).cash - before.cash, forecast.cash);
@@ -361,7 +366,9 @@ try {
     await page.screenshot({ path: `${output}/policy-${width}.png`, fullPage: true });
     await h.tab("life");
     assert.ok(await surface.locator('[data-life="household"]').count());
-    assert.ok(await surface.locator('[data-life="lease"]').count());
+    const home=(await h.inspect()).expansion.economy.home;
+    assert.ok((await h.inspect()).expansion.economy.properties[home]?.lease?.rent>0, 'actual housing lease exists');
+    assert.ok(await surface.locator('[data-tab="expansion-finance"]').count(), 'housing links to lease details');
     await surface.evaluate(() => scrollTo(0, 0));
     await page.screenshot({ path: `${output}/household-${width}.png`, fullPage: true });
     const firstDetail = surface.locator(".need-details summary").first();

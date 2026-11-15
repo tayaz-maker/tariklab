@@ -143,8 +143,7 @@ export function tickRegions(s, api, markets) {
 export function worldActions(s, api) {
   const w = s.expansion.world,
     region = REGIONS[w.region],
-    r = w.regions[w.region],
-    day = api.dayOf(s);
+    r = w.regions[w.region];
   const actions = [];
   for (const [id, target] of Object.entries(REGIONS)) {
     if (id === w.region) continue;
@@ -170,13 +169,6 @@ export function worldActions(s, api) {
   if (goldPlace(s)) return actions;
   const wage = Math.floor((region.wage * r.employment) / 100);
   const firm = api.regionalShift?.(s, w.region, wage);
-  const available =
-    firm &&
-    r.employment >= 80 &&
-    (day - 1) % 7 < 5 &&
-    day > w.lastShiftDay &&
-    s.player.energy >= 30 &&
-    s.bank + wage <= 1_000_000_000;
   actions.push(
     {
       id: "world:shift",
@@ -188,18 +180,9 @@ export function worldActions(s, api) {
         : "Ücret ayırabilen açık bir yerel işletme yok.",
       cost: 0,
       minutes: 360,
-      disabled: !available,
-      reason: "Uygun vardiya, yeterli enerji ve bugün tamamlanmamış bir vardiya gerekir.",
-      run(next) {
-        next.expansion.world.lastShiftDay = day;
-        const employer = next.expansion.economy.firms[firm.id];
-        employer.cash -= wage;
-        employer.costs = Math.min(1_000_000_000, employer.costs + wage);
-        next.flags.workDays++;
-        api.receive(next, wage, "Yerel vardiya", "bank");
-        api.change(next, { energy: -17, stress: 7 });
-        return "Yerel vardiyayı tamamladın.";
-      },
+      // The retired action ID still explains where to get a local contract.
+      disabled: true,
+      reason: "Yerel sözleşme için iş merkezine git.",
     },
     {
       id: "world:meal",
@@ -248,6 +231,7 @@ export function adaptWorldActions(s, actions) {
   // Explicit regional actions supply local work, care and transport.
   return actions.filter(({ id }) =>
     /^(district:|underworld:|story:|world:|family:|economy:|institution:|business:|event:|wait:|deposit:|withdraw:|repay:|finance:|arrears:pay$|household:collect:|calendar:(cancel|decline|repeat-stop):)/.test(id) ||
+    (s.expansion.lifePath && /^(?:practice:(?:knowledge|craft|communication)|snack)$/.test(id)) ||
     (s.expansion.economy.home && /^(?:sleep$|cook$|buy:groceries$|household:(?:buy:|maintain$)|flow:(?:care$|payments:))/.test(id)),
   );
 }

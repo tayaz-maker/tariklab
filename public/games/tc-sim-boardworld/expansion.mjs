@@ -2,7 +2,9 @@ import { closeHousehold } from "./life-systems.mjs";
 import { initSociety, migrateSociety, tickSociety, societyActions, societyView, validateSociety } from "./expansion-society.mjs";
 import { initStories, migrateStories, tickStories, storyActions, afterStoryAction, storyView, validateStories } from "./expansion-stories.mjs";
 import { attachExpansionTravel } from "./city.mjs";
-import { routeBetween } from "./expansion-geography.mjs";
+import { hubDistrict, routeBetween } from "./expansion-geography.mjs";
+import { initLifePath, lifePathActions, afterLifePathAction, getLifePathView, validateLifePath } from "./expansion-life-paths.mjs";
+export { lifePathActions, resolveLifePathStart } from "./expansion-life-paths.mjs";
 import { EXPANSION_SAVE_VERSION, createGame } from "./engine.mjs";
 import {
   initFamily,
@@ -115,7 +117,7 @@ export function attachExpansion(api) {
   // Property and enterprise stay in the household estate across successors.
 }
 
-export function initExpansion(s) {
+export function initExpansion(s, setup) {
   s.version = EXPANSION_SAVE_VERSION;
   s.expansion = { livingWorld: 2, deepSociety: 3, playerId: "player:1", nextEvent: 1, events: [] };
   initWorld(s);
@@ -124,6 +126,7 @@ export function initExpansion(s) {
   initInstitutions(s);
   initSociety(s);
   initStories(s);
+  if (setup) initLifePath(s, setup, runtimeApi);
 }
 
 // Called on an already validated clone. Existing balances and history are not
@@ -182,7 +185,7 @@ export function expansionActions(s, actions, api) {
     s,
     adaptDistrictActions(s, adaptWorldActions(s, adaptInstitutionActions(s, eligible, api)), api),
     api,
-  );
+  ).concat(lifePathActions(s));
 }
 
 export function afterExpansionAction(s, id, before, api, action) {
@@ -193,6 +196,7 @@ export function afterExpansionAction(s, id, before, api, action) {
   afterInstitutionAction(s, id, before, api);
   const underworldMessage = afterUnderworldAction(s, id, before, api, action);
   const storyMessage = afterStoryAction(s, id, before, api, action);
+  afterLifePathAction(s, id, before, api);
   tickStories(s, api);
   return storyMessage || underworldMessage || districtMessage;
 }
@@ -209,6 +213,16 @@ export function getExpansionView(s) {
     underworld: underworldView(s, runtimeApi),
     society: societyView(s, runtimeApi),
     stories: storyView(s),
+    lifePath: getLifePathView(s),
+  };
+}
+
+export function intentLocationFilter(s, districtId) {
+  const current = getPlace(s).districtId;
+  return ({ id, destination }) => {
+    if (id.startsWith("district:travel:")) destination = id.slice("district:travel:".length);
+    if (id.startsWith("world:move:")) destination = hubDistrict(id.slice("world:move:".length));
+    return (destination || current) === districtId;
   };
 }
 
@@ -254,6 +268,7 @@ export function validateExpansion(s) {
     validateDistricts(s) &&
     validateUnderworld(s) &&
     validateSociety(s) &&
-    validateStories(s)
+    validateStories(s) &&
+    validateLifePath(s)
   );
 }

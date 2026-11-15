@@ -307,39 +307,36 @@ test("recovery preserves rendered expansion snapshots", async () => {
         out[`${language}/${name}/${section}`] = createHash("sha256").update(html).digest("hex");
       }
   }
-  // Reviewed DS3 addition: localized progressive organization/territory details.
-  // All family/finance snapshots and existing World content remain unchanged.
-  // Reviewed LW2 changes:31 districts, connected routes, funded territory,
-  // contextual property eligibility and compact organization/property sections.
-  // Full action fields, family output and escaped content remain snapshotted.
+  // World snapshots include the ambition guide and selectable transit map.
+  // Family, finance, full action fields and escaped records are still snapshotted.
   const expected = {
     "tr/initial/family": "8a4a64b0ad91daf0cb8762dabef571f0de6b89f406f83af0b5701e6c44ec6007",
     "tr/initial/finance": "593453d9ec9c4ed1fd4c1a36062f88ffaa27329484ea0e22e41bd0ec61c21248",
-    "tr/initial/world": "6b3ff2c07d3674c989b4811e190f12d1bccca52e74479561e38302da06ba260e",
+    "tr/initial/world": "7cb406e318871a93d00d6088ea2e07fd1584ac4c58df017a5fb86ee1a3e533c4",
     "tr/populated/family": "8d05f4bb0069161dfe559309d4847262d0ee88133a271cedd354b94f011717ce",
     "tr/populated/finance": "6d9fccbedba05dee64eeba03e87a776f4b7bdc55449e4b30653175993d30812c",
-    "tr/populated/world": "0e0e15b8554a3309b305f1dda8eee367ecd2123217417f43825478ae5ead955a",
+    "tr/populated/world": "4e65cb8586601730291fb6f0aa9a09294f1477a59f37b97c5ecd4f3aafaa0a05",
     "tr/heir/family": "f11eb8c0b90f31a933909e121d05e8216c7a84a29787812def084b811a506642",
     "tr/heir/finance": "6d9fccbedba05dee64eeba03e87a776f4b7bdc55449e4b30653175993d30812c",
-    "tr/heir/world": "0e0e15b8554a3309b305f1dda8eee367ecd2123217417f43825478ae5ead955a",
+    "tr/heir/world": "4e65cb8586601730291fb6f0aa9a09294f1477a59f37b97c5ecd4f3aafaa0a05",
     "en/initial/family": "754fed20538784efde0bc97846c4fe5d04ee5fd3e3bb81c98cdb834ad153fd29",
     "en/initial/finance": "c36fd92520cd063ccf9dc61aaa5547d545520c1be196e6038b786b280902bb1a",
-    "en/initial/world": "006a5f2065474d83f61fd2def1a8b828b99378b909dbc9c355905cc04b66c918",
+    "en/initial/world": "3db11b414d679e33ee264b609736938e6fdc401bcf3affadf8469b3f201c0089",
     "en/populated/family": "3535f467513aa9b4eea9912f0203bfb291537c8814a3610eca843b50ec15c16a",
     "en/populated/finance": "dc117a030df2e8284ad371502e5bc449d570f1a0504eec6d1e181193f84fba00",
-    "en/populated/world": "76b6ff702eb3b6b21fec5a378e02f622b80aa5b969c77b2831576ff23a80ae38",
+    "en/populated/world": "24e66e85da9aff956eea07aadcff8dc3622d570667f73f016734755db58c8ed3",
     "en/heir/family": "7e7554fd47a7b97a393c286b52352ee0a408f5fc7964b73306de155ca092b5ea",
     "en/heir/finance": "dc117a030df2e8284ad371502e5bc449d570f1a0504eec6d1e181193f84fba00",
-    "en/heir/world": "76b6ff702eb3b6b21fec5a378e02f622b80aa5b969c77b2831576ff23a80ae38",
+    "en/heir/world": "24e66e85da9aff956eea07aadcff8dc3622d570667f73f016734755db58c8ed3",
     "pl/initial/family": "146f825c308b5e048a7bcead9fe1e641d777062063b6a9e675f879e557394217",
     "pl/initial/finance": "083b45a89a6bbc0f3636cca48e8a66edfe11f88de00fa6c5bbb5f4ae35ab6e94",
-    "pl/initial/world": "65a1e00f8682e9178be06373b687a5a8c59efe267ae2fd244eb249dedf72e16c",
+    "pl/initial/world": "9b2a7af3129c3dd5706933d0453b97680dffbd237e42e15fa903e0c4db34eda0",
     "pl/populated/family": "bd8145681ee28e0b41f18600ea70e9449260d69e965a4a61ba4aba0e0421db4a",
     "pl/populated/finance": "a2700e0eb5024fe833a077e529afdaf8857ba38cbe30c1c1edcbf5fabf240284",
-    "pl/populated/world": "e40054fbf8e9f7d6263326adf0bd296681aa50b148335f0ee07fca1adf0db51e",
+    "pl/populated/world": "e40680fb3c3f76bf857627e5279df306ba50ec60bb5d2e38bccd1a8d41f6a35a",
     "pl/heir/family": "00cfa7f37ca3d9113832b18e4fff775f48783e17057c0817e088eb39292513f2",
     "pl/heir/finance": "a2700e0eb5024fe833a077e529afdaf8857ba38cbe30c1c1edcbf5fabf240284",
-    "pl/heir/world": "e40054fbf8e9f7d6263326adf0bd296681aa50b148335f0ee07fca1adf0db51e"
+    "pl/heir/world": "e40680fb3c3f76bf857627e5279df306ba50ec60bb5d2e38bccd1a8d41f6a35a"
 };
   for (const [name, digest] of Object.entries(out)) assert.equal(digest, expected[name], name);
 });

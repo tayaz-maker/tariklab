@@ -278,12 +278,19 @@ export function renderIntentComposer({
   districts,
   actionCard,
   fallbackActions = [],
+  canSchedule = true,
 }) {
+  const localCategory = {
+    earn: /^district:(?:apply|shift|quit)$/,
+    connect: /^district:meet:/,
+    care: /^world:(?:meal|rest)$/,
+  };
   const chosen = INTENTS.find((i) => i.id === intent) || INTENTS[0];
   const matched = chosen.categories.length
     ? results.filter(
         (a) =>
           chosen.categories.includes(a.category) ||
+          localCategory[intent]?.test(a.id) ||
           (intent === "connect" && a.id.startsWith("calendar:")),
       )
     : results;
@@ -298,7 +305,7 @@ export function renderIntentComposer({
     ...matched.filter((a) => !a.disabled),
     ...matched.filter((a) => a.disabled),
   ].slice(0, 12);
-  return `<section class="intent-composer" data-intent="composer"><div class="subheading"><div><span class="eyebrow">NİYETİNİ BİR HAMLEYE DÖNÜŞTÜR</span><h3>Bugün neyi değiştirmek istersin?</h3></div></div><form id="intent-form"><div class="intent-fields"><label class="field">Niyetin<select name="intent">${INTENTS.map((i) => `<option value="${i.id}" ${intent === i.id ? "selected" : ""}>${esc(i.label)}</option>`).join("")}</select></label><label class="field">Bir kişi<select name="npcId"><option value="">Herkes</option>${options(npcs, npcId)}</select></label><label class="field">Bir semt<select name="location"><option value="">Bütün semtler</option>${options(districts, location)}</select></label><label class="field">Eylem ara<input name="query" value="${esc(query)}" maxlength="60" placeholder="İş, ders, borç…"></label></div><button class="secondary" type="submit">Uygulanabilir hamleleri bul ↗</button></form><p class="tiny">Arama, oyunun mevcut eylemleriyle sınırlı. Her sonuç gerçek süre, bütçe ve konum koşullarına bağlıdır.</p>${intent === "connect" ? `<button class="primary" data-schedule-npc="${esc(npcId || npcs[0]?.id)}">Belirli bir zaman için görüşme öner</button>` : ""}<div class="intent-results"><span class="eyebrow">${matched.length} DESTEKLENEN SEÇENEK${matched.length > 12 ? " · İLK 12 SONUÇ" : ""}</span><div class="action-grid">${ordered.map((a) => actionCard(a, true)).join("") || '<div class="empty-state">Bu filtrelerle bir hamle yok. Kişi veya semt filtresini kaldır; gündelik bakım, iş ve eğitim seçeneklerini yeniden gör.</div>'}</div>${alternatives.length ? `<div class="subheading"><h3>Şimdi yapılabilecek diğer hamleler</h3></div><div class="action-grid">${alternatives.map((a) => actionCard(a, true)).join("")}</div>` : ""}</div></section>`;
+  return `<section class="intent-composer" data-intent="composer"><div class="subheading"><div><span class="eyebrow">NİYETİNİ BİR HAMLEYE DÖNÜŞTÜR</span><h3>Bugün neyi değiştirmek istersin?</h3></div></div><form id="intent-form"><div class="intent-fields"><label class="field">Niyetin<select name="intent">${INTENTS.map((i) => `<option value="${i.id}" ${intent === i.id ? "selected" : ""}>${esc(i.label)}</option>`).join("")}</select></label><label class="field">Bir kişi<select name="npcId"><option value="">Herkes</option>${options(npcs, npcId)}</select></label><label class="field">Bir semt<select name="location"><option value="">Bütün semtler</option>${options(districts, location)}</select></label><label class="field">Eylem ara<input name="query" value="${esc(query)}" maxlength="60" placeholder="İş, ders, borç…"></label></div><button class="secondary" type="submit">Uygulanabilir hamleleri bul ↗</button></form><p class="tiny">Arama, oyunun mevcut eylemleriyle sınırlı. Her sonuç gerçek süre, bütçe ve konum koşullarına bağlıdır.</p>${intent === "connect" && canSchedule ? `<button class="primary" data-schedule-npc="${esc(npcId || npcs[0]?.id)}">Belirli bir zaman için görüşme öner</button>` : ""}<div class="intent-results"><span class="eyebrow">${matched.length} DESTEKLENEN SEÇENEK${matched.length > 12 ? " · İLK 12 SONUÇ" : ""}</span><div class="action-grid">${ordered.map((a) => actionCard(a, true)).join("") || '<div class="empty-state">Bu filtrelerle bir hamle yok. Kişi veya semt filtresini kaldır; gündelik bakım, iş ve eğitim seçeneklerini yeniden gör.</div>'}</div>${alternatives.length ? `<div class="subheading"><h3>Şimdi yapılabilecek diğer hamleler</h3></div><div class="action-grid">${alternatives.map((a) => actionCard(a, true)).join("")}</div>` : ""}</div></section>`;
 }
 
 export function renderWorldBulletin(view) {

@@ -277,7 +277,7 @@ try {
         } else if (route.id === "tc-sim-boardworld") {
           await surface.locator("#character-name").fill("Deniz Boardworld QA");
           await surface.locator('[data-testid="create-game"]').click();
-          await surface.locator('[data-tab="board"]').waitFor();
+          await surface.locator('.primary-nav [data-tab="board"]').waitFor();
           await measure("game");
         } else if (route.id === "tc-sim") {
           const introCta = surface.locator("#show-creation-form");

@@ -132,7 +132,12 @@ test("same-run sealed assets and every pre-existing browser command remain manda
   assert.equal(bw.jobs.boardworld.if, "${{ always() }}");
   assert.deepEqual(bw.jobs.boardworld.needs, ["bundle", "unit", "browser"]);
   assert.deepEqual(bw.jobs.unit.strategy.matrix.shard, [0, 1, 2, 3]);
-  assert.deepEqual(bw.jobs.browser.strategy.matrix.suite, ["regression", "generation"]);
+  assert.deepEqual(bw.jobs.browser.strategy.matrix.suite, ["regression", "generation", "foundation"]);
+  const foundation = bw.jobs.browser.steps.filter(({ run }) =>
+    run === "BOARDWORLD_ASSETS=.output/public node --test scripts/boardworld-foundation-browser.mjs",
+  );
+  assert.equal(foundation.length, 1);
+  assert.equal(foundation[0].if, "matrix.suite == 'foundation'");
   const all = Object.values(bw.jobs)
     .flatMap((j) => j.steps)
     .map((s) => s.run || "")

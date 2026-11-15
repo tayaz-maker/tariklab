@@ -32,7 +32,7 @@ export function placeLabel(view, language) {
     : neighborhood?.name;
   return [city, district?.name, venue?.name || area].filter(Boolean).join(" · ");
 }
-export function renderGenerations(state, expansionUi, cachedView, actions, actionCard, sectionHeader, money, esc, language, expansionProblem, tab = "expansion") {
+export function renderGenerations(state, expansionUi, cachedView, actions, actionCard, sectionHeader, money, esc, language, expansionProblem, tab = "expansion", selectedDistrict) {
   const [name, headline, description, start] = expansionIntro[language] ?? expansionIntro.tr;
   if (state.expansion)
     return expansionUi.renderExpansion({
@@ -43,6 +43,7 @@ export function renderGenerations(state, expansionUi, cachedView, actions, actio
       money,
       esc,
       language,
+      selectedDistrict,
       section: tab === "expansion-world" ? "world" : tab === "expansion-finance" ? "finance" : "family",
     });
   return `${sectionHeader(name, headline, description)}${expansionProblem ? `<p role="alert">${esc(expansionProblem)}</p><button class="primary" data-ui="import">Kayıt dosyası yükle</button>` : `<button class="primary" data-ui="expand">${esc(start)}</button>`}`;

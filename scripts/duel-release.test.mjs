@@ -311,7 +311,7 @@ test("every playable catalog game ships teaching content", () => {
     const body = readFileSync(found, "utf8");
     assert.match(
       body,
-      slug === "social-engine" ? /DARAMCIK rehberi[\s\S]*01 \/ Yolunu bul[\s\S]*02 \/ Geçimini kur/ : /Nasıl oynanır|Nasıl Oynanır|NASIL OYNANIR|How to play|How to Play|How it plays|HELP_SECTIONS|Amaç/,
+      slug === "social-engine" ? /DARAMCIK rehberi[\s\S]*01 \/ Yolunu bul[\s\S]*02 \/ Geçimini kur/ : slug === "tc-sim-boardworld" ? /help: `[\s\S]*class="help-steps"[\s\S]*Şehri tanı[\s\S]*Bir iş bul[\s\S]*Kendine bak/ : /Nasıl oynanır|Nasıl Oynanır|NASIL OYNANIR|How to play|How to Play|How it plays|HELP_SECTIONS|Amaç/,
       `${slug}: ${found} has no how-to-play surface`,
     );
     assert.doesNotMatch(body, />\s*(undefined|null)\s*</, `${slug}: placeholder copy in ${found}`);

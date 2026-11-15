@@ -11,13 +11,17 @@ except the `expansion*.mjs` modules. Expansion is the sum of those modules;
 combined is Gold plus expansion. Initial Turkish excludes both deferred locale
 and expansion files. No emitted file is omitted from the combined total.
 
-## User-authorized budget override — 2026-11-14
+## User-authorized budget override — 2026-11-15
+
+The user authorized expansion **104,000** and combined **410,000** gzip bytes for Gameplay Foundation. Gold remains **301,836** and initial Turkish remains **205,874**. All emitted files remain counted, and the lazy boundary and single Gold engine requirements below continue unchanged. The 2026-11-14 table records the earlier policy.
+
+## Earlier budget override — 2026-11-14
 
 The user explicitly approved controlled expansion headroom for the existing
 Living Cities & Underworld mission. This replaces the old expansion and combined
 ceilings; it does not authorize increasing Gold or initial-load budgets.
 
-| Measured gzip boundary | Previous limit (bytes) | Current required limit (bytes) |
+| Measured gzip boundary | Previous limit (bytes) | Then-authorized limit (bytes) |
 | --- | ---: | ---: |
 | Gold aggregate | 301,836 | 301,836 (unchanged) |
 | Initial Turkish load | 205,874 | 205,874 (unchanged) |

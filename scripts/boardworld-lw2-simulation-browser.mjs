@@ -52,10 +52,22 @@ async function clearEvents() {
   throw new Error("Event choices did not settle.");
 }
 
+async function selectMapDestination(page, id) {
+  const cityHub={istanbul:'kadikoy',ankara:'ankara:cankaya',izmir:'izmir:konak'};
+  const target=id.startsWith('world:move:') ? cityHub[id.slice('world:move:'.length)] :
+    id.startsWith('district:travel:') ? id.slice('district:travel:'.length) :
+    id.startsWith('travel:') ? id.slice('travel:'.length) : null;
+  if (target) {
+    const node=page.locator(`[data-world-district="${target}"]`).first();
+    assert.ok(await node.count(),`map exposes ${target}`);
+    await node.click();
+  }
+}
 async function worldAction(id) {
   for (let tries = 0; tries < 26; tries++) {
     await clearEvents();
     await world();
+    await selectMapDestination(page,id);
     if ((await buttonFor(id).count()) && (await buttonFor(id).isEnabled())) {
       await click(id);
       return;
@@ -74,12 +86,12 @@ async function worldAction(id) {
 try {
   await page.goto(`http://127.0.0.1:${server.address().port}/games/tc-sim-boardworld/index.html`);
   await page.locator("#character-name").fill("Deniz Usta");
-  await page.locator('[name="scenario"][value="restart"]').check();
+  await page.locator('#create-form details > summary').click();
+    await page.locator('select[name=scenario]').selectOption('restart');
   await page.locator('[data-testid="create-game"]').click();
-  await page.locator(".event-choices [data-action]:enabled").first().waitFor();
+  await page.waitForFunction(() => window.boardworldInspect?.()?.version === 7);
   await clearEvents();
   await openBoardworldTab(page, "expansion");
-  await page.locator('[data-ui="expand"]').click();
   await page.waitForFunction(() => window.boardworldInspect?.()?.version === 7);
 
   await worldAction(`district:travel:${districtId}`);
