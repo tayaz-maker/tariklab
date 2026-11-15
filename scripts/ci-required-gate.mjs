@@ -3,11 +3,11 @@ import {pathToFileURL} from 'node:url';
 
 const requiredJobs = ['changes', 'build-core', 'browser-regression', 'campaign-browser', 'campaign-balance', 'unit'];
 
-export function validateRequiredNeeds(needs) {
+export function validateRequiredNeeds(needs, additionalJobs = []) {
   if (!needs || typeof needs !== 'object' || Array.isArray(needs)) {
     throw new Error('CI dependency results must be an object');
   }
-  for (const job of requiredJobs) {
+  for (const job of [...requiredJobs, ...additionalJobs]) {
     if (!Object.hasOwn(needs, job)) {
       throw new Error(`Missing required CI dependency: ${job}`);
     }
@@ -25,7 +25,7 @@ export function validateRequiredNeeds(needs) {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
-    validateRequiredNeeds(JSON.parse(process.env.NEEDS_JSON ?? ''));
+    validateRequiredNeeds(JSON.parse(process.env.NEEDS_JSON ?? ''), process.argv.slice(2));
     console.log('CI required gate passed: every declared dependency succeeded');
   } catch (error) {
     console.error(`CI required gate failed: ${error.message}`);

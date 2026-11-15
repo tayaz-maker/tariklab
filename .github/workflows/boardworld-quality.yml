@@ -9,27 +9,71 @@ concurrency:
   group: boardworld-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
-  boardworld:
+  bundle:
     runs-on: ubuntu-24.04
-    # Gold Preparation adds 18 annual replays and one 730-day replay.
-    timeout-minutes: 60
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch immutable released6 compatibility reference
-        # checkout is shallow; browser rollback tests archive this exact shipped tree.
-        run: git fetch --no-tags --depth=1 origin d695119186cad42c079a911a60c372f201b3b64b
-      - name: Fetch immutable prior empty-head protocol reference
-        run: git fetch --no-tags --depth=1 origin b0c25495a7c162eb4a653e32c0d999144aefb300
-      - name: Fetch immutable released Living Cities reference
-        run: git fetch --no-tags --depth=1 origin 2b1ede2be7466348e3933eba26b83a3831241bce
       - uses: ./.github/actions/ci-node
-      - name: Deterministic simulation and save recovery
-        env:
-          BOARDWORLD_ACCEPTANCE_REPORT: ${{ runner.temp }}/boardworld-acceptance.json
-          BOARDWORLD_GOLD_REPORT: ${{ runner.temp }}/boardworld-gold-endurance.json
-        run: node --test scripts/boardworld*.test.mjs
       - name: Production bundle
         run: npm run build
+      - name: Seal exact same-run candidate
+        run: |
+          git rev-parse HEAD > .ci-boardworld-sha
+          find .output/public/games/tc-sim-boardworld -type f -print0 | sort -z | xargs -0 sha256sum > .ci-boardworld-assets
+          tar -czf "$RUNNER_TEMP/boardworld-build.tgz" .output/public .ci-boardworld-sha .ci-boardworld-assets
+      - uses: actions/upload-artifact@v4
+        with:
+          name: boardworld-build
+          path: ${{ runner.temp }}/boardworld-build.tgz
+          compression-level: 0
+  unit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch every immutable released compatibility reference
+        run: |
+          git fetch --no-tags --depth=1 origin d695119186cad42c079a911a60c372f201b3b64b
+          git fetch --no-tags --depth=1 origin b0c25495a7c162eb4a653e32c0d999144aefb300
+          git fetch --no-tags --depth=1 origin 2b1ede2be7466348e3933eba26b83a3831241bce
+      - uses: ./.github/actions/ci-node
+      - name: Every deterministic case and save recovery workload
+        run: node scripts/ci-parallel.mjs run boardworld ${{ matrix.shard }} 4
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: boardworld-unit-${{ matrix.shard }}
+          path: ${{ runner.temp }}/ci-boardworld-${{ matrix.shard }}
+  browser:
+    needs: bundle
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [regression, generation]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch every immutable released compatibility reference
+        run: |
+          git fetch --no-tags --depth=1 origin d695119186cad42c079a911a60c372f201b3b64b
+          git fetch --no-tags --depth=1 origin b0c25495a7c162eb4a653e32c0d999144aefb300
+          git fetch --no-tags --depth=1 origin 2b1ede2be7466348e3933eba26b83a3831241bce
+      - uses: ./.github/actions/ci-node
+      - uses: actions/download-artifact@v4
+        with:
+          name: boardworld-build
+          path: ${{ runner.temp }}/boardworld-build
+      - name: Restore exact same-run build and all asset hashes
+        run: |
+          tar -xzf "$RUNNER_TEMP/boardworld-build/boardworld-build.tgz"
+          test "$(cat .ci-boardworld-sha)" = "$(git rev-parse HEAD)"
+          sha256sum --check .ci-boardworld-assets
       - name: Chromium
         run: |
           browser_path="$(command -v google-chrome || command -v chromium || true)"
@@ -39,51 +83,78 @@ jobs:
             npx playwright install --with-deps chromium --only-shell
           fi
       - name: Real play, reload, recovery and responsive production assets
+        if: matrix.suite == 'regression'
         run: node scripts/boardworld-browser.mjs --serve .output/public
       - name: Deep Life decisions, automation, migration and responsive panels
+        if: matrix.suite == 'regression'
         run: node scripts/boardworld-deep-browser.mjs --serve .output/public
       - name: Living City calendar, routes, projects, intents and v2 migration
+        if: matrix.suite == 'regression'
         run: node scripts/boardworld-living-browser.mjs --serve .output/public
       - name: Emergent Life causal decisions, shared household, policies and v3 isolation
+        if: matrix.suite == 'regression'
         run: node scripts/boardworld-emergent-browser.mjs --serve .output/public
       - name: Living Society invitations, daily decisions, locales and v4 isolation
+        if: matrix.suite == 'regression'
         run: node scripts/boardworld-society-browser.mjs --serve .output/public
       - name: Optional generations module loading, save isolation and stale writes
+        if: matrix.suite == 'regression'
         run: node scripts/boardworld-expansion-browser.mjs .output/public
       - name: Living World 2 real city, housing, institution and generation journeys
+        if: matrix.suite == 'regression'
         run: |
           node scripts/boardworld-lw2-city-browser.mjs .output/public
           node scripts/boardworld-lw2-simulation-browser.mjs .output/public
-          node scripts/boardworld-lw2-generation-browser.mjs .output/public
       - name: Released v7 native browser writer isolation
+        if: matrix.suite == 'regression'
         run: node scripts/boardworld-lw2-legacy-browser.mjs .output/public
       - name: Gold native cross-tab transaction and import races
+        if: matrix.suite == 'regression'
         run: |
           node scripts/boardworld-stale-browser.mjs --serve .output/public
           node scripts/boardworld-concurrent-browser.mjs --serve .output/public --output "$RUNNER_TEMP/screenshots/boardworld-stale/concurrent.json"
           node scripts/boardworld-concurrent-browser.mjs --serve .output/public --stale-cache --repeats 20 --output "$RUNNER_TEMP/screenshots/boardworld-stale/frozen-cache.json"
           node scripts/boardworld-transaction-browser.mjs --serve .output/public --output "$RUNNER_TEMP/screenshots/boardworld-stale/transactions.json"
       - name: Released6 stale tab cannot replace a newer Gold save
+        if: matrix.suite == 'regression'
         run: node scripts/boardworld-legacy-tab-browser.mjs --serve .output/public
       - name: Every legacy backup and original remains recoverable
+        if: matrix.suite == 'regression'
         run: node scripts/boardworld-legacy-slot-browser.mjs --serve .output/public
       - name: Empty bootstrap migration and first-creation race
+        if: matrix.suite == 'regression'
         run: node scripts/boardworld-legacy-bootstrap-browser.mjs --serve .output/public
+      - name: One continuous real generation journey
+        if: matrix.suite == 'generation'
+        run: node scripts/boardworld-lw2-generation-browser.mjs .output/public
+      - name: Candidate assets stayed immutable through every browser action
+        run: sha256sum --check .ci-boardworld-assets
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: boardworld-browser
-          path: |
-            ${{ runner.temp }}/boardworld-acceptance.json
-            ${{ runner.temp }}/boardworld-gold-endurance.json
-            ${{ runner.temp }}/screenshots/boardworld
-            ${{ runner.temp }}/screenshots/boardworld-deep
-            ${{ runner.temp }}/screenshots/boardworld-living
-            ${{ runner.temp }}/screenshots/boardworld-emergent
-            ${{ runner.temp }}/screenshots/boardworld-society
-            ${{ runner.temp }}/screenshots/boardworld-stale
-            ${{ runner.temp }}/screenshots/boardworld-legacy-tab
-            ${{ runner.temp }}/screenshots/boardworld-legacy-slot
-            ${{ runner.temp }}/screenshots/boardworld-legacy-bootstrap
-            ${{ runner.temp }}/screenshots/boardworld-lw2-city
-            ${{ runner.temp }}/screenshots/boardworld-lw2-generation
+          name: boardworld-browser-${{ matrix.suite }}
+          path: ${{ runner.temp }}/screenshots/boardworld*
+  boardworld:
+    if: ${{ always() }}
+    needs: [bundle, unit, browser]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/ci-node
+      - name: Require every declared dependency to pass
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: node scripts/boardworld-ci-gate.mjs
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: boardworld-unit-*
+          path: ${{ runner.temp }}/boardworld-results
+      - name: Verify exact-case coverage and merged endurance evidence
+        run: |
+          node scripts/ci-parallel.mjs verify boardworld 0 4 "$RUNNER_TEMP/boardworld-results"
+          node scripts/boardworld-ci-cases.mjs merge-reports "$RUNNER_TEMP/boardworld-results" "$RUNNER_TEMP/boardworld-evidence"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: boardworld-endurance
+          path: ${{ runner.temp }}/boardworld-evidence

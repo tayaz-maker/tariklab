@@ -23,7 +23,7 @@ test('one candidate build is reused with same-run and exact-SHA validation',()=>
 test('every shard and browser suite remains mandatory with no allowed failures',()=>{
   assert.deepEqual(ci.jobs.unit.strategy.matrix.shard,[0,1,2,3]);
   assert.equal(ci.jobs.unit.strategy['fail-fast'],false);
-  assert.deepEqual(new Set(ci.jobs.build.needs),new Set(['changes','build-core','unit','browser-regression','campaign-browser','campaign-balance']));
+  assert.deepEqual(new Set(ci.jobs.build.needs),new Set(['changes','build-core','unit','isolated-unit','unit-coverage','browser-regression','campaign-browser','campaign-balance']));
   assert.equal(ci.jobs.build.if,'${{ always() }}');
   for(const [name,job]of Object.entries(ci.jobs)){
     assert.equal(job['continue-on-error'],undefined,name);

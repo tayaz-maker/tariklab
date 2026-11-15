@@ -1661,21 +1661,19 @@ combined379924. All earlier Gold/deep/living/emergent/society browser suites and
 native stale/legacy/20-cache-race controls passed the preceding packed checkpoint;
 final exact-head CI repeats them unchanged. No release gate or budget is disabled.
 
-## 2026-11-14 — Verified Git release pointer removes the premature build race
+## 2026-11-15 — Parallel TC gates preserve the main Git release path
 
-Living World 2.0 merged as PR262/main `a5ac07a1` after all protected checks passed.
-Its exact-main checks also passed, but the automatic Cloudflare build exhausted
-the existing 13-minute verification wait before the long Boardworld journey
-finished. The later native Git build retry published Worker `c63cd046` at 100%
-traffic. Both origins matched all 48 game assets (96/96 total) and isolated fresh
-browser travel, work and reload passed. This is release evidence, not a reason
-to relax the guard.
+Split the existing TC job into an exact-build preparation job, unchanged unit commands, and three independent browser groups. Every browser group restores the same immutable same-run build and checks its source SHA. The protected `TC job-start / built` name now belongs to an unconditional aggregate that rejects failed, skipped, cancelled or missing dependencies. Baseline fetches, all existing browser/unit command arguments, locale/viewports and uploaded evidence remain; command-hash parity tests bind these checks to released a5ac07a1. Main, Cloudflare settings, game assets, package limits and publication guards are unchanged. Focused gate/guard/scope tests and lint passed; hosted timing and an automatic main production deployment remain the integration acceptance gates.
+## 2026-11-15 — Main-preserving parallel release verification candidate
 
-The separately requested permanent CI correction adds a trusted `workflow_run`
-job that advances a protected `cloudflare-production` branch to exact current
-main only after all three main push workflows pass. Serialized fast-forward
-updates and an already-current no-op prevent ordinary duplicate builds. The
-existing production policy and final main recheck remain; budgets, timeouts
-and all game tests remain unchanged. Configuration and actual cross-provider
-trigger verification are required before calling the correction complete.
-See `docs/CLOUDFLARE_VERIFIED_RELEASE.md` for rollout, recovery and evidence.
+The owner renewed the build-failure correction while explicitly retaining the
+existing main-based Cloudflare Git publication configuration. Independent CI
+work now runs in parallel without changing production settings or the existing
+exact-main wait/three-workflow guard. SHA-bound unit receipts, the frozen 730
+original-test inventory, complete Gold/Emergent case catalogs, sealed build
+artifacts and unconditional aggregate checks preserve mandatory coverage.
+The Social Engine wrapper remains byte-identical on an isolated worker.
+Generation harness overhead is reduced while keeping real visible actions and
+the full natural succession assertions. Hosted full-journey timing and automatic
+production publication remain required; the local partial trace is not treated
+as a release pass. See `docs/CI_PARALLEL_VERIFICATION.md`.

@@ -9,14 +9,15 @@ const repository = "tayaz-maker/tariklab";
 
 export function requireBuildIdentity({ sha, branch, commit }) {
   assert.match(sha, /^[a-f0-9]{40}$/, "Git HEAD must be a full release SHA");
-  assert.ok(
-    ["main", "cloudflare-production"].includes(branch),
-    "Only main or its verified cloudflare-production pointer can publish production",
+  assert.equal(
+    branch,
+    "main",
+    "Only main can publish production; branches use wrangler versions upload",
   );
-  // Git Builds can supply the selected branch literal here (observed: "main").
+  // Deploy Hooks supply the selected branch literal here (observed: "main").
   // HEAD is the immutable candidate; requireRelease still binds it to GitHub
   // main and successful exact-SHA CI/TC, followed by the final main recheck.
-  if (commit && commit !== branch) {
+  if (commit && commit !== "main") {
     assert.equal(commit, sha, "Cloudflare build commit does not match Git HEAD");
   }
 }
