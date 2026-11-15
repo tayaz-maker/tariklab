@@ -17,7 +17,7 @@ function worker() {
   const messages: Record<string, unknown>[] = [];
   const tasks = new Map<number, () => void>();
   let nextTask = 0;
-  const context = vm.createContext({
+  const context = Object.assign(vm.createContext(vm.constants.DONT_CONTEXTIFY), {
     performance,
     setTimeout: (fn: () => void) => {
       tasks.set(++nextTask, fn);

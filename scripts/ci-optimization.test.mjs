@@ -54,12 +54,15 @@ test('production checks move behind exact-main release verification and preserve
   for(const script of ['duel-production.mjs','campaign-production.mjs','tc-sim-job-start-outcome-browser.mjs','esik-save-browser.mjs'])assert.ok(post.includes(script),script);
 });
 
-test('the unchanged nested suite uses a standard ARM runner with the same Node major',()=>{
+test('the complete nested suite retains Node22, its wrapper and every worker assertion',()=>{
   const isolated=ci.jobs['isolated-unit'];
-  assert.equal(isolated['runs-on'],'macos-15');
+  assert.equal(isolated['runs-on'],'ubuntu-24.04');
   assert.equal(isolated['timeout-minutes'],60);
   assert.equal(isolated.steps.find(s=>s.run)?.run,'node scripts/ci-parallel.mjs run isolated 0 1');
   const setup=read('actions/ci-node/action.yml').runs.steps.find(s=>s.uses==='actions/setup-node@v4');
   assert.equal(setup.with['node-version'],'22');
   assert.equal(createHash('sha256').update(readFileSync(new URL('./social-engine-core.test.mjs',import.meta.url))).digest('hex'),'c4e1d29ca12b7e375f9586733611ecb6e89bcb364679dac6b39a7defeeedd855','Released wrapper and all its assertions remain byte-identical');
+  const worker=readFileSync(new URL('../src/games/social-engine/tests/worker.test.ts',import.meta.url),'utf8');
+  assert.ok(worker.includes('Object.assign(vm.createContext(vm.constants.DONT_CONTEXTIFY), {'));
+  assert.equal(createHash('sha256').update(worker.slice(worker.indexOf('test("GD16'))).digest('hex'),'be660c67d52ec21681d32f7c861bf908a9c4cec1db82234470e08f083202c361','All six released worker test bodies, including both100000-tick traces, remain byte-identical');
 });
