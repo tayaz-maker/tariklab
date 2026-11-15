@@ -1073,26 +1073,27 @@ function raidOffscreen(s, x, api, today) {
     const own = x.chapters[attacker.id],
       target = x.chapters[victim.id];
     if (
-      !rostered(own.roster[1]) ||
       own.treasury - reservations(x, attacker.id).treasury < 180 ||
       target.stock <= reservations(x, victim.id).stock ||
       own.stock >= MAX_STOCK
     )
       continue;
-    const runner = currentStaffId(attacker, own, 1);
-    if (
-      x.incidents.some(
+    const available = (slot) => rostered(own.roster[slot]) &&
+      !x.incidents.some(
         (incident, index) =>
-          incident.personId === runner &&
+          incident.personId === currentStaffId(attacker, own, slot) &&
           (x.cases[index].decidedAt === null || x.cases[index].restrictionUntil >= today),
-      )
-    )
-      continue;
+      );
+    // A staffed dock can cover a runner's shift while proceedings or sanctions
+    // prevent that individual from working the route.
+    const slot = available(1) ? 1 : politicsOf(s, attacker) && own.readiness >= 58 && available(2) ? 2 : null;
+    if (slot === null) continue;
+    const runner = currentStaffId(attacker, own, slot);
     recordRaid(s, x, attacker, victim, runner, true);
     const commission = 45;
     own.treasury -= commission;
     own.ledger.payroll += commission;
-    own.roster[1].purse = Math.min(MAX, own.roster[1].purse + commission);
+    own.roster[slot].purse = Math.min(MAX, own.roster[slot].purse + commission);
     target.stock--;
     target.ledger.stolenOut++;
     own.stock++;
@@ -1778,7 +1779,7 @@ function validCase(s, x, row, incident, prior) {
   if (!actor) return false;
   if (incident.offscreen) {
     if (
-      actor.index !== 1 ||
+      (actor.index !== 1 && (actor.index !== 2 || !s.expansion.society)) ||
       actor.generation !== staffGeneration(offender, actor.index, occurred) ||
       minute !== 0 ||
       incident.actionId !== `underworld:night-raid:${victim.id}`
