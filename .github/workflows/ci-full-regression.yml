@@ -39,6 +39,13 @@ jobs:
           cache: npm
       - run: npm ci
         if: needs.changes.outputs.docs != 'true'
+      - name: Fetch immutable Boardworld save compatibility references
+        if: needs.changes.outputs.docs != 'true'
+        run: |
+          git fetch --no-tags --depth=1 origin 2b1ede2be7466348e3933eba26b83a3831241bce
+          git fetch --no-tags --depth=1 origin d2c1810da439dd831fff07992c1c278788a64a4c
+          git fetch --no-tags --depth=1 origin 51552c6197cafe744c5084925f13541a1a0aacf2
+          git fetch --no-tags --depth=1 origin c055514627db537c79f4c92481d38109606deaa6
       - run: npm test
         if: needs.changes.outputs.docs != 'true'
       - name: Duel deterministic stress (500 per theme)

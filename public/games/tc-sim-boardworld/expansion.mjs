@@ -5,6 +5,7 @@ import { attachExpansionTravel } from "./city.mjs";
 import { hubDistrict, routeBetween } from "./expansion-geography.mjs";
 import { initLifePath, lifePathActions, afterLifePathAction, getLifePathView, validateLifePath } from "./expansion-life-paths.mjs";
 export { lifePathActions, resolveLifePathStart } from "./expansion-life-paths.mjs";
+export { nextDistrictShiftAt } from "./expansion-districts.mjs";
 import { EXPANSION_SAVE_VERSION, createGame } from "./engine.mjs";
 import {
   initFamily,
@@ -127,6 +128,20 @@ export function initExpansion(s, setup) {
   initSociety(s);
   initStories(s);
   if (setup) initLifePath(s, setup, runtimeApi);
+}
+
+// These tiers correspond to the published envelope order in persistence.mjs.
+export function saveTier(s) {
+  const expansion = s.expansion;
+  const role = expansion?.districts?.job?.role;
+  const institutions = expansion?.institutions;
+  if (role === "finance" || role === "health" || institutions?.program?.course === "health-support" ||
+      institutions?.qualifications?.some(({course}) => course === "health-support")) return 5;
+  if (expansion?.economy?.business?.sector || role) return 4;
+  if (s.version !== EXPANSION_SAVE_VERSION) return 0;
+  if (expansion?.deepSociety === 3) return 3;
+  if (expansion?.livingWorld === 2) return 2;
+  return expansion?.districts !== undefined || expansion?.underworld !== undefined ? 1 : 0;
 }
 
 // Called on an already validated clone. Existing balances and history are not

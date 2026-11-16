@@ -88,8 +88,10 @@ test("regional contracts and property preserve terms, money and save bytes acros
   assert.ok(pay > 0);
   take("district:shift");
   assert.equal(state.bank - before.bank, pay);
-  assert.equal(employer.cash - state.expansion.economy.firms[firmId].cash, pay);
-  assert.equal(state.expansion.economy.firms[firmId].costs - employer.costs, pay);
+  const afterShift = state.expansion.economy.firms[firmId];
+  const production = employer.cash - afterShift.cash - pay;
+  assert.ok(production >= 0);
+  assert.equal(afterShift.costs - employer.costs, pay + production);
   assert.equal(state.expansion.districts.job.shifts, before.expansion.districts.job.shifts + 1);
   assert.equal(state.flags.workDays, before.flags.workDays + 1);
   const duplicate = resolveAction(state, "district:shift");

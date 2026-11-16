@@ -3000,4 +3000,5 @@ export default [
   "Życiowa ambicja",
   "Zmień ambicję",
   "Rozpoczęło się twoje życie.",
+  "Rozpoczęło się okno lokalnej zmiany; sprawdź warunki.",
 ];

@@ -8,7 +8,7 @@ import {
   districtView,
   tickDistricts,
 } from "../public/games/tc-sim-boardworld/expansion-districts.mjs";
-import { exportGame } from "../public/games/tc-sim-boardworld/persistence.mjs";
+import { exportGame, importGame } from "../public/games/tc-sim-boardworld/persistence.mjs";
 await engine.loadExpansionRuntime();
 function clear(s) {
   while (s.pendingEvents.length) {
@@ -34,6 +34,11 @@ function ready(s, id) {
     s = step(s, "wait:60");
   }
   assert.fail(`Never available: ${id}`);
+}
+function tomorrow(s) {
+  const midnight = (Math.floor(s.time / 1440) + 1) * 1440;
+  while (s.time < midnight) s = step(clear(s), "wait:60");
+  return s;
 }
 test("pure lazy place, canonical lots, and real travel resolver", () => {
   let s = clear(engine.createGame({ seed: 49, expansion: true }));
@@ -144,6 +149,13 @@ test("food vendor transfers meals and restocks using its own funds", () => {
   s = step(ready(s, visit), visit);
   s = ready(s, "world:meal");
   const cost = engine.getActions(s).find((a) => a.id === "world:meal").cost;
+  const poor = structuredClone(s);
+  poor.cash = 0;
+  poor.bank = cost - 1;
+  const unavailable = engine.getActions(poor).find((a) => a.id === "world:meal");
+  assert.equal(unavailable.disabled, true);
+  assert.match(unavailable.reason, /yeterli bakiye yok/);
+  assert.equal(engine.resolveAction(poor, "world:meal").ok, false);
   const firmStocks = Object.fromEntries(
     Object.entries(s.expansion.economy.firms).map(([id, f]) => [id, f.stock]),
   );
@@ -168,6 +180,90 @@ test("food vendor transfers meals and restocks using its own funds", () => {
   const invalid = structuredClone(next);
   invalid.expansion.districts.foodMarkets["ankara:kizilay"].stock = -1;
   assert.equal(engine.validateState(invalid), false);
+});
+
+test("a player's meal and resident subsistence compete for the same finite stock", () => {
+  const districtId = "ankara:altindag";
+  const residentId = `resident:${districtId}`;
+  const vendor = (s) => s.expansion.districts.foodMarkets[districtId];
+  const resident = (s) => s.expansion.economy.residents[residentId];
+  let s = engine.createGame({ seed: 49, expansion: true, startingDistrict: districtId, lifePath: "ordinary" });
+  const visit = `district:visit:${districtId}:social`;
+  s = step(ready(s, visit), visit);
+  s = step(ready(s, "world:meal"), "world:meal");
+  s.player.hunger = 55;
+  // Isolate one remaining meal without a wholesale delivery that night.
+  Object.assign(vendor(s), { stock: 1, cash: 0, wholesaleSpent: 1e9 });
+  Object.assign(resident(s), { cash: 300, savings: 0, debt: 0, employment: "searching" });
+  Object.assign(resident(s).life, { health: 80, employer: "" });
+  const price = engine.getActions(s).find(({ id }) => id === "world:meal").cost;
+  const original = exportGame(s);
+
+  const playerTakesMeal = step(s, "world:meal");
+  assert.equal(vendor(playerTakesMeal).cash, price);
+  assert.equal(getDistrictSimulation(playerTakesMeal, districtId).foodStock, 0);
+  assert.ok(engine.getActions(playerTakesMeal).find(({ id }) => id === "world:meal").disabled);
+
+  const stocked = tomorrow(s);
+  const depleted = tomorrow(playerTakesMeal);
+  assert.equal(vendor(stocked).stock, 0);
+  assert.equal(vendor(stocked).cash, price);
+  assert.deepEqual(vendor(depleted), vendor(stocked));
+  assert.equal(resident(depleted).cash - resident(stocked).cash, price);
+  assert.equal(resident(stocked).life.health, 83);
+  assert.equal(resident(depleted).life.health, 76);
+  assert.equal(resident(depleted).debt, 0);
+  assert.equal(exportGame(s), original);
+
+  const loaded = importGame(original);
+  assert.ok(loaded.state, loaded.message);
+  const replay = tomorrow(loaded.state);
+  assert.deepEqual(vendor(replay), vendor(stocked));
+  assert.deepEqual(resident(replay), resident(stocked));
+
+  const poor = structuredClone(s);
+  resident(poor).cash = price - 1;
+  const blocked = tomorrow(poor);
+  assert.equal(vendor(blocked).stock, 1);
+  assert.equal(vendor(blocked).cash, 0);
+  assert.equal(resident(blocked).life.health, 76);
+});
+
+test("low food stock triggers larger funded deliveries while budget and capacity preserve shortages", () => {
+  const districtId = "ankara:cankaya";
+  const visit = `district:visit:${districtId}:social`;
+  const vendor = (s) => s.expansion.districts.foodMarkets[districtId];
+  let s = engine.createGame({ seed: 49, expansion: true, startingDistrict: districtId, lifePath: "ordinary" });
+  s = step(ready(s, visit), visit);
+  s = ready(s, "world:meal");
+  const price = engine.getActions(s).find(({ id }) => id === "world:meal").cost;
+  s = step(s, "world:meal");
+  Object.assign(vendor(s), { stock: 0, cash: 120 });
+  const healthy = (state) => state.expansion.economy.residents["resident:ankara:0"].life.health;
+
+  const supplied = tomorrow(s);
+  assert.deepEqual(vendor(supplied), { stock: 1, cash: price * 3, wholesaleSpent: 120, lastDay: 2 });
+  assert.equal(healthy(supplied), healthy(s) + 3);
+  const loaded = importGame(exportGame(s));
+  assert.ok(loaded.state, loaded.message);
+  assert.deepEqual(tomorrow(loaded.state), supplied);
+
+  const unfunded = structuredClone(s);
+  vendor(unfunded).cash = 29;
+  const empty = tomorrow(unfunded);
+  assert.deepEqual(vendor(empty), { stock: 0, cash: 29, wholesaleSpent: 0, lastDay: 2 });
+  assert.equal(healthy(empty), healthy(s) - 4);
+
+  const nearCapacity = structuredClone(s);
+  Object.assign(vendor(nearCapacity), { stock: 23, cash: 1000 });
+  const capped = tomorrow(nearCapacity);
+  assert.deepEqual(vendor(capped), { stock: 21, cash: 970 + price * 3, wholesaleSpent: 30, lastDay: 2 });
+
+  const crowded = structuredClone(s);
+  for (const id of ["resident:ankara:altindag", "resident:ankara:kecioren"])
+    crowded.expansion.economy.activity[id].districtId = districtId;
+  const exhausted = tomorrow(crowded);
+  assert.deepEqual(vendor(exhausted), { stock: 0, cash: price * 4, wholesaleSpent: 120, lastDay: 2 });
 });
 
 test("Istanbul conditions retain the existing society effects and stocks", () => {
@@ -220,11 +316,13 @@ test("prepared long-career fixture pays shifts at the bounded progress limit", (
     assert.equal(engine.validateState(fixture), true);
     const beforeBank = fixture.bank;
     const employer = fixture.expansion.districts.job.firmId;
-    const beforeCash = fixture.expansion.economy.firms[employer].cash;
+    const beforeFirm = fixture.expansion.economy.firms[employer];
     const result = step(fixture, "district:shift");
     const paid = result.bank - beforeBank;
     assert.ok(paid > 0);
-    assert.equal(beforeCash - result.expansion.economy.firms[employer].cash, paid);
+    const afterFirm = result.expansion.economy.firms[employer];
+    assert.equal(beforeFirm.cash - afterFirm.cash, afterFirm.costs - beforeFirm.costs);
+    assert.ok(afterFirm.costs - beforeFirm.costs >= paid);
     assert.equal(result.expansion.districts.job.shifts, 1000);
     assert.equal(result.expansion.districts.job.lastShiftDay, Math.floor(fixture.time / 1440) + 1);
     assert.equal(engine.getActions(result).find((a) => a.id === "district:shift").disabled, true);

@@ -85,6 +85,7 @@ function settleThrough(s, date) {
 
 test("school charges actual regional tuition, funds a scholarship and awards an existing career credential once", () => {
   let s = state();
+  assert.equal(action(s, "school:health-support"), undefined);
   s.debt = 1000;
   const balance = s.cash + s.bank;
   const treasury = local(s).treasury;

@@ -1,6 +1,5 @@
-import { shape } from "./expansion-world.mjs";
+import { integer, REGIONS, shape } from "./expansion-world.mjs";
 import { HOMES, NPCS, SKILLS } from "./content.mjs";
-import { REGIONS } from "./expansion-world.mjs";
 
 const YEAR = 30;
 const ADULT = 18;
@@ -69,6 +68,15 @@ function currentChildren(s) {
 
 function dependentChildren(s) {
   return currentChildren(s).filter((person) => ageAt(person, dayOf(s)) < ADULT);
+}
+
+export function hasDependentChildren(s) {
+  return Boolean(s.expansion?.family) && dependentChildren(s).length > 0;
+}
+
+export function creditFamilyCareReserve(s, amount, api) {
+  s.expansion.family.reserve += amount;
+  api.record(s, "İşletme sahibi çekimi · aile bakım rezervi", amount, "household");
 }
 
 function familyRegion(s) {
@@ -928,8 +936,7 @@ export function validateFamily(s) {
     typeof entry === "string" &&
     /^resident:[1-9]\d*$/.test(entry) &&
     Number(entry.slice(9)) < upper;
-  const int = (value, low, high) => Number.isSafeInteger(value) && value >= low && value <= high;
-  const money = (value) => int(value, 0, MAX_MONEY);
+  const money = (value) => integer(value, 0, MAX_MONEY);
   const legalName = (value) => typeof value === "string" && value.trim() && value.length <= 36;
   const bounded = (array, limit) => Array.isArray(array) && array.length <= limit;
   const unique = (array) => new Set(array).size === array.length;
@@ -1039,7 +1046,7 @@ export function validateFamily(s) {
       f.expected.parents.length !== 2 ||
       !unique(f.expected.parents) ||
       f.people.length >= MAX_PEOPLE ||
-      !int(f.expected.due, day + 1, day + 24) ||
+      !integer(f.expected.due, day + 1, day + 24) ||
       f.expected.parents.some((id) => !ids.has(id))
     )
       return false;
@@ -1051,9 +1058,9 @@ export function validateFamily(s) {
       !ids.has(f.lastEstate.from) ||
       f.lastEstate.to !== active ||
       ids.get(f.lastEstate.from).died === null ||
-      !int(f.lastEstate.day, ids.get(f.lastEstate.from).died, day) ||
+      !integer(f.lastEstate.day, ids.get(f.lastEstate.from).died, day) ||
       !["cash", "bank", "debt"].every((key) => money(f.lastEstate[key])) ||
-      (Object.hasOwn(f.lastEstate, "workDays") && !int(f.lastEstate.workDays, 0, s.flags.workDays)))
+      (Object.hasOwn(f.lastEstate, "workDays") && !integer(f.lastEstate.workDays, 0, s.flags.workDays)))
   )
     return false;
   const houses = new Set(),
@@ -1078,7 +1085,7 @@ export function validateFamily(s) {
     for (const ancestor of home.ancestors) {
       if (
         !shape(ancestor, { born: [-10000, day] }) ||
-        !int(ancestor.died, Math.max(1, ancestor.born + 72 * YEAR), day) ||
+        !integer(ancestor.died, Math.max(1, ancestor.born + 72 * YEAR), day) ||
         !validResidentId(ancestor.id, f.nextResident) ||
         residents.has(ancestor.id) ||
         !home.residents.some(

@@ -8,6 +8,9 @@ const regionIds = Object.keys(REGIONS);
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const DAY = 1440;
 const ownRegion = (id) => Object.hasOwn(REGIONS, id);
+export const calendarConflict = (s, minutes) => s.calendar.entries.some(
+  (e) => e.status === "confirmed" && e.start < s.time + minutes && e.end > s.time,
+) ? "Bu süre ajandandaki bir planla çakışıyor." : "";
 const goldPlace = (s) => s.expansion.world.region === "istanbul" &&
   ["kadikoy", "besiktas", "sisli"].includes(s.expansion.districts?.place?.districtId ?? s.location);
 const worldCopy = {

@@ -39,7 +39,7 @@ export async function saveExpansionLocked(io,
   locks = globalThis.navigator?.locks,
   transact = io[3],
 ) {
-  const [probe, read, write, , checked, conflict, lock, warning, livingKey, livingState, depthKey, depthState] = io;
+  const [probe, read, write, , checked, conflict, lock, warning, livingKey, livingState, depthKey, depthState, careerKey, careerState] = io;
   if (!locks?.request) return { ok: false, message: warning };
   try {
     return await locks.request(lock, () =>
@@ -54,7 +54,8 @@ export async function saveExpansionLocked(io,
           return conflict();
         if (state?.version !== EXPANSION_SAVE_VERSION) throw new Error("invalid-expansion-state");
         const encoded = write(state);
-        const key = depthState(state) || previous.key === depthKey ? depthKey
+        const key = careerState(state) || previous.key === careerKey ? careerKey
+          : depthState(state) || previous.key === depthKey ? depthKey
           : livingState(state) ? livingKey : previous.key;
         const primary = previous.primary && read(previous.primary);
         const backup =

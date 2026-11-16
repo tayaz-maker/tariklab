@@ -1,13 +1,15 @@
-import { shape, integer } from "./expansion-world.mjs";
+import { calendarConflict, shape, integer } from "./expansion-world.mjs";
 import { HOMES, NPCS } from "./content.mjs";
 import { BUSINESS_TYPES } from "./deep-content.mjs";
+import { businessOverhead } from "./deep-life.mjs";
 import { closeHousehold, syncLifeHousing } from "./life-systems.mjs";
 import { SOCIETY_COPY } from "./society-content.mjs";
 import { REGIONS as CITIES, migratePopulation, regionalMealPrice } from "./expansion-world.mjs";
 import {
-  buyDistrictMeal, getDistrictSimulation, getPlace, restockDistrictMeals, setExpansionDistrict,
+  buyDistrictMeal, ensureDistrictFoodMarkets, getDistrictSimulation, getPlace, restockDistrictMeals, setExpansionDistrict,
 } from "./expansion-districts.mjs";
-import { residentServiceQuote } from "./expansion-institutions.mjs";
+import { creditMunicipalTax, residentServiceQuote } from "./expansion-institutions.mjs";
+import { creditFamilyCareReserve, hasDependentChildren } from "./expansion-family.mjs";
 import {
   DISTRICTS, LOCATIONS, cityDistricts, districtById, hubDistrict, normalizeDistrictId, routeBetween,
 } from "./expansion-geography.mjs";
@@ -162,6 +164,27 @@ export function payResidentDebt(s, id, amount) {
   const paid = Math.min(resident.debt, amount);
   resident.debt -= paid;
   return paid;
+}
+
+export function canFundResidentStory(s, person, region, kind, amount) {
+  const resident = economy(s)?.residents[person];
+  if (!(resident?.life?.health > 0) || resident.life.region !== region || !integer(amount, 1)) return false;
+  if (kind === "help") return resident.cash <= MAX - amount;
+  return kind === "train" && resident.life.skill < 100 &&
+    s.expansion.institutions?.regions[region]?.treasury <= MAX - amount;
+}
+
+export function fundResidentStory(s, api, person, place, kind, amount) {
+  if (!canFundResidentStory(s, person, place.regionId, kind, amount)) return false;
+  const resident = economy(s).residents[person];
+  if (kind === "help") resident.cash += amount;
+  else {
+    creditMunicipalTax(s, place.regionId, amount);
+    resident.life.skill = Math.min(100, resident.life.skill + 4);
+    if (economy(s).activity?.[person])
+      residentEvent(s, api, regionalResidents[residentIndex.get(person)], "training", place.districtId);
+  }
+  return true;
 }
 
 const temperaments = [
@@ -662,6 +685,7 @@ export function economyActions(s, api) {
   }
   appendBusinessActions(s, api, add);
   if (!s.deep.business) appendSectorStarts(s, api, actions);
+  else appendFamilyCareDistribution(s, api, actions, place);
   return actions;
 }
 
@@ -810,6 +834,7 @@ function appendSectorStarts(s, api, actions) {
       reason,
       run(next) {
         const today = day(next);
+        if (sector === "kitchen") ensureDistrictFoodMarkets(next);
         next.deep.business = {
           id: type.base, location: next.location, status: "active", level: 1,
           clients: 0, reputation: 20, revenue: 0, costs: type.startup,
@@ -822,6 +847,49 @@ function appendSectorStarts(s, api, actions) {
       },
     });
   }
+}
+
+function accruedBusinessTax(business, account) {
+  return Math.floor(Math.max(0, business.revenue - account.lastTaxRevenue) * 0.04);
+}
+
+const installmentInterest = (principal) => Math.ceil(principal * 0.01);
+
+function appendFamilyCareDistribution(s, api, actions, place) {
+  const account = economy(s).business;
+  if (!account || !hasDependentChildren(s)) return;
+  const business = s.deep.business, company = s.living.enterprise;
+  const amount = 250, minutes = 15;
+  const nextInstallment = Math.min(450, account.principal) + installmentInterest(account.principal);
+  const minutesToMidnight = DAY - s.time % DAY;
+  // The transfer debits cash before the resolver advances the clock. When
+  // a weekly bill falls in that interval, reserve its remaining accrual too.
+  const dueOverhead = Math.ceil(business.accruedOverhead) +
+    (minutesToMidnight <= minutes && business.nextOverheadDay <= day(s) + 1
+      ? Math.ceil((businessOverhead(s) * minutesToMidnight) / (7 * DAY)) : 0);
+  const reserved = wageRate(s, account.region) * account.workers + dueOverhead +
+    accruedBusinessTax(business, account) + nextInstallment;
+  const reason = calendarConflict(s, minutes) || (place.districtId !== businessDistrict(s, account)
+    ? "İşletmenin semtine git."
+    : business.status !== "active" || !business.revenue
+      ? "Açık işletmede önce gerçek bir satış yap."
+      : account.wageDue || account.taxDue || account.missed || business.arrears
+        ? "Önce işletmenin ödenmemiş yükümlülüklerini kapat."
+        : company.capital < amount + reserved
+          ? "Ücretler, vergi, taksit ve sabit gider için para ayır."
+          : s.expansion.family.reserve > MAX - amount ? "Aile bakım rezervi üst sınırda." : "");
+  const label = "Çocuk bakımı için işletmeden 250 TL çek";
+  actions.push({
+    id: "business:family-care", label, category: "business", minutes, cost: 0, pay: "total",
+    description: "İşletme sahibi çekimi aile bakım rezervine gider. Çocuk giderleri önce bu rezervden ödenir.",
+    reason, disabled: Boolean(reason),
+    run(next) {
+      next.living.enterprise.capital -= amount;
+      businessRecord(next, -amount, label, api);
+      creditFamilyCareReserve(next, amount, api);
+      return "250 TL işletme kasasından aile bakım rezervine aktarıldı.";
+    },
+  });
 }
 
 function wageRate(s, region) {
@@ -1161,7 +1229,7 @@ function settleBusiness(s, api) {
     b.costs = asMoney(b.costs + wages);
   }
   if ((d - 1) % 30 === 0) {
-    const tax = Math.floor(Math.max(0, b.revenue - e.lastTaxRevenue) * 0.04);
+    const tax = accruedBusinessTax(b, e);
     e.lastTaxRevenue = b.revenue;
     e.taxDue = asMoney(e.taxDue + tax);
     b.costs = asMoney(b.costs + tax);
@@ -1176,7 +1244,7 @@ function settleBusiness(s, api) {
     event(s, api, "business.layoff", b.id, "Üç gün ödenmeyen ücret nedeniyle ekip ayrıldı.");
   }
   if (e.principal && d >= e.installmentDay) {
-    const interest = Math.ceil(e.principal * 0.01);
+    const interest = installmentInterest(e.principal);
     const due = Math.min(e.principal, 450);
     const paid = Math.min(firm.capital, due + interest);
     firm.capital -= paid;
@@ -1773,14 +1841,14 @@ function regionalDecision(s, api, resident, n, home, profile) {
   residentEvent(s, api, resident, "job", offer.firm.districtId, `${offer.firm.name} · İşe başladı.`, "hired");
 }
 
-function residentService(s, api, resident, n, service, districtId) {
+function residentService(s, api, resident, n, service, districtId, destination, hour = 10) {
   const { region } = n.life;
   const eligible = (id) => service === "health"
     ? siteOf(id, "clinic", "health", "institution", "class")
     : siteOf(id, "school", "class", "institution");
-  const site = eligible(districtId) ?? eligible(hubDistrict(region));
+  const site = destination ?? eligible(districtId) ?? eligible(hubDistrict(region));
   if (!site) return false;
-  const route = routeForResident(s, districtId, site.id, 10);
+  const route = routeForResident(s, districtId, site.id, hour);
   if (!route?.available) return false;
   const quote = residentServiceQuote(s, region, service, site.districtId);
   if (!quote || npcFunds(n) < quote.fee + 2 * route.cost) return false;
@@ -1789,6 +1857,26 @@ function residentService(s, api, resident, n, service, districtId) {
   spendNpc(n, paid + 2 * route.cost);
   residentEvent(s, api, resident, service === "health" ? "health" : "training", site.districtId);
   return true;
+}
+
+const needsFundedCare = (resident) => resident.life.health < 55 && npcFunds(resident) >= 460;
+
+export function assistLocalPatient(s, api, place) {
+  const {regionId, districtId, venueId} = place;
+  const site = venuesByDistrict.get(districtId)?.find((v) => v.id === venueId && v.kind === "institution");
+  if (!site) return false;
+  const e = economy(s), today = day(s);
+  for (const person of api.regionalResidents(s, regionId)) {
+    if (person.health <= 0 || person.presentDistrictId !== districtId) continue;
+    const activity = e.activity?.[person.id], patient = e.residents[person.id];
+    if (!activity || !needsFundedCare(patient) || activity.history.some((row) => row.kind === "health" && row.day === today)) continue;
+    const resident = regionalResidents[residentIndex.get(person.id)];
+    if (residentService(s, api, resident, patient, "health", districtId, site, s.time % DAY / 60)) {
+      patient.life.health = Math.min(100, patient.life.health + 24);
+      return true;
+    }
+  }
+  return false;
 }
 
 function linkResidents(s, id, other, today) {
@@ -1888,9 +1976,8 @@ function settleRegionalResidents(s, api) {
     if (age >= 67 && (d - 1) % 30 === 0) n.cash = asMoney(n.cash + 900);
     const decisionDay = (d + index) % 7 === 0;
     if (
-      life.health < 55 &&
       decisionDay &&
-      npcFunds(n) >= 460 &&
+      needsFundedCare(n) &&
       residentService(s, api, resident, n, "health", districtId)
     )
       life.health = Math.min(100, life.health + 24);
@@ -2305,6 +2392,17 @@ export function validateEconomy(s) {
 }
 
 const economyCopy = {
+  "Çocuk bakımı için işletmeden 250 TL çek": ["Withdraw 250 TL from the business for childcare", "Pobierz 250 TL z firmy na opiekę nad dziećmi"],
+  "İşletme sahibi çekimi aile bakım rezervine gider. Çocuk giderleri önce bu rezervden ödenir.": [
+    "The owner’s withdrawal goes into the family care reserve. Childcare expenses draw on this reserve first.",
+    "Wypłata właściciela trafia do rezerwy na opiekę. Koszty opieki nad dziećmi są pokrywane najpierw z tej rezerwy.",
+  ],
+  "Açık işletmede önce gerçek bir satış yap.": ["Complete a sale at your open business first.", "Najpierw zrealizuj sprzedaż w otwartej firmie."],
+  "Önce işletmenin ödenmemiş yükümlülüklerini kapat.": ["Settle the business’s overdue obligations first.", "Najpierw spłać zaległe zobowiązania firmy."],
+  "Ücretler, vergi, taksit ve sabit gider için para ayır.": ["Keep funds for payroll, tax, the loan installment, and overhead.", "Zachowaj środki na płace, podatek, ratę i koszty stałe."],
+  "Aile bakım rezervi üst sınırda.": ["The family care reserve has reached its limit.", "Rezerwa rodzinna osiągnęła limit."],
+  "250 TL işletme kasasından aile bakım rezervine aktarıldı.": ["250 TL moved from business funds to the family care reserve.", "Przeniesiono 250 TL z kasy firmy do rezerwy rodzinnej na opiekę."],
+  "İşletme sahibi çekimi · aile bakım rezervi": ["Owner’s withdrawal · family care reserve", "Wypłata właściciela · rezerwa rodzinna na opiekę"],
   "Mahalle mutfağı": ["Neighborhood kitchen", "Kuchnia osiedlowa"],
   "Tedarik atölyesi": ["Supply workshop", "Warsztat zaopatrzeniowy"],
   "Yemek hazırla ve mahallenin satıcı hesabına satış yap.": ["Prepare meals and sell them to the neighborhood vendor.", "Przygotuj posiłki i sprzedaj je lokalnemu sprzedawcy."],

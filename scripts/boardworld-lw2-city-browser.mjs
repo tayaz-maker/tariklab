@@ -14,6 +14,7 @@ const cities = {
   izmir:['izmir:konak','izmir:karsiyaka','izmir:bornova','izmir:buca','izmir:bayrakli','izmir:balcova','izmir:karabaglar','izmir:gaziemir'],
 };
 const gold = new Set(['kadikoy','besiktas','sisli']);
+const cityHub = {istanbul:'kadikoy',ankara:'ankara:cankaya',izmir:'izmir:konak'};
 const server = createStaticGameServer(process.argv[2] || 'public');
 await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const browser = await chromium.launch({headless:true, executablePath:process.env.BOARDWORLD_CHROME || process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH});
@@ -44,17 +45,42 @@ async function clearEvents() {
 }
 async function world(){await clearEvents(); await openBoardworldTab(page,'expansion-world');}
 async function life(){await clearEvents(); await openBoardworldTab(page,'life');}
+async function tryAction(id) {
+  if (!await page.locator(`[data-action="${id}"]:enabled`).count()) return false;
+  await action(id);
+  return true;
+}
+let pendingReturn = null, regionalMealsDuringWait = 0;
 async function maintain() {
-  const s=await inspect();
-  const place=s.expansion.districts?.place?.districtId || (s.expansion.world.region==='istanbul'?s.location:null);
+  let s=await inspect();
+  const region=s.expansion.world.region;
+  const place=s.expansion.districts?.place?.districtId || (region==='istanbul'?s.location:cityHub[region]);
   if(s.player.energy<40){
-    if(gold.has(place)){await life(); if(await page.locator('[data-action="rest"]:enabled').count()) await action('rest');}
-    else {await world(); if(await page.locator('[data-action="world:rest"]:enabled').count()) await action('world:rest');}
+    if(gold.has(place)){await life(); await tryAction('rest');}
+    else {await world(); await tryAction('world:rest');}
+    s=await inspect();
   }
-  if(s.player.hunger<35 && gold.has(place)){await life(); if(await page.locator('[data-action="soup"]:enabled').count()) await action('soup'); else if(await page.locator('[data-action="eat"]:enabled').count()) await action('eat');}
+  if (pendingReturn && pendingReturn.district !== place) pendingReturn=null;
+  if (s.player.hunger<35) {
+    if (gold.has(place)) {
+      await life();
+      if (!await tryAction('soup')) await tryAction('eat');
+    } else {
+      const previous=s.expansion.districts?.place?.venueId;
+      const social=`${place}:social`;
+      await world();
+      if (previous!==social && await tryAction(`district:visit:${social}`) && previous)
+        pendingReturn={district:place, venue:previous};
+      await world();
+      if (await tryAction('world:meal')) regionalMealsDuringWait++;
+    }
+  }
+  if (pendingReturn) {
+    await world();
+    if (await tryAction(`district:visit:${pendingReturn.venue}`)) pendingReturn=null;
+  }
 }
 async function selectMapDestination(page, id) {
-  const cityHub={istanbul:'kadikoy',ankara:'ankara:cankaya',izmir:'izmir:konak'};
   const target=id.startsWith('world:move:') ? cityHub[id.slice('world:move:'.length)] :
     id.startsWith('district:travel:') ? id.slice('district:travel:'.length) :
     id.startsWith('travel:') ? id.slice('travel:'.length) : null;
@@ -65,18 +91,78 @@ async function selectMapDestination(page, id) {
   }
 }
 async function waitUntilEnabled(id) {
-  for(let i=0;i<30;i++){
+  // A regional shift may span two closing days, a meal trip and the next opening.
+  const limit = id === "district:shift" ? 96 : 30;
+  for(let i=0;i<limit;i++){
     await maintain(); await world();
     await selectMapDestination(page,id);
     const b=page.locator(`[data-action="${id}"]`).first();
     if(await b.count() && await b.isEnabled()) return;
+    if (id === 'district:shift') {
+      const s=await inspect(), day=Math.floor(s.time/1440)+1;
+      const offDuty=s.expansion.districts?.job?.lastShiftDay===day ||
+        (s.expansion.world.region!=='istanbul' && (day-1)%7>=5);
+      if (offDuty && s.player.energy<85 && await tryAction('world:rest')) continue;
+    }
     await life();
     const wait=page.locator('[data-action="wait:60"]:enabled').first();
     assert.ok(await wait.count(),`cannot wait for ${id}`);
     await action('wait:60');
   }
+  await world(); await selectMapDestination(page,id);
   const b=page.locator(`[data-action="${id}"]`).first();
-  throw Error(`Never available: ${id} / ${await b.locator("xpath=ancestor::article[1]").innerText().catch(()=>"missing")} / ${JSON.stringify(((s)=>({time:s.time,player:s.player,cash:s.cash,bank:s.bank,place:s.expansion.districts?.place}))(await inspect()))}`);
+  const s=await inspect(), job=s.expansion.districts?.job;
+  const employer=job && s.expansion.economy.firms[job.firmId];
+  const reason=await b.count() ? await b.locator("xpath=ancestor::article[1]").innerText() : "missing";
+  throw Error(`Never available: ${id} / ${reason} / ${JSON.stringify({time:s.time,player:s.player,cash:s.cash,bank:s.bank,place:s.expansion.districts?.place,job,employer})}`);
+}
+async function quotedPrice(tab, id) {
+  await clearEvents(); await openBoardworldTab(page,tab);
+  if (tab==='expansion-world') await selectMapDestination(page,id);
+  const option=page.locator(`[data-action="${id}"]`).first();
+  assert.ok(await option.count(),`The UI quotes ${id}`);
+  const price=await option.locator('xpath=ancestor::article[1]').locator('.action-cost').textContent();
+  return Number(price.replace(/[^0-9]/g,''));
+}
+async function leaseAndCourseBudget() {
+  const rent=await quotedPrice('expansion-finance','economy:rent:izmir:gaziemir:room');
+  const route=await quotedPrice('expansion-world','district:travel:izmir:balcova');
+  const tuition=await quotedPrice('study','institution:school:finance');
+  const meal=await quotedPrice('expansion-world','world:meal');
+  await selectMapDestination(page,'district:travel:izmir:gaziemir');
+  assert.ok(rent>0 && route>0 && meal>0,{rent,route,tuition,meal});
+  return {rent,route,tuition,meal,required:rent+route+tuition+3*meal};
+}
+async function signIzmirLease() {
+  const choices = [
+    ['izmir:gaziemir', 'Gaziemir'],
+    ['izmir:karabaglar', 'Karabağlar'],
+    ['izmir:buca', 'Buca'],
+    ['izmir:karsiyaka', 'Karşıyaka'],
+  ];
+  const unavailable = [];
+  for (const [district, name] of choices) {
+    if ((await inspect()).expansion.districts?.place?.districtId !== district) {
+      const travel = `district:travel:${district}`;
+      await waitUntilEnabled(travel); await action(travel);
+    }
+    const office = `district:visit:${district}:housing`;
+    await waitUntilEnabled(office); await action(office);
+    await clearEvents(); await openBoardworldTab(page,'expansion-finance');
+    const lot = `${district}:room`, id = `economy:rent:${lot}`;
+    const button = page.locator(`[data-action="${id}"]`).first();
+    if (await button.count() && await button.isEnabled()) {
+      await action(id);
+      return {lot, name, unavailable};
+    }
+    const s = await inspect();
+    const property = s.expansion.economy.properties[lot];
+    const card = await button.count() ? await button.locator('xpath=ancestor::article[1]').textContent() : null;
+    const observation = {lot, card, owner:property?.owner, tenant:property?.lease?.tenant ?? null, funds:s.bank+s.cash, time:s.time};
+    unavailable.push(observation);
+    console.log(JSON.stringify({leaseUnavailable:observation}));
+  }
+  assert.fail(`No affordable open İzmir lease after the real paid shifts: ${JSON.stringify(unavailable)}`);
 }
 try {
   await page.goto(`http://127.0.0.1:${server.address().port}/games/tc-sim-boardworld/index.html`);
@@ -156,37 +242,47 @@ try {
     }
   }
   assert.equal(new Set(visited).size,31); assert.equal(jobDone,true);
+  console.log(JSON.stringify({stage:'all-districts-visited', count:visited.length}));
   // Earn the deposit through the local employer, then sign a real lease.
   const work='district:visit:izmir:gaziemir:work';
   await waitUntilEnabled(work); await action(work);
   await waitUntilEnabled('district:apply'); await action('district:apply');
-  for(let i=0;(await inspect()).cash+(await inspect()).bank < 8000 && i<20;i++) {
+  let budget=await leaseAndCourseBudget();
+  console.log(JSON.stringify({stage:'earning-plan', ...budget}));
+  for(let i=0;i<45;i++) {
+    const before=await inspect();
+    const funds=before.cash+before.bank;
+    if(funds>=budget.required) {
+      budget=await leaseAndCourseBudget();
+      if(funds>=budget.required) break;
+    }
     if ((await inspect()).player.hunger < 45) {
       const social='district:visit:izmir:gaziemir:social';
       await waitUntilEnabled(social); await action(social);
       await waitUntilEnabled('world:meal'); await action('world:meal');
       await waitUntilEnabled(work); await action(work);
     }
-    await waitUntilEnabled('district:shift'); await action('district:shift');
+    await waitUntilEnabled('district:shift');
+    const beforeShift=await inspect();
+    await action('district:shift');
+    assert.ok((await inspect()).flags.workDays>beforeShift.flags.workDays,'budget grows only through completed paid work');
   }
+  budget=await leaseAndCourseBudget();
+  const remaining=await inspect();
+  assert.ok(remaining.cash+remaining.bank>=budget.required,`Paid work did not meet the quoted rent, transport and course budget: ${remaining.cash+remaining.bank} / ${budget.required} TL`);
   await waitUntilEnabled('district:quit'); await action('district:quit');
-  await waitUntilEnabled('district:visit:izmir:gaziemir:housing'); await action('district:visit:izmir:gaziemir:housing');
-  const rent='economy:rent:izmir:gaziemir:room';
-  for(let i=0;i<24;i++) {
-    await openBoardworldTab(page,'expansion-finance');
-    if(await page.locator(`[data-action="${rent}"]:enabled`).count()) break;
-    await life(); await action('wait:60');
-  }
-  await action(rent);
+  const beforeLease=await inspect();
+  console.log(JSON.stringify({stage:'lease-search', funds:beforeLease.cash+beforeLease.bank, time:beforeLease.time, ...budget}));
+  const selectedLease=await signIzmirLease();
   const leased=await inspect();
-  assert.equal(leased.expansion.economy.home,'izmir:gaziemir:room','local lease signed');
-  const contract=leased.expansion.economy.properties['izmir:gaziemir:room'].lease;
+  assert.equal(leased.expansion.economy.home,selectedLease.lot,'local lease signed');
+  const contract=leased.expansion.economy.properties[selectedLease.lot].lease;
   const rentText=new Intl.NumberFormat('tr-TR').format(contract.rent), dueText=String(contract.dueDay);
   const assertRent = async (selector, includesHome=false) => {
     const body=await page.locator(selector).first().innerText();
     assert.ok(body.includes(rentText),`${selector} displays contractual rent ${rentText}`);
     assert.ok(body.includes(dueText),`${selector} displays due day ${dueText}`);
-    if(includesHome) assert.ok(body.includes('Gaziemir'),`${selector} identifies the property`);
+    if(includesHome) assert.ok(body.includes(selectedLease.name),`${selector} identifies the property`);
   };
   await openBoardworldTab(page,'dashboard'); await assertRent('.obligation-rail'); await assertRent('.daybook');
   await assertRent('.life-overview',true);
@@ -224,7 +320,7 @@ try {
   assert.equal((await page.evaluate(()=>window.__keyboardDone)).saved,true,'keyboard action saved');
   const afterKey=await inspect(); assert.ok(afterKey.revision>beforeKey.revision && afterKey.time>beforeKey.time,'keyboard action changes revision and time');
   assert.deepEqual(errors,[]);
-  const report={visited, languages:['tr','en','pl'], reload:true, mobile:true, keyboard:['navigation','district selection','saved action'], paidShift:jobDone, lease:true, course:true, contractDisplay:["employer/daybook", "employer/career", "rent/dashboard", "rent/daybook", "rent/obligations", "rent/life", "rent/finance"], screenshots:evidence};
+  const report={visited, languages:['tr','en','pl'], reload:true, mobile:true, keyboard:['navigation','district selection','saved action'], paidShift:jobDone, regionalMealsDuringWait, lease:true, leaseLot:selectedLease.lot, unavailableLeaseOffers:selectedLease.unavailable, course:true, contractDisplay:["employer/daybook", "employer/career", "rent/dashboard", "rent/daybook", "rent/obligations", "rent/life", "rent/finance"], screenshots:evidence};
   writeFileSync(join(evidence,'report.json'),JSON.stringify(report,null,2)+'\n');
   console.log(JSON.stringify(report));
   }

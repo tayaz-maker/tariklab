@@ -18,6 +18,8 @@ mkdirSync(out,{recursive:true});
 const server=createStaticGameServer(root);await new Promise(r=>server.listen(0,"127.0.0.1",r));
 const browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH});
 const page=await browser.newPage({viewport:{width:1280,height:900},reducedMotion:"reduce"}),errors=[],trace=[],milestones={};
+const performanceSession=await page.context().newCDPSession(page), memorySamples=[];
+await performanceSession.send("Performance.enable");
 page.on("pageerror",e=>errors.push(e.message));
 const snap=()=>page.evaluate(()=>window.boardworldInspect());
 let skipRoutineAt=-1;
@@ -112,12 +114,23 @@ try{
   for(let i=0;i<18000&&!milestones.succession;i++){
     const a=select(current);assert.ok(a,`legal next step day${Math.floor(current.time/1440)+1}`);
     current=await choose(a,current);
+    if(i%250===0){const metrics=(await performanceSession.send("Performance.getMetrics")).metrics;
+      const sample={step:i,day:Math.floor(current.time/1440)+1,...Object.fromEntries(metrics.filter(m=>["JSHeapUsedSize","JSHeapTotalSize","Nodes","Documents"].includes(m.name)).map(m=>[m.name,m.value]))};
+      // Record the unmodified heap first, then an explicitly collected heap to
+      // distinguish transient allocation from retained objects in this probe.
+      await performanceSession.send("HeapProfiler.collectGarbage");
+      sample.heapAfterDiagnosticCollection=(await performanceSession.send("Performance.getMetrics")).metrics.find(m=>m.name==="JSHeapUsedSize")?.value;
+      memorySamples.push(sample);}
     if(i%50===0){console.log(JSON.stringify({step:i,day:Math.floor(current.time/1440)+1,last:a.id,milestones}));assert.deepEqual(errors,[]);}
     if(i%250===249){const before=current;await page.reload();await page.waitForFunction(()=>window.boardworldInspect?.()?.expansion);current=await snap();assert.deepEqual(current,before);}
   }
   const state=current;
   assert.ok(milestones.work&&milestones.housing&&milestones.relationship&&milestones.marriage&&milestones.adoption&&milestones.succession,JSON.stringify(milestones));
   assert.ok(state.expansion.family.lastEstate);assert.notEqual(state.expansion.playerId,"player:1");
+  assert.ok(!trace.some(({id})=>id.startsWith("underworld:")),"player did not participate in organization activity");
+  const society=state.expansion.underworld;
+  assert.ok(society && Object.values(society.chapters).every(chapter=>chapter.ledger.sales>0),"organizations operated during the ordinary life");
+  assert.ok(society.incidents.some(incident=>incident.offscreen && incident.personId!=="player:1"),"offscreen incidents involved other characters");
   // The heir can inherit a pending event. Resolve it through its visible choice
   // before advancing, just as a player must; never assume a free wait is enabled.
   let continued=state;
@@ -131,7 +144,7 @@ try{
   assert.deepEqual(await snap(),continued,"successor continuation reloads exactly");
   await openBoardworldTab(page,"expansion");await page.screenshot({path:resolve(out,"successor.png"),fullPage:true});
   assert.deepEqual(hashes(),runtimeSha256,"runtime unchanged throughout full journey");
-  assert.deepEqual(errors,[]);writeFileSync(resolve(out,"result.json"),JSON.stringify({ok:true,method:"fresh character; existing visible UI controls only; read-only state/action inspection",runtimeSha256,milestones,actions:trace.length,trace,playerId:state.expansion.playerId,estate:state.expansion.family.lastEstate},null,2));
+  assert.deepEqual(errors,[]);writeFileSync(resolve(out,"result.json"),JSON.stringify({ok:true,method:"fresh character; existing visible UI controls only; read-only state/action inspection",runtimeSha256,milestones,actions:trace.length,trace,memorySamples,playerId:state.expansion.playerId,estate:state.expansion.family.lastEstate},null,2));
   console.log(JSON.stringify({ok:true,milestones,actions:trace.length}));
 }catch(error){await page.screenshot({path:resolve(out,"failure.png"),fullPage:true}).catch(()=>{});writeFileSync(resolve(out,"failure.json"),JSON.stringify({error:error.message,errors,milestones,trace,state:await snap().catch(()=>null)},null,2));throw error;}
 finally{await browser.close();await new Promise(r=>server.close(r));}

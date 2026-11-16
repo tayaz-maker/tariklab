@@ -6,6 +6,8 @@ import { saveExpansionLocked } from "../public/games/tc-sim-boardworld/expansion
 // so promotion/CAS can be exercised independently of simulation loading.
 const legacy = "tariklab.boardworld.v7";
 const living = `${legacy}.living`;
+const depth = `${legacy}.living-depth`;
+const careers = `${depth}.careers`;
 function storageHarness() {
   let slots = new Map([
     [legacy, "old-valid"],
@@ -45,6 +47,10 @@ function storageHarness() {
     "unavailable",
     living,
     (state) => Boolean(state.expansion?.districts),
+    depth,
+    () => false,
+    careers,
+    () => false,
   ];
   return {
     token: () => ({ ...probe(memory(slots)).token, generation }),

@@ -46,7 +46,7 @@ async function finishBundle(text) {
   })).code;
   return gzipSync(renamed).length < gzipSync(grouped).length ? renamed : grouped;
 }
-async function shareDistantLiterals(text, distance = 8000, templateFragments = false) {
+async function shareDistantLiterals(text, distance = 8000, templateFragments = false, minLength = templateFragments ? 20 : 12) {
   const ast = ts.createSourceFile(
     "expansion-bundle.mjs",
     text,
@@ -79,7 +79,7 @@ async function shareDistantLiterals(text, distance = 8000, templateFragments = f
   // beyond its sliding window, leaving module paths, directives and prototypes alone.
   const selected = [...groups].filter(
     ([value, nodes]) =>
-      value.length >= (templateFragments ? 20 : 12) &&
+      value.length >= minLength &&
       nodes.length > 1 &&
       nodes.at(-1).getStart() - nodes[0].getStart() > distance,
   );
@@ -331,9 +331,12 @@ export async function packModules(packed, keys) {
       },
     ],
   });
-  const code = await finishBundle(
-    await shareDistantLiterals(await compact(bundle.outputFiles[0].text), 32000),
-  );
+  const goldSource = await compact(bundle.outputFiles[0].text);
+  let code = "";
+  for (const distance of [16000, 32000, 48000]) {
+    const candidate = await finishBundle(await shareDistantLiterals(goldSource, distance));
+    if (!code || gzipSync(candidate).length < gzipSync(code).length) code = candidate;
+  }
   const name = `bw-runtime-${createHash("sha256").update(code).digest("hex").slice(0, 16)}.mjs`;
   for (const [file, pairs] of forwards)
     packed.set(
@@ -470,7 +473,14 @@ export async function packModules(packed, keys) {
   const deferredLayout = await finishBundle(
     await shareDistantLiterals(await compact(deferredBundle.outputFiles[0].text)),
   );
-  const deferredCode = await shareDistantLiterals(deferredLayout, 60000, true);
+  // Both literal pools preserve the exact source strings. Measure both layouts
+  // because adding prose changes which repetitions fit the compression window.
+  const layouts = await Promise.all([
+    shareDistantLiterals(deferredLayout, 60000, true),
+    shareDistantLiterals(deferredLayout, 32000, true, 16),
+  ]);
+  const deferredCode = layouts.reduce((smaller, layout) =>
+    gzipSync(layout).length < gzipSync(smaller).length ? layout : smaller);
   const deferredName = `expansion-runtime-${createHash("sha256").update(deferredCode).digest("hex").slice(0, 16)}.mjs`;
   for (const [file, pairs] of deferredForwards)
     packed.set(

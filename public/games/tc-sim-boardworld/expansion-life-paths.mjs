@@ -177,15 +177,20 @@ export function getLifePathView(s, language = "tr") {
   }
   if (completed && id === "ordinary" && s.expansion.districts?.job) {
     firstActionIds = ["district:shift"];
-    target = LOCATIONS.find((venue) => venue.districtId === s.expansion.districts.job.districtId && venue.kind === "work") ?? null;
+    const job = s.expansion.districts.job;
+    target = LOCATIONS.find((venue) => venue.districtId === job.districtId && venue.kind === (job.role === "health" ? "institution" : "work")) ?? null;
   }
   if (!completed && id === "professional") firstActionIds = ["practice:knowledge"];
   if (completed && id === "professional") {
     const job = s.expansion.districts?.job;
-    const qualified = s.expansion.institutions.qualifications.some(q => q.course === "teaching");
-    const kind = job || s.job || qualified ? "work" : "institution";
-    firstActionIds = job ? ["district:shift"] : s.job ? ["work"] : qualified ? ["district:apply:training", "district:apply"]
-      : s.expansion.institutions.program ? ["institution:study"] : ["institution:school:teaching"];
+    const qualifications = s.expansion.institutions.qualifications;
+    const roles = [["teaching", "training"], ["finance", "finance"], ["health-support", "health"]]
+      .filter(([course]) => qualifications.some(q => q.course === course)).map(([, role]) => role);
+    const program = s.expansion.institutions.program;
+    const kind = job?.role === "health" || (!job && !s.job && (program || !roles.length || roles.includes("health"))) ? "institution" : "work";
+    firstActionIds = job ? ["district:shift"] : s.job ? ["work"] : program ? ["institution:study"]
+      : roles.length ? [...roles.map(role => `district:apply:${role}`), "district:apply"]
+      : ["institution:school:teaching", "institution:school:finance", "institution:school:health-support"];
     target = LOCATIONS.find(v => v.districtId === (job?.districtId || place.districtId) && v.kind === kind) ?? null;
   }
   if (!completed && id === "gangster") {

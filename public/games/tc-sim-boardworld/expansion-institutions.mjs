@@ -17,6 +17,10 @@ const costOf = (s, amount) => Math.max(1, Math.round((priceIndex(s) * amount) / 
 const funds = (s) => s.cash + s.bank;
 const stateOf = (s) => s.expansion?.institutions;
 const currentRegion = (s) => stateOf(s).regions[regionOf(s)];
+const healthCourse = { id: "health-support", name: "Sağlık hizmetleri eğitimi",
+  skill: "knowledge", gain: 3, sessions: 4, minutes: 90, cost: 600 };
+const institutionCourses = [...COURSES, healthCourse];
+const knownCourse = (id) => institutionCourses.find((course) => course.id === id);
 const available = (s, amount) => (funds(s) < amount ? "Yeterli bakiye yok." : "");
 const localContacts = (s) =>
   regionOf(s) === "istanbul"
@@ -46,6 +50,7 @@ const LABELS = {
 };
 
 const institutionCopy = {
+  "Sağlık hizmetleri eğitimi": ["Health services training", "Szkolenie z usług zdrowotnych"],
   "Meslek okuluna kaydol": ["Enrol in vocational school", "Zapisz się do szkoły zawodowej"],
   "Okul dersine katıl": ["Attend class", "Weź udział w zajęciach"],
   "Okul kaydını kapat": ["Withdraw from school", "Zrezygnuj ze szkoły"],
@@ -381,6 +386,17 @@ function clinicPrice(s) {
       : 0;
   return { cost: normal - grant, grant };
 }
+
+export function canPayHealthShift(s, wage) {
+  // Keep a funded treatment reserve in the same municipal treasury.
+  return currentRegion(s).treasury >= wage + costOf(s, 350);
+}
+
+export function settleHealthShift(s, wage) {
+  if (!canPayHealthShift(s, wage)) return false;
+  currentRegion(s).treasury -= wage;
+  return true;
+}
 function treat(s, api, reduction) {
   const x = stateOf(s);
   if (!x.illness) return;
@@ -430,7 +446,8 @@ export function institutionActions(s, api) {
     });
   }
   if (!x.program)
-    for (const course of COURSES) {
+    for (const course of institutionCourses) {
+      if (course === healthCourse && !api.getPlace?.(s)?.venueId?.endsWith(":institution")) continue;
       const tuition = costOf(s, course.cost);
       const grant = schoolGrant(s, tuition);
       add(
@@ -462,7 +479,7 @@ export function institutionActions(s, api) {
     }
   if (x.program) {
     const program = x.program;
-    const course = COURSES.find(({ id }) => id === program.course);
+    const course = knownCourse(program.course);
     add(
       "study",
       LABELS.study,
@@ -521,11 +538,11 @@ export function institutionActions(s, api) {
   }
   if (x.illness) {
     const { cost, grant } = clinicPrice(s);
-    const delay = api.getDistrictSimulation
-      ? api.getDistrictSimulation(s, api.getPlace(s).districtId).serviceDelay
-      : region === "istanbul"
+    const place = api.getPlace?.(s);
+    const delay = (place && api.getDistrictSimulation?.(s, place.districtId)?.serviceDelay) ??
+      (region === "istanbul"
         ? getSocietyDistrictEffects(s, s.location).serviceDelay
-        : 0;
+        : 0);
     const minutes = 60 + delay;
     add(
       "clinic",
@@ -962,7 +979,8 @@ export function institutionsView(s) {
     program: x.program
       ? {
           ...x.program,
-          requiredSessions: COURSES.find((course) => course.id === x.program.course).sessions,
+          requiredSessions: knownCourse(x.program.course).sessions,
+          ...(x.program.course === healthCourse.id ? {name: healthCourse.name} : {}),
         }
       : null,
     qualifications: x.qualifications.map((q) => ({ ...q })),
@@ -997,7 +1015,6 @@ export function institutionsView(s) {
   };
 }
 
-const knownCourse = (id) => COURSES.find((course) => course.id === id);
 const namedNpcs = NPCS.map(({ id }) => id);
 export function validateInstitutions(s) {
   const x = s.expansion?.institutions,
@@ -1016,7 +1033,7 @@ export function validateInstitutions(s) {
     !shape(x.npcTraining, { [namedNpcs.join(" ")]: 8 }, 2) ||
     !shape(x.regions, { [REGION_IDS.join(" ")]: null }, 2) ||
     !Array.isArray(x.qualifications) ||
-    x.qualifications.length > COURSES.length
+    x.qualifications.length > institutionCourses.length
   )
     return false;
   const courses = new Set();

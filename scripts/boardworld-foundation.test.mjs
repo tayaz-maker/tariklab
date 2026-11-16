@@ -131,8 +131,10 @@ test("six ambitions use regular gameplay actions and changing ambition preserves
   gangster = play(gangster, lead.firstActionIds[0]);
   assert.ok(getLifePathView(gangster).completed);
   assert.equal(gangster.expansion.underworld.memberships.length, 0);
+  assert.ok(getLifePathView(gangster).firstActionIds.some(id => id.startsWith("underworld:join:")));
   gangster = play(gangster, lead.firstActionIds[0].replace(":recruit:", ":join:"));
   assert.equal(gangster.expansion.underworld.memberships[0].rank, 0);
+  assert.ok(getLifePathView(gangster).firstActionIds.includes("underworld:accept:delivery"));
   assert.equal(gangster.expansion.underworld.cases.length, 0);
 });
 
@@ -155,4 +157,48 @@ test("the World intent filter separates current actions from their travel destin
   assert.ok(at("ankara:cankaya").includes("district:travel:ankara:cankaya"));
   assert.ok(at("izmir:konak").includes("world:move:izmir"));
   assert.ok(!at("izmir:gaziemir").includes("world:move:izmir"));
+});
+
+test('business ambition guidance uses the active language and offers the available opening choices', async () => {
+  const {renderLifePath} = await import('../public/games/tc-sim-boardworld/expansion-ui.mjs');
+  const state = fresh('ankara:mamak','businessperson');
+  const view = runtime.getExpansionView(state);
+  for (const [language, phrase] of [['tr','Bir iş merkezinde'],['en','At a workplace'],['pl','W miejscu pracy']]) {
+    await chooseLanguage(language);
+    const html = renderLifePath(view,getActions(state),a=>`[${a.id}]`,String);
+    assert.ok(html.includes(phrase),language);
+  }
+  await chooseLanguage('tr');
+});
+
+test('completed business ambition suggests funded stock and delivery rather than ending guidance', () => {
+  let s=fresh('ankara:yenimahalle','businessperson');
+  s=visit(s,'ankara:yenimahalle:work');
+  s=play(s,'business:start:supplier');
+  assert.ok(getLifePathView(s).completed);
+  assert.ok(getLifePathView(s).firstActionIds.includes('business:fund:500'));
+  s=play(s,'business:fund:500');
+  assert.ok(getLifePathView(s).firstActionIds.includes('business:stock:3'));
+  s=play(s,'business:stock:3');
+  assert.ok(getLifePathView(s).firstActionIds.includes('business:serve'));
+  s=play(s,'business:pause');
+  assert.ok(getLifePathView(s).firstActionIds.includes('business:pause'));
+  s=play(s,'business:pause');
+  assert.ok(getLifePathView(s).firstActionIds.includes('business:serve'));
+});
+
+test('professional guidance continues toward a qualification after the first skill step', () => {
+  let s=fresh('ankara:altindag','professional');
+  s=play(s,'practice:knowledge');
+  const path=getLifePathView(s);
+  assert.ok(path.completed);
+  assert.ok(path.firstActionIds.includes('institution:school:teaching'));
+  assert.ok(path.firstActionIds.includes('institution:school:finance'));
+  assert.ok(path.firstActionIds.includes('institution:school:health-support'));
+  assert.equal(path.target.venueId,'ankara:altindag:institution');
+  s.expansion.institutions.qualifications.push({course:'finance',day:1});
+  assert.ok(getLifePathView(s).firstActionIds.includes('district:apply:finance'));
+  s.expansion.institutions.qualifications.push({course:'health-support',day:1});
+  assert.ok(getLifePathView(s).firstActionIds.includes('district:apply:health'));
+  assert.equal(getLifePathView(s).target.venueId,'ankara:altindag:institution');
 });

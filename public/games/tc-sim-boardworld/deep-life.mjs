@@ -408,7 +408,7 @@ export function queueBill(s, value, label, kind) {
   s.deep.finance.bills.push({ id, label, amount: amount(value), dueDay: d, kind, status: "due" });
   s.deep.finance.bills = s.deep.finance.bills.slice(-24);
 }
-const businessOverhead = (s) => {
+export const businessOverhead = (s) => {
   const b = s.deep.business;
   const weekly = s.expansion?.economy?.business?.sector === "kitchen" ? 120
     : find(BUSINESS_TYPES, b.id).overhead;
