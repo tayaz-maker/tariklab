@@ -42,6 +42,8 @@ jobs:
           git fetch --no-tags --depth=1 origin b0c25495a7c162eb4a653e32c0d999144aefb300
           git fetch --no-tags --depth=1 origin 2b1ede2be7466348e3933eba26b83a3831241bce
           git fetch --no-tags --depth=1 origin d2c1810da439dd831fff07992c1c278788a64a4c
+          git fetch --no-tags --depth=1 origin 51552c6197cafe744c5084925f13541a1a0aacf2
+          git fetch --no-tags --depth=1 origin c055514627db537c79f4c92481d38109606deaa6
       - uses: ./.github/actions/ci-node
       - name: Every deterministic case and save recovery workload
         run: node scripts/ci-parallel.mjs run boardworld ${{ matrix.shard }} 4
@@ -110,6 +112,35 @@ jobs:
         run: |
           node scripts/boardworld-lw2-city-browser.mjs .output/public
           node scripts/boardworld-lw2-simulation-browser.mjs .output/public
+      - name: Fetch Foundation compatibility reference
+        if: matrix.suite == 'regression'
+        run: git fetch --no-tags --depth=1 origin 51552c6197cafe744c5084925f13541a1a0aacf2
+      - name: Foundation to Living Depth native writer isolation
+        if: matrix.suite == 'regression'
+        run: BOARDWORLD_LEGACY_REFERENCE=51552c6197cafe744c5084925f13541a1a0aacf2 node scripts/boardworld-lw2-legacy-browser.mjs .output/public
+      - name: Living Depth to specialist careers native writer isolation
+        if: matrix.suite == 'regression'
+        run: |
+          git fetch --no-tags --depth=1 origin c055514627db537c79f4c92481d38109606deaa6
+          node scripts/boardworld-career-capability-browser.mjs .output/public finance
+          node scripts/boardworld-career-capability-browser.mjs .output/public health
+      - name: Professional qualification and career progression
+        if: matrix.suite == 'regression'
+        run: node scripts/boardworld-professional-browser.mjs .output/public
+      - name: Specialist courses and funded finance and health shifts
+        if: matrix.suite == 'regression'
+        run: |
+          node scripts/boardworld-specialist-browser.mjs .output/public finance
+          node scripts/boardworld-specialist-browser.mjs .output/public health
+      - name: Neighborhood kitchen funds production, payroll and sales
+        if: matrix.suite == 'regression'
+        run: node scripts/boardworld-kitchen-browser.mjs .output/public
+      - name: Organization recruitment, funded work and durable decisions
+        if: matrix.suite == 'regression'
+        run: node scripts/boardworld-organization-browser.mjs .output/public
+      - name: Paid shifts deepen a coworker tie and unlock durable advice
+        if: matrix.suite == 'regression'
+        run: node scripts/boardworld-coworker-browser.mjs .output/public
       - name: Released v7 native browser writer isolation
         if: matrix.suite == 'regression'
         run: |

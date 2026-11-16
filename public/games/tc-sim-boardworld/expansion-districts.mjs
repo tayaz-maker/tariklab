@@ -1,8 +1,11 @@
 import { VENUES as GOLD_VENUES } from "./city.mjs";
 import { getSocietyDistrictEffects } from "./society-systems.mjs";
 import { underworldDistrictModifiers } from "./expansion-underworld.mjs";
-import { REGIONS } from "./expansion-world.mjs";
-import { districtEconomyMetrics, getDistrictEmployers, economyLotDistrict } from "./expansion-economy.mjs";
+import { calendarConflict, integer, REGIONS, shape } from "./expansion-world.mjs";
+import { canPayHealthShift, settleHealthShift } from "./expansion-institutions.mjs";
+import {
+  assistLocalPatient, canPayDistrictShift, districtEconomyMetrics, economyFirmDistrict, economyLotDistrict, firmWorkday, getDistrictEmployers, settleDistrictShift,
+} from "./expansion-economy.mjs";
 
 const DAY = 1440;
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
@@ -14,6 +17,7 @@ const district = districtById;
 const venue = (id) => VENUES.find((v) => v.id === id);
 const hub = hubDistrict;
 const FOOD_IDS = DISTRICTS.filter((d) => !goldDistrict(d.id)).map((d) => d.id);
+const FOOD_MARKET_IDS = [...FOOD_IDS, "ankara:kizilay"];
 // Each independent vendor starts with 12 meals and 1,000 TL. Restocking pays
 // 30 TL per meal to an external wholesaler; no second household ledger is used.
 const defaultMarket = (day) => ({ stock: 12, cash: 1000, wholesaleSpent: 0, lastDay: day });
@@ -28,6 +32,30 @@ const state = (s) =>
     visitDay: day(s),
     contacts: {},
   });
+
+const foodMarket = (s, id) =>
+  s.expansion.districts?.foodMarkets?.[id] ?? defaultMarket(day(s));
+const canBuyMeal = (market, price) => market.stock > 0 && market.cash + price <= 1e9;
+
+export function ensureDistrictFoodMarkets(s) {
+  const data = state(s);
+  return (data.foodMarkets ||= Object.fromEntries(
+    FOOD_MARKET_IDS.map((id) => [id, defaultMarket(day(s))]),
+  ));
+}
+
+export function buyDistrictMeal(s, id, price) {
+  if (!FOOD_MARKET_IDS.includes(id)) return false;
+  const market = foodMarket(s, id);
+  if (!canBuyMeal(market, price)) return false;
+  const markets = ensureDistrictFoodMarkets(s);
+  if (!markets[id]) migrateDistricts(s);
+  const vendor = markets[id] ||= market;
+  vendor.stock--;
+  vendor.cash += price;
+  return true;
+}
+
 export function districtForLot(lotId) {
   return economyLotDistrict(lotId);
 }
@@ -86,21 +114,59 @@ export function getDistrictSimulation(s, districtId) {
     influence: clamp(modifiers.influence || 0, 0, 100),
   };
 }
-const conflict = (s, minutes) =>
-  s.calendar.entries.some(
-    (e) => e.status === "confirmed" && e.start < s.time + minutes && e.end > s.time,
-  );
 const hours = (s, v, minutes = 0) => {
   const start = s.time % DAY;
   return start >= v.hours[0] * 60 && start + minutes <= v.hours[1] * 60;
 };
-const employer = (s, p, wage) => {
-  const reserve = Math.round((105 * s.expansion.world.regions[p.regionId].price) / 100);
-  return getDistrictEmployers(s,p.districtId).find(({firm,vacancies}) =>
-    vacancies > 0 && firm.status === "open" && firm.cash >= wage + reserve * firm.workers * 4);
+const careers = {
+  "customer-service": { name: "Müşteri temsilcisi", traits: ["commerce", "services"],
+    skill: "communication", required: 25, wage: 90, minutes: 240, energy: 11, stress: 5 },
+  logistics: { name: "Lojistik görevlisi", traits: ["industry", "commerce"],
+    skill: "craft", required: 25, wage: 120, minutes: 360, energy: 19, stress: 7 },
+  training: { name: "Eğitim koordinatörü", traits: ["culture", "heritage"],
+    skill: "knowledge", required: 30, course: "teaching", qualification: "Eğitmenlik yeterliliği gerekir.", wage: 125, minutes: 300, energy: 14, stress: 5 },
+  finance: { name: "Finans görevlisi", traits: ["commerce", "services"],
+    skill: "knowledge", required: 30, course: "finance", qualification: "Bütçe yeterliliği gerekir.", firmType: "digital", wage: 115, minutes: 270, energy: 12, stress: 6 },
+  health: { name: "Sağlık hizmetleri destek görevlisi", municipal: true,
+    skill: "knowledge", required: 30, course: "health-support", qualification: "Sağlık hizmetleri yeterliliği gerekir.", wage: 75, minutes: 240, energy: 13, stress: 6 },
 };
-const problem = (s, minutes) =>
-  conflict(s, minutes) ? "Bu süre ajandandaki bir planla çakışıyor." : "";
+const healthEmployer = "Belediye sağlık hizmetleri";
+const municipalHealthId = (regionId) => `${regionId}:public-health`;
+const baseWage = (s, region, role) => Math.floor(
+  REGIONS[region].wage * s.expansion.world.regions[region].employment * (role?.wage ?? 100) / 10000,
+);
+const jobQuote = (firm, wage) => `${firm.name} · ücret ${wage} TL / vardiya.`;
+function shiftTerms(s, p, job) {
+  const role = careers[job.role];
+  const skill = role?.skill ?? (job.firmId.endsWith(":repair") ? "craft"
+    : job.firmId.endsWith(":digital") ? "technical" : "knowledge");
+  const pay = baseWage(s, p.regionId, role) +
+    Math.min(Math.floor(job.shifts / 5), Math.floor(s.player.skills[skill] / 10)) * 25;
+  return { role, skill, pay, minutes: role?.minutes ?? 360 };
+}
+export function nextDistrictShiftAt(s) {
+  const job = s.expansion.districts?.job;
+  if (!job) return null;
+  const p = getPlace(s), workplace = LOCATIONS.find(v => v.id === p.venueId);
+  if (p.districtId !== normalizeDistrictId(job.districtId) || workplace?.kind !== (careers[job.role]?.municipal ? "institution" : "work")) return null;
+  const minutes = shiftTerms(s, p, job).minutes;
+  for (let offset = 0; offset < 8; offset++) {
+    const currentDay = day(s) + offset;
+    if (!firmWorkday(p.regionId, currentDay) || job.lastShiftDay === currentDay) continue;
+    const opening = (currentDay - 1) * DAY + workplace.hours[0] * 60;
+    const start = Math.max(s.time, opening);
+    if (start + minutes <= (currentDay - 1) * DAY + workplace.hours[1] * 60)
+      return start > s.time ? start : null;
+  }
+  return null;
+}
+const employer = (s, p, wage, role) => {
+  if (role?.municipal) return canPayHealthShift(s, wage) ? {id: municipalHealthId(p.regionId), name: healthEmployer} : null;
+  const firmType = role?.firmType;
+  const reserve = Math.round((105 * s.expansion.world.regions[p.regionId].price) / 100);
+  return getDistrictEmployers(s,p.districtId).find(({firm,vacancies,type}) =>
+    (!firmType || type === firmType) && vacancies > 0 && firm.status === "open" && firm.cash >= wage + reserve * firm.workers * 4);
+};
 const make = (
   id,
   label,
@@ -121,6 +187,10 @@ const make = (
   reason,
   run,
 });
+const inTransit = (s) => {
+  s._transit = true;
+  return "Yolculuk tamamlandı.";
+};
 export function districtActions(s, api) {
   const p = getPlace(s);
   const actions = [];
@@ -136,11 +206,8 @@ export function districtActions(s, api) {
         "Toplu taşıma ile semt merkezine yolculuk.",
         minutes,
         cost,
-        problem(s, minutes) || route.reason || (s.player.energy < 10 ? "Yolculuk için enerji gerekir." : ""),
-        (n) => {
-          n._transit = true;
-          return "Yolculuk tamamlandı.";
-        },
+        calendarConflict(s, minutes) || route.reason || (s.player.energy < 10 ? "Yolculuk için enerji gerekir." : ""),
+        inTransit,
       ),
     );
   }
@@ -150,7 +217,7 @@ export function districtActions(s, api) {
       used =
         s.expansion.districts?.visitDay === day(s) ? s.expansion.districts.visits[v.id] || 0 : 0;
     const reason =
-      problem(s, minutes) || route.reason ||
+      calendarConflict(s, minutes) || route.reason ||
       (!hours(s, v, minutes)
         ? "Mekân bu saatte kapalı."
         : used >= v.capacity
@@ -166,10 +233,7 @@ export function districtActions(s, api) {
         minutes,
         0,
         reason,
-        (n) => {
-          n._transit = true;
-          return "Yolculuk tamamlandı.";
-        },
+        inTransit,
       ),
     );
   }
@@ -181,7 +245,7 @@ export function districtActions(s, api) {
     for (const person of residents) {
       const { id, name } = person;
       const reason =
-        problem(s, 45) ||
+        calendarConflict(s, 45) ||
         (!hours(s, venue(p.venueId), 45)
           ? "Mekân bu saatte kapalı."
           : s.time % DAY < 18 * 60 || (s.time % DAY) + 45 > 21 * 60
@@ -202,21 +266,19 @@ export function districtActions(s, api) {
       );
     }
   }
-  const workplace = (s.expansion.lifePath ? LOCATIONS.find((v) => v.id === p.venueId) : venue(p.venueId));
+  const workplace = LOCATIONS.find((v) => v.id === p.venueId);
+  const institution = workplace?.kind === "institution";
   const job = s.expansion.districts?.job;
-  const wage = Math.floor(
-    (REGIONS[p.regionId].wage * s.expansion.world.regions[p.regionId].employment) / 100,
-  );
+  const wage = baseWage(s, p.regionId);
   const firm = employer(s, p, wage);
-  const jobFirm = job && s.expansion.economy.firms[job.firmId];
-  if (workplace?.kind === "work") {
+  if (workplace?.kind === "work" || institution) {
     const base =
-      problem(s, 30) || (!hours(s, workplace, 30) ? "Mekân bu saatte kapalı." : "");
-    actions.push(
+      calendarConflict(s, 30) || (!hours(s, workplace, 30) ? "Mekân bu saatte kapalı." : "");
+    if (!institution && (s.expansion.lifePath || venue(p.venueId))) actions.push(
       make(
         "district:apply",
         "Yerel işe başvur",
-        firm ? `${firm.name} · ücret ${wage} TL / vardiya.` : "İşletmeyle kalıcı sözleşme kur; ücret işverenin kasasından ödenir.",
+        firm ? jobQuote(firm, wage) : "İşletmeyle kalıcı sözleşme kur; ücret işverenin kasasından ödenir.",
         30,
         0,
         base ||
@@ -230,28 +292,42 @@ export function districtActions(s, api) {
         () => "İş başvurusu tamamlandı.",
       ),
     );
-    if (job) {
-      const skill = job.firmId.endsWith(":repair")
-        ? "craft"
-        : job.firmId.endsWith(":digital")
-          ? "technical"
-          : "knowledge";
-      const pay =
-        wage + Math.min(Math.floor(job.shifts / 5), Math.floor(s.player.skills[skill] / 10)) * 25;
+    if (!job && !s.job) {
+      for (const [id, role] of Object.entries(careers)) {
+        if (!!role.municipal !== institution || (role.traits && !role.traits.includes(district(p.districtId).trait))) continue;
+        const pay = baseWage(s, p.regionId, role);
+        const hiring = employer(s, p, pay, role);
+        if ((role.firmType || institution) && !hiring) continue;
+        const reason = base || (s.player.skills[role.skill] < role.required
+          ? (role.skill === "communication" ? "İletişim 25 gerekir."
+            : role.skill === "craft" ? "Zanaat 25 gerekir." : "Bilgi 30 gerekir.")
+          : role.course && !s.expansion.institutions.qualifications.some(({ course }) => course === role.course)
+            ? role.qualification
+            : !hiring ? "Ücret ayırabilen açık bir yerel işletme yok." : "");
+        actions.push({ ...make(
+          `district:apply:${id}`, role.name,
+          role.firmType || institution ? jobQuote(hiring, pay) : `Ücret: ${pay} TL · Her beş vardiyada ilerleme.`,
+          30, 0, reason, () => "İş başvurusu tamamlandı.",
+        ), category: "work" });
+      }
+    }
+    if (job && !!careers[job.role]?.municipal === institution) {
+      const { role, pay, minutes } = shiftTerms(s, p, job);
       const why =
-        problem(s, 360) ||
-        (!hours(s, workplace, 360)
+        calendarConflict(s, minutes) ||
+        (!hours(s, workplace, minutes)
           ? "Mekân bu saatte kapalı."
           : normalizeDistrictId(job.districtId) !== p.districtId
             ? "Vardiya sözleşmendeki semtte yapılır."
+            : !firmWorkday(p.regionId, day(s))
+              ? "Bu işveren bugün vardiya yapmıyor."
             : job.lastShiftDay === day(s)
               ? "Bugünkü vardiyan tamamlandı."
+              : institution && s.player.health < 55
+                ? "Sağlık durumun bu iş için uygun değil."
               : s.player.energy < 30
                 ? "Vardiya için enerji gerekir."
-                : !jobFirm ||
-                    jobFirm.status !== "open" ||
-                    jobFirm.cash < pay ||
-                    jobFirm.costs + pay > 1e9
+                : !(institution ? canPayHealthShift(s, pay) : canPayDistrictShift(s, job.firmId, pay))
                   ? "İşverenin ücret için yeterli kaynağı yok."
                   : s.bank + pay > 1e9
                     ? "Banka bakiyesi sınırına ulaştın."
@@ -259,9 +335,9 @@ export function districtActions(s, api) {
       actions.push(
         make(
           "district:shift",
-          "Sözleşmeli vardiya",
+          role?.name ?? "Sözleşmeli vardiya",
           `Ücret: ${pay} TL · Her beş vardiyada ilerleme.`,
-          360,
+          minutes,
           0,
           why,
           () => "Vardiya tamamlandı.",
@@ -274,7 +350,7 @@ export function districtActions(s, api) {
           "Sözleşmeyi sonlandır.",
           15,
           0,
-          problem(s, 15),
+          calendarConflict(s, 15),
           () => "İş sözleşmesi sona erdi.",
         ),
       );
@@ -295,7 +371,7 @@ export function adaptDistrictActions(s, actions, api) {
       const quote = routeBetween(s, p.venueId || p.districtId, a.venue || a.destination, {mode});
       if (!quote) return {...a, disabled:true, reason:"Bu ulaşım türüyle güzergâh yok."};
       const targetVenue = a.venue && LOCATIONS.find((v) => v.id === a.venue);
-      const why = problem(s, quote.minutes) || quote.reason ||
+      const why = calendarConflict(s, quote.minutes) || quote.reason ||
         (mode === "walk" && s.player.energy < 20 ? "Ücretsiz güzergâh için en az 20 enerji gerekir." : "");
       return {...a, pay:"total", minutes:quote.minutes, cost:quote.cost,
         route:{...a.route,minutes:quote.minutes,cost:quote.cost,available:quote.available,reason:quote.reason,legs:quote.legs},
@@ -310,9 +386,7 @@ export function adaptDistrictActions(s, actions, api) {
     }
     let reason = "";
     if (a.id.startsWith("world:move:"))
-      reason = s.calendar.entries.some(
-        (e) => e.status === "confirmed" && e.end > s.time && e.start < s.time + a.minutes + 360,
-      )
+      reason = calendarConflict(s, a.minutes + 360)
         ? "Taşınma ve dönüş süresi ajandandaki bir planla çakışıyor."
         : "";
     else if (a.id.startsWith("apply:") && s.expansion.districts?.job)
@@ -329,24 +403,18 @@ export function adaptDistrictActions(s, actions, api) {
     }
     if (!reason && /^(world:meal|institution:|economy:)/.test(a.id) && kind)
       reason =
-        problem(s, a.minutes) ||
+        calendarConflict(s, a.minutes) ||
         (!hours(s, venue(p.venueId), a.minutes) ? "Mekân bu saatte kapalı." : "");
     if (!reason && a.id === "world:meal") {
       const marketId = p.neighborhoodId === "ankara:kizilay" ? "ankara:kizilay" : p.districtId;
-      const vendor = s.expansion.districts?.foodMarkets?.[marketId] ?? defaultMarket(day(s));
-      if (vendor.stock < 1 || vendor.cash + a.cost > 1e9) reason = "Bu semtte yemek için stok yok.";
+      if (s.cash + s.bank < a.cost) reason = "Yemek için yeterli bakiye yok.";
+      else if (!canBuyMeal(foodMarket(s, marketId), a.cost)) reason = "Bu semtte yemek için stok yok.";
       else {
         const run = a.run;
         return {
           ...a,
           run(next) {
-            const data = state(next);
-            data.foodMarkets ||= Object.fromEntries(
-              [...FOOD_IDS, "ankara:kizilay"].map((id) => [id, defaultMarket(day(next))]),
-            );
-            const market = data.foodMarkets[marketId] ||= defaultMarket(day(next));
-            market.stock--;
-            market.cash += a.cost;
+            buyDistrictMeal(next, marketId, a.cost);
             return run(next);
           },
         };
@@ -410,11 +478,10 @@ export function afterDistrictAction(s, id, before, api) {
       name: person.name,
     };
     api.change(s, { stress: -3 });
-  } else if (id === "district:apply") {
-    const wage = Math.floor(
-      (REGIONS[p.regionId].wage * before.expansion.world.regions[p.regionId].employment) / 100,
-    );
-    const firm = employer(before, p, wage);
+  } else if (id === "district:apply" || id.startsWith("district:apply:")) {
+    const role = id.split(":")[2];
+    const wage = baseWage(before, p.regionId, careers[role]);
+    const firm = employer(before, p, wage, careers[role]);
     if (firm)
       data.job = {
         personId: s.expansion.playerId,
@@ -422,57 +489,65 @@ export function afterDistrictAction(s, id, before, api) {
         districtId: p.districtId,
         shifts: 0,
         lastShiftDay: 0,
+        ...(role ? { role } : {}),
       };
   } else if (id === "district:shift" && data.job) {
     const job = data.job,
-      firm = s.expansion.economy.firms[job.firmId];
-    const skill = job.firmId.endsWith(":repair")
-      ? "craft"
-      : job.firmId.endsWith(":digital")
-        ? "technical"
-        : "knowledge";
-    const pay =
-      Math.floor(
-        (REGIONS[p.regionId].wage * before.expansion.world.regions[p.regionId].employment) / 100,
-      ) +
-      Math.min(Math.floor(job.shifts / 5), Math.floor(before.player.skills[skill] / 10)) * 25;
+      workDay = day(before);
+    const { role, skill, pay } = shiftTerms(before, p, job);
     if (
-      firm.status === "open" &&
-      firm.cash >= pay &&
-      firm.costs + pay <= 1e9 &&
-      s.bank + pay <= 1e9
+      firmWorkday(p.regionId, workDay) &&
+      s.bank + pay <= 1e9 &&
+      (role?.municipal ? settleHealthShift(s, pay) : settleDistrictShift(s, job.firmId, pay))
     ) {
-      firm.cash -= pay;
-      firm.costs += pay;
       job.shifts = Math.min(1000, job.shifts + 1);
       api.skill(s, skill, 1);
-      job.lastShiftDay = day(before);
+      job.lastShiftDay = workDay;
       s.flags.workDays++;
       api.receive(s, pay, "Yerel vardiya", "bank");
-      api.change(s, { energy: -17, stress: 7 });
+      api.change(s, { energy: -(role?.energy ?? 17), stress: role?.stress ?? 7 });
+      if (role?.municipal && assistLocalPatient(s, api, p)) return "Bir sakin tedavi gördü.";
+      if (role && job.shifts === 5) {
+        // The first career milestone strengthens one existing, physically present coworker tie.
+        const coworker = api.regionalResidents(before, p.regionId).find((person) =>
+          person.employer === job.firmId && person.districtId === p.districtId && person.locationId === p.venueId &&
+          data.contacts[person.id]?.generation === person.generation);
+        if (coworker) {
+          const contact = data.contacts[coworker.id];
+          if (contact.score < 100) {
+            contact.score = Math.min(100, contact.score + 2);
+            return "İş arkadaşlığı güçlendi.";
+          }
+        }
+      }
     } else return "İşveren ödeme yapamadı; vardiya tamamlanmadı.";
   } else if (id === "district:quit") data.job = null;
 }
+export function restockDistrictMeals(s) {
+  const today = day(s);
+  for (const market of Object.values(s.expansion.districts?.foodMarkets ?? {})) {
+    if (market.lastDay >= today) continue;
+    // Low shelves trigger a larger order only when the vendor can pay for it.
+    const deliveryLimit = market.stock <= 8 ? 4 : 2;
+    const units = Math.min(
+      deliveryLimit * (today - market.lastDay),
+      24 - market.stock,
+      Math.floor(market.cash / 30),
+      Math.floor((1e9 - market.wholesaleSpent) / 30),
+    );
+    market.stock += units;
+    market.cash -= units * 30;
+    market.wholesaleSpent += units * 30;
+    market.lastDay = today;
+  }
+}
+
 export function tickDistricts(s) {
   if (!s.expansion.districts) return;
   if (!active(s)) {
     s.expansion.districts.job = null;
     s.expansion.districts.contacts = {};
   }
-  if (s.expansion.districts.foodMarkets)
-    for (const market of Object.values(s.expansion.districts.foodMarkets)) {
-      if (market.lastDay >= day(s)) continue;
-      const units = Math.min(
-        2 * (day(s) - market.lastDay),
-        24 - market.stock,
-        Math.floor(market.cash / 30),
-        Math.floor((1e9 - market.wholesaleSpent) / 30),
-      );
-      market.stock += units;
-      market.cash -= units * 30;
-      market.wholesaleSpent += units * 30;
-      market.lastDay = day(s);
-    }
   for (const [id, contact] of Object.entries(s.expansion.districts.contacts))
     if (s.expansion.economy.residents[id]?.life?.generation !== contact.generation)
       delete s.expansion.districts.contacts[id];
@@ -480,6 +555,7 @@ export function tickDistricts(s) {
 export function validateDistricts(s) {
   const x = s.expansion.districts;
   if (x === undefined) return true;
+  const today = day(s);
   if (
     !x ||
     typeof x !== "object" ||
@@ -488,9 +564,7 @@ export function validateDistricts(s) {
       "contacts,job,place,visitDay,visits",
       "contacts,foodMarkets,job,place,visitDay,visits",
     ].includes(Object.keys(x).sort().join(",")) ||
-    !Number.isSafeInteger(x.visitDay) ||
-    x.visitDay < 1 ||
-    x.visitDay > day(s) ||
+    !integer(x.visitDay, 1, today) ||
     !x.visits ||
     typeof x.visits !== "object" ||
     Array.isArray(x.visits)
@@ -501,26 +575,10 @@ export function validateDistricts(s) {
     (!x.foodMarkets ||
       typeof x.foodMarkets !== "object" ||
       Array.isArray(x.foodMarkets) ||
-      ![FOOD_IDS, [...FOOD_IDS, "ankara:kizilay"], ["ankara:kizilay", "ankara:cankaya", "izmir:konak", "izmir:bornova"]].some((ids) => ids.length === Object.keys(x.foodMarkets).length && ids.every((id) => Object.hasOwn(x.foodMarkets,id))) ||
-      Object.keys(x.foodMarkets).some((id) => {
-        const m = x.foodMarkets[id];
-        return (
-          !m ||
-          Object.keys(m).sort().join(",") !== "cash,lastDay,stock,wholesaleSpent" ||
-          !Number.isSafeInteger(m.lastDay) ||
-          m.lastDay < 1 ||
-          m.lastDay > day(s) ||
-          !Number.isSafeInteger(m.stock) ||
-          m.stock < 0 ||
-          m.stock > 24 ||
-          !Number.isSafeInteger(m.cash) ||
-          m.cash < 0 ||
-          m.cash > 1e9 ||
-          !Number.isSafeInteger(m.wholesaleSpent) ||
-          m.wholesaleSpent < 0 ||
-          m.wholesaleSpent > 1e9
-        );
-      }))
+      ![FOOD_IDS, FOOD_MARKET_IDS, ["ankara:kizilay", "ankara:cankaya", "izmir:konak", "izmir:bornova"]].some((ids) => ids.length === Object.keys(x.foodMarkets).length && ids.every((id) => Object.hasOwn(x.foodMarkets,id))) ||
+      Object.values(x.foodMarkets).some((m) => !shape(m, {
+        lastDay: [1, today], stock: 24, "cash wholesaleSpent": 1e9,
+      }, 1)))
   )
     return false;
   if (
@@ -530,26 +588,18 @@ export function validateDistricts(s) {
     Object.entries(x.contacts).some(
       ([id, n]) =>
         !s.expansion.economy.residents[id] ||
-        !n ||
-        Object.keys(n).sort().join(",") !== "generation,lastDay,name,score" ||
+        !shape(n, { "name generation": null, score: [1, 100], lastDay: today }, 1) ||
         typeof n.name !== "string" ||
         n.name.length < 1 ||
         n.name.length > 80 ||
-        !Number.isSafeInteger(n.generation) ||
-        n.generation < 1 ||
-        n.generation !== s.expansion.economy.residents[id].life.generation ||
-        !Number.isSafeInteger(n.score) ||
-        n.score < 1 ||
-        n.score > 100 ||
-        !Number.isSafeInteger(n.lastDay) ||
-        n.lastDay < 0 ||
-        n.lastDay > day(s),
+        !integer(n.generation, 1, Infinity) ||
+        n.generation !== s.expansion.economy.residents[id].life.generation,
     )
   )
     return false;
   if (
     Object.entries(x.visits).some(
-      ([id, n]) => !venue(id) || !Number.isSafeInteger(n) || n < 1 || n > venue(id).capacity,
+      ([id, n]) => !venue(id) || !integer(n, 1, venue(id).capacity),
     )
   )
     return false;
@@ -567,30 +617,34 @@ export function validateDistricts(s) {
   return (
     j === null ||
     (!!j &&
-      Object.keys(j).sort().join(",") === "districtId,firmId,lastShiftDay,personId,shifts" &&
+      Object.keys(j).sort().join(",") ===
+        `districtId,firmId,lastShiftDay,personId,${Object.hasOwn(j, "role") ? "role," : ""}shifts` &&
+      (!Object.hasOwn(j, "role") || (Object.hasOwn(careers, j.role) &&
+        (!careers[j.role].traits || careers[j.role].traits.includes(district(j.districtId)?.trait)))) &&
+      (j.role !== "finance" || (j.firmId.endsWith(":digital") && economyFirmDistrict(j.firmId) === normalizeDistrictId(j.districtId))) &&
       j.personId === s.expansion.playerId &&
       active(s) &&
       district(j.districtId)?.regionId === s.expansion.world.region &&
       j.firmId.startsWith(`${s.expansion.world.region}:`) &&
-      !!s.expansion.economy.firms[j.firmId] &&
-      Number.isSafeInteger(j.shifts) &&
-      j.shifts >= 0 &&
-      j.shifts <= 1000 &&
-      Number.isSafeInteger(j.lastShiftDay) &&
-      j.lastShiftDay >= 0 &&
-      j.lastShiftDay <= day(s))
+      (j.role === "health" ? j.firmId === municipalHealthId(s.expansion.world.region) &&
+        LOCATIONS.some((v) => v.kind === "institution" && v.districtId === normalizeDistrictId(j.districtId)) &&
+        s.expansion.institutions.qualifications.some(({course}) => course === careers.health.course)
+        : !!s.expansion.economy.firms[j.firmId]) &&
+      integer(j.shifts, 0, 1000) &&
+      integer(j.lastShiftDay, 0, today))
   );
 }
 export function districtView(s) {
   const place = getPlace(s);
+  const job = s.expansion.districts?.job;
   return {
     place,
     nearestInstitution: (() => {
       const choices = VENUES.filter((v) => v.kind === "institution" && district(v.districtId)?.regionId === place.regionId)
-        .map((v) => ({...v, route:routeBetween(s, place.venueId || place.districtId, v.districtId)}))
+        .map((v) => ({...v, route:routeBetween(s, place.venueId || place.districtId, v.id)}))
         .filter((v) => v.route).sort((a,b) => a.route.minutes-b.route.minutes);
       const v=choices[0];
-      return v ? {districtId:v.districtId,districtName:district(v.districtId).name,name:v.name,hours:v.hours,minutes:v.route.minutes} : null;
+      return v ? {districtId:v.districtId,districtName:district(v.districtId).name,name:v.name,hours:v.hours,minutes:v.route.minutes,cost:v.route.cost,available:v.route.available,reason:v.route.reason} : null;
     })(),
     neighborhoods: NEIGHBORHOODS,
     districts: DISTRICTS.map((d) => ({
@@ -612,10 +666,26 @@ export function districtView(s) {
       score: contact.score,
       lastDay: contact.lastDay,
     })),
-    job: s.expansion.districts?.job ? { ...s.expansion.districts.job } : null,
+    job: job ? { ...job, ...(job.role ? { roleName: careers[job.role].name } : {}),
+      ...(job.role === "health" ? { employerName: healthEmployer } : {}) } : null,
   };
 }
 const translations = {
+  "İş arkadaşlığı güçlendi.": ["Coworker bond grew.", "Więź w pracy się wzmocniła."],
+  "Bu işveren bugün vardiya yapmıyor.": ["This employer has no shifts today.", "Ten pracodawca nie ma dziś zmian."],
+  "Müşteri temsilcisi": ["Customer service representative", "Specjalista obsługi klienta"],
+  "Lojistik görevlisi": ["Logistics clerk", "Pracownik logistyki"],
+  "Eğitim koordinatörü": ["Training coordinator", "Koordynator szkoleń"],
+  "Finans görevlisi": ["Finance clerk", "Pracownik ds. finansów"],
+  "Sağlık hizmetleri destek görevlisi": ["Health services aide", "Asystent usług zdrowotnych"],
+  "Belediye sağlık hizmetleri": ["Municipal health services", "Miejskie usługi zdrowotne"],
+  "Sağlık hizmetleri yeterliliği gerekir.": ["Requires a health services qualification.", "Wymagane kwalifikacje w usługach zdrowotnych."],
+  "Bir sakin tedavi gördü.": ["A resident received treatment.", "Mieszkaniec otrzymał leczenie."],
+  "Bütçe yeterliliği gerekir.": ["Requires a budgeting qualification.", "Wymagane kwalifikacje budżetowe."],
+  "İletişim 25 gerekir.": ["Requires Communication 25.", "Wymagana komunikacja 25."],
+  "Zanaat 25 gerekir.": ["Requires Craft 25.", "Wymagane rzemiosło 25."],
+  "Bilgi 30 gerekir.": ["Requires Knowledge 30.", "Wymagana wiedza 30."],
+  "Eğitmenlik yeterliliği gerekir.": ["Requires a teaching qualification.", "Wymagane kwalifikacje trenerskie."],
   "Bu ulaşım türüyle güzergâh yok.": ["No route is available by this mode.", "Brak trasy dla tego środka transportu."],
   "Ulaşım 06:00–24:00 arasında çalışır.": ["Transit runs from 06:00 to 24:00.", "Transport kursuje od 06:00 do 24:00."],
   "Üretim atölyesi": ["Production workshop", "Warsztat produkcyjny"],
@@ -648,6 +718,7 @@ const translations = {
     "Insufficient funds for this journey.",
     "Brak środków na podróż.",
   ],
+  "Yemek için yeterli bakiye yok.": ["Insufficient funds for a meal.", "Brak środków na posiłek."],
   "Yolculuk için enerji gerekir.": [
     "You need energy to travel.",
     "Potrzebujesz energii na podróż.",
@@ -769,13 +840,8 @@ export function localizeDistrictText(text, language) {
   if (m) return i ? `Porozmawiaj z ${m[1]}` : `Talk with ${m[1]}`;
   m = /^(.+) semtine git$/.exec(text);
   if (m) return i ? `Jedź do dzielnicy ${m[1]}` : `Travel to ${m[1]}`;
-  m = /^Kızılay · (.+) ziyaret et$/.exec(text);
-  if (m) return i ? `Kızılay · Odwiedź: ${localizeDistrictText(m[1],language)}` : `Kızılay · Visit ${localizeDistrictText(m[1],language)}`;
-  m = /^(.+) ziyaret et$/.exec(text);
-  if (m)
-    return i
-      ? `Odwiedź: ${localizeDistrictText(m[1], language)}`
-      : `Visit ${localizeDistrictText(m[1], language)}`;
+  m = /^(Kızılay · )?(.+) ziyaret et$/.exec(text);
+  if (m) return `${m[1] ?? ""}${i ? "Odwiedź: " : "Visit "}${localizeDistrictText(m[2], language)}`;
   m = /^(.+) · ücret (\d+) TL \/ vardiya\.$/.exec(text);
   if (m) return i ? `${m[1]} · płaca ${m[2]} TL / zmiana.` : `${m[1]} · pay ${m[2]} TL / shift.`;
   m = /^Ücret: (\d+) TL · Her beş vardiyada ilerleme\.$/.exec(text);

@@ -10,6 +10,7 @@ import {
 import { exportGame, importGame } from "../public/games/tc-sim-boardworld/persistence.mjs";
 import {
   localizeUnderworldText,
+  adaptUnderworldActions,
   underworldDistrictModifiers,
 } from "../public/games/tc-sim-boardworld/expansion-underworld.mjs";
 
@@ -408,4 +409,32 @@ test("staff retirement preserves a pending fine reserve and charges the former a
   assert.equal(displayed.subject, "Derya Kutlu");
   assert.equal(displayed.scope, "public");
   assert.deepEqual(displayed.actionIds, []);
+});
+
+test('a member can back a faction using the organization treasury and change real loyalties', () => {
+  let s = join();
+  s = trace(s, ['visit:kadikoy-work','underworld:accept:delivery','underworld:complete:1',
+    'underworld:accept:sorting','underworld:complete:2','visit:kadikoy-cafe','underworld:promote']);
+  const option = getActions(s).find(a => a.id.startsWith('underworld:faction:') && !a.disabled);
+  assert.ok(option);
+  const before = s.expansion.underworld.chapters.moda;
+  const treasury = before.treasury, payroll = before.ledger.payroll;
+  const purses = before.roster.map(x=>x.purse), loyalties = before.roster.map(x=>x.loyalty);
+  const start = s.time;
+  const result = act(s,option.id);
+  const after = result.expansion.underworld.chapters.moda;
+  assert.equal(result.time-start,45);
+  assert.equal(after.treasury,treasury-60);
+  assert.equal(after.ledger.payroll,payroll+60);
+  assert.equal(after.roster.reduce((sum,x,i)=>sum+x.purse-purses[i],0),60);
+  assert.ok(after.roster.some((x,i)=>x.loyalty!==loyalties[i]));
+  assert.deepEqual(importGame(exportGame(result)).state,result);
+  assert.deepEqual(act(importGame(exportGame(s)).state,option.id),result);
+});
+
+
+test("personal legal restrictions also block new specialist applications", () => {
+  const s = {time:1440, expansion:{playerId:"player:1",underworld:{cases:[{id:1,status:"convicted",restrictionUntil:10}],incidents:[{id:1,personId:"player:1"}]}}};
+  const result = adaptUnderworldActions(s,[{id:"district:apply:logistics",disabled:false},{id:"district:apply",disabled:false}]);
+  assert.ok(result.every(a=>a.disabled && a.reason));
 });

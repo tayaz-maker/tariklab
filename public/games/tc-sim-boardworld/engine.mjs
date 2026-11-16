@@ -242,6 +242,10 @@ function requireExpansionRuntime() {
   return expansionRuntime;
 }
 
+export function expansionSaveTier(s) {
+  return expansionRuntime?.saveTier(s) ?? 0;
+}
+
 const API = {
   log,
   record,
@@ -2445,6 +2449,7 @@ export function runUntilNext(original) {
   const initial = routineBlocker(s, { care: true, useRecorded: false }) || recordedStop(s, "wait");
   if (initial) return { state: original, ok: false, message: initial.reason };
   const start = s.time;
+  const nextShift = s.expansion ? requireExpansionRuntime().nextDistrictShiftAt?.(s) ?? null : null;
   let stop = "Bir günlük güvenli ilerleme sınırına ulaşıldı.",
     code = "boundary";
   for (let step = 0; step < 96 && s.time < start + DAY; step++) {
@@ -2484,8 +2489,14 @@ export function runUntilNext(original) {
       code = "health";
       break;
     }
+    if (nextShift !== null && s.time >= nextShift) {
+      stop = "Yerel vardiya penceresi açıldı; koşulları incele.";
+      code = "work";
+      break;
+    }
     let limit = Math.min(
       start + DAY,
+      nextShift ?? Infinity,
       s.time + 60,
       (Math.floor(s.time / DAY) + 1) * DAY,
       nextEmergentAt(s),
@@ -2551,7 +2562,7 @@ export function runUntilNext(original) {
       break;
     }
   }
-  rememberRoutineStop(s, code, stop, 0, !["boundary", "contract"].includes(code), "wait");
+  rememberRoutineStop(s, code, stop, 0, !["boundary", "contract", "work"].includes(code), "wait");
   s.revision++;
   log(s, `Zaman ilerledi: ${s.time - start} dk. ${stop}`);
   achievements(s);

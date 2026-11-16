@@ -104,8 +104,13 @@ try {
   assert.equal(firmId, `${districtId}:repair`);
   const wage = afterShift.bank - beforeShift.bank;
   assert.ok(wage > 0);
-  assert.equal(beforeShift.expansion.economy.firms[firmId].cash -
-    afterShift.expansion.economy.firms[firmId].cash, wage);
+  const firmBefore=beforeShift.expansion.economy.firms[firmId];
+  const firmAfter=afterShift.expansion.economy.firms[firmId];
+  const employerDebit=firmBefore.cash-firmAfter.cash;
+  assert.equal(employerDebit,firmAfter.costs-firmBefore.costs,'wages and input costs use the employer ledger');
+  assert.ok(employerDebit>=wage,'the employer funds the wage');
+  assert.ok(firmAfter.stock>=firmBefore.stock,'a paid shift does not consume employer output');
+  assert.equal(employerDebit>wage,firmAfter.stock>firmBefore.stock,'any additional debit funds actual production');
   await clearEvents();
   await enterprise();
   await click("business:start:repair");

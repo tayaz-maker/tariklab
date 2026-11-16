@@ -16,7 +16,7 @@ const RECOVERY = 280;
 const recoveryLabel = "Örgütü yeniden faaliyete geçir";
 const recoveryDetail = "Ödeme örgüt kasasına girer; ikinci bir çalışan dönünce faaliyet yeniden başlar.";
 const CREDIT_REASONS = /^(?:loan$|economy:(?:mortgage:|business-credit$))/;
-const LICENSE_REASONS = /^(?:institution:accept$|district:apply$)/;
+const LICENSE_REASONS = /^(?:institution:accept$|district:apply(?::[^:]+)?$)/;
 const CHAPTERS = [
   ["moda", "Moda Lojistik Birliği", "istanbul", "kadikoy", "Sarp Tunç", "Derya Kutlu", "Bilge Tan"],
   [
@@ -61,6 +61,10 @@ const CHAPTERS = [
   officeVenue: regionId === "istanbul" ? `${districtId}-academy` : `${districtId}:institution`,
 }));
 const catalog = new Map(CHAPTERS.map((chapter) => [chapter.id, chapter]));
+export const organizationLocation = (id, site = "work") => {
+  const chapter = catalog.get(id);
+  return chapter ? {districtId: chapterDistrict(chapter), venueId: chapter[`${site}Venue`]} : null;
+};
 const chapterDistrict = (chapter) => normalizeDistrictId(chapter.districtId);
 const MAX_TERRITORIES = 4;
 const SERVICE_HOURS = {
@@ -1474,6 +1478,35 @@ function memberActions(s, x, api, chapter, member, add) {
       );
     }
   }
+  // A member can back an existing faction without becoming leader. The meeting
+  // pays a real roster member from the organization treasury; rival factions
+  // lose loyalty and can later influence the autonomous leadership contest.
+  const political = politicsOf(s, chapter);
+  if (member.rank >= 1 && political && political.closedDay === null) {
+    const factionLabels = {security: "Güvenlik grubuyla görüş", trade: "Ticaret grubuyla görüş", expansion: "Yayılma grubuyla görüş"};
+    for (const faction of strategies) {
+      const representative = factionMembers(chapter, account).find(p => p.faction === faction && p.row.purse <= MAX - 60);
+      if (!representative) continue;
+      add(`faction:${faction}`, factionLabels[faction],
+        "Örgüt kasasından 60 TL temsilciye ödenir; seçilen grubun sadakati artar, rakiplerinki azalır.",
+        45, social(45) || ((account.treasury - reservations(x, chapter.id).treasury < 60 || account.ledger.payroll > Number.MAX_SAFE_INTEGER - 60) ? MONEY_REASON : ""),
+        (next, nextState) => {
+          const activeMember = getMember(nextState), ledger = nextState.chapters[chapter.id];
+          const currentPolitics = politicsOf(next, chapter);
+          const participants = factionMembers(chapter, ledger);
+          const target = participants.find(p => p.faction === faction && p.row.purse <= MAX - 60);
+          if (!activeMember || activeMember.rank < 1 || !currentPolitics || currentPolitics.closedDay !== null || !target ||
+              (ledger.treasury - reservations(nextState, chapter.id).treasury < 60 || ledger.ledger.payroll > Number.MAX_SAFE_INTEGER - 60)) return "İşlem tamamlanmadı.";
+          ledger.treasury -= 60;
+          ledger.ledger.payroll += 60;
+          target.row.purse += 60;
+          for (const participant of participants)
+            participant.row.loyalty = clamp(participant.row.loyalty + (participant.faction === faction ? 7 : -3));
+          activeMember.trust = clamp(activeMember.trust + (currentPolitics.strategy === faction ? 2 : -2));
+          return resultEvent(next, api, "Örgüt içindeki görüşme dengeleri değiştirdi.", chapter.name);
+        });
+    }
+  }
   if (member.rank < 2) {
     const requiredTrust = member.rank === 0 ? 45 : 70;
     const requiredResponsibility = member.rank === 0 ? 3 : 5;
@@ -2324,6 +2357,11 @@ const TRANSLATIONS = new Map(
       "You took over organization leadership.",
       "Obejmujesz przywództwo w organizacji.",
     ],
+    ["Güvenlik grubuyla görüş", "Meet the security faction", "Spotkaj frakcję bezpieczeństwa"],
+    ["Ticaret grubuyla görüş", "Meet the trade faction", "Spotkaj frakcję handlową"],
+    ["Yayılma grubuyla görüş", "Meet the expansion faction", "Spotkaj frakcję ekspansji"],
+    ["Örgüt kasasından 60 TL temsilciye ödenir; seçilen grubun sadakati artar, rakiplerinki azalır.", "The organization pays a representative 60 TL; the chosen faction gains loyalty and rivals lose it.", "Organizacja płaci przedstawicielowi 60 TL; lojalność wybranej frakcji rośnie, a rywali spada."],
+    ["Örgüt içindeki görüşme dengeleri değiştirdi.", "The meeting changed the balance inside the organization.", "Spotkanie zmieniło równowagę w organizacji."],
     ["Kadro desteği sağla", "Fund the roster", "Wesprzyj załogę finansowo"],
     [
       "Kasadan 90 TL çalışanlara ödenir; sadakat ve hazırlık artar.",

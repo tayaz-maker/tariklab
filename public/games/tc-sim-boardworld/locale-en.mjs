@@ -3000,4 +3000,5 @@ export default [
   "Life ambition",
   "Change ambition",
   "Your life has begun.",
+  "The local shift window is open; check the conditions.",
 ];

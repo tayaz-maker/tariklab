@@ -5,6 +5,7 @@ import { attachExpansionTravel } from "./city.mjs";
 import { hubDistrict, routeBetween } from "./expansion-geography.mjs";
 import { initLifePath, lifePathActions, afterLifePathAction, getLifePathView, validateLifePath } from "./expansion-life-paths.mjs";
 export { lifePathActions, resolveLifePathStart } from "./expansion-life-paths.mjs";
+export { nextDistrictShiftAt } from "./expansion-districts.mjs";
 import { EXPANSION_SAVE_VERSION, createGame } from "./engine.mjs";
 import {
   initFamily,
@@ -129,6 +130,20 @@ export function initExpansion(s, setup) {
   if (setup) initLifePath(s, setup, runtimeApi);
 }
 
+// These tiers correspond to the published envelope order in persistence.mjs.
+export function saveTier(s) {
+  const expansion = s.expansion;
+  const role = expansion?.districts?.job?.role;
+  const institutions = expansion?.institutions;
+  if (role === "finance" || role === "health" || institutions?.program?.course === "health-support" ||
+      institutions?.qualifications?.some(({course}) => course === "health-support")) return 5;
+  if (expansion?.economy?.business?.sector || role) return 4;
+  if (s.version !== EXPANSION_SAVE_VERSION) return 0;
+  if (expansion?.deepSociety === 3) return 3;
+  if (expansion?.livingWorld === 2) return 2;
+  return expansion?.districts !== undefined || expansion?.underworld !== undefined ? 1 : 0;
+}
+
 // Called on an already validated clone. Existing balances and history are not
 // replayed; only new geography/schema fields are added deterministically.
 export function migrateExpansion(s) {
@@ -177,7 +192,7 @@ export function expansionActions(s, actions, api) {
   );
   const retired = familyIsRetired(s);
   const eligible = combined.filter((a) => {
-    if (retired && /^(work$|apply:|world:shift$|district:(apply|shift)$)/.test(a.id)) return false;
+    if (retired && /^(work$|apply:|world:shift$|district:(apply(?::|$)|shift$))/.test(a.id)) return false;
     const romance = /^(?:date:|partner:|life:romance:)([^:]+)$/.exec(a.id);
     return !romance || !familyBlocksRomance(s, romance[1]);
   });
@@ -191,14 +206,14 @@ export function expansionActions(s, actions, api) {
 export function afterExpansionAction(s, id, before, api, action) {
   if (s.expansion.playerId !== before.expansion.playerId) onInstitutionSuccession(s, api);
   afterFamilyAction(s, id, api);
-  afterEconomyAction(s, before, api, action);
+  const economyMessage = afterEconomyAction(s, before, api, action);
   const districtMessage = afterDistrictAction(s, id, before, api, action);
   afterInstitutionAction(s, id, before, api);
   const underworldMessage = afterUnderworldAction(s, id, before, api, action);
   const storyMessage = afterStoryAction(s, id, before, api, action);
   afterLifePathAction(s, id, before, api);
   tickStories(s, api);
-  return storyMessage || underworldMessage || districtMessage;
+  return storyMessage || underworldMessage || districtMessage || economyMessage;
 }
 
 export function getExpansionView(s) {

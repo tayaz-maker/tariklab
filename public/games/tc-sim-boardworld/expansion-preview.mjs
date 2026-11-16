@@ -28,7 +28,7 @@ export function placeLabel(view, language) {
   const venue = district?.venues.find(v => v.id === place.venueId);
   const city = {istanbul: "İstanbul", ankara: "Ankara", izmir: "İzmir"}[place.cityId];
   const area = neighborhood?.fictional
-    ? {tr:"Oyun Mahallesi",en:"Game Neighborhood",pl:"Dzielnica fikcyjna"}[language] || "Oyun Mahallesi"
+    ? neighborhood?.[language] || (neighborhood?.en ? neighborhood.name : {tr:"Oyun Mahallesi",en:"Game Neighborhood",pl:"Dzielnica fikcyjna"}[language]) || "Oyun Mahallesi"
     : neighborhood?.name;
   return [city, district?.name, venue?.name || area].filter(Boolean).join(" · ");
 }

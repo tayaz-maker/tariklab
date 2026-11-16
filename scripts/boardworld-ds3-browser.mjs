@@ -76,8 +76,11 @@ async function waitUntilEnabled(id) {
 try {
   await page.goto(`http://127.0.0.1:${server.address().port}/games/tc-sim-boardworld/index.html`);
   await page.locator('#character-name').fill('Deniz Yolcu');
+  await page.locator('#create-form details > summary').click();
+  await page.locator('[name=lifePath][value="social-climber"]').check();
   await page.locator('[data-testid="create-game"]').click();
   await page.waitForFunction(() => window.boardworldInspect?.()?.version === 7);
+  assert.equal((await inspect()).expansion.lifePath.active,'social-climber');
   await clearEvents(); await openBoardworldTab(page,'expansion');
   await page.waitForFunction(()=>window.boardworldInspect?.()?.version===7);
   await waitUntilEnabled('world:move:ankara'); await action('world:move:ankara');
@@ -93,15 +96,30 @@ try {
     if(await detail.getAttribute('open')===null) await detail.locator(':scope > summary').click();
     const text=await detail.innerText();
     assert.ok(text.includes({tr:'Komşuya destek ol',en:'Help your neighbour',pl:'Pomóż sąsiadowi'}[language]),text);
+    assert.ok(text.includes({tr:'hane kasasına 100 TL',en:'100 TL to your neighbour’s household',pl:'100 TL gospodarstwu domowemu'}[language]),text);
     assert.match(await detail.locator('[data-action="story:help:resident:ankara:0"]').locator('xpath=ancestor::article[1]').innerText(), /100/);
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
     await page.screenshot({path:join(evidence,`${language}.png`)});
   }
+  const beforeHelp=await inspect(), resident='resident:ankara:0';
   await action('story:help:resident:ankara:0');
   const result=await inspect();
+  assert.equal(result.time-beforeHelp.time,60);
+  assert.equal(beforeHelp.cash+beforeHelp.bank-result.cash-result.bank,100);
+  assert.equal(result.expansion.economy.residents[resident].cash-beforeHelp.expansion.economy.residents[resident].cash,100);
+  assert.match(await page.locator('.outcome-strip strong').textContent(), /100 TL trafiło do gospodarstwa/);
   assert.equal(result.expansion.stories.arcs[0].status,'helped');
   assert.equal(result.expansion.districts.contacts['resident:ankara:0'].score,15);
   await page.reload(); await page.waitForFunction(()=>window.boardworldInspect?.()?.expansion?.stories?.arcs?.[0]?.status==='helped');
+  assert.deepEqual(await inspect(),result);
+  const referral='story:referral:resident:ankara:0';
+  await waitUntilEnabled(referral);
+  const beforeReferral=await inspect();
+  await action(referral);
+  const afterReferral=await inspect();
+  assert.ok(afterReferral.player.skills.knowledge>beforeReferral.player.skills.knowledge,'trusted contact shares work knowledge');
+  assert.equal(afterReferral.expansion.stories.arcs[0].supportCount,1,'referral is remembered');
+  await page.reload(); await page.waitForFunction(()=>window.boardworldInspect?.()?.expansion?.stories?.arcs?.[0]?.supportCount===1);
   assert.deepEqual(errors,[]);
-  console.log(JSON.stringify({story:'helped', savedAfterReload:true, languages:['tr','en','pl'], mobile:true, screenshots:evidence}));
+  console.log(JSON.stringify({story:'helped',referral:true,savedAfterReload:true, languages:['tr','en','pl'], mobile:true, screenshots:evidence}));
 } finally { await browser.close(); await new Promise(r=>server.close(r)); }

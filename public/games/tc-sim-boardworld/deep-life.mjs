@@ -397,7 +397,7 @@ export function accrueDeepTime(s, minutes) {
   if (b?.status === "active")
     b.accruedOverhead = Math.min(
       1_000_000_000,
-      b.accruedOverhead + (businessOverhead(b) * minutes) / 10080,
+      b.accruedOverhead + (businessOverhead(s) * minutes) / 10080,
     );
 }
 export function queueBill(s, value, label, kind) {
@@ -408,12 +408,16 @@ export function queueBill(s, value, label, kind) {
   s.deep.finance.bills.push({ id, label, amount: amount(value), dueDay: d, kind, status: "due" });
   s.deep.finance.bills = s.deep.finance.bills.slice(-24);
 }
-const businessOverhead = (b) =>
-  Math.round(
-    find(BUSINESS_TYPES, b.id).overhead *
+export const businessOverhead = (s) => {
+  const b = s.deep.business;
+  const weekly = s.expansion?.economy?.business?.sector === "kitchen" ? 120
+    : find(BUSINESS_TYPES, b.id).overhead;
+  return Math.round(
+    weekly *
       find(DISTRICT_RULES, b.location).overhead *
       (1 + (b.level - 1) * 0.25),
   );
+};
 export function afterDeepAction(s, actionId, before, api) {
   if (!s.deep) return;
   const career = s.deep.career,
@@ -1273,7 +1277,7 @@ export function getDeepView(s) {
               {
                 day: business.nextOverheadDay,
                 label: "İşletme sabit gideri",
-                amount: business.status === "active" ? -businessOverhead(business) : 0,
+                amount: business.status === "active" ? -businessOverhead(s) : 0,
               },
             ]
           : []),
@@ -1289,7 +1293,7 @@ export function getDeepView(s) {
           revenue: business.revenue,
           costs: business.costs,
           profit: business.revenue - business.costs,
-          weeklyOverhead: businessOverhead(business),
+          weeklyOverhead: businessOverhead(s),
           location: business.location,
           summary: `Seviye ${business.level}/3; biriken işletme gideri ${business.arrears} TL. Gelir için müşteri edinimi ve hizmet eylemi gerekir.`,
         }

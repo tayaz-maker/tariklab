@@ -220,6 +220,8 @@ test("NPC rent is debited once, including refundable deposit, and duplicate tena
 
 test("competitive businesses transact stock, pay staff and settle tax and loans without duplicate payouts", () => {
   const s = fixture({ readyBusiness: true });
+  assert.equal(s.expansion.family, undefined);
+  assert.equal(economyActions(s, api).some(({ id }) => id === "business:family-care"), false);
   s.living.enterprise.stock = 12;
   s.living.enterprise.capital = 2000;
   s.deep.business.clients = 4;

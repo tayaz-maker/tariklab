@@ -1,4 +1,14 @@
-# Boardworld 8.15 asset budget decision
+# Boardworld asset measurement policy
+
+## Current policy — 2026-11-15
+
+The user removed the four fixed gzip release ceilings for Boardworld. Do not
+replace them with higher fixed thresholds. Continue measuring and reporting Gold,
+initial Turkish, deferred expansion and combined output, and investigate material
+loading, memory or long-session performance regressions against production.
+Asset integrity, all emitted files, lazy loading, the shared Gold engine, replay,
+and all other functional and security checks remain required. The overrides below
+are historical records and no longer impose release limits.
 
 Production keeps the Gold runtime and the opt-in expansion on separate module
 boundaries. Expansion modules import the same Gold engine instance; they must

@@ -1,6 +1,18 @@
 import { recordSocietyMemory } from "./expansion-society.mjs";
+import { calendarConflict, integer } from "./expansion-world.mjs";
+import { canFundResidentStory, fundResidentStory } from "./expansion-economy.mjs";
 // Stories attach to actual meetings. They hold no money; the resolver pays costs.
 const LIMIT = 24, DAY = 1440;
+const unavailable = 'Hikâye kararı tamamlanamadı.';
+const fundingUnavailable = 'Bu destek şu anda kabul edilemiyor.';
+const resolutions = {
+  train: ['helped', 10, 'Belediye eğitim ücretini aldı. Komşunun mesleki becerisi gelişti.'],
+  relocate: ['helped', 10, 'Taşınan komşunun borcuna destek oldun.'],
+  repay: ['helped', 10, 'Komşunun borcuna destek oldun.'],
+  help: ['helped', 10, 'Komşunun hane kasasına 100 TL aktardın. Bağınız güçlendi.'],
+  listen: ['listened', 3, 'Komşunu dinledin; bağınız güçlendi.'],
+  decline: ['declined', -5, 'Desteği reddettin; bağınız zayıfladı.'],
+};
 const init = () => ({ arcs: [], family: [], business: [], justice: [] });
 export function initStories(s) { s.expansion.stories = init(); }
 export function migrateStories(s) { if (!s.expansion.stories) initStories(s); else { s.expansion.stories.family ||= []; s.expansion.stories.business ||= []; s.expansion.stories.justice ||= []; for (const a of s.expansion.stories.arcs) a.kind ||= 'loyalty'; } }
@@ -9,9 +21,8 @@ export function tickStories(s) {
   if (!x) return;
   const today = Math.floor(s.time / DAY) + 1;
   const people = new Set(s.expansion.family.people.map(p=>p.id));
-  x.arcs = x.arcs.filter(a=>people.has(a.owner));
+  for (const group of ['arcs','business']) x[group] = x[group].filter(a=>people.has(a.owner));
   x.family = x.family.filter(a=>people.has(a.owner) && people.has(a.person));
-  x.business = x.business.filter(a=>people.has(a.owner));
   x.justice = x.justice.filter(a=>s.expansion.underworld?.cases?.some(c=>c.id===a.id) && s.expansion.underworld?.incidents?.some(i=>i.id===a.id && i.personId===a.owner));
   const room = rows => { if (rows.length < 8) return true; const i = rows.findIndex(a=>a.status !== 'open'); if (i < 0) return false; rows.splice(i,1); return true; };
   for (const arc of [...(x.family || []), ...(x.business || [])]) if (arc.status === 'open' && s.time > arc.until) arc.status = 'expired';
@@ -46,67 +57,92 @@ export function tickStories(s) {
 export function storyActions(s, api) {
   const arcs = s.expansion.stories?.arcs || [];
   const place = api.getPlace(s);
-  const present = new Set((api.regionalResidents?.(s, place.regionId) || []).filter(p => p.health > 0 && p.presentDistrictId === place.districtId).map(p => p.id));
+  const present = new Set((api.regionalResidents?.(s, place.regionId) || []).filter(p => localResident(p, place)).map(p => p.id));
   const active = arcs.filter(a => present.has(a.person) && a.owner === s.expansion.playerId && a.district === place.districtId && s.expansion.districts?.contacts?.[a.person]?.generation === a.generation);
   const actions = [];
-  const add = (arc, choice, label, description, minutes, cost, run) => {
-    const conflict = s.calendar.entries.some(e => e.status === 'confirmed' && e.start < s.time + minutes && e.end > s.time);
-    const reason = conflict ? 'Bu süre ajandandaki bir planla çakışıyor.' : '';
-    actions.push({id:`story:${choice}:${arc.person}`, label, description, category:'world', minutes, cost, pay:'total', disabled:!!reason, reason, run});
+  const add = (arc, choice, label, description, minutes, cost) => {
+    const reason = calendarConflict(s, minutes) ||
+      (arc.status === 'open' && s.time + minutes > arc.until ? 'Bu görüşme bitmeden destek süresi doluyor.'
+        : cost > s.bank + s.cash ? 'Bu destek için yeterli bakiye yok.'
+        : isFundedAid(choice) && !canFundResidentStory(s, arc.person, place.regionId, choice, cost) ? fundingUnavailable : '');
+    actions.push({id:`story:${choice}:${arc.person}`, label, description, category:'world', minutes, cost, pay:'total', disabled:!!reason, reason, run:() => unavailable});
   };
   for (const arc of active) {
     if (arc.status === 'open' && s.time <= arc.until) {
       const resident = s.expansion.economy.residents[arc.person];
       const primary = arc.kind === 'ambition'
-        ? ['train','Mesleki eğitime destek ol','100 TL ve zaman ayır; komşunun mesleki becerisi gelişir.',60,100]
+        ? ['train','Mesleki eğitime destek ol','Belediyeye 100 TL eğitim ücreti öde. Komşunun mesleki becerisi gelişir.',60,100]
         : arc.kind === 'migration' && resident.debt > 0
           ? ['relocate','Taşınan komşunun borcuna destek ol','Komşunun taşınma sonrası borcuna doğrudan ödeme yap.',60,Math.min(100,resident.debt)]
-          : ['help','Komşuya destek ol','Malzeme ve zaman ayır; bağ güçlenir.',60,100];
+          : ['help','Komşuya destek ol','Komşunun hane kasasına 100 TL aktar. Bağınız güçlenir.',60,100];
+      const debtChoice = arc.kind !== 'migration' && resident.debt > 0
+        ? [['repay','Komşunun borcuna destek ol','Borç sahibinin yükümlülüğüne doğrudan ödeme yap.',60,Math.min(100,resident.debt)]] : [];
       for (const [choice,label,description,minutes,cost] of [
-        primary,
-        ['listen','Komşuyu dinle','Zaman ayır; bağ biraz güçlenir.',30,0,3,'listened'],
-        ['decline','Desteği reddet','Zaman kazan; bağ zayıflar.',10,0,-5,'declined'],
-      ]) add(arc, choice, label, description, minutes, cost, () => 'Hikâye kararı tamamlanamadı.');
+        primary, ...debtChoice,
+        ['listen','Komşuyu dinle','Zaman ayır; bağ biraz güçlenir.',30,0],
+        ['decline','Desteği reddet','Zaman kazan; bağ zayıflar.',10,0],
+      ]) add(arc, choice, label, description, minutes, cost);
     }
     if (['helped','listened'].includes(arc.status) && (s.expansion.districts.contacts[arc.person].score >= 10) && s.time >= arc.resolvedAt + DAY && s.time >= arc.nextSupportAt) {
-      if (s.player.skills.knowledge < 100) add(arc,'referral','İş bilgisi iste','Güvenin sayesinde mesleki bilgi edin; bilgi becerin artar.',30,0,() => 'Hikâye kararı tamamlanamadı.');
-      add(arc,'support','Komşundan destek iste','Güçlü bağın sayesinde birlikte vakit geçir ve stresi azalt.',30,0,() => 'Hikâye kararı tamamlanamadı.');
+      if (s.player.skills.knowledge < 100) add(arc,'referral','İş bilgisi iste','Güvenin sayesinde mesleki bilgi edin; bilgi becerin artar.',30,0);
+      add(arc,'support','Komşundan destek iste','Güçlü bağın sayesinde birlikte vakit geçir ve stresi azalt.',30,0);
     }
   }
   return actions;
 }
+
+const localResident = (person, place) => person.health > 0 && person.presentDistrictId === place.districtId;
+const isFundedAid = (kind) => kind === 'help' || kind === 'train';
+
+function refundStoryPayment(s, before, api, cost, paid = 0, label = 'Hikâye gideri iadesi') {
+  // The resolver debits the bank first for a total-balance payment.
+  const refund = cost - paid;
+  const bankShare = Math.max(0, Math.min(before.bank, cost) - paid);
+  const cashRoom = 1e9 - s.cash;
+  const bank = Math.min(1e9 - s.bank, Math.max(bankShare, refund - cashRoom));
+  const cash = Math.min(cashRoom, refund - bank);
+  if (bank) api.receive(s, bank, label, 'bank');
+  if (cash) api.receive(s, cash, label, 'cash');
+  return bank + cash;
+}
+
 export function afterStoryAction(s, id, before, api, action) {
-  const choice = /^story:(help|train|relocate|listen|decline|support|referral):(resident:.+)$/.exec(id);
+  const choice = /^story:(help|train|relocate|repay|listen|decline|support|referral):(resident:.+)$/.exec(id);
   if (choice) {
     const [, kind, person] = choice;
     const contact = s.expansion.districts?.contacts?.[person];
     const arc = s.expansion.stories?.arcs.find(a => a.owner === before.expansion.playerId && a.person === person && a.generation === contact?.generation);
     const life = s.expansion.economy?.residents?.[person]?.life;
     const owner = s.expansion.family?.people?.find(p => p.id === before.expansion.playerId);
-    if (!arc || !contact || !owner || owner.died !== null || !life || life.health <= 0 || life.generation !== arc.generation || s.expansion.playerId !== before.expansion.playerId || contact.generation !== arc.generation || s.time !== before.time + action.minutes || api.getPlace(s).districtId !== arc.district) {
-      if (action.cost) api.receive(s,action.cost,'Hikâye gideri iadesi','bank');
-      return 'Hikâye kararı tamamlanamadı.';
-    }
-    if (kind === 'referral') {
-      arc.nextSupportAt = s.time + 7 * DAY; arc.supportCount = Math.min(99,arc.supportCount + 1);
-      api.skill(s,'knowledge',2); recordSocietyMemory(s,person,'story.referral',1,arc.district);
-      return 'Komşunun iş bilgisi becerini geliştirdi.';
-    }
-    if (kind === 'support') {
+    const place = api.getPlace(s);
+    const followUp = kind === 'referral' || kind === 'support';
+    const cancel = () => {
+      const refunded = refundStoryPayment(s, before, api, action.cost);
+      return refunded && refunded === action.cost ? 'Destek tamamlanamadı. Ödeme iade edildi.' : unavailable;
+    };
+    if (!arc || !contact || !owner || owner.died !== null || !life || life.health <= 0 || life.generation !== arc.generation ||
+        s.expansion.playerId !== before.expansion.playerId || s.time !== before.time + action.minutes || place.districtId !== arc.district ||
+        (!followUp && (arc.status !== 'open' || s.time > arc.until)) ||
+        !api.regionalResidents?.(s, place.regionId)?.some(p => p.id === person && p.generation === arc.generation && localResident(p, place))) return cancel();
+    if (followUp) {
       arc.nextSupportAt = s.time + 7 * DAY; arc.supportCount = Math.min(99, arc.supportCount + 1);
-      api.change(s,{stress:-8}); recordSocietyMemory(s, person, 'story.support', 1, arc.district);
-      return 'Komşunla vakit geçirmek stresini azalttı.';
+      if (kind === 'referral') api.skill(s,'knowledge',2);
+      else api.change(s,{stress:-8});
+      recordSocietyMemory(s,person,`story.${kind}`,1,arc.district);
+      return kind === 'referral' ? 'Komşunun iş bilgisi becerini geliştirdi.'
+        : 'Komşunla vakit geçirmek stresini azalttı.';
     }
-    if (kind === 'train') s.expansion.economy.residents[person].life.skill = Math.min(100, s.expansion.economy.residents[person].life.skill + 4);
-    if (kind === 'relocate') {
+    if (isFundedAid(kind) && !fundResidentStory(s, api, person, place, kind, action.cost)) return cancel();
+    if (kind === 'relocate' || kind === 'repay') {
       const paid = api.payResidentDebt?.(s, person, action.cost) || 0;
-      if (paid < action.cost) api.receive(s,action.cost-paid,'Borç desteği iadesi','bank');
+      if (!paid) return cancel();
+      refundStoryPayment(s, before, api, action.cost, paid, 'Borç desteği iadesi');
     }
-    const result = {train:['helped',10,'Komşunun mesleki eğitimine destek oldun.'], relocate:['helped',10,'Taşınan komşunun borcuna destek oldun.'],help:['helped',10,'Komşuna destek oldun; bağınız güçlendi.'], listen:['listened',3,'Komşunu dinledin; bağınız güçlendi.'], decline:['declined',-5,'Desteği reddettin; bağınız zayıfladı.']}[kind];
-    arc.status = result[0]; arc.resolvedAt = s.time;
-    contact.score = Math.max(1,Math.min(100,contact.score + result[1]));
-    recordSocietyMemory(s,person,`story.${result[0]}`,result[1],arc.district);
-    return result[2];
+    const [status, trust, message] = resolutions[kind];
+    arc.status = status; arc.resolvedAt = s.time;
+    contact.score = Math.max(1,Math.min(100,contact.score + trust));
+    recordSocietyMemory(s,person,`story.${status}`,trust,arc.district);
+    return message;
   }
   if (/^underworld:(report|inspect|fine|compensation):/.test(id)) tickStories(s);
   const business = s.expansion.stories?.business || [];
@@ -138,13 +174,16 @@ export function storyView(s) { return { arcs:(s.expansion.stories?.arcs || []).m
 export function validateStories(s) {
   const x = s.expansion.stories;
   if (!x) return s.expansion.deepSociety !== 3;
-  if (!x || typeof x !== 'object' || !Array.isArray(x.arcs) || x.arcs.length > LIMIT || !Array.isArray(x.family) || x.family.length > 8 || !Array.isArray(x.business) || x.business.length > 8 || !Array.isArray(x.justice) || x.justice.length > 12) return false;
-  if (!x.family.every(a => a && ['person','owner','name'].every(k => typeof a[k] === 'string' && a[k].length > 0 && a[k].length <= 160) && s.expansion.family?.people?.some(p => p.id === a.person && p.parents.includes(a.owner)) && ['open','care','study','expired'].includes(a.status) && Number.isSafeInteger(a.startedAt) && a.startedAt >= 0 && a.startedAt <= s.time && a.until === a.startedAt + 7*DAY)) return false;
-  if (!x.business.every(a => a && ['owner','business'].every(k => typeof a[k] === 'string' && a[k].length > 0 && a[k].length <= 160) && ['open','funded','paused','expired'].includes(a.status) && Number.isSafeInteger(a.startedAt) && a.startedAt >= 0 && a.startedAt <= s.time && a.until === a.startedAt + 7*DAY)) return false;
-  if (!x.justice.every(a => a && Number.isSafeInteger(a.id) && a.id > 0 && typeof a.owner === 'string' && Number.isSafeInteger(a.startedAt) && a.startedAt >= 0 && a.startedAt <= s.time && Number.isSafeInteger(a.evidence) && a.evidence >= 0 && a.evidence <= 2 && typeof a.stage === 'string' && s.expansion.underworld?.incidents?.some(i=>i.id===a.id && i.personId===a.owner && i.evidence.filter(e=>e.learnedAt!==null).length===a.evidence) && s.expansion.underworld?.cases?.some(c=>c.id===a.id && c.reportedAt===a.startedAt && c.status===a.stage))) return false;
+  const within = (rows, limit) => Array.isArray(rows) && rows.length <= limit;
+  if (typeof x !== 'object' || !within(x.arcs,LIMIT) || !within(x.family,8) || !within(x.business,8) || !within(x.justice,12)) return false;
+  const named = (row, keys) => keys.every(k => typeof row[k] === 'string' && row[k].length > 0 && row[k].length <= 160);
+  const timed = (a) => integer(a.startedAt,0,s.time) && a.until === a.startedAt + 7*DAY;
+  if (!x.family.every(a => a && named(a,['person','owner','name']) && s.expansion.family?.people?.some(p => p.id === a.person && p.parents.includes(a.owner)) && ['open','care','study','expired'].includes(a.status) && timed(a))) return false;
+  if (!x.business.every(a => a && named(a,['owner','business']) && ['open','funded','paused','expired'].includes(a.status) && timed(a))) return false;
+  if (!x.justice.every(a => a && integer(a.id,1,Infinity) && typeof a.owner === 'string' && integer(a.startedAt,0,s.time) && integer(a.evidence,0,2) && typeof a.stage === 'string' && s.expansion.underworld?.incidents?.some(i=>i.id===a.id && i.personId===a.owner && i.evidence.filter(e=>e.learnedAt!==null).length===a.evidence) && s.expansion.underworld?.cases?.some(c=>c.id===a.id && c.reportedAt===a.startedAt && c.status===a.stage))) return false;
   const ids = new Set();
   return x.arcs.every(a => {
-    if (!a || typeof a !== 'object' || ['id','owner','person','name','district'].some(k => typeof a[k] !== 'string' || !a[k] || a[k].length > 160) || ids.has(a.id)) return false;
+    if (!a || typeof a !== 'object' || !named(a,['id','owner','person','name','district']) || ids.has(a.id)) return false;
     ids.add(a.id);
     const resident = s.expansion.economy?.residents?.[a.person];
     const owner = s.expansion.family?.people?.some(p => p.id === a.owner);

@@ -8,6 +8,9 @@ const regionIds = Object.keys(REGIONS);
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 const DAY = 1440;
 const ownRegion = (id) => Object.hasOwn(REGIONS, id);
+export const calendarConflict = (s, minutes) => s.calendar.entries.some(
+  (e) => e.status === "confirmed" && e.start < s.time + minutes && e.end > s.time,
+) ? "Bu süre ajandandaki bir planla çakışıyor." : "";
 const goldPlace = (s) => s.expansion.world.region === "istanbul" &&
   ["kadikoy", "besiktas", "sisli"].includes(s.expansion.districts?.place?.districtId ?? s.location);
 const worldCopy = {
@@ -140,6 +143,10 @@ export function tickRegions(s, api, markets) {
   }
 }
 
+export function regionalMealPrice(s, region) {
+  return Math.round((90 * s.expansion.world.regions[region].price) / 100);
+}
+
 export function worldActions(s, api) {
   const w = s.expansion.world,
     region = REGIONS[w.region],
@@ -190,7 +197,7 @@ export function worldActions(s, api) {
       pay: "total",
       label: "Mahallede yemek ye",
       description: "Yemek ücreti şehir fiyatlarına bağlı.",
-      cost: Math.round((90 * r.price) / 100),
+      cost: regionalMealPrice(s, w.region),
       minutes: 40,
       disabled: s.player.hunger >= 95,
       reason: "Şu anda yeterince toksun.",

@@ -242,6 +242,8 @@ jobs:
         run: |
           git fetch --no-tags --depth=1 origin 2b1ede2be7466348e3933eba26b83a3831241bce
           git fetch --no-tags --depth=1 origin d2c1810da439dd831fff07992c1c278788a64a4c
+          git fetch --no-tags --depth=1 origin 51552c6197cafe744c5084925f13541a1a0aacf2
+          git fetch --no-tags --depth=1 origin c055514627db537c79f4c92481d38109606deaa6
       - name: Affected critical unit tests
         if: needs.changes.outputs.docs != 'true'
         env:

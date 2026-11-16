@@ -3000,4 +3000,5 @@ export default [
   "Yaşam hedefi",
   "Hedefi değiştir",
   "Hayatın başladı.",
+  "Yerel vardiya penceresi açıldı; koşulları incele.",
 ];

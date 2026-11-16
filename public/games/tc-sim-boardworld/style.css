@@ -1154,7 +1154,9 @@ button:disabled {
 .action-card.unavailable {
   background: #f0ecdf90;
   box-shadow: none;
+  padding: 10px;
 }
+.action-card.unavailable .action-top, .action-card.unavailable > p { margin-bottom: 6px; }
 .action-top {
   display: flex;
   align-items: center;

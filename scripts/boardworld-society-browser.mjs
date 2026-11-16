@@ -381,7 +381,15 @@ try {
     await h.tab("board");
     const beforeStock = await h.inspect();
     const stock=beforeStock.society.districts[beforeStock.deep.business.location].materialStock;
-    assert.match(await surface.locator('main').innerText(),new RegExp(`Malzeme stoğu\\s*${stock}|Material stock\\s*${stock}|Zapas materiałów\\s*${stock}`), 'district supply is visible');
+    const indicators = surface.locator("summary").filter({
+      hasText: /^(Semt göstergeleri|District indicators|Wskaźniki dzielnicy)$/,
+    });
+    await indicators.click();
+    assert.match(
+      await indicators.locator("..").innerText(),
+      new RegExp(`Malzeme stoğu\\s*${stock}|Material stock\\s*${stock}|Zapas materiałów\\s*${stock}`),
+      "district supply is visible",
+    );
     await h.layout("district supply");
     await h.choose("business:stock:3");
     const afterStock = await h.inspect(),

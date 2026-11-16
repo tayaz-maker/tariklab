@@ -1,6 +1,8 @@
 /** Player acceptance: every state change is made through the actual browser UI. */
 import test, { after, before } from 'node:test';
 import assert from 'node:assert/strict';
+import {mkdirSync} from 'node:fs';
+import {resolve} from 'node:path';
 import { chromium } from 'playwright';
 import { createStaticGameServer } from './static-game-server.mjs';
 import { openBoardworldTab } from './boardworld-browser-navigation.mjs';
@@ -233,5 +235,98 @@ test('a player can find work, inspect housing, travel and socialize', {timeout:6
     await action(page,'district:travel:ankara:altindag');
     assert.equal((await inspect(page)).expansion.districts.place.districtId,'ankara:altindag');
     await saveAndReload(page);
+  } finally {await context.close();}
+});
+
+test('a freeform player keeps earned progress while changing ambitions twice', {timeout:60000}, async () => {
+  const {context,page,errors}=await setup({path:'freeform'});
+  try {
+    await action(page,'district:visit:ankara:mamak:work');
+    await action(page,'district:apply');
+    await action(page,'district:shift');
+    const earned=await inspect(page);
+    assert.ok(earned.expansion.districts.job?.shifts > 0);
+    await openBoardworldTab(page,'goals');
+    for (const path of ['businessperson','professional']) {
+      await page.locator('[data-life-path] details > summary').click();
+      await action(page,`life-path:choose:${path}`);
+    }
+    const changed=await inspect(page);
+    assert.equal(changed.expansion.lifePath.active,'professional');
+    assert.equal(changed.expansion.lifePath.origin,'freeform');
+    assert.equal(changed.bank,earned.bank);
+    assert.equal(changed.time,earned.time);
+    assert.deepEqual(changed.expansion.districts.job,earned.expansion.districts.job);
+    assert.deepEqual(changed.expansion.economy,earned.expansion.economy);
+    assert.deepEqual((await saveAndReload(page)).expansion.lifePath,changed.expansion.lifePath);
+    assert.deepEqual(errors,[]);
+  } finally {await context.close();}
+});
+
+test('life guidance avoids duplicate local job controls while keeping unavailable reasons', {timeout:60000}, async () => {
+  const {context,page,errors}=await setup({district:'istanbul:kartal'});
+  try {
+    await action(page,'district:visit:istanbul:kartal:work');
+    assert.equal(await page.locator('[data-action="district:apply"]:visible').count(),1);
+    await action(page,'district:apply');
+    assert.equal(await page.locator('[data-action="district:shift"]:visible').count(),1);
+    await action(page,'district:shift');
+    const card=page.locator('[data-life-path] [data-action="district:shift"]').locator('xpath=ancestor::article[1]');
+    assert.ok(await card.locator('.action-reason').innerText());
+    assert.ok(await card.locator('[data-preview="district:shift"]').count());
+    const evidence=resolve(process.env.RUNNER_TEMP || 'work','screenshots');
+    mkdirSync(evidence,{recursive:true});
+    await page.screenshot({path:resolve(evidence,'boardworld-compact-actions.png')});
+    assert.deepEqual(errors,[]);
+  } finally {await context.close();}
+});
+
+test('regional work guidance safely advances to the next shift through visible controls', {timeout:60000}, async () => {
+  const {context,page,errors}=await setup({district:'istanbul:kartal'});
+  try {
+    await action(page,'district:visit:istanbul:kartal:work');
+    await action(page,'district:apply');
+    await action(page,'district:shift');
+    const before=await inspect(page);
+    for (const [language,label] of [['en','Advance to the shift'],['pl','Przejdź do zmiany'],['tr','Vardiyaya veya önemli ana ilerle']]) {
+      await page.locator('[data-game-language]').selectOption(language);
+      await page.waitForFunction(lang=>document.documentElement.lang===lang,language);
+      const control=page.locator('[data-life-path] [data-action="calendar:next"]:visible');
+      assert.ok(await control.count(),'context offers safe advance');
+      assert.match(await control.innerText(),new RegExp(label));
+    }
+    await action(page,'calendar:next');
+    const after=await inspect(page);
+    assert.equal(after.time,1440+360,'advance stops at the next workplace opening');
+    assert.ok(after.player.hunger<before.player.hunger && after.player.energy<before.player.energy);
+    assert.equal(after.bank,before.bank,'waiting pays no wages');
+    assert.ok(await page.locator('[data-action="district:shift"]:visible:enabled').count(),'next shift is available');
+    assert.match(await page.locator('#notice').innerText(),/vardiya penceresi/);
+    await saveAndReload(page);
+    const evidence=resolve(process.env.RUNNER_TEMP || 'work','screenshots');
+    mkdirSync(evidence,{recursive:true});
+    await page.screenshot({path:resolve(evidence,'boardworld-next-shift.png')});
+    assert.deepEqual(errors,[]);
+  } finally {await context.close();}
+});
+
+test('local opportunities remain visible while detailed indicators expand in three languages', {timeout:60000}, async () => {
+  const {context,page,errors}=await setup({district:'istanbul:kartal',width:390});
+  try {
+    for (const [language,summary,opportunities] of [['tr','Semt göstergeleri','İş olanakları'],['en','District indicators','Job openings'],['pl','Wskaźniki dzielnicy','Oferty pracy']]) {
+      await page.locator('[data-game-language]').selectOption(language);
+      await page.waitForFunction(lang=>document.documentElement.lang===lang,language);
+      const details=page.locator('details').filter({has:page.locator('summary').filter({hasText:summary})}).first();
+      assert.ok(await details.count(),`${language}: indicators`);
+      assert.equal(await details.getAttribute('open'),null,`${language}: starts compact`);
+      assert.ok((await page.locator('main').innerText()).includes(opportunities),`${language}: nearby work stays visible`);
+      await details.locator(':scope > summary').click();
+      assert.ok((await details.innerText()).length>summary.length,`${language}: details available`);
+      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`${language}: mobile width`);
+      await details.locator(':scope > summary').click();
+    }
+    const evidence=resolve(process.env.RUNNER_TEMP || 'work','screenshots'); mkdirSync(evidence,{recursive:true});
+    await page.screenshot({path:resolve(evidence,'boardworld-local-conditions.png')});
+    assert.deepEqual(errors,[]);
   } finally {await context.close();}
 });

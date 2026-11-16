@@ -212,9 +212,13 @@ test("an open local employer funds a contract shift once and the worker earns pe
   const { firmId } = s.expansion.districts.job;
   const before = economy(s).firms[firmId];
   const worked = act(s, shift.id);
+  const after = economy(worked).firms[firmId];
   assert.equal(worked.bank - s.bank, wage);
-  assert.equal(before.cash - economy(worked).firms[firmId].cash, wage);
-  assert.equal(economy(worked).firms[firmId].costs - before.costs, wage);
+  assert.equal(before.cash - after.cash, after.costs - before.costs);
+  const materials = after.costs - before.costs - wage;
+  assert.ok(after.stock >= before.stock && after.stock <= Math.min(12, before.stock + 2));
+  if (after.stock > before.stock) assert.ok(materials > 0);
+  else assert.equal(materials, 0);
   assert.equal(worked.flags.workDays, s.flags.workDays + 1);
   assert.equal(worked.expansion.districts.job.shifts, s.expansion.districts.job.shifts + 1);
   assert.ok(action(worked, shift.id).disabled);
