@@ -1,6 +1,7 @@
 import { recordSocietyMemory } from "./expansion-society.mjs";
 // Stories attach to actual meetings. They hold no money; the resolver pays costs.
 const LIMIT = 24, DAY = 1440;
+const unavailable = 'Hikâye kararı tamamlanamadı.';
 const init = () => ({ arcs: [], family: [], business: [], justice: [] });
 export function initStories(s) { s.expansion.stories = init(); }
 export function migrateStories(s) { if (!s.expansion.stories) initStories(s); else { s.expansion.stories.family ||= []; s.expansion.stories.business ||= []; s.expansion.stories.justice ||= []; for (const a of s.expansion.stories.arcs) a.kind ||= 'loyalty'; } }
@@ -49,10 +50,10 @@ export function storyActions(s, api) {
   const present = new Set((api.regionalResidents?.(s, place.regionId) || []).filter(p => p.health > 0 && p.presentDistrictId === place.districtId).map(p => p.id));
   const active = arcs.filter(a => present.has(a.person) && a.owner === s.expansion.playerId && a.district === place.districtId && s.expansion.districts?.contacts?.[a.person]?.generation === a.generation);
   const actions = [];
-  const add = (arc, choice, label, description, minutes, cost, run) => {
+  const add = (arc, choice, label, description, minutes, cost) => {
     const conflict = s.calendar.entries.some(e => e.status === 'confirmed' && e.start < s.time + minutes && e.end > s.time);
     const reason = conflict ? 'Bu süre ajandandaki bir planla çakışıyor.' : '';
-    actions.push({id:`story:${choice}:${arc.person}`, label, description, category:'world', minutes, cost, pay:'total', disabled:!!reason, reason, run});
+    actions.push({id:`story:${choice}:${arc.person}`, label, description, category:'world', minutes, cost, pay:'total', disabled:!!reason, reason, run:() => unavailable});
   };
   for (const arc of active) {
     if (arc.status === 'open' && s.time <= arc.until) {
@@ -62,47 +63,47 @@ export function storyActions(s, api) {
         : arc.kind === 'migration' && resident.debt > 0
           ? ['relocate','Taşınan komşunun borcuna destek ol','Komşunun taşınma sonrası borcuna doğrudan ödeme yap.',60,Math.min(100,resident.debt)]
           : ['help','Komşuya destek ol','Malzeme ve zaman ayır; bağ güçlenir.',60,100];
+      const debtChoice = arc.kind !== 'migration' && resident.debt > 0
+        ? [['repay','Komşunun borcuna destek ol','Borç sahibinin yükümlülüğüne doğrudan ödeme yap.',60,Math.min(100,resident.debt)]] : [];
       for (const [choice,label,description,minutes,cost] of [
-        primary,
-        ['listen','Komşuyu dinle','Zaman ayır; bağ biraz güçlenir.',30,0,3,'listened'],
-        ['decline','Desteği reddet','Zaman kazan; bağ zayıflar.',10,0,-5,'declined'],
-      ]) add(arc, choice, label, description, minutes, cost, () => 'Hikâye kararı tamamlanamadı.');
+        primary, ...debtChoice,
+        ['listen','Komşuyu dinle','Zaman ayır; bağ biraz güçlenir.',30,0],
+        ['decline','Desteği reddet','Zaman kazan; bağ zayıflar.',10,0],
+      ]) add(arc, choice, label, description, minutes, cost);
     }
     if (['helped','listened'].includes(arc.status) && (s.expansion.districts.contacts[arc.person].score >= 10) && s.time >= arc.resolvedAt + DAY && s.time >= arc.nextSupportAt) {
-      if (s.player.skills.knowledge < 100) add(arc,'referral','İş bilgisi iste','Güvenin sayesinde mesleki bilgi edin; bilgi becerin artar.',30,0,() => 'Hikâye kararı tamamlanamadı.');
-      add(arc,'support','Komşundan destek iste','Güçlü bağın sayesinde birlikte vakit geçir ve stresi azalt.',30,0,() => 'Hikâye kararı tamamlanamadı.');
+      if (s.player.skills.knowledge < 100) add(arc,'referral','İş bilgisi iste','Güvenin sayesinde mesleki bilgi edin; bilgi becerin artar.',30,0);
+      add(arc,'support','Komşundan destek iste','Güçlü bağın sayesinde birlikte vakit geçir ve stresi azalt.',30,0);
     }
   }
   return actions;
 }
 export function afterStoryAction(s, id, before, api, action) {
-  const choice = /^story:(help|train|relocate|listen|decline|support|referral):(resident:.+)$/.exec(id);
+  const choice = /^story:(help|train|relocate|repay|listen|decline|support|referral):(resident:.+)$/.exec(id);
   if (choice) {
     const [, kind, person] = choice;
     const contact = s.expansion.districts?.contacts?.[person];
     const arc = s.expansion.stories?.arcs.find(a => a.owner === before.expansion.playerId && a.person === person && a.generation === contact?.generation);
     const life = s.expansion.economy?.residents?.[person]?.life;
     const owner = s.expansion.family?.people?.find(p => p.id === before.expansion.playerId);
-    if (!arc || !contact || !owner || owner.died !== null || !life || life.health <= 0 || life.generation !== arc.generation || s.expansion.playerId !== before.expansion.playerId || contact.generation !== arc.generation || s.time !== before.time + action.minutes || api.getPlace(s).districtId !== arc.district) {
+    if (!arc || !contact || !owner || owner.died !== null || !life || life.health <= 0 || life.generation !== arc.generation || s.expansion.playerId !== before.expansion.playerId || s.time !== before.time + action.minutes || api.getPlace(s).districtId !== arc.district) {
       if (action.cost) api.receive(s,action.cost,'Hikâye gideri iadesi','bank');
-      return 'Hikâye kararı tamamlanamadı.';
+      return unavailable;
     }
-    if (kind === 'referral') {
-      arc.nextSupportAt = s.time + 7 * DAY; arc.supportCount = Math.min(99,arc.supportCount + 1);
-      api.skill(s,'knowledge',2); recordSocietyMemory(s,person,'story.referral',1,arc.district);
-      return 'Komşunun iş bilgisi becerini geliştirdi.';
-    }
-    if (kind === 'support') {
+    if (kind === 'referral' || kind === 'support') {
       arc.nextSupportAt = s.time + 7 * DAY; arc.supportCount = Math.min(99, arc.supportCount + 1);
-      api.change(s,{stress:-8}); recordSocietyMemory(s, person, 'story.support', 1, arc.district);
-      return 'Komşunla vakit geçirmek stresini azalttı.';
+      if (kind === 'referral') api.skill(s,'knowledge',2);
+      else api.change(s,{stress:-8});
+      recordSocietyMemory(s,person,`story.${kind}`,1,arc.district);
+      return kind === 'referral' ? 'Komşunun iş bilgisi becerini geliştirdi.'
+        : 'Komşunla vakit geçirmek stresini azalttı.';
     }
     if (kind === 'train') s.expansion.economy.residents[person].life.skill = Math.min(100, s.expansion.economy.residents[person].life.skill + 4);
-    if (kind === 'relocate') {
+    if (kind === 'relocate' || kind === 'repay') {
       const paid = api.payResidentDebt?.(s, person, action.cost) || 0;
       if (paid < action.cost) api.receive(s,action.cost-paid,'Borç desteği iadesi','bank');
     }
-    const result = {train:['helped',10,'Komşunun mesleki eğitimine destek oldun.'], relocate:['helped',10,'Taşınan komşunun borcuna destek oldun.'],help:['helped',10,'Komşuna destek oldun; bağınız güçlendi.'], listen:['listened',3,'Komşunu dinledin; bağınız güçlendi.'], decline:['declined',-5,'Desteği reddettin; bağınız zayıfladı.']}[kind];
+    const result = {train:['helped',10,'Komşunun mesleki eğitimine destek oldun.'], relocate:['helped',10,'Taşınan komşunun borcuna destek oldun.'],repay:['helped',10,'Komşunun borcuna destek oldun.'],help:['helped',10,'Komşuna destek oldun; bağınız güçlendi.'], listen:['listened',3,'Komşunu dinledin; bağınız güçlendi.'], decline:['declined',-5,'Desteği reddettin; bağınız zayıfladı.']}[kind];
     arc.status = result[0]; arc.resolvedAt = s.time;
     contact.score = Math.max(1,Math.min(100,contact.score + result[1]));
     recordSocietyMemory(s,person,`story.${result[0]}`,result[1],arc.district);

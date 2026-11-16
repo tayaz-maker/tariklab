@@ -140,6 +140,10 @@ export function tickRegions(s, api, markets) {
   }
 }
 
+export function regionalMealPrice(s, region) {
+  return Math.round((90 * s.expansion.world.regions[region].price) / 100);
+}
+
 export function worldActions(s, api) {
   const w = s.expansion.world,
     region = REGIONS[w.region],
@@ -190,7 +194,7 @@ export function worldActions(s, api) {
       pay: "total",
       label: "Mahallede yemek ye",
       description: "Yemek ücreti şehir fiyatlarına bağlı.",
-      cost: Math.round((90 * r.price) / 100),
+      cost: regionalMealPrice(s, w.region),
       minutes: 40,
       disabled: s.player.hunger >= 95,
       reason: "Şu anda yeterince toksun.",

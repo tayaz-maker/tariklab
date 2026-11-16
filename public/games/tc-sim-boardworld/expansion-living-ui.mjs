@@ -19,7 +19,7 @@ export function renderLiving({ view, actions, actionCard, esc, language, selecte
   const publicHere = here?.venues.some((v) => v.kind === "institution");
   const currentVenue = here?.venues.find((v) => v.id === place.venueId);
   const housingLink = currentVenue?.kind === "housing" ? `<p><button class="secondary" data-tab="expansion-finance">${label("Konut seçenekleri", "Housing options", "Opcje mieszkaniowe")} →</button></p>` : "";
-  const publicHint = !publicHere && nearest ? `<p>${label("En yakın kamu merkezi", "Nearest public centre", "Najbliższe centrum usług publicznych")}: ${esc(nearest.districtName)} · ${esc(localizeLivingText(nearest.name,language))} · ${nearest.hours[0]}:00–${nearest.hours[1]}:00 · ${nearest.minutes} ${label("dk", "min", "min")}</p>` : "";
+  const publicHint = !publicHere && nearest ? `<p>${label("En yakın kamu merkezi", "Nearest public centre", "Najbliższe centrum usług publicznych")}: ${esc(nearest.districtName)} · ${esc(localizeLivingText(nearest.name,language))} · ${nearest.hours[0]}:00–${nearest.hours[1]}:00 · ${nearest.minutes} ${label("dk", "min", "min")} · ${nearest.cost} TL${nearest.available ? "" : ` · ${esc(localizeLivingText(nearest.reason, language))}`}</p>` : "";
   const uw = view.underworld;
   const name = (id) =>
     districts.find((d) => d.id === id)?.name ||

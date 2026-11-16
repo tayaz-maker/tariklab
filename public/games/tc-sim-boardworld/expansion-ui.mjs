@@ -24,29 +24,47 @@ export function observeExpansionSaves(refresh) {
 export function renderLifePath(view, actions, actionCard, esc) {
   const path = view.lifePath;
   if (!path) return "";
+  const copy = getLifePathCopy(path.id, getLanguage());
   const first = actions.filter((action) => path.firstActionIds.includes(action.id));
   const target = path.target;
   const local = target?.districtId === view.districts.place.districtId;
   const travel = target && actions.find((action) => local
     ? action.venue === target.venueId || action.id === `district:visit:${target.venueId}`
-    : action.id === `district:travel:${target.districtId}` || (action.destination === target.districtId && !action.venue));
+    : action.id === `district:travel:${target.districtId}` || (action.destination === target.districtId && !action.venue) || action.id === `world:move:${view.districts.districts.find(d => d.id === target.districtId)?.cityId}`);
   const next = first.find((action) => !action.disabled) || travel || first[0];
   const wait = next?.disabled && actions.find((a) => a.id === "wait:60" && !a.disabled);
   const choices = actions.filter((action) => action.id.startsWith("life-path:choose:"));
   return `<section class="reference" data-life-path="${esc(path.id)}" aria-labelledby="life-path-title">
-    <h3 id="life-path-title">${esc(tx(path.title))}</h3>
-    <p data-life-path-objective><strong>${esc(tx(path.completed ? "Tamamlandı" : "İlk adım"))}</strong> · ${esc(tx(path.objective))}</p>
+    <h3 id="life-path-title">${esc(tx(copy.title))}</h3>
+    <p data-life-path-objective><strong>${esc(tx(path.completed ? "Tamamlandı" : "İlk adım"))}</strong> · ${esc(tx(copy.objective))}</p>
     ${path.contact ? `<p>${esc(tx("Tanıdık"))} · ${esc(path.contact.name)}</p>` : ""}
-    ${next ? actionCard(next, true) : ""}
+    ${path.completed && next ? `<p><strong>${({tr:"Sıradaki adım",en:"Next step",pl:"Następny krok"})[getLanguage()] || "Sıradaki adım"}</strong></p>` : ""}
+    ${path.id === "businessperson" && !path.completed && first.some((action) => !action.disabled)
+      ? first.map((action) => actionCard(action, true)).join("") : next ? actionCard(next, true) : ""}
     ${wait ? `<button class="text-button" data-action="${wait.id}">${esc(tx(wait.label))}</button>` : ""}
     <details><summary>${esc(tx("Yaşam hedefi"))}</summary>
-      <p>${esc(tx(path.description))}</p><p>${esc(tx(path.advantage))} ${esc(tx(path.drawback))}</p>
-      ${path.opportunities.map((line) => `<p>${esc(tx(line))}</p>`).join("")}<p>${esc(tx(path.goal))}</p>
+      <p>${esc(tx(copy.description))}</p><p>${esc(tx(copy.advantage))} ${esc(tx(copy.drawback))}</p>
+      ${copy.opportunities.map((line) => `<p>${esc(tx(line))}</p>`).join("")}<p>${esc(tx(copy.goal))}</p>
       ${choices.length ? `<div class="action-grid" aria-label="${esc(tx("Hedefi değiştir"))}">${choices.map((a) =>
         `<button class="secondary" data-action="${esc(a.id)}" aria-pressed="${a.disabled}"${a.disabled ? " disabled" : ""}>${esc(tx(a.label))}</button>`,
       ).join("")}</div>` : ""}
     </details>
   </section>`;
+}
+
+// The deferred expansion owns the sector-specific management panel. Values
+// come from the same economy view used by settlement, not a second ledger.
+export function renderSectorBusiness(view, actions, actionCard, esc, money, language) {
+  const c = view.economy.business;
+  const l = (tr,en,pl) => ({tr,en,pl}[language] || tr);
+  const relevant = actions.filter(a => a.id.startsWith("business:") || a.category === "enterprise").map(a =>
+    a.id.startsWith("business:fund:") ? {...a, description:l("Kişisel bakiyeden işletme kasasına aktarım; giderler ve stok işletme kasasından karşılanır.", "Transfer personal funds to the business account for stock and expenses.", "Przenieś środki osobiste do kasy firmy na zapasy i wydatki.")} : a);
+  const order = c.order;
+  return `<section class="reference"><h2>${esc(localizeEconomyText(c.name, language))}</h2>
+    <p>${l("Kasa", "Capital", "Kapitał")}: ${money(c.capital)} · ${l("Stok", "Stock", "Zapasy")}: ${esc(c.stock)} · ${l("Çalışan", "Employees", "Pracownicy")}: ${esc(c.workers)}</p>
+    <p>${l("Gelir", "Revenue", "Przychód")}: ${money(c.revenue)} · ${l("Gider", "Costs", "Koszty")}: ${money(c.costs)} · ${l("Ücret borcu", "Wages due", "Zaległe płace")}: ${money(c.wageDue)} · ${l("Vergi borcu", "Tax due", "Zaległy podatek")}: ${money(c.taxDue)}</p>
+    <p>${order ? `${l("Mevcut alıcı", "Available buyer", "Dostępny nabywca")}: ${esc(order.units)} · ${money(order.price)} / ${l("birim", "unit", "szt.")}` : l("Şu anda stok, fiyat veya alıcı koşulları nedeniyle sipariş yok.", "No order is available at current stock, price or buyer conditions.", "Brak zamówienia przy obecnych zapasach, cenie lub warunkach nabywcy.")}</p>
+    <div class="action-grid">${relevant.map(a => actionCard(a)).join("")}</div></section>`;
 }
 
 // Presentation reads the existing contracts; it never mirrors their balances.
@@ -60,7 +78,7 @@ export function householdSummary(state, view, language) {
   return {
     housing: contract?.tenant === "household" ? {...state.housing, ...contract} : state.housing,
     homeName: home ? localizeEconomyText(home.name, language) : null,
-    job: job && {...job, name: localizeEconomyText(firm?.name || job.firmId, language)},
+    job: job && {...job, name: [job.roleName && localizeLivingText(job.roleName, language), localizeEconomyText(firm?.name || job.firmId, language)].filter(Boolean).join(" · ")},
     jobDescription: ({tr:"Vardiya ve iş yeri Dünya bölümünde. Ücret tamamlanan vardiyada bankaya geçer.", en:"Find your shift and workplace in World. Completed shifts pay directly to your bank.", pl:"Zmiana i miejsce pracy znajdują się w Świecie. Ukończone zmiany są opłacane na konto."})[language],
     forecast: view.economy.properties.flatMap(p => [
       ...(p.rentCashFlow && p.leaseDueDay ? [{day:p.leaseDueDay, label:`${rentLabel} · ${localizeEconomyText(p.name, language)}`, amount:p.rentCashFlow - (p.tenancy === "household" ? p.arrears : 0)}] : []),
@@ -328,7 +346,7 @@ export function renderExpansion({
     return (
       header +
       `${renderBusinessStories({view, actions, actionCard, esc, language})}<section class="reference"><h3>${esc(t[1])}</h3><ul class="property-grid">${localProperties.map(propertyCard).join("")}</ul>${propertyOptions(localProperties)}${remoteProperties.length ? `<details><summary>${label("Diğer bölgeler", "Other districts", "Inne dzielnice")}</summary><ul class="property-grid">${remoteProperties.map(propertyCard).join("")}</ul>${propertyOptions(remoteProperties)}</details>` : ""}
-    ${company ? `<p>${esc(company.name)} · ${tx("İşletme kasası")} ${money(company.capital)} · ${label("Stok", "Stock", "Zapasy")} ${esc(company.stock)} · ${label("Çalışan", "Employees", "Pracownicy")} ${esc(company.workers)}<br>${label("Gelir", "Revenue", "Przychód")} ${money(company.revenue)} · ${label("Gider", "Costs", "Koszty")} ${money(company.costs)} · ${label("Kâr", "Profit", "Zysk")} ${money(company.revenue - company.costs)}<br>${label("Maaş borcu", "Wages due", "Zaległe płace")} ${money(company.wageDue)} · ${label("Vergi borcu", "Tax due", "Zaległy podatek")} ${money(company.taxDue)}${company.clients != null ? `<br>${tx("Müşteri")}: ${esc(company.clients)} · ${label("İtibar", "Reputation", "Reputacja")}: ${esc(company.reputation)} · ${label("Çalışan vardiya ücreti", "Wage per worker shift", "Płaca za zmianę pracownika")}: ${money(company.wageRate)} · ${label("Birikmiş sabit gider borcu", "Accrued overhead arrears", "Zaległe koszty stałe")}: ${money(company.overhead)}` : ""}</p>` : ""}${extras}</section>`
+    ${company ? `<p>${esc(localizeEconomyText(company.name, language))} · ${tx("İşletme kasası")} ${money(company.capital)} · ${label("Stok", "Stock", "Zapasy")} ${esc(company.stock)} · ${label("Çalışan", "Employees", "Pracownicy")} ${esc(company.workers)}<br>${label("Gelir", "Revenue", "Przychód")} ${money(company.revenue)} · ${label("Gider", "Costs", "Koszty")} ${money(company.costs)} · ${label("Kâr", "Profit", "Zysk")} ${money(company.revenue - company.costs)}<br>${label("Maaş borcu", "Wages due", "Zaległe płace")} ${money(company.wageDue)} · ${label("Vergi borcu", "Tax due", "Zaległy podatek")} ${money(company.taxDue)}${company.clients != null ? `<br>${tx("Müşteri")}: ${esc(company.clients)} · ${label("İtibar", "Reputation", "Reputacja")}: ${esc(company.reputation)} · ${label("Çalışan vardiya ücreti", "Wage per worker shift", "Płaca za zmianę pracownika")}: ${money(company.wageRate)} · ${label("Birikmiş sabit gider borcu", "Accrued overhead arrears", "Zaległe koszty stałe")}: ${money(company.overhead)}` : ""}</p>` : ""}${extras}</section>`
     );
   }
   if (section === "world") {

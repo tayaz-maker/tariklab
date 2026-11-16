@@ -595,6 +595,7 @@ function renderProjectPanel() {
 }
 
 function renderEnterprise() {
+  if (state.expansion?.economy?.business?.sector) return expansionUi.renderSectorBusiness(cachedView("expansion", () => expansionUi.getExpansionView(state)), actions, actionCard, esc, money, getLanguage());
   return `${sectionHeader("GİRİŞİM & MÜŞTERİLER", "Kendi masanın başına geç.", "Bir işletmenin geliri kadar yükü de gerçektir. Müşterilerin, itibarın ve sabit giderlerin aynı hesapta buluşur.")}${deepView.freelance.active ? renderFreelance(deepView.freelance) : ""}${renderLivingEconomy(livingView, "enterprise")}${renderBusiness(deepView.business, actions, actionCard)}`;
 }
 function renderStories() {

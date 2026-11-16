@@ -177,7 +177,7 @@ export function expansionActions(s, actions, api) {
   );
   const retired = familyIsRetired(s);
   const eligible = combined.filter((a) => {
-    if (retired && /^(work$|apply:|world:shift$|district:(apply|shift)$)/.test(a.id)) return false;
+    if (retired && /^(work$|apply:|world:shift$|district:(apply(?::|$)|shift$))/.test(a.id)) return false;
     const romance = /^(?:date:|partner:|life:romance:)([^:]+)$/.exec(a.id);
     return !romance || !familyBlocksRomance(s, romance[1]);
   });
@@ -191,14 +191,14 @@ export function expansionActions(s, actions, api) {
 export function afterExpansionAction(s, id, before, api, action) {
   if (s.expansion.playerId !== before.expansion.playerId) onInstitutionSuccession(s, api);
   afterFamilyAction(s, id, api);
-  afterEconomyAction(s, before, api, action);
+  const economyMessage = afterEconomyAction(s, before, api, action);
   const districtMessage = afterDistrictAction(s, id, before, api, action);
   afterInstitutionAction(s, id, before, api);
   const underworldMessage = afterUnderworldAction(s, id, before, api, action);
   const storyMessage = afterStoryAction(s, id, before, api, action);
   afterLifePathAction(s, id, before, api);
   tickStories(s, api);
-  return storyMessage || underworldMessage || districtMessage;
+  return storyMessage || underworldMessage || districtMessage || economyMessage;
 }
 
 export function getExpansionView(s) {

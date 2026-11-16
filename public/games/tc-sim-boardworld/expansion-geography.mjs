@@ -12,6 +12,21 @@ export const districtById = (id) => DISTRICTS.find((d) => d.id === normalizeDist
 export const cityDistricts = (regionId) => DISTRICTS.filter((d) => d.regionId === regionId);
 export const hubDistrict = (regionId) => cityDistricts(regionId)[0]?.id ?? null;
 export const NEIGHBORHOODS = DISTRICTS.map((d) => ({ id: `${d.id}:game-neighborhood`, districtId: d.id, name: `${d.name} · Oyun Mahallesi`, fictional: true }));
+// Fictional activity areas organize existing accessible workplaces; names are game labels,
+// not claims about real administrative neighborhoods. Their venues retain their IDs.
+const activityAreas = {
+  'istanbul:umraniye': ['Atölyeler Bölgesi', 'Workshop Quarter', 'Dzielnica warsztatów'],
+  'istanbul:fatih': ['Çarşı Atölyeleri', 'Market Workshops', 'Warsztaty targowe'],
+  'istanbul:atasehir': ['Ticaret Sokağı', 'Commerce Street', 'Ulica handlowa'],
+  'ankara:yenimahalle': ['Üretim Bölgesi', 'Production Quarter', 'Dzielnica produkcyjna'],
+  'ankara:mamak': ['Yerel İş Sokağı', 'Local Work Street', 'Ulica lokalnej pracy'],
+  'izmir:konak': ['Ticaret Sokağı', 'Commerce Street', 'Ulica handlowa'],
+  'izmir:bornova': ['Hizmet ve Eğitim Bölgesi', 'Services and Learning Quarter', 'Dzielnica usług i nauki'],
+  'izmir:karabaglar': ['Atölyeler Bölgesi', 'Workshop Quarter', 'Dzielnica warsztatów'],
+};
+for (const [districtId, [name, en, pl]] of Object.entries(activityAreas))
+  NEIGHBORHOODS.push({id:`${districtId}:activity-area`, districtId, name, en, pl, fictional:true});
+export const neighborhoodName = (n, language = 'tr') => n?.[language] || n?.name || '';
 // Kızılay is a Çankaya neighborhood: https://www.cankaya.bel.tr/rehber/muhtarlarimiz/muhtarlarimiz
 NEIGHBORHOODS.push({id:'ankara:kizilay', districtId:'ankara:cankaya', name:'Kızılay', fictional:false});
 const kinds = {
@@ -29,7 +44,7 @@ export const LOCATIONS = [
     const types = d.id === 'ankara:cankaya' || d.id === 'izmir:konak' || d.id === 'izmir:bornova'
       ? Object.keys(kinds) : ['work','social', ['residential','industry','commerce'].includes(d.trait) ? 'housing' : 'institution'];
     const workNames = {industry:'Üretim atölyesi',commerce:'Ticaret merkezi',culture:'Kültür atölyesi',heritage:'Miras atölyesi',services:'Hizmet merkezi',residential:'Yerel iş merkezi'};
-    return types.map((kind) => ({id:`${d.id}:${kind}`,districtId:d.id,neighborhoodId:`${d.id}:game-neighborhood`,kind,...kinds[kind], ...(kind === 'work' ? {name:workNames[d.trait],hours:d.trait === 'industry' ? [6,20] : [7,22]} : {})}));
+    return types.map((kind) => ({id:`${d.id}:${kind}`,districtId:d.id,neighborhoodId:kind === 'work' && activityAreas[d.id] ? `${d.id}:activity-area` : `${d.id}:game-neighborhood`,kind,...kinds[kind], ...(kind === 'work' ? {name:workNames[d.trait],hours:d.trait === 'industry' ? [6,20] : [7,22]} : {})}));
   }),
   ...Object.entries(kinds).map(([kind, v]) => ({id:`ankara:kizilay:${kind}`,districtId:'ankara:cankaya',neighborhoodId:'ankara:kizilay',kind,...v})),
 ];

@@ -28,6 +28,7 @@ const EXPANSION_BACKUP_KEY = `${EXPANSION_KEY}.backup`;
 const LIVING_KEY = `${EXPANSION_KEY}.living`;
 const WORLD2_KEY = `${EXPANSION_KEY}.living-world-2`;
 const WORLD3_KEY = `${EXPANSION_KEY}.living-world-3`;
+const DEPTH_KEY = `${EXPANSION_KEY}.living-depth`;
 const LEGACY_SLOTS = [
   [LEGACY_V5_SAVE_KEY, [5]],
   [LEGACY_V5_BACKUP_KEY, [5]],
@@ -50,10 +51,14 @@ const FORMAT = "tc-sim-boardworld";
 const LIVING_FORMAT = `${FORMAT}-living-dictionary-1`;
 const WORLD2_FORMAT = `${FORMAT}-living-world-2-dictionary-1`;
 const WORLD3_FORMAT = `${FORMAT}-living-world-3-dictionary-1`;
+const DEPTH_FORMAT = `${FORMAT}-living-depth-dictionary-1`;
+const depthState = (s) => Boolean(s.expansion?.economy?.business?.sector || s.expansion?.districts?.job?.role);
 const world3State = (state) => state.version === EXPANSION_SAVE_VERSION && state.expansion?.deepSociety === 3;
 const world2State = (state) => state.version === EXPANSION_SAVE_VERSION && state.expansion?.livingWorld === 2;
 const livingState = (state) => state.version === EXPANSION_SAVE_VERSION &&
   (state.expansion?.districts !== undefined || state.expansion?.underworld !== undefined);
+const expansionFormat = (s) => depthState(s) ? DEPTH_FORMAT : world3State(s) ? WORLD3_FORMAT
+  : world2State(s) ? WORLD2_FORMAT : livingState(s) ? LIVING_FORMAT : "";
 // Preserve the exact imported envelope outside simulation state. The original
 // version is archived before canonical writes; migration itself stays pure.
 const importedLegacy = new WeakMap();
@@ -120,7 +125,7 @@ function valid(state) {
 function encode(state, version, compact = false) {
   const payload = JSON.stringify(compact ? packSave(state) : state);
   const encoded = JSON.stringify({
-    format: world3State(state) ? WORLD3_FORMAT : world2State(state) ? WORLD2_FORMAT : livingState(state) ? LIVING_FORMAT : compact ? `${FORMAT}-dictionary-1` : FORMAT,
+    format: expansionFormat(state) || (compact ? `${FORMAT}-dictionary-1` : FORMAT),
     version,
     checksum: checksum(payload),
     payload,
@@ -156,8 +161,8 @@ function readEnvelope(text) {
     !Object.keys(envelope).every((key) =>
       ["format", "version", "checksum", "payload"].includes(key),
     ) ||
-    ![FORMAT, `${FORMAT}-dictionary-1`, LIVING_FORMAT, WORLD2_FORMAT, WORLD3_FORMAT].includes(envelope.format) ||
-    ([LIVING_FORMAT, WORLD2_FORMAT, WORLD3_FORMAT].includes(envelope.format) && envelope.version !== EXPANSION_SAVE_VERSION) ||
+    ![FORMAT, `${FORMAT}-dictionary-1`, LIVING_FORMAT, WORLD2_FORMAT, WORLD3_FORMAT, DEPTH_FORMAT].includes(envelope.format) ||
+    ([LIVING_FORMAT, WORLD2_FORMAT, WORLD3_FORMAT, DEPTH_FORMAT].includes(envelope.format) && envelope.version !== EXPANSION_SAVE_VERSION) ||
     ![1, 2, 3, 4, 5, CURRENT_VERSION, EXPANSION_SAVE_VERSION].includes(envelope.version) ||
     typeof envelope.payload !== "string" ||
     envelope.checksum !== checksum(envelope.payload)
@@ -178,9 +183,9 @@ function decode(text) {
   // legacy record must never gain legitimacy from new-schema defaults.
   const parsed = JSON.parse(envelope.payload);
   const original = envelope.format === FORMAT ? parsed : unpackSave(parsed);
-  if (world3State(original) ? envelope.format !== WORLD3_FORMAT :
-    envelope.format === WORLD3_FORMAT || (world2State(original) ? envelope.format !== WORLD2_FORMAT :
-      envelope.format === WORLD2_FORMAT || (livingState(original) && envelope.format !== LIVING_FORMAT)))
+  const expected = expansionFormat(original);
+  if (expected ? envelope.format !== expected
+    : [WORLD2_FORMAT, WORLD3_FORMAT, DEPTH_FORMAT].includes(envelope.format))
     throw new Error("capability");
   if (!valid(original) || original.version !== envelope.version) throw new Error("state");
   const migrated = envelope.version < CURRENT_VERSION;
@@ -585,11 +590,8 @@ export async function loadGameLocked(
 function expansionToken(storage) {
   // Older cached runtimes preserve unknown durable slots but cannot simulate
   // these domains. Keep their v7 branch separate from the canonical living world.
-  const world3 = storage.getItem(WORLD3_KEY) !== null || storage.getItem(`${WORLD3_KEY}.backup`) !== null;
-  const world2 = storage.getItem(WORLD2_KEY) !== null || storage.getItem(`${WORLD2_KEY}.backup`) !== null;
-  const living = storage.getItem(LIVING_KEY) !== null ||
-    storage.getItem(`${LIVING_KEY}.backup`) !== null;
-  const key = world3 ? WORLD3_KEY : world2 ? WORLD2_KEY : living ? LIVING_KEY : EXPANSION_KEY;
+  const key = [DEPTH_KEY, WORLD3_KEY, WORLD2_KEY, LIVING_KEY].find((key) =>
+    storage.getItem(key) !== null || storage.getItem(`${key}.backup`) !== null) ?? EXPANSION_KEY;
   return {
     key,
     primary: storage.getItem(key),
@@ -610,7 +612,7 @@ const expansionPersistence = () => import("./expansion-persistence.mjs");
 // Private adapter tuple shared only with expansion-persistence.mjs.
 const expansionIo = [
   probeExpansion, importGame, exportGame, browserTransaction, writeChecked, conflict,
-  SAVE_LOCK, LOCK_WARNING, WORLD3_KEY, world3State,
+  SAVE_LOCK, LOCK_WARNING, WORLD3_KEY, world3State, DEPTH_KEY, depthState,
 ];
 
 export async function loadExpansionLocked(

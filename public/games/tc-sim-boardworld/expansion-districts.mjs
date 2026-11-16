@@ -2,7 +2,9 @@ import { VENUES as GOLD_VENUES } from "./city.mjs";
 import { getSocietyDistrictEffects } from "./society-systems.mjs";
 import { underworldDistrictModifiers } from "./expansion-underworld.mjs";
 import { REGIONS } from "./expansion-world.mjs";
-import { districtEconomyMetrics, getDistrictEmployers, economyLotDistrict } from "./expansion-economy.mjs";
+import {
+  canPayDistrictShift, districtEconomyMetrics, economyLotDistrict, firmWorkday, getDistrictEmployers, settleDistrictShift,
+} from "./expansion-economy.mjs";
 
 const DAY = 1440;
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
@@ -14,6 +16,7 @@ const district = districtById;
 const venue = (id) => VENUES.find((v) => v.id === id);
 const hub = hubDistrict;
 const FOOD_IDS = DISTRICTS.filter((d) => !goldDistrict(d.id)).map((d) => d.id);
+const FOOD_MARKET_IDS = [...FOOD_IDS, "ankara:kizilay"];
 // Each independent vendor starts with 12 meals and 1,000 TL. Restocking pays
 // 30 TL per meal to an external wholesaler; no second household ledger is used.
 const defaultMarket = (day) => ({ stock: 12, cash: 1000, wholesaleSpent: 0, lastDay: day });
@@ -28,6 +31,26 @@ const state = (s) =>
     visitDay: day(s),
     contacts: {},
   });
+
+const foodMarket = (s, id) =>
+  s.expansion.districts?.foodMarkets?.[id] ?? defaultMarket(day(s));
+const canBuyMeal = (market, price) => market.stock > 0 && market.cash + price <= 1e9;
+
+export function buyDistrictMeal(s, id, price) {
+  if (!FOOD_MARKET_IDS.includes(id)) return false;
+  const market = foodMarket(s, id);
+  if (!canBuyMeal(market, price)) return false;
+  const data = state(s);
+  data.foodMarkets ||= Object.fromEntries(
+    FOOD_MARKET_IDS.map((marketId) => [marketId, defaultMarket(day(s))]),
+  );
+  if (!data.foodMarkets[id]) migrateDistricts(s);
+  const vendor = data.foodMarkets[id] ||= market;
+  vendor.stock--;
+  vendor.cash += price;
+  return true;
+}
+
 export function districtForLot(lotId) {
   return economyLotDistrict(lotId);
 }
@@ -94,6 +117,25 @@ const hours = (s, v, minutes = 0) => {
   const start = s.time % DAY;
   return start >= v.hours[0] * 60 && start + minutes <= v.hours[1] * 60;
 };
+const careers = {
+  "customer-service": { name: "Müşteri temsilcisi", traits: ["commerce", "services"],
+    skill: "communication", required: 25, wage: 90, minutes: 240, energy: 11, stress: 5 },
+  logistics: { name: "Lojistik görevlisi", traits: ["industry", "commerce"],
+    skill: "craft", required: 25, wage: 120, minutes: 360, energy: 19, stress: 7 },
+  training: { name: "Eğitim koordinatörü", traits: ["culture", "heritage"],
+    skill: "knowledge", required: 30, course: "teaching", wage: 125, minutes: 300, energy: 14, stress: 5 },
+};
+const baseWage = (s, region, role) => Math.floor(
+  REGIONS[region].wage * s.expansion.world.regions[region].employment * (role?.wage ?? 100) / 10000,
+);
+function shiftTerms(s, p, job) {
+  const role = careers[job.role];
+  const skill = role?.skill ?? (job.firmId.endsWith(":repair") ? "craft"
+    : job.firmId.endsWith(":digital") ? "technical" : "knowledge");
+  const pay = baseWage(s, p.regionId, role) +
+    Math.min(Math.floor(job.shifts / 5), Math.floor(s.player.skills[skill] / 10)) * 25;
+  return { role, skill, pay, minutes: role?.minutes ?? 360 };
+}
 const employer = (s, p, wage) => {
   const reserve = Math.round((105 * s.expansion.world.regions[p.regionId].price) / 100);
   return getDistrictEmployers(s,p.districtId).find(({firm,vacancies}) =>
@@ -202,17 +244,14 @@ export function districtActions(s, api) {
       );
     }
   }
-  const workplace = (s.expansion.lifePath ? LOCATIONS.find((v) => v.id === p.venueId) : venue(p.venueId));
+  const workplace = LOCATIONS.find((v) => v.id === p.venueId);
   const job = s.expansion.districts?.job;
-  const wage = Math.floor(
-    (REGIONS[p.regionId].wage * s.expansion.world.regions[p.regionId].employment) / 100,
-  );
+  const wage = baseWage(s, p.regionId);
   const firm = employer(s, p, wage);
-  const jobFirm = job && s.expansion.economy.firms[job.firmId];
   if (workplace?.kind === "work") {
     const base =
       problem(s, 30) || (!hours(s, workplace, 30) ? "Mekân bu saatte kapalı." : "");
-    actions.push(
+    if (s.expansion.lifePath || venue(p.venueId)) actions.push(
       make(
         "district:apply",
         "Yerel işe başvur",
@@ -230,28 +269,39 @@ export function districtActions(s, api) {
         () => "İş başvurusu tamamlandı.",
       ),
     );
+    if (!job && !s.job) {
+      for (const [id, role] of Object.entries(careers)) {
+        if (!role.traits.includes(district(p.districtId).trait)) continue;
+        const pay = baseWage(s, p.regionId, role);
+        const hiring = employer(s, p, pay);
+        const reason = base || (s.player.skills[role.skill] < role.required
+          ? (role.skill === "communication" ? "İletişim 25 gerekir."
+            : role.skill === "craft" ? "Zanaat 25 gerekir." : "Bilgi 30 gerekir.")
+          : role.course && !s.expansion.institutions.qualifications.some(({ course }) => course === role.course)
+            ? "Eğitmenlik yeterliliği gerekir."
+            : !hiring ? "Ücret ayırabilen açık bir yerel işletme yok." : "");
+        actions.push({ ...make(
+          `district:apply:${id}`, role.name,
+          `Ücret: ${pay} TL · Her beş vardiyada ilerleme.`,
+          30, 0, reason, () => "İş başvurusu tamamlandı.",
+        ), category: "work" });
+      }
+    }
     if (job) {
-      const skill = job.firmId.endsWith(":repair")
-        ? "craft"
-        : job.firmId.endsWith(":digital")
-          ? "technical"
-          : "knowledge";
-      const pay =
-        wage + Math.min(Math.floor(job.shifts / 5), Math.floor(s.player.skills[skill] / 10)) * 25;
+      const { role, pay, minutes } = shiftTerms(s, p, job);
       const why =
-        problem(s, 360) ||
-        (!hours(s, workplace, 360)
+        problem(s, minutes) ||
+        (!hours(s, workplace, minutes)
           ? "Mekân bu saatte kapalı."
           : normalizeDistrictId(job.districtId) !== p.districtId
             ? "Vardiya sözleşmendeki semtte yapılır."
+            : !firmWorkday(p.regionId, day(s))
+              ? "Bu işveren bugün vardiya yapmıyor."
             : job.lastShiftDay === day(s)
               ? "Bugünkü vardiyan tamamlandı."
               : s.player.energy < 30
                 ? "Vardiya için enerji gerekir."
-                : !jobFirm ||
-                    jobFirm.status !== "open" ||
-                    jobFirm.cash < pay ||
-                    jobFirm.costs + pay > 1e9
+                : !canPayDistrictShift(s, job.firmId, pay)
                   ? "İşverenin ücret için yeterli kaynağı yok."
                   : s.bank + pay > 1e9
                     ? "Banka bakiyesi sınırına ulaştın."
@@ -259,9 +309,9 @@ export function districtActions(s, api) {
       actions.push(
         make(
           "district:shift",
-          "Sözleşmeli vardiya",
+          role?.name ?? "Sözleşmeli vardiya",
           `Ücret: ${pay} TL · Her beş vardiyada ilerleme.`,
-          360,
+          minutes,
           0,
           why,
           () => "Vardiya tamamlandı.",
@@ -333,20 +383,14 @@ export function adaptDistrictActions(s, actions, api) {
         (!hours(s, venue(p.venueId), a.minutes) ? "Mekân bu saatte kapalı." : "");
     if (!reason && a.id === "world:meal") {
       const marketId = p.neighborhoodId === "ankara:kizilay" ? "ankara:kizilay" : p.districtId;
-      const vendor = s.expansion.districts?.foodMarkets?.[marketId] ?? defaultMarket(day(s));
-      if (vendor.stock < 1 || vendor.cash + a.cost > 1e9) reason = "Bu semtte yemek için stok yok.";
+      if (s.cash + s.bank < a.cost) reason = "Yemek için yeterli bakiye yok.";
+      else if (!canBuyMeal(foodMarket(s, marketId), a.cost)) reason = "Bu semtte yemek için stok yok.";
       else {
         const run = a.run;
         return {
           ...a,
           run(next) {
-            const data = state(next);
-            data.foodMarkets ||= Object.fromEntries(
-              [...FOOD_IDS, "ankara:kizilay"].map((id) => [id, defaultMarket(day(next))]),
-            );
-            const market = data.foodMarkets[marketId] ||= defaultMarket(day(next));
-            market.stock--;
-            market.cash += a.cost;
+            buyDistrictMeal(next, marketId, a.cost);
             return run(next);
           },
         };
@@ -410,10 +454,9 @@ export function afterDistrictAction(s, id, before, api) {
       name: person.name,
     };
     api.change(s, { stress: -3 });
-  } else if (id === "district:apply") {
-    const wage = Math.floor(
-      (REGIONS[p.regionId].wage * before.expansion.world.regions[p.regionId].employment) / 100,
-    );
+  } else if (id === "district:apply" || id.startsWith("district:apply:")) {
+    const role = id.split(":")[2];
+    const wage = baseWage(before, p.regionId, careers[role]);
     const firm = employer(before, p, wage);
     if (firm)
       data.job = {
@@ -422,57 +465,64 @@ export function afterDistrictAction(s, id, before, api) {
         districtId: p.districtId,
         shifts: 0,
         lastShiftDay: 0,
+        ...(role ? { role } : {}),
       };
   } else if (id === "district:shift" && data.job) {
     const job = data.job,
-      firm = s.expansion.economy.firms[job.firmId];
-    const skill = job.firmId.endsWith(":repair")
-      ? "craft"
-      : job.firmId.endsWith(":digital")
-        ? "technical"
-        : "knowledge";
-    const pay =
-      Math.floor(
-        (REGIONS[p.regionId].wage * before.expansion.world.regions[p.regionId].employment) / 100,
-      ) +
-      Math.min(Math.floor(job.shifts / 5), Math.floor(before.player.skills[skill] / 10)) * 25;
+      workDay = day(before);
+    const { role, skill, pay } = shiftTerms(before, p, job);
     if (
-      firm.status === "open" &&
-      firm.cash >= pay &&
-      firm.costs + pay <= 1e9 &&
-      s.bank + pay <= 1e9
+      firmWorkday(p.regionId, workDay) &&
+      s.bank + pay <= 1e9 &&
+      settleDistrictShift(s, job.firmId, pay)
     ) {
-      firm.cash -= pay;
-      firm.costs += pay;
       job.shifts = Math.min(1000, job.shifts + 1);
       api.skill(s, skill, 1);
-      job.lastShiftDay = day(before);
+      job.lastShiftDay = workDay;
       s.flags.workDays++;
       api.receive(s, pay, "Yerel vardiya", "bank");
-      api.change(s, { energy: -17, stress: 7 });
+      api.change(s, { energy: -(role?.energy ?? 17), stress: role?.stress ?? 7 });
+      if (role && job.shifts === 5) {
+        // The first career milestone strengthens one existing, physically present coworker tie.
+        const coworker = api.regionalResidents(before, p.regionId).find((person) =>
+          person.employer === job.firmId && person.districtId === p.districtId && person.locationId === p.venueId &&
+          data.contacts[person.id]?.generation === person.generation);
+        if (coworker) {
+          const contact = data.contacts[coworker.id];
+          if (contact.score < 100) {
+            contact.score = Math.min(100, contact.score + 2);
+            return "İş arkadaşlığı güçlendi.";
+          }
+        }
+      }
     } else return "İşveren ödeme yapamadı; vardiya tamamlanmadı.";
   } else if (id === "district:quit") data.job = null;
 }
+export function restockDistrictMeals(s) {
+  const today = day(s);
+  for (const market of Object.values(s.expansion.districts?.foodMarkets ?? {})) {
+    if (market.lastDay >= today) continue;
+    // Low shelves trigger a larger order only when the vendor can pay for it.
+    const deliveryLimit = market.stock <= 8 ? 4 : 2;
+    const units = Math.min(
+      deliveryLimit * (today - market.lastDay),
+      24 - market.stock,
+      Math.floor(market.cash / 30),
+      Math.floor((1e9 - market.wholesaleSpent) / 30),
+    );
+    market.stock += units;
+    market.cash -= units * 30;
+    market.wholesaleSpent += units * 30;
+    market.lastDay = today;
+  }
+}
+
 export function tickDistricts(s) {
   if (!s.expansion.districts) return;
   if (!active(s)) {
     s.expansion.districts.job = null;
     s.expansion.districts.contacts = {};
   }
-  if (s.expansion.districts.foodMarkets)
-    for (const market of Object.values(s.expansion.districts.foodMarkets)) {
-      if (market.lastDay >= day(s)) continue;
-      const units = Math.min(
-        2 * (day(s) - market.lastDay),
-        24 - market.stock,
-        Math.floor(market.cash / 30),
-        Math.floor((1e9 - market.wholesaleSpent) / 30),
-      );
-      market.stock += units;
-      market.cash -= units * 30;
-      market.wholesaleSpent += units * 30;
-      market.lastDay = day(s);
-    }
   for (const [id, contact] of Object.entries(s.expansion.districts.contacts))
     if (s.expansion.economy.residents[id]?.life?.generation !== contact.generation)
       delete s.expansion.districts.contacts[id];
@@ -501,7 +551,7 @@ export function validateDistricts(s) {
     (!x.foodMarkets ||
       typeof x.foodMarkets !== "object" ||
       Array.isArray(x.foodMarkets) ||
-      ![FOOD_IDS, [...FOOD_IDS, "ankara:kizilay"], ["ankara:kizilay", "ankara:cankaya", "izmir:konak", "izmir:bornova"]].some((ids) => ids.length === Object.keys(x.foodMarkets).length && ids.every((id) => Object.hasOwn(x.foodMarkets,id))) ||
+      ![FOOD_IDS, FOOD_MARKET_IDS, ["ankara:kizilay", "ankara:cankaya", "izmir:konak", "izmir:bornova"]].some((ids) => ids.length === Object.keys(x.foodMarkets).length && ids.every((id) => Object.hasOwn(x.foodMarkets,id))) ||
       Object.keys(x.foodMarkets).some((id) => {
         const m = x.foodMarkets[id];
         return (
@@ -567,7 +617,10 @@ export function validateDistricts(s) {
   return (
     j === null ||
     (!!j &&
-      Object.keys(j).sort().join(",") === "districtId,firmId,lastShiftDay,personId,shifts" &&
+      Object.keys(j).sort().join(",") ===
+        `districtId,firmId,lastShiftDay,personId,${Object.hasOwn(j, "role") ? "role," : ""}shifts` &&
+      (!Object.hasOwn(j, "role") || (Object.hasOwn(careers, j.role) &&
+        careers[j.role].traits.includes(district(j.districtId)?.trait))) &&
       j.personId === s.expansion.playerId &&
       active(s) &&
       district(j.districtId)?.regionId === s.expansion.world.region &&
@@ -583,14 +636,15 @@ export function validateDistricts(s) {
 }
 export function districtView(s) {
   const place = getPlace(s);
+  const job = s.expansion.districts?.job;
   return {
     place,
     nearestInstitution: (() => {
       const choices = VENUES.filter((v) => v.kind === "institution" && district(v.districtId)?.regionId === place.regionId)
-        .map((v) => ({...v, route:routeBetween(s, place.venueId || place.districtId, v.districtId)}))
+        .map((v) => ({...v, route:routeBetween(s, place.venueId || place.districtId, v.id)}))
         .filter((v) => v.route).sort((a,b) => a.route.minutes-b.route.minutes);
       const v=choices[0];
-      return v ? {districtId:v.districtId,districtName:district(v.districtId).name,name:v.name,hours:v.hours,minutes:v.route.minutes} : null;
+      return v ? {districtId:v.districtId,districtName:district(v.districtId).name,name:v.name,hours:v.hours,minutes:v.route.minutes,cost:v.route.cost,available:v.route.available,reason:v.route.reason} : null;
     })(),
     neighborhoods: NEIGHBORHOODS,
     districts: DISTRICTS.map((d) => ({
@@ -612,10 +666,19 @@ export function districtView(s) {
       score: contact.score,
       lastDay: contact.lastDay,
     })),
-    job: s.expansion.districts?.job ? { ...s.expansion.districts.job } : null,
+    job: job ? { ...job, ...(job.role ? { roleName: careers[job.role].name } : {}) } : null,
   };
 }
 const translations = {
+  "İş arkadaşlığı güçlendi.": ["Coworker bond grew.", "Więź w pracy się wzmocniła."],
+  "Bu işveren bugün vardiya yapmıyor.": ["This employer has no shifts today.", "Ten pracodawca nie ma dziś zmian."],
+  "Müşteri temsilcisi": ["Customer service representative", "Specjalista obsługi klienta"],
+  "Lojistik görevlisi": ["Logistics clerk", "Pracownik logistyki"],
+  "Eğitim koordinatörü": ["Training coordinator", "Koordynator szkoleń"],
+  "İletişim 25 gerekir.": ["Requires Communication 25.", "Wymagana komunikacja 25."],
+  "Zanaat 25 gerekir.": ["Requires Craft 25.", "Wymagane rzemiosło 25."],
+  "Bilgi 30 gerekir.": ["Requires Knowledge 30.", "Wymagana wiedza 30."],
+  "Eğitmenlik yeterliliği gerekir.": ["Requires a teaching qualification.", "Wymagane kwalifikacje trenerskie."],
   "Bu ulaşım türüyle güzergâh yok.": ["No route is available by this mode.", "Brak trasy dla tego środka transportu."],
   "Ulaşım 06:00–24:00 arasında çalışır.": ["Transit runs from 06:00 to 24:00.", "Transport kursuje od 06:00 do 24:00."],
   "Üretim atölyesi": ["Production workshop", "Warsztat produkcyjny"],
@@ -648,6 +711,7 @@ const translations = {
     "Insufficient funds for this journey.",
     "Brak środków na podróż.",
   ],
+  "Yemek için yeterli bakiye yok.": ["Insufficient funds for a meal.", "Brak środków na posiłek."],
   "Yolculuk için enerji gerekir.": [
     "You need energy to travel.",
     "Potrzebujesz energii na podróż.",
