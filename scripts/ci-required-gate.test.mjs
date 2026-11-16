@@ -79,6 +79,16 @@ test('build-core preserves all original commands and order with the Gold enduran
     'timeout-minutes': 60,
     steps: [
       ...bootstrap.map(step => step.uses === 'actions/checkout@v4' ? step : {...step, if: "needs.changes.outputs.docs != 'true'"}),
+      {
+        name: 'Fetch immutable Boardworld save compatibility references',
+        if: "needs.changes.outputs.docs != 'true'",
+        run: [
+          '2b1ede2be7466348e3933eba26b83a3831241bce',
+          'd2c1810da439dd831fff07992c1c278788a64a4c',
+          '51552c6197cafe744c5084925f13541a1a0aacf2',
+          'c055514627db537c79f4c92481d38109606deaa6',
+        ].map(sha => `git fetch --no-tags --depth=1 origin ${sha}\n`).join(''),
+      },
       {run: 'npm test', if: "needs.changes.outputs.docs != 'true'"},
       {name: 'Duel deterministic stress (500 per theme)', if: "needs.changes.outputs.duel == 'true'", 'timeout-minutes': 5, run: 'node scripts/duel-stress.mjs 500'},
       {run: 'npm run typecheck', if: "needs.changes.outputs.docs != 'true'"},
